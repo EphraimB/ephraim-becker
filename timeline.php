@@ -42,6 +42,16 @@
         <p>My ABA therapy</p>
         <iframe width="560" height="315" src="https://www.youtube.com/embed/gB_RJ0lRQ-E" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
       </div>
+      <div style="background-color: lightgrey;">
+        <h2>2006-2007</h2>
+        <p>Schoolyear</p>
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/mdshgnTA4Ac" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </div>
+      <div style="background-color: lightgrey;">
+        <h2>Summer 2007</h2>
+        <p>Camp Morris</p>
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/Yp6NX-Db9BI" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </div>
     </main>
   </body>
 </html>
