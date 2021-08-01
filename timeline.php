@@ -122,7 +122,7 @@
       </div>
       <div style="background-color: lightgrey;">
         <h2>Future</h2>
-        <p>I want group therapy for people on the autism spectrum because I still don't know everything that I need to work on and make friends. I'm only in the mood of being with people on the autism spectrum so that I can relate to other people that went through similar things. I can't stand loud noise and flashing lights. I'm still going through challenging times.</p>
+        <p>I want group therapy for people on the autism spectrum because I still don't know everything that I need to work on and make friends. I'm only in the mood of being with people on the autism spectrum so that I can relate to other people that went through similar things. I can't stand loud noise and flashing lights and still struggle socially a little. I'm still going through challenging times. It's possible that I do things to hurt other people without meaning to.</p>
       </div>
     </main>
   </body>
