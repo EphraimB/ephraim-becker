@@ -4,12 +4,12 @@ html {
   text-align: center;
 }
 
-ul {
+nav ul {
   height: 50px;
   list-style-type: none;
 }
 
-li {
+nav li {
   float: left;
 }
 
@@ -44,5 +44,36 @@ nav ul li a img {
 }
 
 @media screen and (max-width: 800px) {
-  nav li
+  nav ul {
+    overflow: hidden;
+    position: relative;
+    height: 25%;
+  }
+
+  #first {
+    text-decoration: none;
+    display: block;
+    padding: 0px;
+  }
+
+  #first img {
+    width: 50%;
+    height: auto;
+  }
+
+  nav ul #links {
+    display: none;
+  }
+
+  nav li {
+    float: none;
+  }
+
+  nav ul a {
+    color: white;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 17px;
+    display: block;
+  }
 }

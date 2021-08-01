@@ -21,8 +21,9 @@
   <body>
     <nav>
       <ul>
-        <li><a id="first" href="#"><img src="img/ephraim-becker.jpg" width="50px" height="auto"></a></li>
-        <div class="links">
+        <li><a id="first" href="#" onclick="toggleNavMenu()"><img src="img/ephraim-becker.jpg" width="50px" height="auto"></a></li>
+        <div id="links">
+          <li><a href="index.php">> Home <</a></li>
           <li><a href="timeline.php">Timeline</a></li>
           <li><a href="about.php">About</a></li>
         </div>
@@ -66,5 +67,6 @@
         </div>
       </div>
     </main>
+    <script src="js/script.js"></script>
   </body>
 </html>

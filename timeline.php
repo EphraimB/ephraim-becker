@@ -9,8 +9,9 @@
   <body>
     <nav>
       <ul>
-        <li><a id="first" href="index.php"><img src="img/ephraim-becker.jpg" width="50px" height="auto"></a></li>
-        <div class="links">
+        <li><a id="first" href="#" onclick="toggleNavMenu()"><img src="img/ephraim-becker.jpg" width="50px" height="auto"></a></li>
+        <div id="links">
+          <li><a href="index.php">Home</a></li>
           <li><a href="#">> Timeline <</a></li>
           <li><a href="about.php">About</a></li>
         </div>
@@ -128,5 +129,6 @@
         <p>I want group therapy for people on the autism spectrum because I still don't know everything that I need to work on and make friends. I'm only in the mood of being with people on the autism spectrum so that I can relate to other people that went through similar things. I can't stand loud noise and flashing lights and still struggle socially a little. I'm still going through challenging times. It's possible that I do things to hurt other people without meaning to.</p>
       </div>
     </main>
+    <script src="js/script.js"></script>
   </body>
 </html>
