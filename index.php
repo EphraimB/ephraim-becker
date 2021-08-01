@@ -43,7 +43,7 @@
         </p>
         <p>
           <span style="font-weight: bold;">Religion: </span>
-          <span>Modern Orthodox Jewish</span>
+          <span>Modern Orthodox Jewish (My parents are ultra-orthodox Jewish)</span>
         </p>
         <p>
           <span style="font-weight: bold;">Interests: </span>
