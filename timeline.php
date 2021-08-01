@@ -92,6 +92,35 @@
         <p>IVDU Upper School</p>
         <p>I tried to keep my cool for a month but everyone ignored me. I entered defense mode again and took zero tolerance from anyone now that I had no friends at all. I became depressed and all mad at myself and crying. My parents didn't want to hear anything about my sob stories and blamed everything on me and called me obnoxious.</p>
       </div>
+      <div style="background-color: lightgrey;">
+        <h2>July 2016</h2>
+        <p>Camp Kaylie</p>
+        <p>My father told me that if I behave myself and not act out, then I get my own expensive desktop computer. I behaved myself for a week (pretty much keeping to myself). Then I overheard a bunkmate tell my counselor that he was on the autism spectrum and started misbehaving again thinking that autism was a behavior disorder (I didn't know what autism really was still). That person got mad at me to my surprise. I entered defense mode again and did everything I did from 2014 again and looked at other people's medications. That got everyone in the camp mad at me. This time, I knew who everyone was because I was more aware of myself. I was going in circles with my two counselors about why I can't make any friends. If only I knew what autism really was. This was my last social event with people my functioning level ever (hopefully until I move out of my parents house). I pretty much ruined my reputation everywhere at that point.</p>
+      </div>
+      <div style="background-color: lightgrey;">
+        <h2>September 2017-January 2017</h2>
+        <p>Got my first phone, bank account, and went to a low-functioning drama class (which pretty much did nothing for me).</p>
+      </div>
+      <div style="background-color: lightgrey;">
+        <h2>February 2017</h2>
+        <p>Started work at a startup company called PAAY with a Job Coach.</p>
+      </div>
+      <div style="background-color: lightgrey;">
+        <h2>Summer 2019</h2>
+        <p>Made myself a Facebook acount and finally know what autism really is.</p>
+      </div>
+      <div style="background-color: lightgrey;">
+        <h2>October 2019</h2>
+        <p>Started sending apology emails to everyone. It worked on one person. I got back my friend from Camp Chaverim.</p>
+      </div>
+      <div style="background-color: lightgrey;">
+        <h2>January 2020</h2>
+        <p>Started college at Touro College.</p>
+      </div>
+      <div style="background-color: lightgrey;">
+        <h2>2020-present</h2>
+        <p>Only focusing on making friends with other people on the spectrum. I enter defense mode on neurotypicals because of what happened in Yeshiva Darchei Torah. I'm just not in the mood of fake friends and playmates. I just want real mutual friends that both need each other.</p>
+      </div>
     </main>
   </body>
 </html>
