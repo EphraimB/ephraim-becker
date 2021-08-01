@@ -34,3 +34,10 @@ a:hover {
 nav ul li a img {
   border-radius: 50%;
 }
+
+#profileCard {
+  padding: 18px;
+  background-color: lightgrey;
+  text-align: center;
+  margin-top: 100px;
+}
