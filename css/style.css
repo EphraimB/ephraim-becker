@@ -76,4 +76,9 @@ nav ul li a img {
     font-size: 17px;
     display: block;
   }
+
+  div iframe {
+    width: 100%;
+    height: auto;
+  }
 }
