@@ -121,6 +121,10 @@
         <h2>2020-present</h2>
         <p>Only focusing on making friends with other people on the spectrum. I enter defense mode on neurotypicals because of what happened in Yeshiva Darchei Torah. I'm just not in the mood of fake friends and playmates. I just want real mutual friends that both need each other.</p>
       </div>
+      <div style="background-color: lightgrey;">
+        <h2>Future</h2>
+        <p>I want group therapy for people on the autism spectrum because I still don't know everything that I need to work on and make friends. I'm only in the mood of being with people on the autism spectrum so that I can relate to other people that went through similar things. I can't stand loud noise and flashing lights. I'm still going through challenging times.</p>
+      </div>
     </main>
   </body>
 </html>
