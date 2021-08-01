@@ -14,10 +14,10 @@
         <li><a href="about.php">About</a></li>
       </ul>
     </nav>
+    <header>
+      <h1 style="font-weight: bold;">Timeline</h1>
+    </header>
     <main>
-      <header>
-        <h1 style="font-weight: bold;">Timeline</h1>
-      </header>
       <div style="background-color: lightgrey;">
         <h2>July 19, 1996</h2>
         <p>I was born</p>
