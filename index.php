@@ -22,8 +22,10 @@
     <nav>
       <ul>
         <li><a id="first" href="#"><img src="img/ephraim-becker.jpg" width="50px" height="auto"></a></li>
-        <li><a href="timeline.php">Timeline</a></li>
-        <li><a href="about.php">About</a></li>
+        <div class="links">
+          <li><a href="timeline.php">Timeline</a></li>
+          <li><a href="about.php">About</a></li>
+        </div>
       </ul>
     </nav>
     <main>

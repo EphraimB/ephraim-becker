@@ -10,8 +10,10 @@
     <nav>
       <ul>
         <li><a id="first" href="index.php"><img src="img/ephraim-becker.jpg" width="50px" height="auto"></a></li>
-        <li><a href="#">> Timeline <</a></li>
-        <li><a href="about.php">About</a></li>
+        <div class="links">
+          <li><a href="#">> Timeline <</a></li>
+          <li><a href="about.php">About</a></li>
+        </div>
       </ul>
     </nav>
     <header>
