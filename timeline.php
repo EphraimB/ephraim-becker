@@ -82,6 +82,16 @@
         <p>IVDU Upper School</p>
         <p>Switched to another special needs school hoping to fix my mistakes and make friends. I had a successful first day but things turned bad after the weekend. I became hyperactive and stamped things all over my property and face. The person next to me got mad and turned the whole school against me. his got me into defense mode and made it look like I was mean to other people. I started obsessing over my best friend I made in Camp Chaverim, which in return, annoyed other people.</p>
       </div>
+      <div style="background-color: lightgrey;">
+        <h2>Summer 2015</h2>
+        <p>Camp Chaverim</p>
+        <p>Unfortunately this year, things took a step back. My best friend got upset that I was obsessed with him (someone from IVDU Upper School also goes to Camp Chaverim and told him). No one liked that I was being immature as well. I entered defense mode again and everyone said to me that I was annoying and mean.</p>
+      </div>
+      <div style="background-color: lightgrey;">
+        <h2>2015-2016</h2>
+        <p>IVDU Upper School</p>
+        <p>I tried to keep my cool for a month but everyone ignored me. I entered defense mode again and took zero tolerance from anyone now that I had no friends at all. I became depressed and all mad at myself and crying. My parents didn't want to hear anything about my sob stories and blamed everything on me and called me obnoxious.</p>
+      </div>
     </main>
   </body>
 </html>
