@@ -58,12 +58,12 @@
           <span>Far Rockaway, NY, United States</span>
         </p>
         <div>
-          <a target="_blank" style="display: inline; background-color: rgba(0,0,0,0);" href="https://www.facebook.com/ephraim.becker/"><img src="img/f-Logos-2019-1/f_Logo_Online_04_2019/Color/PNG/f_logo_RGB-Blue_58.png" width="50px" height="auto"></a>
-          <a target="_blank" style="display: inline; background-color: rgba(0,0,0,0);" href="https://www.messenger.com/t/100009677345527/"><img src="img/Messenger-BRC-10.19.2020/Downloadable Assets/Logo/sRGB/logo-16@3x.png"  width="50px" height="auto"></a>
-          <a target="_blank" style="display: inline; background-color: rgba(0,0,0,0);" href="https://www.instagram.com/ephraim.becker/"><img src="img/Instagram-BRC-Asset-Downloads-Feb-2021-20210302T011642Z-001/Instagram BRC Asset Downloads - Feb 2021/IG Glyph Icon/Instagram_Glyph_Gradient_RGB.png"  width="50px" height="auto"></a>
-          <a target="_blank" style="display: inline; background-color: rgba(0,0,0,0);" href="https://www.youtube.com/channel/UCIHxAXYLxYlNaQiv0do0bUg"><img src="img/youtube_full_color_icon/youtube_full_color_icon/digital_and_tv/yt_icon_rgb.png"  width="50px" height="auto"></a>
-          <a target="_blank" style="display: inline; background-color: rgba(0,0,0,0);" href="https://www.linkedin.com/in/ephraim-becker-3263b810b/"><img src="img/LinkedIn-Logos/LinkedIn-Logos/LI-In-Bug.png"  width="50px" height="auto"></a>
-          <a target="_blank" style="display: inline; background-color: rgba(0,0,0,0);" href="https://github.com/EphraimB"><img src="img/GitHub-Mark/GitHub-Mark/PNG/GitHub-Mark-64px.png"  width="50px" height="auto"></a>
+          <a target="_blank" style="display: inline; background-color: rgba(0,0,0,0);" href="https://www.facebook.com/ephraim.becker/"><img src="img/f_logo_RGB-Blue_58.png" width="50px" height="auto"></a>
+          <a target="_blank" style="display: inline; background-color: rgba(0,0,0,0);" href="https://www.messenger.com/t/100009677345527/"><img src="img/logo-16@3x.png"  width="50px" height="auto"></a>
+          <a target="_blank" style="display: inline; background-color: rgba(0,0,0,0);" href="https://www.instagram.com/ephraim.becker/"><img src="img/Instagram_Glyph_Gradient_RGB.png"  width="50px" height="auto"></a>
+          <a target="_blank" style="display: inline; background-color: rgba(0,0,0,0);" href="https://www.youtube.com/channel/UCIHxAXYLxYlNaQiv0do0bUg"><img src="img/yt_icon_rgb.png"  width="50px" height="auto"></a>
+          <a target="_blank" style="display: inline; background-color: rgba(0,0,0,0);" href="https://www.linkedin.com/in/ephraim-becker-3263b810b/"><img src="img/LI-In-Bug.png"  width="50px" height="auto"></a>
+          <a target="_blank" style="display: inline; background-color: rgba(0,0,0,0);" href="https://github.com/EphraimB"><img src="img/GitHub-Mark-64px.png"  width="50px" height="auto"></a>
         </div>
       </div>
     </main>
