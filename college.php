@@ -24,7 +24,70 @@
       <h1 style="font-weight: bold;">College Life</h1>
     </header>
     <main>
-      I'm in college now. This page will be updated with my marks.
+      <table>
+        <caption>Touro College - BS in Computer Science</caption>
+        <tr>
+          <th>Semester</th>
+          <th>Course</th>
+          <th>Grade</th>
+        </tr>
+        <tr>
+          <td>Spring 2020</td>
+          <td>Fundamentals Of Computer W Micro</td>
+          <td>A+</td>
+        </tr>
+        <tr>
+          <td rowspan="4">Fall 2020</td>
+          <td>Computing Theory And Applications</td>
+          <td>A</td>
+        </tr>
+        <tr>
+          <td>Introduction To Programming</td>
+          <td>B</td>
+        </tr>
+        <tr>
+          <td>English Composition I</td>
+          <td>Incomplete</td>
+        </tr>
+        <tr>
+          <td>Readings In Rambam</td>
+          <td>C+</td>
+        </tr>
+        <tr>
+          <td rowspan="4">Spring 2021</td>
+          <td>Advanced Programming & File Struct</td>
+          <td>A</td>
+        </tr>
+        <tr>
+          <td>Computer Architecture</td>
+          <td>A</td>
+        </tr>
+        <tr>
+          <td>College Math</td>
+          <td>A</td>
+        </tr>
+        <tr>
+          <td>English Composition I (audit for makeup work)</td>
+          <td>A-</td>
+        </tr>
+        <tr>
+          <td rowspan="4">Fall 2021</td>
+          <td>Database Management and Administration</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>Data Structures I</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>Pre-Calculus</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>Fund Of Speech I</td>
+          <td></td>
+        </tr>
+      </table>
     </main>
     <script src="js/script.js"></script>
   </body>
