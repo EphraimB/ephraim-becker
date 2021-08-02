@@ -25,13 +25,13 @@
       <h1 style="font-weight: bold;">Projects</h1>
     </header>
     <main>
-      <a target="_blank" href="virtualFriend/">
         <div class="card">
-          <h2>Virtual Friend</h2>
-          <p>A Virtual Friend project I built in 2016 and needs to be updated.</p>
-          <p>0.8.0 beta</p>
+          <a target="_blank" href="virtualFriend/">
+            <h2>Virtual Friend</h2>
+            <p>A Virtual Friend project I built in 2016 and needs to be updated.</p>
+            <p>0.8.0 beta</p>
+          </a>
         </div>
-      </a>
     </main>
     <script src="../js/script.js"></script>
   </body>
