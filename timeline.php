@@ -2,7 +2,7 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <title>Ephraim Becker - timeline</title>
+    <title>Ephraim Becker - Timeline</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="icon" href="img/ephraim_becker.ico" type="image/x-icon" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,6 +14,8 @@
         <div id="links">
           <li><a href="index.php">Home</a></li>
           <li><a href="#">> Timeline <</a></li>
+          <li><a href="college.php">College Life</a></li>
+          <li><a href="projects/">Projects</a></li>
           <li><a href="about.php">About</a></li>
         </div>
       </ul>

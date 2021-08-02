@@ -26,6 +26,8 @@
         <div id="links">
           <li><a href="index.php">> Home <</a></li>
           <li><a href="timeline.php">Timeline</a></li>
+          <li><a href="college.php">College Life</a></li>
+          <li><a href="projects/">Projects</a></li>
           <li><a href="about.php">About</a></li>
         </div>
       </ul>
