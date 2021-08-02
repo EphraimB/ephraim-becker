@@ -99,6 +99,12 @@
         <p>I tried to keep my cool for a month but everyone ignored me. I entered defense mode again and took zero tolerance from anyone now that I had no friends at all. I became depressed and all mad at myself and crying. My parents didn't want to hear anything about my sob stories and blamed everything on me and called me obnoxious.</p>
       </div>
       <div style="background-color: lightgrey;">
+        <h2>June 2016</h2>
+        <p>Yachad Birthright Israel trip</p>
+        <p>I acted extremely immature on birthright. There wasn't really any high functioning people my age anyway. You can watch the whole birthright playlist <a target="_blank" href="https://www.youtube.com/watch?v=U4OB9h73rAI&list=PL3IqUVH23uWwKRhOa60qiQOh6hsOZT-M0">here</a>.</p>
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/U4OB9h73rAI" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </div>
+      <div style="background-color: lightgrey;">
         <h2>July 2016</h2>
         <p>Camp Kaylie</p>
         <p>My father told me that if I behave myself and not act out, then I get my own expensive desktop computer. I behaved myself for a week (pretty much keeping to myself). Then I overheard a bunkmate tell my counselor that he was on the autism spectrum and started misbehaving again thinking that autism was a behavior disorder (I didn't know what autism really was still). That person got mad at me to my surprise. I entered defense mode again and did everything I did from 2014 again and looked at other people's medications. That got everyone in the camp mad at me. This time, I knew who everyone was because I was more aware of myself. I was going in circles with my two counselors about why I can't make any friends. If only I knew what autism really was. This was my last social event with people my functioning level ever (hopefully until I move out of my parents house). I pretty much ruined my reputation everywhere at that point.</p>

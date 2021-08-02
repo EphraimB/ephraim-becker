@@ -32,6 +32,13 @@
             <p>0.8.0 beta</p>
           </a>
         </div>
+        <div class="card">
+          <a href="files/wizardc.zip">
+            <h2>Wizardc7</h2>
+            <p>A Harry Potter currency converter I made in Darchei.</p>
+            <p>Click to download onto calculator</p>
+          </a>
+        </div>
     </main>
     <script src="../js/script.js"></script>
   </body>
