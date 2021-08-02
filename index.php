@@ -54,7 +54,7 @@
         </p>
         <p>
           <span style="font-weight: bold;">Interests: </span>
-          <span>Technology, Astronomy, Trains</span>
+          <span>Technology, Astronomy, Sci-fi/fantasy movies, Trains</span>
         </p>
         <p>
           <span style="font-weight: bold;">Location: </span>
