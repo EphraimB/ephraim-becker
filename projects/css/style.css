@@ -4,6 +4,16 @@
   color: black;
 }
 
-a {
+main a {
   text-decoration: none;
+  display: inline-block;
+  width: 75%;
+}
+
+@media screen and (max-width: 800px) {
+  main a {
+    text-decoration: none;
+    display: inline-block;
+    width: 150%;
+  }
 }
