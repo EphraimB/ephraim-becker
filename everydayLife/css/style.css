@@ -1,0 +1,21 @@
+.card {
+  background-color: lightgrey;
+  margin: 10px;
+}
+
+.card a {
+  text-decoration: none;
+  color: white;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: auto auto auto;
+  padding: 10px;
+}
+
+@media screen and (max-width: 800px) {
+  .grid-container {
+    grid-template-columns: 2fr;
+  }
+}
