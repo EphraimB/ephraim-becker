@@ -5,7 +5,7 @@
     <title>Ephraim Becker - Gaming setup</title>
     <link rel="stylesheet" href="../../../css/style.css">
     <link rel="stylesheet" href="css/style.css">
-    <link rel="icon" href="img/ephraim_becker.ico" type="image/x-icon" />
+    <link rel="icon" href="../../../img/ephraim_becker.ico" type="image/x-icon" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
   </head>
   <body>
@@ -89,6 +89,60 @@
         </tr>
         <tr>
           <td colspan="3"><span style="font-weight: bold;">Total:</span> $3874.07</td>
+        </tr>
+      </table>
+
+      <table style="margin-top: 10px;">
+        <tr>
+          <th>Game</th>
+          <th>Price</th>
+        </tr>
+        <tr>
+          <td>The Holy City (Quest via Oculus Link)</td>
+          <td>$19.99</td>
+        </tr>
+        <tr>
+          <td>Flight Simulator 2020 (PC, Quest via Oculus Link)</td>
+          <td>$59.99</td>
+        </tr>
+        <tr>
+          <td>Universe Sandbox (PC, Quest via Oculus Link)</td>
+          <td>$29.99</td>
+        </tr>
+        <tr>
+          <td>Google Earth VR (PC, Quest via Oculus Link)</td>
+          <td>Free</td>
+        </tr>
+        <tr>
+          <td>Train Simulator (PC)</td>
+          <td>$29.99</td>
+        </tr>
+        <tr>
+          <td>Job Simulator (Quest)</td>
+          <td>$19.99</td>
+        </tr>
+        <tr>
+          <td>Star Trek: Bridge Crew (Quest)</td>
+          <td>$29.99</td>
+        </tr>
+        <tr>
+          <td>Vader Immortal: Episode I (Quest)</td>
+          <td>$10.88</td>
+        </tr>
+        <tr>
+          <td>Vader Immortal: Episode II (Quest)</td>
+          <td>$10.88</td>
+        </tr>
+        <tr>
+          <td>Vader Immortal: Episode III (Quest)</td>
+          <td>$10.88</td>
+        </tr>
+        <tr>
+          <td>Real VR Fishing (Quest)</td>
+          <td>$21.76</td>
+        </tr>
+        <tr>
+          <td colspan="2"><span style="font-weight: bold;">Total:</span> $244.34</td>
         </tr>
       </table>
     </main>
