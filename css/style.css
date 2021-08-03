@@ -32,10 +32,7 @@ table, th, td {
 }
 
 #first {
-  text-decoration: none;
-  display: block;
-  padding: 35px;
-  background-color: white;
+  float: left;
 }
 
 nav a {
@@ -61,22 +58,26 @@ nav ul li a img {
   margin-top: 100px;
 }
 
+#hamburger-icon {
+  display: none;
+}
+
 @media screen and (max-width: 800px) {
+  #first {
+    display: none;
+  }
+
+  #hamburger-icon {
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    width: 25%;
+  }
+
   nav ul {
     overflow: hidden;
     position: relative;
     height: 25%;
-  }
-
-  #first {
-    text-decoration: none;
-    display: block;
-    padding: 0px;
-  }
-
-  #first img {
-    width: 50%;
-    height: auto;
   }
 
   nav ul #links {

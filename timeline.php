@@ -10,10 +10,12 @@
   <body>
     <nav>
       <ul>
-        <li><a id="first" href="#" onclick="toggleNavMenu()"><img src="img/ephraim-becker.jpg" width="50px" height="auto"></a></li>
+        <li id="first"><img src="img/ephraim-becker.jpg" width="122px" height="auto"></li>
+        <li id="hamburger-icon"><a href="#" onclick="toggleNavMenu()">&#9776;</a></li>
         <div id="links">
           <li><a href="index.php">Home</a></li>
           <li><a href="#">> Timeline <</a></li>
+          <li><a href="everyday.php">Everyday Life</a></li>
           <li><a href="college.php">College Life</a></li>
           <li><a href="projects/">Projects</a></li>
           <li><a href="about.php">About</a></li>

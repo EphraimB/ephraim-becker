@@ -11,10 +11,12 @@
   <body>
     <nav>
       <ul>
-        <li><a id="first" href="#" onclick="toggleNavMenu()"><img src="../img/ephraim-becker.jpg" width="50px" height="auto"></a></li>
+        <li id="first"><img src="../img/ephraim-becker.jpg" width="122px" height="auto"></li>
+        <li id="hamburger-icon"><a href="#" onclick="toggleNavMenu()">&#9776;</a></li>
         <div id="links">
           <li><a href="../index.php">Home</a></li>
           <li><a href="../timeline.php">Timeline</a></li>
+          <li><a href="../everyday.php">Everyday Life</a></li>
           <li><a href="../college.php">College Life</a></li>
           <li><a href="#">> Projects <</a></li>
           <li><a href="../about.php">About</a></li>
@@ -25,26 +27,28 @@
       <h1 style="font-weight: bold;">Projects</h1>
     </header>
     <main>
-        <div class="card">
-          <a target="_blank" href="virtualFriend/">
-            <h2>Virtual Friend</h2>
-            <p>A Virtual Friend project I built in 2016 and needs to be updated.</p>
-            <p>0.8.0 beta</p>
-          </a>
-        </div>
-        <div class="card">
-          <a href="files/wizardc.zip">
-            <h2>Wizardc7</h2>
-            <p>A Harry Potter currency converter I made in Darchei.</p>
-            <p>Click to download onto calculator</p>
-          </a>
-        </div>
-        <div class="card">
-          <a href="files/Kosherizer-master.zip">
-            <h2>Kosherizer chrome extention</h2>
-            <p>A Google Chrome extention that gets rid of all the curse words.</p>
-            <p>Click to download</p>
-          </a>
+      <div class="grid-container">
+          <div class="card">
+            <a target="_blank" href="virtualFriend/">
+              <h2>Virtual Friend</h2>
+              <p>A Virtual Friend project I built in 2016 and needs to be updated.</p>
+              <p>Click to view</p>
+            </a>
+          </div>
+          <div class="card">
+            <a href="files/wizardc.zip">
+              <h2>Wizardc7</h2>
+              <p>A Harry Potter currency converter I made in Darchei.</p>
+              <p>Click to download onto calculator</p>
+            </a>
+          </div>
+          <div class="card">
+            <a href="files/Kosherizer-master.zip">
+              <h2>Kosherizer chrome extention</h2>
+              <p>A Google Chrome extention that gets rid of all the curse words.</p>
+              <p>Click to download</p>
+            </a>
+          </div>
         </div>
     </main>
     <script src="../js/script.js"></script>
