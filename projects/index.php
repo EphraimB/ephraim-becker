@@ -42,7 +42,7 @@
         <div class="card">
           <a href="files/Kosherizer-master.zip">
             <h2>Kosherizer chrome extention</h2>
-            <p>A Google CHrome extention that gets rid of all the curse words.</p>
+            <p>A Google Chrome extention that gets rid of all the curse words.</p>
             <p>Click to download</p>
           </a>
         </div>
