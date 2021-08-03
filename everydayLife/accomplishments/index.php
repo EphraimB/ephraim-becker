@@ -27,7 +27,29 @@
       <h1 style="font-weight: bold;">Accomplishments</h1>
     </header>
     <main>
-      <p>Page under construction.</p>
+      <div class="grid-container">
+          <div style="background-color: green;" class="card">
+            <a href="../../projects/">
+              <h2>Projects</h2>
+              <p>I've made some projects over the years</p>
+              <p>Click to view</p>
+            </a>
+          </div>
+          <div style="background-color: green;" class="card">
+            <a href="../../../college.php">
+              <h2>College</h2>
+              <p>I'm in middle of college</p>
+              <p>Click to view</p>
+            </a>
+          </div>
+          <div style="background-color: green;" class="card">
+            <a href="gamingSetup/">
+              <h2>I built my own computer</h2>
+              <p>I built my own gaming computer with a semi-fancy setup</p>
+              <p>Click to view</p>
+            </a>
+          </div>
+        </div>
     </main>
     <script src="../../js/script.js"></script>
   </body>
