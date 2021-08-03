@@ -39,6 +39,13 @@
             <p>Click to download onto calculator</p>
           </a>
         </div>
+        <div class="card">
+          <a href="files/Kosherizer-master.zip">
+            <h2>Kosherizer chrome extention</h2>
+            <p>A Google CHrome extention that gets rid of all the curse words.</p>
+            <p>Click to download</p>
+          </a>
+        </div>
     </main>
     <script src="../js/script.js"></script>
   </body>

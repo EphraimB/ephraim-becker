@@ -27,6 +27,10 @@ table, th, td {
   border-collapse: collapse;
 }
 
+.semesterDivider {
+  border-top: 2px solid black;
+}
+
 #first {
   text-decoration: none;
   display: block;

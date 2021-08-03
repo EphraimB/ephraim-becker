@@ -31,12 +31,12 @@
           <th>Course</th>
           <th>Grade</th>
         </tr>
-        <tr>
+        <tr class="semesterDivider">
           <td>Spring 2020</td>
           <td>Fundamentals Of Computer W Micro</td>
           <td>A+</td>
         </tr>
-        <tr>
+        <tr class="semesterDivider">
           <td rowspan="4">Fall 2020</td>
           <td>Computing Theory And Applications</td>
           <td>A</td>
@@ -53,7 +53,7 @@
           <td>Readings In Rambam</td>
           <td>C+</td>
         </tr>
-        <tr>
+        <tr class="semesterDivider">
           <td rowspan="4">Spring 2021</td>
           <td>Advanced Programming & File Struct</td>
           <td>A</td>
@@ -70,7 +70,7 @@
           <td>English Composition I (audit for makeup work)</td>
           <td>A-</td>
         </tr>
-        <tr>
+        <tr class="semesterDivider">
           <td rowspan="4">Fall 2021</td>
           <td>Database Management and Administration</td>
           <td></td>
