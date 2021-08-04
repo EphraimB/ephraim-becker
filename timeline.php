@@ -88,7 +88,7 @@
       <div style="background-color: lightgrey;">
         <h2>2014-2015</h2>
         <p>IVDU Upper School</p>
-        <p>Switched to another special needs school hoping to fix my mistakes and make friends. I had a successful first day but things turned bad after the weekend. I became hyperactive and stamped things all over my property and face. The person next to me got mad and turned the whole school against me. his got me into defense mode and made it look like I was mean to other people. I started obsessing over my best friend I made in Camp Chaverim, which in return, annoyed other people.</p>
+        <p>Switched to another special needs school hoping to fix my mistakes and make friends. I had a successful first day but things turned bad after the weekend. I became hyperactive and stamped things all over my property and face. The person next to me got mad and turned the whole school against me. This got me into defense mode and made it look like I was mean to other people. I started obsessing over my best friend I made in Camp Chaverim, which in return, annoyed other people.</p>
       </div>
       <div style="background-color: lightgrey;">
         <h2>Summer 2015</h2>
