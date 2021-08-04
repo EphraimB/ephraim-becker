@@ -66,6 +66,7 @@
           <a target="_blank" style="display: inline; background-color: rgba(0,0,0,0);" href="https://www.facebook.com/ephraim.becker/"><img src="img/f_logo_RGB-Blue_1024.png" width="50px" height="auto"></a>
           <a target="_blank" style="display: inline; background-color: rgba(0,0,0,0);" href="https://www.messenger.com/t/100009677345527/"><img src="img/logo-16@3x.png"  width="50px" height="auto"></a>
           <a target="_blank" style="display: inline; background-color: rgba(0,0,0,0);" href="https://www.instagram.com/ephraim.becker/"><img src="img/Instagram_Glyph_Gradient_RGB.png"  width="50px" height="auto"></a>
+          <a target="_blank" style="display: inline; background-color: rgba(0,0,0,0);" href="https://twitter.com/emb180"><img src="img/twitterLogo.png"  width="50px" height="auto"></a>
           <a target="_blank" style="display: inline; background-color: rgba(0,0,0,0);" href="https://www.youtube.com/channel/UCIHxAXYLxYlNaQiv0do0bUg"><img src="img/yt_icon_rgb.png"  width="50px" height="auto"></a>
           <a target="_blank" style="display: inline; background-color: rgba(0,0,0,0);" href="https://www.linkedin.com/in/ephraim-becker-3263b810b/"><img src="img/LI-In-Bug.png"  width="50px" height="auto"></a>
           <a target="_blank" style="display: inline; background-color: rgba(0,0,0,0);" href="https://github.com/EphraimB"><img src="img/GitHub-Mark-64px.png"  width="50px" height="auto"></a>
