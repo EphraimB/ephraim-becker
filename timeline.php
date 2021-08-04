@@ -78,7 +78,7 @@
       <div style="background-color: lightgrey;">
         <h2>July 2014</h2>
         <p>Camp Kaylie</p>
-        <p>I was still mad at that person for not giving me space. I just didn't know how to express myself. Kept bothering that person and no one knew how to get through to me. In addition, I just got on medication for the first time and got curious about other people's medications and began looking at their medications which got people mad at me. If only I would get the concept of what friends are. I came home from camp not knowing why things are the way they were and why that person I bullied was fully on my mind and had more privileges than me. I was all rigid and mad. If only I knew why...</p>
+        <p>I was still mad at that person for not giving me space. I just didn't know how to express myself. I kept bothering that person and no one knew how to get through to me. In addition, I just got on medication for the first time and got curious about other people's medications and began looking at their medications which got people mad at me. If only I would get the concept of what friends are. I came home from camp not knowing why things are the way they were and why that person I bullied was fully on my mind and had more privileges than me. I was all rigid and mad. If only I knew why...</p>
       </div>
       <div style="background-color: lightgrey;">
         <h2>August 2014</h2>
