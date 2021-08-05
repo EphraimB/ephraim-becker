@@ -70,7 +70,8 @@
           <a target="_blank" style="display: inline; background-color: rgba(0,0,0,0);" href="https://www.youtube.com/channel/UCIHxAXYLxYlNaQiv0do0bUg"><img src="img/yt_icon_rgb.png"  width="50px" height="auto"></a>
           <a target="_blank" style="display: inline; background-color: rgba(0,0,0,0);" href="https://www.linkedin.com/in/ephraim-becker-3263b810b/"><img src="img/LI-In-Bug.png"  width="50px" height="auto"></a>
           <a target="_blank" style="display: inline; background-color: rgba(0,0,0,0);" href="https://github.com/EphraimB"><img src="img/GitHub-Mark-64px.png"  width="50px" height="auto"></a>
-          <a target="_blank" style="display: inline; background-color: rgba(0,0,0,0);" href="https://www.autismforums.com/members/ephraim-becker.16496/"><img src="img/aflogo.png"  width="auto" height="50px"></a>
+          <a target="_blank" style="display: inline; background-color: rgba(0,0,0,0);" href="https://www.autismforums.com/members/ephraim-becker.16496/"><img style="border: 1px solid black;" src="img/aflogo.png"  width="auto" height="50px"></a>
+          <a target="_blank" style="display: inline; background-color: rgba(0,0,0,0);" href="https://www.aspergerexperts.com/profile/60330-ephraim-becker/"><img src="img/aesquare.png"  width="auto" height="50px"></a>
         </div>
       </div>
     </main>
