@@ -1,6 +1,7 @@
 .card {
   background-color: lightgrey;
   margin: 10px;
+  color: white;
 }
 
 .card a {
@@ -16,6 +17,6 @@
 
 @media screen and (max-width: 800px) {
   .grid-container {
-    grid-template-columns: 3fr;
+    grid-template-columns: 4fr;
   }
 }
