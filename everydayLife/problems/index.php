@@ -27,10 +27,11 @@
       <h1 style="font-weight: bold;">Problems</h1>
     </header>
     <main>
-      <p>My biggest problem I have is a hard time making and keeping friends. I want friends only on the autism spectrum so that they would be real friends and can relate to each other. There's a difference between the fake friends I had in Darchei and friends on the autism spectrum.</p>
+      <p>My biggest problem I have is a hard time making and keeping friends. I want friends only on the autism spectrum so that they would be real friends and can relate to each other. There's a difference between the fake friends I had in Darchei and friends on the autism spectrum. It's so frustrating trying to make friends alone and even if I make friends, keeping them is another hard thing in itself. I ruined a lot of chances on making friends in Camp Kaylie due to looking at other people's medications and acting very immature. What I did immature was upgrading other people's phones without permission and doing pranks on people. I no longer do that anymore.</p>
+      <p>There were instances that I made friends with a few people in distant places and got along very well and then I texted them stuff and there was no response. This went on for around some time and then I was blocked. This keeps on happening. It looks like I have horrible texting etiquette and don't know the appropriate frequency for calling other people. I guess the best way to make and keep friends is in-person. That can really only happen in a Shul. I've been going around from Shul to Shul looking for friends on the autism spectrum and had little success. The problem is that people in Far Rockaway don't admit that they have autism. It frustrates me very much! Especially when all my other siblings has friends their own type that are very close and go on trips a lot.</p>
       <table>
         <tr>
-          <th>Fake friends</th>
+          <th>Fake neurotypical friends</th>
           <th>Friends on the autism spectrum</th>
         </tr>
         <tr>
@@ -48,6 +49,10 @@
         <tr>
           <td>Won't tell you when you're doing something wrong</td>
           <td>Will tell you when you're doing something wrong in a friendly way and help you work on it</td>
+        </tr>
+        <tr>
+          <td>Wouldn't do anything about it if a parent refuses to do something his friend would want</td>
+          <td>Would plead and try to convince the parent to do that thing his friend wants showing that he cares</td>
         </tr>
         <tr>
           <td colspan="2">And more...</td>
