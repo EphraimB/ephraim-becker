@@ -33,7 +33,7 @@
       <table>
         <tr>
           <th>Fake neurotypical friends</th>
-          <th>Friends on the autism spectrum</th>
+          <th>Real friends on the autism spectrum</th>
         </tr>
         <tr>
           <td>Right when he meets you he'll say "Best Friend!" and barely talks to you</td>
@@ -59,7 +59,8 @@
           <td colspan="2">And more...</td>
         </tr>
       </table>
-      <p style="margin-top: 10px;">That's my autism problems. My ADHD problems are being very hyperactive and a hard time focusing (I'm on medication for it now).</p>
+      <p style="margin-top: 10px;">I also have sensory issues with flashing lights and noises which can be a problem when going on family trips. It would be nice to make friends with other people on the spectrum and go on special autistic-friendly trips with them.</p>
+      <p>That's my autism problems. My ADHD problems are being very hyperactive and a hard time focusing (I'm on medication for it now).</p>
     </main>
     <script src="../../js/script.js"></script>
   </body>
