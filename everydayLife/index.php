@@ -7,19 +7,20 @@
     <link rel="stylesheet" href="css/style.css">
     <link rel="icon" href="../img/ephraim_becker.ico" type="image/x-icon" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Hi! My name is Ephraim Becker and this is a website about my life and how people can learn from it.">
   </head>
   <body>
     <nav>
       <ul>
-        <li id="first"><img src="../img/ephraim-becker.jpg" width="122px" height="auto"></li>
+        <li id="first"><img src="../img/ephraim-becker.jpg" alt="Ephraim Becker" width="122px" height="auto"></li>
         <li id="hamburger-icon"><a href="#" onclick="toggleNavMenu()">&#9776;</a></li>
         <div id="links">
-          <li><a href="../index.php">Home</a></li>
-          <li><a href="../timeline.php">Timeline</a></li>
+          <li><a href="../">Home</a></li>
+          <li><a href="../timeline/">Timeline</a></li>
           <li><a href="#">> Everyday Life <</a></li>
-          <li><a href="../college.php">College Life</a></li>
+          <li><a href="../college/">College Life</a></li>
           <li><a href="../projects/">Projects</a></li>
-          <li><a href="../about.php">About</a></li>
+          <li><a href="../about/">About</a></li>
         </div>
       </ul>
     </nav>
