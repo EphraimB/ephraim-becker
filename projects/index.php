@@ -16,7 +16,7 @@
         <li id="first"><img src="../img/ephraim-becker.jpg" alt="Ephraim Becker" width="122px" height="auto"></li>
         <li id="hamburger-icon"><a href="#" onclick="toggleNavMenu()">&#9776;</a></li>
         <div id="links">
-          <li><a href="../index/">Home</a></li>
+          <li><a href="../">Home</a></li>
           <li><a href="../timeline/">Timeline</a></li>
           <li><a href="../everydayLife/">Everyday Life</a></li>
           <li><a href="../college/">College Life</a></li>
