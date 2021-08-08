@@ -51,6 +51,11 @@
         <iframe width="560" height="315" src="https://www.youtube.com/embed/gB_RJ0lRQ-E" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
       </div>
       <div style="background-color: lightgrey;">
+        <h2>September 2002</h2>
+        <p>Bus ride to Darchei</p>
+        <p>I was on the school bus to Yeshiva Darchei Torah and everyone on the bus was making trouble except for me. I kept to myself unlike everyone else. When the bus got to Darchei, the bus driver said "get off the bus you trouble-makers!". I took the bus driver literally and stayed on. The bus driver thought that everyone was off the bus and drove away. A few blocks past Darchei, the bus driver saw that I was still on the bus and asked me what school I go to and I said "Darchei" and the bus driver drove me back to Darchei. From then on, I made myself very noticable and started making trouble everywhere I went so something like this wouldn't happen again.</p>
+      </div>
+      <div style="background-color: lightgrey;">
         <h2>2006-2007</h2>
         <p>Schoolyear</p>
         <iframe width="560" height="315" src="https://www.youtube.com/embed/mdshgnTA4Ac" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
