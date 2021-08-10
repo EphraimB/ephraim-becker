@@ -20,7 +20,7 @@
           <li><a href="../../timeline/">Timeline</a></li>
           <li><a href="../">> Everyday Life <</a></li>
           <li><a href="../../college/">College Life</a></li>
-          <li><a href="../../projects/">Projects</a></li>
+          <li><a href="../../resources/">Resources</a></li>
           <li><a href="../../about/">About</a></li>
         </div>
       </ul>

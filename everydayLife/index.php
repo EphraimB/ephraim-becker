@@ -20,13 +20,13 @@
           <li><a href="../timeline/">Timeline</a></li>
           <li><a href="#">> Everyday Life <</a></li>
           <li><a href="../college/">College Life</a></li>
-          <li><a href="../projects/">Projects</a></li>
+          <li><a href="../resources/">Resources</a></li>
           <li><a href="../about/">About</a></li>
         </div>
       </ul>
     </nav>
     <header>
-      <h1 style="font-weight: bold;">Everyday life</h1>
+      <h1 style="font-weight: bold;">Everyday Life</h1>
     </header>
     <main>
       <p>It's pretty much the same thing everyday. I have a hard time making real friends while my siblings are having an easy and fun time with their friends. There are some accomplishments though like building my own computer (but that's not a social accomplishment).</p>

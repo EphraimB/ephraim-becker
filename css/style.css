@@ -1,16 +1,46 @@
-html {
-  max-width: 900px;
-  margin: auto;
+#first {
+    display: none;
+  }
+
+#hamburger-icon {
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+  width: 25%;
+}
+
+#hamburger-icon a {
   text-align: center;
 }
 
+#profileCard {
+  padding: 18px;
+  background-color: lightgrey;
+  text-align: center;
+  margin-top: 100px;
+}
+
 nav ul {
-  height: 50px;
+  overflow: hidden;
+  position: relative;
+  height: 25%;
   list-style-type: none;
 }
 
+nav ul #links {
+  display: none;
+}
+
 nav li {
-  float: left;
+  float: none;
+}
+
+nav ul a {
+  text-decoration: none;
+  display: block;
+  padding: 14px 16px;
+  background-color: blue;
+  color: white;
 }
 
 table {
@@ -31,73 +61,40 @@ table, th, td {
   border-top: 2px solid black;
 }
 
-#first {
-  float: left;
+div iframe {
+  width: 100%;
+  height: auto;
 }
 
-nav a {
-  text-decoration: none;
-  display: block;
-  padding: 25px;
-  background-color: blue;
-  color: white;
-}
-
-nav a:hover {
-  background-color: lightblue;
-}
-
-nav ul li a img {
-  border-radius: 50%;
-}
-
-#profileCard {
-  padding: 18px;
-  background-color: lightgrey;
-  text-align: center;
-  margin-top: 100px;
-}
-
-#hamburger-icon {
-  display: none;
-}
-
-@media screen and (max-width: 800px) {
-  #first {
-    display: none;
-  }
-
-  #hamburger-icon {
-    margin-left: auto;
-    margin-right: auto;
-    display: block;
-    width: 25%;
-  }
-
-  nav ul {
-    overflow: hidden;
-    position: relative;
-    height: 25%;
-  }
-
-  nav ul #links {
-    display: none;
+@media screen and (min-width: 1024px) {
+  html {
+    max-width: 900px;
+    margin: auto;
+    text-align: center;
   }
 
   nav li {
-    float: none;
+    float: left;
   }
 
   nav ul a {
-    color: white;
-    padding: 14px 16px;
-    text-decoration: none;
-    font-size: 17px;
+    padding: 25px;
+  }
+
+  nav ul a:hover {
+    background-color: lightblue;
+  }
+
+  #first {
+    display: block;
+    float: left;
+  }
+
+  nav ul #links {
     display: block;
   }
 
-  div iframe {
-    width: 100%;
-    height: auto;
+  #hamburger-icon {
+    display: none;
   }
 }
