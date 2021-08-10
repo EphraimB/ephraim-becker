@@ -28,7 +28,7 @@
       <h1 style="font-weight: bold;">Resources</h1>
     </header>
     <main>
-      <a href="https://www.aspergerexperts.com/">Aspergers Experts</a>
+      <a target="_blank" href="https://www.aspergerexperts.com/">Aspergers Experts</a>
     </main>
   </body>
 </html>
