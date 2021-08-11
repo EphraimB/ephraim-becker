@@ -30,5 +30,6 @@
     <main>
       <a target="_blank" href="https://www.aspergerexperts.com/">Aspergers Experts</a>
     </main>
+    <script src="../js/script.js"></script>
   </body>
 </html>
