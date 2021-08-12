@@ -100,4 +100,9 @@ div iframe {
   #hamburger-icon {
     display: none;
   }
+
+  div iframe {
+    width: 560px;
+    height: 315px;
+  }
 }
