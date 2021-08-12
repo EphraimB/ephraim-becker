@@ -61,6 +61,33 @@
           <td colspan="2">And more...</td>
         </tr>
       </table>
+      <p style="margin-top: 10px;">I also have a very small comfort zone</p>
+      <table>
+        <tr>
+          <th>Comfort zone</th>
+          <th>Reason</th>
+        </tr>
+        <tr>
+          <td>I'm extremely uncomfortable with chillers</td>
+          <td>They don't really have empathy for people and they're so upbeat about everything and I'm always having anxiety about everything. It's just inappropriate for someone to be upbeat while I'm feeling down</td>
+        </tr>
+          <td>I'm uncomfortable with people older than me</td>
+          <td>I'm just uncomfortable with people that look physically mature because of my developmental delays</td>
+        </tr>
+        <tr>
+          <td>I prefer to only be around people on the autism spectrum because I can relate to them better</td>
+          <td>Neurotypicals would just think that I'm being stupid and that I'm just making excuses</td>
+        </tr>
+        <tr>
+          <td>I prefer to be with Jews because they're distant cousins</td>
+          <td>Family is family and I can probably relate to them better. It's also easier to stick to my comfort zone without being frowned upon because Jews aren't really allowed to have friends of opposite gender (unless marrying) and stick to hanging out with other Jewish people. It's also easier to see them more often because everyone is committed to going to synagogue three times a day.</td>
+        </tr>
+        <tr>
+          <td>I prefer to be with boys because I'm jealous of my sisters easily making friends and I could relate to boys better</td>
+          <td>Girls talk loudly and are very social and it annoys me a lot. Girls also have a much easier time planning events which boys can't do. This gets me jealous of them.</td>
+        </tr>
+      </table>
+
       <p style="margin-top: 10px;">I also have sensory issues with flashing lights and noises which can be a problem when going on family trips. It would be nice to make friends with other people on the spectrum and go on special autistic-friendly trips with them.</p>
       <p>That's my autism problems. My ADHD problems are being very hyperactive and a hard time focusing (I'm on medication for it now).</p>
     </main>
