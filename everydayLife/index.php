@@ -45,6 +45,13 @@
               <p>Click to view</p>
             </a>
           </div>
+          <div style="background-color: yellow;" class="card">
+            <a style="color: black;" href="goals/">
+              <h2>Goals</h2>
+              <p>This link will show all my goals.</p>
+              <p>Click to view</p>
+            </a>
+          </div>
         </div>
     </main>
     <script src="../js/script.js"></script>
