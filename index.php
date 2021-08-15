@@ -37,9 +37,9 @@
       </ul>
     </nav>
     <main>
-      <div id="profileCard">
-        <img src="img/ephraim-becker.jpg" alt="Ephraim Becker" width="100px" height="auto">
-        <h3 style="font-weight: bold;">Ephraim Becker</h3>
+      <div id="profileCard" itemscope itemtype="https://schema.org/Person">
+        <img src="img/ephraim-becker.jpg" itemprop="image" alt="Photo of Ephraim Becker" width="100px" height="auto">
+        <h1 style="font-weight: bold;" itemprop="name">Ephraim Becker</h1>
         <p>
           <span style="font-weight: bold;">Age: </span>
           <span><?php echo $age; ?></span>
@@ -50,7 +50,7 @@
         </p>
         <p>
           <span style="font-weight: bold;">Birthdate: </span>
-          <span>July 19, 1996 @ 12:21PM</span>
+          <span itemprop="birthDate"><time datetime="1996-07-19">July 19, 1996 @ 12:21PM</time></span>
         </p>
         <p>
           <span style="font-weight: bold;">Religion: </span>
