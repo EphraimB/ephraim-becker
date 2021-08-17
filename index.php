@@ -14,7 +14,7 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <title>Ephraim Becker</title>
+    <title>Ephraim Becker - All about my autistic life</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="icon" href="img/ephraim_becker.ico" type="image/x-icon" />
     <link rel="apple-touch-icon" href="img/ephraim-becker.png" />
