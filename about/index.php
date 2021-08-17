@@ -5,7 +5,7 @@
     <title>Ephraim Becker - About</title>
     <link rel="stylesheet" href="../css/style.css">
     <link rel="icon" href="../img/ephraim_becker.ico" type="image/x-icon" />
-    <link rel="apple-touch-icon" href="../img/ephraim_becker.png" />
+    <link rel="apple-touch-icon" href="../img/ephraim-becker.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Hi! My name is Ephraim Becker and this is a website about my life and how people can learn from it.">
     <meta name="keywords" content="Ephraim Becker, autism, aspergers, ADHD">

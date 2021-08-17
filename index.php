@@ -17,7 +17,7 @@
     <title>Ephraim Becker</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="icon" href="img/ephraim_becker.ico" type="image/x-icon" />
-    <link rel="apple-touch-icon" href="img/ephraim_becker.png" />
+    <link rel="apple-touch-icon" href="img/ephraim-becker.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Hi! My name is Ephraim Becker and this is a website about my life and how people can learn from it.">
     <meta name="keywords" content="Ephraim Becker, autism, aspergers, ADHD">
@@ -51,7 +51,7 @@
         </p>
         <p>
           <span style="font-weight: bold;">Birthdate: </span>
-          <span itemprop="birthDate"><time datetime="1996-07-19">July 19, 1996 @ 12:21PM</time></span>
+          <span itemprop="birthDate"><time datetime="1996-07-19T12:21">July 19, 1996 @ 12:21PM</time></span>
         </p>
         <p>
           <span style="font-weight: bold;">Religion: </span>
