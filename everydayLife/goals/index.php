@@ -31,7 +31,7 @@
     </header>
     <main>
       <ol style="text-align: left;">
-        <li>Get out of defense mode (hopefully with some course in <a target="_blank" href="https://www.aspergerexperts.com/">Aspergers Experts</a>)</li>
+        <li>Get out of defense mode (hopefully with some course in <a target="_blank" rel="noopener" href="https://www.aspergerexperts.com/">Aspergers Experts</a>)</li>
         <li>Become better at socializing</li>
         <li>Expressing myself more</li>
         <li>Mindfulness</li>
