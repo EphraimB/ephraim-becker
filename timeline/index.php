@@ -81,7 +81,7 @@
         </div>
         <div style="background-color: lightgrey;">
           <h2><time itemprop="startDate" datetime="2013-07-01">July 2013</time></h2>
-          <p itemprop="name">Camp Kaylie</p>
+          <h3 itemprop="name">Camp Kaylie</h3>
           <p itemprop="description">Went to Camp Kaylie again. I was very hyperactive there like I always was. I was doing pranks on people that summer and people got annoyed at me again. I just didn't understand the concept of friends. I was just bored and if only I knew that I can get positive attention, I would have the same fun but happier and other people would be happy with me as well.</p>
         </div>
         <div style="background-color: lightgrey;">
@@ -96,7 +96,7 @@
         </div>
         <div style="background-color: lightgrey;">
           <h2><time itemprop="startDate" datetime="2014-08-01">August 2014</time></h2>
-          <p itemprop="name">Camp Chaverim</p>
+          <h3 itemprop="name">Camp Chaverim</h3>
           <p itemprop="description">My parents realized that I was really special needs and looked at another camp for me and finally found Camp Chaverim. I finally made two friends there (for real this time (Yes, it took me until the last day of camp to appreciate those two friends.)). Finally, I understood myself much better. You need to be nice to people and get positive attention in order to be happy.</p>
         </div>
         <div style="background-color: lightgrey;">
