@@ -117,7 +117,7 @@
         <div style="background-color: lightgrey;">
           <h2><time itemprop="startDate" datetime="2016-06-01">June 2016</time></h2>
           <h3 itemprop="name">Yachad Birthright Israel trip</h3>
-          <p itemprop="description">I acted extremely immature on birthright. There wasn't really any high functioning people my age anyway. You can watch the whole birthright playlist <a target="_blank" href="https://www.youtube.com/watch?v=U4OB9h73rAI&list=PL3IqUVH23uWwKRhOa60qiQOh6hsOZT-M0">here</a>.</p>
+          <p itemprop="description">I acted extremely immature on birthright. There wasn't really any high functioning people my age anyway. You can watch the whole birthright playlist <a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=U4OB9h73rAI&list=PL3IqUVH23uWwKRhOa60qiQOh6hsOZT-M0">here</a>.</p>
           <iframe width="560" height="315" src="https://www.youtube.com/embed/U4OB9h73rAI" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
         </div>
         <div style="background-color: lightgrey;">

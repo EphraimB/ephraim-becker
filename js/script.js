@@ -6,3 +6,9 @@ function toggleNavMenu() {
     x.style.display = "block";
   }
 }
+
+document.addEventListener('touchstart', onTouchStart, {passive: true});
+
+function onTouchStart() {
+  
+}
