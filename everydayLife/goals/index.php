@@ -4,7 +4,6 @@
     <meta charset="utf-8">
     <title>Ephraim Becker - Goals</title>
     <link rel="stylesheet" href="../../css/style.css">
-    <link rel="stylesheet" href="css/style.css">
     <link rel="icon" href="../../img/ephraim_becker.ico" type="image/x-icon" />
     <link rel="apple-touch-icon" href="../../img/ephraim-becker.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
