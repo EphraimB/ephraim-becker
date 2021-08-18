@@ -7,6 +7,7 @@
     <link rel="icon" href="../../img/ephraim_becker.ico" type="image/x-icon" />
     <link rel="apple-touch-icon" href="../../img/ephraim-becker.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="manifest" href="/manifest.json">
     <meta name="theme-color" media="(prefers-color-scheme: light)" content="0000FF">
     <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000064">
     <meta name="description" content="Hi! My name is Ephraim Becker and this is my Virtual Friend project">
@@ -120,7 +121,7 @@
     <script>
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', function() {
-      navigator.serviceWorker.register('service-worker.js').then(function(registration) {
+      navigator.serviceWorker.register('js/service-worker.js').then(function(registration) {
       // Registration was successful
       console.log('Registered!');
       }, function(err) {
@@ -134,6 +135,5 @@
       console.log('service worker is not supported');
       }
     </script>
-    <script src="js/serviceWorker.js"></script>
   </body>
 </html>
