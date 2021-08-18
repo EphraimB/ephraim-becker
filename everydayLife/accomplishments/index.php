@@ -3,18 +3,19 @@
   <head>
     <meta charset="utf-8">
     <title>Ephraim Becker - Accomplishments</title>
-    <link rel="stylesheet" href="../../css/style.css">
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="../../css/style.css" />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="canonical" href="https://www.ephraimbecker.com/everydayLife/accomplishments/" />
     <link rel="icon" href="../../img/ephraim_becker.ico" type="image/x-icon" />
     <link rel="apple-touch-icon" href="../../img/ephraim-becker.png" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Hi! My name is Ephraim Becker and these are my accomplishments">
-    <meta name="keywords" content="Ephraim Becker, autism, aspergers, ADHD">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Hi! My name is Ephraim Becker and these are my accomplishments" />
+    <meta name="keywords" content="Ephraim Becker, autism, aspergers, ADHD" />
   </head>
   <body>
     <nav>
       <ul>
-        <li id="first"><img src="../../img/ephraim-becker.jpg" alt="Ephraim Becker" width="122px" height="auto"></li>
+        <li id="first"><img src="../../img/ephraim-becker.jpg" alt="Ephraim Becker" width="122px" height="auto" /></li>
         <li id="hamburger-icon"><a href="#" onclick="toggleNavMenu()">&#9776;</a></li>
         <div id="links">
           <li><a href="../../">Home</a></li>
@@ -55,7 +56,7 @@
           <div style="background-color: green;" class="card">
             <h2>I took Amtrak from New York to Florida by myself</h2>
             <p>I took Amtrak from NY Penn Station to Deerfield Beach, FL for Passover in 2018 (March 28 to be exact). I got Red Cap disability services at NY Penn Station because of my autism. Unfortunately, the trip didn't go as planned because of the 14 hour delay at Petersburg, VA becuase of a derailed auto-train ahead. I started crying because things didn't go as planned and I was anxious that I wasn't going to make it for Passover but people on the train calmed me down. I arrived at Deerfield Beach Friday morning at 8AM instead of Thursday afternoon at 5:45PM. My father picked me up.</p>
-            <img src="img/AmtrakAtDeerfieldBeach.jpg" alt="Amtrak at Deerfield Beach" width="250px" height="auto">
+            <img src="img/AmtrakAtDeerfieldBeach.jpg" alt="Amtrak at Deerfield Beach" width="250px" height="auto" />
           </div>
         </div>
     </main>

@@ -3,17 +3,18 @@
   <head>
     <meta charset="utf-8">
     <title>Ephraim Becker - College</title>
-    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="canonical" href="https://www.ephraimbecker.com/college/" />
     <link rel="icon" href="../img/ephraim_becker.ico" type="image/x-icon" />
     <link rel="apple-touch-icon" href="../img/ephraim-becker.png" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Hi! My name is Ephraim Becker and this is how I'm doing in college.">
-    <meta name="keywords" content="Ephraim Becker, autism, aspergers, ADHD">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Hi! My name is Ephraim Becker and this is how I'm doing in college." />
+    <meta name="keywords" content="Ephraim Becker, autism, aspergers, ADHD" />
   </head>
   <body>
     <nav>
       <ul>
-        <li id="first"><img src="../img/ephraim-becker.jpg" alt="Ephraim Becker" width="122px" height="auto"></li>
+        <li id="first"><img src="../img/ephraim-becker.jpg" alt="Ephraim Becker" width="122px" height="auto" /></li>
         <li id="hamburger-icon"><a href="#" onclick="toggleNavMenu()">&#9776;</a></li>
         <div id="links">
           <li><a href="../">Home</a></li>
