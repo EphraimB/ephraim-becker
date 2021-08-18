@@ -31,6 +31,12 @@ submitButtonTwo.setAttribute("class", "submitButton");
 var submitButtonThree = document.createElement("div");
 submitButtonThree.setAttribute("class", "submitButton");
 
+var submitButtonFour = document.createElement("div");
+submitButtonFour.setAttribute("class", "submitButton");
+
+var submitButtonFive = document.createElement("div");
+submitButtonFive.setAttribute("class", "submitButton");
+
 var conversationPart;
 
 if(localStorage.firstName == undefined) {
@@ -307,6 +313,24 @@ function nameSort(sentance)
     you.fullName = localStorage.fullName;
 };
 
+function ageSort(sentance) {
+  var start;
+
+  if(wordInFullSentance("is", sentance))
+  {
+      start = sentance.search("is");
+
+      localStorage.age = sentance.slice(start + 3);
+  }
+
+  else
+  {
+      localStorage.age = sentance;
+  }
+
+  you.age = localStorage.age;
+}
+
 function conversation() {
   if(conversationPart == 0) {
     virtualFriend.talk(greeting + "! What's your name?");
@@ -344,7 +368,7 @@ function conversation() {
     submitButtonThree.style.display == "block";
 
     if(you.says() == "Good") {
-      virtualFriend.talk("Nice to hear!");
+      virtualFriend.talk("Nice to hear! How old are you?");
     }
 
     if(you.says() == "Bad") {
@@ -352,6 +376,61 @@ function conversation() {
     }
 
     you.clearTextField();
+
+    submitButtonThree.onclick = function() {
+      conversationPart = 3;
+      conversation();
+    }
+  }
+
+  if(conversationPart == 3) {
+    submitButtonThree.style.display = "none";
+    submitButtonFour.innerHTML = "Submit";
+    personTwoTalk.appendChild(submitButtonFour);
+    submitButtonThree.style.display == "block";
+
+    if(localStorage.age == undefined) {
+      ageSort(you.says());
+    }
+
+    if(localStorage.age < "13") {
+      virtualFriend.talk("Still a child.");
+    }
+
+    else if(localStorage.age >= "13" && localStorage.age <= "18") {
+      virtualFriend.talk("Wow! You're a teenager.");
+    }
+
+    else if(localStorage.age >= "18" && localStorage.age <= "25") {
+      virtualFriend.talk("Already an adult. You're young still.");
+    }
+
+    else if(localStorage.age > "25" && localStorage.age <= "50") {
+      virtualFriend.talk("Already an adult.");
+    }
+
+    else if(localStorage.age > "50") {
+      virtualFriend.talk("You're getting old.");
+    }
+
+    you.clearTextField();
+
+    submitButtonFour.onclick = function()
+    {
+      conversationPart = 4;
+      conversation();
+    }
+  }
+
+  if(conversationPart == 4) {
+    submitButtonFour.style.display = "none";
+    submitButtonFive.innerHTML = "Submit";
+    personTwoTalk.appendChild(submitButtonFive);
+    submitButtonFour.style.display == "block";
+
+
+    you.clearTextField();
   }
 }
+
 conversation();
