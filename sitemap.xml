@@ -7,43 +7,47 @@
       <priority>1.0</priority>
    </url>
    <url>
-      <loc>https://ephraimbecker.com/timeline/</loc>
+      <loc>https://www.ephraimbecker.com/timeline/</loc>
       <changefreq>weekly</changefreq>
    </url>
    <url>
-      <loc>https://ephraimbecker.com/everydayLife/</loc>
+      <loc>https://www.ephraimbecker.com/everydayLife/</loc>
       <changefreq>weekly</changefreq>
    </url>
    <url>
-      <loc>https://ephraimbecker.com/college/</loc>
+      <loc>https://www.ephraimbecker.com/college/</loc>
       <changefreq>weekly</changefreq>
    </url>
    <url>
-      <loc>https://ephraimbecker.com/projects/</loc>
+      <loc>https://www.ephraimbecker.com/projects/</loc>
       <changefreq>weekly</changefreq>
    </url>
    <url>
-      <loc>https://ephraimbecker.com/resources/</loc>
+      <loc>https://www.ephraimbecker.com/projects/virtualFriend/</loc>
       <changefreq>weekly</changefreq>
    </url>
    <url>
-      <loc>https://ephraimbecker.com/about/</loc>
+      <loc>https://www.ephraimbecker.com/resources/</loc>
       <changefreq>weekly</changefreq>
    </url>
    <url>
-      <loc>https://ephraimbecker.com/everydayLife/problems/</loc>
+      <loc>https://www.ephraimbecker.com/about/</loc>
       <changefreq>weekly</changefreq>
    </url>
    <url>
-      <loc>https://ephraimbecker.com/everydayLife/accomplishments/</loc>
+      <loc>https://www.ephraimbecker.com/everydayLife/problems/</loc>
       <changefreq>weekly</changefreq>
    </url>
    <url>
-      <loc>https://ephraimbecker.com/everydayLife/goals/</loc>
+      <loc>https://www.ephraimbecker.com/everydayLife/accomplishments/</loc>
       <changefreq>weekly</changefreq>
    </url>
    <url>
-      <loc>https://ephraimbecker.com/everydayLife/accomplishments/gamingSetup/</loc>
+      <loc>https://www.ephraimbecker.com/everydayLife/goals/</loc>
+      <changefreq>weekly</changefreq>
+   </url>
+   <url>
+      <loc>https://www.ephraimbecker.com/everydayLife/accomplishments/gamingSetup/</loc>
       <changefreq>weekly</changefreq>
    </url>
 </urlset>
