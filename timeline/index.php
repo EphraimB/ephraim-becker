@@ -43,7 +43,7 @@
       <div itemscope itemtype="https://schema.org/Event">
         <div class="remembered-memory">
           <h2><time itemprop="startDate" datetime="1996-07-19">July 19, 1996</time></h2>
-          <h3 itemprop="name" style="display: none;">Born</h3>
+          <h3 itemprop="name">Born</h3>
           <p itemprop="description">I was born</p>
         </div>
         <div class="remembered-memory">
