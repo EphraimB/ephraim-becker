@@ -15,7 +15,7 @@
   <body>
     <nav>
       <ul>
-        <li id="first"><img src="../img/ephraim-becker.jpg" alt="Ephraim Becker" width="122px" height="auto" /></li>
+        <li id="first"><img src="../img/ephraim-becker.jpg" alt="Photo of Ephraim Becker" width="70px" height="auto" /></li>
         <li id="hamburger-icon"><a href="#" onclick="toggleNavMenu()">&#9776;</a></li>
         <div id="links">
           <li><a href="../">Home</a></li>
@@ -31,6 +31,15 @@
       <h1 style="font-weight: bold;">Timeline</h1>
     </header>
     <main>
+      <table>
+        <tr>
+          <td rowspan="2">Legend</td>
+          <td class="remembered-memory">Remembered memory</td>
+        </tr>
+        <tr>
+          <td class="diary-memory">Diary memory</td>
+        </tr>
+      </table>
       <div itemscope itemtype="https://schema.org/Event">
         <div class="remembered-memory">
           <h2><time itemprop="startDate" datetime="1996-07-19">July 19, 1996</time></h2>

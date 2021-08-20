@@ -15,7 +15,7 @@
   <body>
     <nav>
       <ul>
-        <li id="first"><img src="../../../img/ephraim-becker.jpg" alt="Ephraim Becker" width="122px" height="auto" /></li>
+        <li id="first"><img src="../../../img/ephraim-becker.jpg" alt="Photo of Ephraim Becker" width="70px" height="auto" /></li>
         <li id="hamburger-icon"><a href="#" onclick="toggleNavMenu()">&#9776;</a></li>
         <div id="links">
           <li><a href="../../../">Home</a></li>
