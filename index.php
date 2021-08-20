@@ -26,7 +26,7 @@
   <body>
     <nav>
       <ul>
-        <li id="first"><img src="img/ephraim-becker.jpg" alt="Photo of Ephraim Becker" width="70px" height="auto" /></li>
+        <li id="first"><img src="img/ephraim-becker.jpg" alt="Photo of Ephraim Becker" width="70px" height="70px" /></li>
         <li id="hamburger-icon"><a href="#" onclick="toggleNavMenu()">&#9776;</a></li>
         <div id="links">
           <li><a href="#">> Home <</a></li>
@@ -40,7 +40,7 @@
     </nav>
     <main>
       <div id="profileCard" itemscope itemtype="https://schema.org/Person" />
-        <img src="img/ephraim-becker.jpg" itemprop="image" alt="Photo of Ephraim Becker" width="100px" height="auto" />
+        <img src="img/ephraim-becker.jpg" itemprop="image" alt="Photo of Ephraim Becker" width="100px" height="100px" />
         <h1 style="font-weight: bold;" itemprop="name">Ephraim Becker</h1>
         <p>
           <span style="font-weight: bold;">Age: </span>
