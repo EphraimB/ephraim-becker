@@ -76,6 +76,10 @@ div iframe {
     max-width: 900px;
   }
 
+  nav {
+    overflow: hidden;
+  }
+
   nav li {
     float: left;
   }
@@ -86,6 +90,22 @@ div iframe {
 
   nav ul a:hover {
     background-color: lightblue;
+  }
+
+  #dropdown {
+    float: left;
+    overflow: hidden;
+  }
+
+  /* Dropdown content (hidden by default) */
+  #dropdown-content {
+    display: none;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+  }
+
+  #dropdown-content li {
+    float: none;
   }
 
   #first {
