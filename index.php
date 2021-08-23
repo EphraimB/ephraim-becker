@@ -29,10 +29,10 @@
         <li id="first"><img src="img/ephraim-becker.jpg" alt="Photo of Ephraim Becker" width="70px" height="70px" /></li>
         <li id="hamburger-icon"><a href="#" onclick="toggleNavMenu()">&#9776;</a></li>
         <div id="links">
-          <li><a href="#">> Home <</a></li>
+          <li class="focus"><a href="#">Home</a></li>
           <li><a href="timeline/">Timeline</a></li>
           <div id="dropdown">
-            <li><a class="dropbtn" href="#" onclick="toggleNavSubmenu()">My Life <i style="background-image: url('img/outline_expand_more_black_24dp.png')" /></i></a></li>
+            <li><a href="#" onclick="toggleNavSubmenu()">&emsp; My Life &ensp; &#x25BC;</a></li>
             <div id="dropdown-content">
               <li><a href="everydayLife/">Everyday Life</a></li>
               <li><a href="college/">College Life</a></li>
