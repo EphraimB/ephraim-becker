@@ -19,9 +19,14 @@
         <li id="hamburger-icon"><a href="#" onclick="toggleNavMenu()">&#9776;</a></li>
         <div id="links">
           <li><a href="../">Home</a></li>
-          <li><a href="#">> Timeline <</a></li>
-          <li><a href="../everydayLife/">Everyday Life</a></li>
-          <li><a href="../college/">College Life</a></li>
+          <li class="focus"><a href="#">Timeline</a></li>
+          <div id="dropdown">
+            <li><a href="#" onclick="toggleNavSubmenu()">&emsp; My Life &ensp; &#x25BC;</a></li>
+            <div id="dropdown-content">
+              <li><a href="../everydayLife/">Everyday Life</a></li>
+              <li><a href="../college/">College Life</a></li>
+            </div>
+          </div>
           <li><a href="../resources/">Resources</a></li>
           <li><a href="../about/">About</a></li>
         </div>
