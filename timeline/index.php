@@ -21,7 +21,7 @@
           <li><a href="../">Home</a></li>
           <li class="focus"><a href="#">Timeline</a></li>
           <div id="dropdown">
-            <li><a href="#" onclick="toggleNavSubmenu()">&emsp; My Life &ensp; &#x25BC;</a></li>
+            <li><a href="#" onclick="toggleNavSubmenu()">Daily Life &emsp; &#x25BC;</a></li>
             <div id="dropdown-content">
               <li><a href="../everydayLife/">Everyday Life</a></li>
               <li><a href="../college/">College Life</a></li>
