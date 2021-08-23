@@ -23,6 +23,7 @@
           <div id="dropdown">
             <li class="focus"><a href="#" onclick="toggleNavSubmenu()">Daily Life &emsp; &#x25BC;</a></li>
             <div id="dropdown-content">
+              <li><a href="../../../projects/">Projects</a></li>
               <li class="focus"><a href="../../../everydayLife/">Everyday Life</a></li>
               <li><a href="../../../college/">College Life</a></li>
             </div>

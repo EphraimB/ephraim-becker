@@ -27,6 +27,7 @@
               <li><a href="../college/">College Life</a></li>
             </div>
           </div>
+          <li><a href="../projects/">Projects</a></li>
           <li><a href="../resources/">Resources</a></li>
           <li><a href="../about/">About</a></li>
         </div>
@@ -155,11 +156,6 @@
           <h2><time itemprop="startDate" datetime="2016-12-19">December 19, 2016</time></h2>
           <h3 itemprop="name">I have the urge to start binge watching Star Trek: Deep Space Nine</h3>
           <p itemprop="description">Last year, I finished binge watching the whole Star Trek: The Original Series. The day after I started binge watching Star Trek: The Next Generation. I finished binge watching Star Trek: The Next Generation a month ago. I now have the urge to start binge watching Star Trek: Deep Space Nine. I know that my father won't be happy that i'm not being productive, but, I feel very compulsive. I'm going to start binge watching Star Trek: Deep Space Nine right now. Um... After I clean my annoying glasses all the way in the bathroom next to my bedroom. Argh!!!!</p>
-        </div>
-        <div class="diary-memory">
-          <h2><time itemprop="startDate" datetime="2016-12-27">December 27, 2016</time></h2>
-          <h3 itemprop="name">I just got my Android smartphone</h3>
-          <p itemprop="description">I just got my Android smartphone from my father. I have a lot to set up on my smartphone now.</p>
         </div>
         <div class="diary-memory">
           <h2><time itemprop="startDate" datetime="2016-12-19">December 19, 2016</time></h2>
