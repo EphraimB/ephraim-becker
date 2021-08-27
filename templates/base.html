@@ -35,7 +35,7 @@
           <li {% if id == active_page %} class="focus"{% endif %}><a href="{{ href|e }}">{{ caption|e }}</a></li>
           {% endfor %}
           <div id="dropdown">
-            <li><a href="#" onclick="toggleNavSubmenu()">Daily Life &emsp; &#x25BC;</a></li>
+            <li {% if active_page == 'everydayLife' or active_page == 'college' %} class="focus"{% endif %}><a href="#" onclick="toggleNavSubmenu()">Daily Life &emsp; &#x25BC;</a></li>
             <div id="dropdown-content">
               {% for href, id, caption in navigation_bar_two %}
               <li {% if id == active_page %} class="focus"{% endif %}><a href="{{ href|e }}">{{ caption|e }}</a></li>
