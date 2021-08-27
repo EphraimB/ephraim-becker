@@ -45,7 +45,7 @@
       </ul>
     </nav>
     <main>
-      <div id="profileCard" itemscope itemtype="https://schema.org/Person" />
+      <div id="profileCard" itemscope itemtype="https://schema.org/Person">
         <img src="img/ephraim-becker.jpg" itemprop="image" alt="Photo of Ephraim Becker" width="100px" height="100px" />
         <h1 style="font-weight: bold;" itemprop="name">Ephraim Becker</h1>
         <p>
