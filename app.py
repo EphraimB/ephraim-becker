@@ -41,3 +41,7 @@ def college():
 @app.route('/projects/')
 def projects():
     return render_template('projects.html')
+
+@app.route('/resources/')
+def resources():
+    return render_template('resources.html')
