@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request, send_from_directory
 from datetime import date, datetime
 
 app = Flask(__name__)
@@ -53,3 +53,7 @@ def resources():
 @app.route('/about/')
 def about():
     return render_template('about.html')
+
+@app.route('/sitemap.xml')
+def site_map():
+    return send_from_directory(app.static_folder, request.path[1:])
