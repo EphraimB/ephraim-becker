@@ -29,3 +29,7 @@ def accomplishments():
 @app.route('/everydayLife/accomplishments/gamingSetup/')
 def gamingSetup():
     return render_template('gamingSetup.html')
+
+@app.route('/everydayLife/goals/')
+def goals():
+    return render_template('goals.html')
