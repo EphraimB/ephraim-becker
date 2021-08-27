@@ -25,3 +25,7 @@ def problems():
 @app.route('/everydayLife/accomplishments/')
 def accomplishments():
     return render_template('accomplishments.html')
+
+@app.route('/everydayLife/accomplishments/gamingSetup/')
+def gamingSetup():
+    return render_template('gamingSetup.html')
