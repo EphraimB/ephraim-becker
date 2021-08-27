@@ -33,3 +33,7 @@ def gamingSetup():
 @app.route('/everydayLife/goals/')
 def goals():
     return render_template('goals.html')
+
+@app.route('/college/')
+def college():
+    return render_template('college.html')
