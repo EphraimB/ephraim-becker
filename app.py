@@ -42,6 +42,10 @@ def college():
 def projects():
     return render_template('projects.html')
 
+@app.route('/projects/virtualFriend/')
+def virtualFriend():
+    return render_template('virtualFriend.html')
+
 @app.route('/resources/')
 def resources():
     return render_template('resources.html')
