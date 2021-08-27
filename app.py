@@ -13,3 +13,7 @@ def index():
 @app.route('/timeline/')
 def timeline():
     return render_template('timeline.html')
+
+@app.route('/everydayLife/')
+def everydayLife():
+    return render_template('everydayLife.html')

@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% set active_page = "everydayLife" %}
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Ephraim Becker - Everyday Life</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/everydayLife.css') }}" />
+    <link rel="canonical" href="https://www.ephraimbecker.com/everydayLife/" />
+    <meta name="description" content="Hi! My name is Ephraim Becker and this is my everyday life." />
+  </head>
+  <body>
+    <header>
+      <h1 style="font-weight: bold;">Everyday Life</h1>
+    </header>
+    <main>
+      <p>It's pretty much the same thing everyday. I have a hard time making real friends while my siblings are having an easy and fun time with their friends. There are some accomplishments though like building my own computer (but that's not a social accomplishment).</p>
+      <div class="grid-container">
+          <div style="background-color: red;" class="card">
+            <a href="problems/">
+              <h2>Problems I'm having</h2>
+              <p>This link will show all my problems that I'm having.</p>
+              <p>Click to view</p>
+            </a>
+          </div>
+          <div style="background-color: green;" class="card">
+            <a href="accomplishments/">
+              <h2>Accomplishments</h2>
+              <p>This link will show all my accomplishments that I'm having.</p>
+              <p>Click to view</p>
+            </a>
+          </div>
+          <div style="background-color: yellow;" class="card">
+            <a style="color: black;" href="goals/">
+              <h2>Goals</h2>
+              <p>This link will show all my goals.</p>
+              <p>Click to view</p>
+            </a>
+          </div>
+        </div>
+    </main>
+  </body>
+</html>
+{% endblock %}
