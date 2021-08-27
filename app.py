@@ -21,3 +21,7 @@ def everydayLife():
 @app.route('/everydayLife/problems/')
 def problems():
     return render_template('problems.html')
+
+@app.route('/everydayLife/accomplishments/')
+def accomplishments():
+    return render_template('accomplishments.html')
