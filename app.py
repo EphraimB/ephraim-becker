@@ -37,3 +37,7 @@ def goals():
 @app.route('/college/')
 def college():
     return render_template('college.html')
+
+@app.route('/projects/')
+def projects():
+    return render_template('projects.html')
