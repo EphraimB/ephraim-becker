@@ -2,9 +2,11 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <title>{% block title %} {% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}" />
+    <link rel="icon" href="{{ url_for('static', filename='img/ephraim_becker.ico') }}" type="image/x-icon" />
+    <link rel="apple-touch-icon" href="{{ url_for('static', filename='img/ephraim_becker.png') }}" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="keywords" content="Ephraim Becker, autism, aspergers, ADHD" />
   </head>
   <body>
     <nav>
@@ -29,5 +31,6 @@
     </nav>
     {% block content %}
     {% endblock %}
+    <script src="{{ url_for('static', filename='js/index.js') }}"></script>
   </body>
 </html>
