@@ -1,0 +1,19 @@
+.remembered-memory {
+  background-color: lightgrey;
+  color: black;
+}
+
+.diary-memory {
+  background-color: green;
+  color: white;
+}
+
+a {
+  color: blue;
+}
+
+@media screen and (min-width: 1024px) {
+  ol {
+    text-align: left;
+  }
+}

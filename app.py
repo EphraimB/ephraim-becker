@@ -9,3 +9,7 @@ def index():
     today = date.today()
     age = today.year - born.year - ((today.month, today.day) < (born.month, born.day))
     return render_template('index.html', age=age)
+
+@app.route('/timeline/')
+def timeline():
+    return render_template('timeline.html')
