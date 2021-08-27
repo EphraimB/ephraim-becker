@@ -17,3 +17,7 @@ def timeline():
 @app.route('/everydayLife/')
 def everydayLife():
     return render_template('everydayLife.html')
+
+@app.route('/everydayLife/problems/')
+def problems():
+    return render_template('problems.html')
