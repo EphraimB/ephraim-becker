@@ -1,0 +1,46 @@
+.remembered-memory {
+  background-color: lightgrey;
+  color: black;
+}
+
+.diary-memory {
+  background-color: green;
+  color: white;
+}
+
+a {
+  color: blue;
+}
+
+.subNav {
+  overflow: hidden;
+  position: relative;
+  height: 25%;
+  list-style-type: none;
+}
+
+.subNav li {
+  float: left;
+}
+
+.subNav a {
+  text-decoration: none;
+  display: block;
+  padding: 14px 16px;
+  background-color: green;
+  color: white;
+}
+
+.subNav a:hover {
+  background-color: lightgreen;
+}
+
+@media screen and (min-width: 1024px) {
+  ol {
+    text-align: left;
+  }
+
+  .subNav a {
+    padding: 25px;
+  }
+}

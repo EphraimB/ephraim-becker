@@ -1,3 +1,10 @@
+<?php
+  define('__ROOT__', dirname(dirname(__FILE__)));
+  require_once($_SERVER['DOCUMENT_ROOT'] . '/config.php');
+
+  global $link;
+?>
+
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head>
@@ -47,7 +54,47 @@
         </tr>
       </table>
       <div itemscope itemtype="https://schema.org/Event">
-        <div class="remembered-memory">
+        <?php
+        $sql = "SELECT * FROM timeline ORDER BY DateModified ASC";
+        $sqlResult = mysqli_query($link, $sql);
+
+        while($row = mysqli_fetch_array($sqlResult)){
+          $eventDate = $row['EventDate'];
+          $eventTime = $row['EventTime'];
+
+          $eventDateFormatted = date("F d, Y", strtotime($eventDate));
+          $eventTimeFormatted = date("h:i A", strtotime($eventTime));
+
+          $eventTitle = $row['EventTitle'];
+          $eventDescription = $row['EventDescription'];
+          $memoryType = $row['MemoryType'];
+
+          $eventYouTubeLink = $row['EventYouTubeLink'];
+
+          $eventMedia = $row['EventMedia'];
+          $eventMediaDescription = $row['EventMediaDescription'];
+        ?>
+
+        <div class="<? if($memoryType == 0) { echo 'remembered-memory'; } else if($memoryType == 1) { echo 'diary-memory'; } ?> ">
+          <h2><time itemprop="startDate" datetime="<? echo $eventDate ?>"><? if(!is_null($eventTime)) { echo $eventDateFormatted . " " . $eventTimeFormatted; } else { echo $eventDateFormatted; } ?></time></h2>
+          <h3 itemprop="name"><? echo $eventTitle ?></h3>
+          <p itemprop="description"><? echo $eventDescription ?></p>
+
+          <?
+          if(!is_null($eventYouTubeLink)) {
+          ?>
+          <iframe width="560" height="315" src="<? echo $eventYouTubeLink ?>" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+          <?
+          }
+
+          if(!is_null($eventMedia)) {
+          ?>
+            <img src="img/<? echo $eventMedia ?>" alt="<? echo $eventMediaDescription ?>" width="200px" height="auto" />
+          <? } ?>
+        </div>
+
+        <? } ?>
+        <!-- <div class="remembered-memory">
           <h2><time itemprop="startDate" datetime="1996-07-19">July 19, 1996</time></h2>
           <h3 itemprop="name">Born</h3>
           <p itemprop="description">I was born</p>
@@ -353,7 +400,7 @@
         <div class="remembered-memory">
           <h2>Future</h2>
           <p>I want group therapy for people on the autism spectrum because I still don't know everything that I need to work on and make friends. I'm only in the mood of being with people on the autism spectrum so that I can relate to other people that went through similar things. I can't stand loud noise and flashing lights and still struggle socially a little. I'm still going through challenging times. It's possible that I do things to hurt other people without meaning to.</p>
-        </div>
+        </div> -->
       </div>
     </main>
     <script src="../js/script.js"></script>
