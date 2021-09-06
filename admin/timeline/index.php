@@ -32,11 +32,14 @@
     <main>
       <table>
         <tr>
-          <td rowspan="2">Legend</td>
+          <td rowspan="3">Legend</td>
           <td class="remembered-memory">Remembered memory</td>
         </tr>
         <tr>
           <td class="diary-memory">Diary memory</td>
+        </tr>
+        <tr>
+          <td class="hidden-memory remembered-memory">Hidden memory</td>
         </tr>
       </table>
       <div class="row">
@@ -98,7 +101,7 @@
               echo "<li><a class='hide' href='unhideEvent.php?id=$timelineId'>Unhide</a></li>";
             }
             ?>
-            <li><a class="delete" href="deleteEvent.php">Delete</a></li>
+            <li><a class="delete" href="deleteEvent.php?id=<?php echo $timelineId ?>">Delete</a></li>
           </ul>
         </div>
       </div>

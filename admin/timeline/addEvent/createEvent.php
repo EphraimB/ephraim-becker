@@ -47,8 +47,8 @@
 
   $sql->execute();
 
-  echo "New record created successfully";
-
   $sql->close();
   $link->close();
+
+  header("location: ../");
 ?>
