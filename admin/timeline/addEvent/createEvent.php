@@ -1,5 +1,4 @@
 <?php
-  define('__ROOT__', dirname(dirname(__FILE__)));
   require_once($_SERVER['DOCUMENT_ROOT'] . '/config.php');
 
   global $link;

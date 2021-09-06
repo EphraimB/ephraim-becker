@@ -65,25 +65,25 @@
         $eventMediaDescription = $row['EventMediaDescription'];
       ?>
 
-      <div class="<? if($memoryType == 0) { echo 'remembered-memory'; } else if($memoryType == 1) { echo 'diary-memory'; } ?> ">
-        <h2><time itemprop="startDate" datetime="<? echo $eventDate ?>"><? if(!is_null($eventTime)) { echo $eventDateFormatted . " " . $eventTimeFormatted; } else { echo $eventDateFormatted; } ?></time></h2>
-        <h3 itemprop="name"><? echo $eventTitle ?></h3>
-        <p itemprop="description"><? echo $eventDescription ?></p>
+      <div class="<?php if($memoryType == 0) { echo 'remembered-memory'; } else if($memoryType == 1) { echo 'diary-memory'; } ?> ">
+        <h2><time itemprop="startDate" datetime="<?php echo $eventDate ?>"><?php if(!is_null($eventTime)) { echo $eventDateFormatted . " " . $eventTimeFormatted; } else { echo $eventDateFormatted; } ?></time></h2>
+        <h3 itemprop="name"><?php echo $eventTitle ?></h3>
+        <p itemprop="description"><?php echo $eventDescription ?></p>
 
-        <?
+        <?php
         if(!is_null($eventYouTubeLink)) {
         ?>
-        <iframe width="560" height="315" src="<? echo $eventYouTubeLink ?>" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-        <?
+        <iframe width="560" height="315" src="<?php echo $eventYouTubeLink ?>" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <?php
         }
 
         if(!is_null($eventMedia)) {
         ?>
-          <img src="img/<? echo $eventMedia ?>" alt="<? echo $eventMediaDescription ?>" width="200px" height="auto" />
-        <? } ?>
+          <img src="img/<?php echo $eventMedia ?>" alt="<?php echo $eventMediaDescription ?>" width="200px" height="auto" />
+        <?php } ?>
       </div>
 
-      <? } ?>
+    <?php } ?>
     </main>
     <script src="../../js/script.js"></script>
   </body>
