@@ -49,6 +49,8 @@
       $sqlResult = mysqli_query($link, $sql);
 
       while($row = mysqli_fetch_array($sqlResult)){
+        $hide = $row['hide'];
+        $timelineId = $row['TimelineId'];
         $eventDate = $row['EventDate'];
         $eventTime = $row['EventTime'];
 
@@ -69,7 +71,7 @@
         $eventMediaDescription = $row['EventMediaDescription'];
       ?>
 
-      <div class="<?php if($memoryType == 0) { echo 'remembered-memory'; } else if($memoryType == 1) { echo 'diary-memory'; } ?> ">
+      <div class="<?php if($hide == 1) { echo 'hidden-memory '; } if($memoryType == 0) { echo 'remembered-memory'; } else if($memoryType == 1) { echo 'diary-memory'; } ?> ">
         <h2><time itemprop="startDate" datetime="<?php echo $eventDate ?>"><?php if(!is_null($eventTime)) { echo $eventDateFormatted . " " . $eventTimeFormatted; } else { echo $eventDateFormatted; } ?></time><?php if(!is_null($endEventDate)) { echo " - <time itemprop='endDate' datetime='" . $endEventDate . "'>" . $endEventDateFormatted . "</time>"; } ?></h2>
         <h3 itemprop="name"><?php echo $eventTitle ?></h3>
         <p itemprop="description"><?php echo $eventDescription ?></p>
@@ -85,6 +87,20 @@
         ?>
           <img src="img/<?php echo $eventMedia ?>" alt="<?php echo $eventMediaDescription ?>" width="200px" height="auto" />
         <?php } ?>
+
+        <div class="row">
+          <ul class="actionButtons">
+            <li><a class="edit" href="editEvent/">Edit</a></li>
+            <?php if($hide == 0) {
+              echo "<li><a class='hide' href='hideEvent.php?id=$timelineId'>Hide</a></li>";
+            }
+            else if($hide == 1) {
+              echo "<li><a class='hide' href='unhideEvent.php?id=$timelineId'>Unhide</a></li>";
+            }
+            ?>
+            <li><a class="delete" href="deleteEvent.php">Delete</a></li>
+          </ul>
+        </div>
       </div>
 
     <?php } ?>

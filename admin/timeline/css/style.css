@@ -8,18 +8,22 @@
   color: white;
 }
 
+.hidden-memory {
+  opacity: 0.5;
+}
+
 a {
   color: blue;
 }
 
-.subNav {
+.subNav, .actionButtons {
   overflow: hidden;
   position: relative;
   height: 25%;
   list-style-type: none;
 }
 
-.subNav li {
+.subNav li, .actionButtons a {
   float: left;
 }
 
@@ -33,6 +37,39 @@ a {
 
 .subNav a:hover {
   background-color: lightgreen;
+}
+
+.actionButtons a {
+  text-decoration: none;
+  display: block;
+  padding: 14px 16px;
+}
+
+.edit {
+  background-color: yellow;
+  color: black;
+}
+
+.edit:hover {
+  background-color: lightyellow;
+}
+
+.hide {
+  background-color: white;
+  color: black;
+}
+
+.hide:hover {
+  background-color: grey;
+}
+
+.delete {
+  background-color: red;
+  color: white;
+}
+
+.delete:hover {
+  background-color: Crimson;
 }
 
 @media screen and (min-width: 1024px) {
