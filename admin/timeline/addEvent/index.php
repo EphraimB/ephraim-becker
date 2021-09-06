@@ -27,16 +27,30 @@
       <form action="createEvent.php" method="post">
         <div class="row">
           <div>
-            <label for="eventDate">Event date:</label><br />
+            <label for="eventDate">Start event date:</label>
+            <br />
             <input type="date" id="eventDate" name="eventDate" required />
           </div>
           <div>
-            <label for="eventTime">Event time (optional):</label><br />
+            <label for="eventTime">Event time (optional):</label>
+            <br />
             <input type="time" id="eventTime" name="eventTime" />
           </div>
           <div>
             <input type="checkbox" id="allDay" name="allDay" value="allDay">
             <label for="allDay">allDay?</label>
+          </div>
+        </div>
+        <br />
+        <div class="row">
+          <div>
+            <label for="endEventDate">End event date:</label>
+            <br />
+            <input type="date" id="endEventDate" name="endEventDate" />
+          </div>
+          <div>
+            <input type="checkbox" id="endEventDateExist" name="endEventDateExist" value="endEventDateExist">
+            <label for="endEventDateExist">End event date exist?</label>
           </div>
         </div>
         <br />

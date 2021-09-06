@@ -4,9 +4,9 @@
   global $link;
 
 
-  $sql = $link->prepare("INSERT INTO timeline (MemoryType, DateCreated, DateModified, EventDate, EventTime, EventTitle, EventDescription, EventMedia, EventMediaDescription, EventYouTubeLink)
-  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-  $sql->bind_param('isssssssss', $memory, date("Y-m-d"), date("Y-m-d"), $eventDate, $eventTime, $eventTitle, $eventDescription, $eventImage, $eventImageDescription, $eventYouTubeLink);
+  $sql = $link->prepare("INSERT INTO timeline (MemoryType, DateCreated, DateModified, EventDate, EventTime, EndEventDate, EventTitle, EventDescription, EventMedia, EventMediaDescription, EventYouTubeLink)
+  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+  $sql->bind_param('issssssssss', $memory, date("Y-m-d H:i:s"), date("Y-m-d H:i:s"), $eventDate, $eventTime, $endEventDate, $eventTitle, $eventDescription, $eventImage, $eventImageDescription, $eventYouTubeLink);
 
   $memory = intval($_POST['memory']);
 
@@ -16,6 +16,12 @@
     $eventTime = NULL;
   } else {
     $eventTime = $_POST['eventTime'];
+  }
+
+  if(!isset($_POST['endEventDateExist'])) {
+    $endEventDate = NULL;
+  } else {
+    $endEventDate = $_POST['endEventDate'];
   }
 
   $eventTitle = $_POST['eventTitle'];
