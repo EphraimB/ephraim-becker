@@ -48,7 +48,7 @@
         </ul>
       </div>
       <?php
-      $sql = "SELECT * FROM timeline ORDER BY DateModified ASC";
+      $sql = "SELECT * FROM timeline ORDER BY EventDate ASC";
       $sqlResult = mysqli_query($link, $sql);
 
       while($row = mysqli_fetch_array($sqlResult)){

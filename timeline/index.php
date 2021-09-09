@@ -55,7 +55,7 @@
       </table>
       <div itemscope itemtype="https://schema.org/Event">
         <?php
-        $sql = "SELECT * FROM timeline WHERE hide = 0 ORDER BY DateModified ASC";
+        $sql = "SELECT * FROM timeline WHERE hide = 0 ORDER BY EventDate ASC";
         $sqlResult = mysqli_query($link, $sql);
 
         while($row = mysqli_fetch_array($sqlResult)){
