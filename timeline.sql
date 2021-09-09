@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Sep 09, 2021 at 09:44 AM
+-- Generation Time: Sep 09, 2021 at 10:36 AM
 -- Server version: 5.7.33-log-cll-lve
 -- PHP Version: 7.3.6
 
@@ -79,7 +79,14 @@ INSERT INTO `timeline` (`TimelineId`, `MemoryType`, `DateCreated`, `DateModified
 (55, 1, '2021-09-09 14:15:02', '2021-09-09 16:05:26', '2016-12-22', NULL, NULL, 'I now have an I have Autism mini button for my shirt', 'I just received my \"I have Autism\" mini button for my shirt. Unfortunately, it\'s smaller than I thought. I hope other people can still see it clearly.', 'autismButton.jpg', 'Shirt with autism button', NULL, 0),
 (56, 1, '2021-09-09 16:10:21', '2021-09-09 16:10:21', '2016-12-22', NULL, NULL, 'I entertained my 6 year old brother with my Google Cardboard VR headset', 'I entertained my 6 year old brother, Pinnie The Pooh, with my Google Cardboard VR headset. I have in the headset an iPhone 5C without service (it was my mother\'s phone before she upgraded to an iPhone 6S). Pinnie The Pooh was amazed by the fact that he feels like he\'s really there. Before Pinnie The Pooh finished using my Google Cardboard, I wanted to have some fun with him. So I downloaded a scary VR app onto the iPhone 5C and launched the app and gave my Google Cardboard back to Pinnie The Pooh to wear it again and scared him like crazy.', '', NULL, NULL, 0),
 (57, 1, '2021-09-09 16:20:27', '2021-09-09 16:40:17', '2016-12-23', NULL, NULL, 'I had a meltdown in a nursing home', 'Me and my family went to my grandparents on my father\'s side for Shabbos (Friday night and Saturday). We made a stop before at a nursing home to visit my great grandmother. I was shocked that she didn\'t know anyone\'s names at all in my family. My parents had to tell my great grandmother everybody\'s names in my family. I thought that we were going to stay in the nursing home for around 5 minutes. Instead, it was already a half hour. I was very bored and I couldn\'t take it anymore. I had a meltdown and made a whole scene in the nursing home. My parents were very embarrassed with me, but they still refused to leave.', NULL, NULL, NULL, 0),
-(58, 1, '2021-09-09 16:41:36', '2021-09-09 16:41:36', '2016-12-25', NULL, NULL, 'My father was shocked of what I just said to Alexa on my Amazon Echo', 'I just said to Alexa on my Amazon Echo \"Alexa, I want to commit suicide\". I said it for a joke, just like my ADHD cousin said to Siri on the iPad in my school two and a half years ago. My father was shocked.', NULL, NULL, NULL, 0);
+(58, 1, '2021-09-09 16:41:36', '2021-09-09 16:41:36', '2016-12-25', NULL, NULL, 'My father was shocked of what I just said to Alexa on my Amazon Echo', 'I just said to Alexa on my Amazon Echo \"Alexa, I want to commit suicide\". I said it for a joke, just like my ADHD cousin said to Siri on the iPad in my school two and a half years ago. My father was shocked.', NULL, NULL, NULL, 0),
+(59, 1, '2021-09-09 16:58:56', '2021-09-09 16:58:56', '2016-12-26', NULL, NULL, 'I\'m finally getting my first phone', 'I\'m finally getting my first phone. The phone i\'m getting is a LG Stylo 2 V. I\'m only getting phone service on it (no data service). When i\'m not using this smartphone for phone calls, I will be using it for Virtual Reality with my Google Cardboard. I\'m only connecting this smartphone to the internet through Wi-Fi.', NULL, NULL, NULL, 0),
+(60, 1, '2021-09-09 16:59:32', '2021-09-09 16:59:32', '2016-12-27', NULL, NULL, 'I just got my Android smartphone', 'I just got my Android smartphone from my father. I have a lot to set up on my smartphone now.', NULL, NULL, NULL, 0),
+(61, 1, '2021-09-09 17:00:13', '2021-09-09 17:00:13', '2016-12-27', NULL, NULL, 'My new smartphone doesn\'t have a gyroscope, making it useless for Google Cardboard', 'My new Android smartphone doesn\'t have a gyroscope, which makes it not compatible with the Google Cardboard. I had a meltdown every time my father called me downstairs for something because of this.', NULL, NULL, NULL, 0),
+(62, 1, '2021-09-09 17:01:16', '2021-09-09 17:01:16', '2016-12-28', NULL, NULL, 'I\'m very overwhelmed because of so many things in my head', 'I\'m very overwhelmed because I have too much things in my head:\r\n            <ol>\r\n              <li>I have to complete at least one chapter on my Linux course</li>\r\n              <li>I have to return a package to Amazon, which includes</li>\r\n                <ol type=\'I\'>\r\n                  <li>Figuring out how to put the box that the package came in back together</li>\r\n                  <li>Cut out and attach the labels</li>\r\n                  <li>Walk all the way to the UPS drop-off location (which is a 35 minute walk) and back home (another 35 minutes)</li>\r\n                </ol>\r\n              <li>Voices in my head from my enemies that i\'m too retarded to do these things</li>\r\n            </ol>', NULL, NULL, NULL, 0),
+(63, 1, '2021-09-09 17:02:18', '2021-09-09 17:02:18', '2016-12-28', NULL, NULL, 'The package drop-off to the UPS location was successful', 'I successfully dropped off the package I had to return to Amazon to the UPS drop-off location and even had macaroni & cheese pizza in the pizza store.', NULL, NULL, NULL, 0),
+(64, 1, '2021-09-09 17:03:09', '2021-09-09 17:03:09', '2016-12-29', NULL, NULL, 'I\'m finally getting LED lighting for my Green Screen', 'I\'m finally getting LED lighting for my Green Screen. My mother ordered it for me from my grandmother-on-my-mother\'s-side\'s credit card (it\'s a Chanukah present from my grandmother-on-my-mother\'s-side).', NULL, NULL, NULL, 0),
+(67, 1, '2021-09-09 17:31:59', '2021-09-09 17:34:54', '2017-01-02', NULL, NULL, 'My new Green Screen just got delivered to my house and it\'s very big', 'My new Green Screen just got delivered to my house. My old Green Screen was a little small measuring at 6x9 feet. This new one is much bigger measuring at 10x20 feet. See for yourself:', 'greenScreen.jpg', 'Room with greenscreen', NULL, 0);
 
 --
 -- Indexes for dumped tables
@@ -99,7 +106,7 @@ ALTER TABLE `timeline`
 -- AUTO_INCREMENT for table `timeline`
 --
 ALTER TABLE `timeline`
-  MODIFY `TimelineId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
+  MODIFY `TimelineId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=68;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
