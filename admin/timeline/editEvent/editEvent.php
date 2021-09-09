@@ -49,7 +49,7 @@
     $hidden = $_POST['hidden'];
   }
 
-  if(is_readable($_FILES["eventImage"]["name"])) {
+  if($_FILES['eventImage']['size'] > 0) {
     $eventImage = basename($_FILES["eventImage"]["name"]);
 
     $target_dir = '../../../timeline/img/';
