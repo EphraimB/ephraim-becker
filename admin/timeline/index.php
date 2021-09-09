@@ -88,7 +88,7 @@
 
         if(!is_null($eventMedia)) {
         ?>
-          <img src="img/<?php echo $eventMedia ?>" alt="<?php echo $eventMediaDescription ?>" width="200px" height="auto" />
+          <img src="<?php echo '../../timeline/img/' . $eventMedia ?>" alt="<?php echo $eventMediaDescription ?>" width="200px" height="auto" />
         <?php } ?>
 
         <div class="row">

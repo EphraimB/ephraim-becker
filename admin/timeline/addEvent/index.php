@@ -24,7 +24,7 @@
       <h1 style="font-weight: bold;">Admin - Timeline - Add Event</h1>
     </header>
     <main>
-      <form action="createEvent.php" method="post">
+      <form action="createEvent.php" method="post" enctype="multipart/form-data">
         <div class="row">
           <div>
             <label for="eventDate">Start event date:</label>

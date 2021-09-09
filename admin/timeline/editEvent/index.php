@@ -30,7 +30,7 @@
       <h1 style="font-weight: bold;">Admin - Timeline - Edit Event</h1>
     </header>
     <main>
-      <form action="editEvent.php" method="post">
+      <form action="editEvent.php" method="post" enctype="multipart/form-data">
         <div class="row">
           <?php
           $sql = "SELECT * FROM timeline WHERE TimelineId=" . $_GET['id'];
