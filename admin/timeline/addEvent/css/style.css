@@ -16,3 +16,7 @@
   background-color: green;
   color: white;
 }
+
+.hidden-memory {
+  opacity: 0.5;
+}

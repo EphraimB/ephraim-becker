@@ -94,6 +94,10 @@
               <input type="radio" id="diary" name="memory" value="1" />
               <label for="diary">Diary memory</label>
             </div>
+            <div class="hidden-memory remembered-memory">
+              <input type="checkbox" id="hidden" name="hidden" value="1" />
+              <label for="hidden">Hidden memory</label>
+            </div>
           </div>
         </div>
         <br />
