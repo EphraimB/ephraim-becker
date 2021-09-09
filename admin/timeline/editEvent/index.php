@@ -77,7 +77,7 @@
             <input type="date" id="endEventDate" name="endEventDate" value="<?php echo $endEventDate ?>" />
           </div>
           <div>
-            <input type="checkbox" id="endEventDateExist" name="endEventDateExist" value="endEventDateExist" <?php if(is_null($endEventDate)) { echo "checked"; } ?>>
+            <input type="checkbox" id="endEventDateExist" name="endEventDateExist" value="endEventDateExist" <?php if(!is_null($endEventDate)) { echo "checked"; } ?>>
             <label for="endEventDateExist">End event date exist?</label>
           </div>
         </div>
