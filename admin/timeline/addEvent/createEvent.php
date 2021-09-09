@@ -6,9 +6,12 @@
 
   $sql = $link->prepare("INSERT INTO timeline (MemoryType, DateCreated, DateModified, EventDate, EventTime, EndEventDate, EventTitle, EventDescription, EventMedia, EventMediaDescription, EventYouTubeLink, hide)
   VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-  $sql->bind_param('issssssssssi', $memory, date("Y-m-d H:i:s"), date("Y-m-d H:i:s"), $eventDate, $eventTime, $endEventDate, $eventTitle, $eventDescription, $eventImage, $eventImageDescription, $eventYouTubeLink, $hidden);
+  $sql->bind_param('issssssssssi', $memory, $dateNow, $dateNow, $eventDate, $eventTime, $endEventDate, $eventTitle, $eventDescription, $eventImage, $eventImageDescription, $eventYouTubeLink, $hidden);
 
-  $memory = intval($_POST['memory']);
+
+  $dateNow = date("Y-m-d H:i:s");
+
+  $memory = $_POST['memory'];
 
   $eventDate = $_POST['eventDate'];
 

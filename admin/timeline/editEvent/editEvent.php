@@ -5,9 +5,12 @@
 
 
   $sql = $link->prepare("UPDATE timeline SET MemoryType=?, DateModified=?, EventDate=?, EventTime=?, EndEventDate=?, EventTitle=?, EventDescription=?, EventMedia=?, EventMediaDescription=?, EventYouTubeLink=?, hide=? WHERE TimelineId=" . $_POST['id']);
-  $sql->bind_param('isssssssssi', $memory, date("Y-m-d H:i:s"), $eventDate, $eventTime, $endEventDate, $eventTitle, $eventDescription, $eventImage, $eventImageDescription, $eventYouTubeLink, $hidden);
+  $sql->bind_param('isssssssssi', $memory, $dateModified, $eventDate, $eventTime, $endEventDate, $eventTitle, $eventDescription, $eventImage, $eventImageDescription, $eventYouTubeLink, $hidden);
 
-  $memory = intval($_POST['memory']);
+
+  $dateModified = date("Y-m-d H:i:s");
+
+  $memory = $_POST['memory'];
 
   $eventDate = $_POST['eventDate'];
 
