@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Sep 09, 2021 at 10:36 AM
+-- Generation Time: Sep 09, 2021 at 10:40 AM
 -- Server version: 5.7.33-log-cll-lve
 -- PHP Version: 7.3.6
 
@@ -37,7 +37,7 @@ CREATE TABLE `timeline` (
   `EventTime` time DEFAULT NULL,
   `EndEventDate` date DEFAULT NULL,
   `EventTitle` varchar(128) NOT NULL,
-  `EventDescription` varchar(1000) NOT NULL,
+  `EventDescription` varchar(1250) NOT NULL,
   `EventMedia` varchar(255) DEFAULT NULL,
   `EventMediaDescription` varchar(255) DEFAULT NULL,
   `EventYouTubeLink` varchar(255) DEFAULT NULL,
@@ -86,7 +86,8 @@ INSERT INTO `timeline` (`TimelineId`, `MemoryType`, `DateCreated`, `DateModified
 (62, 1, '2021-09-09 17:01:16', '2021-09-09 17:01:16', '2016-12-28', NULL, NULL, 'I\'m very overwhelmed because of so many things in my head', 'I\'m very overwhelmed because I have too much things in my head:\r\n            <ol>\r\n              <li>I have to complete at least one chapter on my Linux course</li>\r\n              <li>I have to return a package to Amazon, which includes</li>\r\n                <ol type=\'I\'>\r\n                  <li>Figuring out how to put the box that the package came in back together</li>\r\n                  <li>Cut out and attach the labels</li>\r\n                  <li>Walk all the way to the UPS drop-off location (which is a 35 minute walk) and back home (another 35 minutes)</li>\r\n                </ol>\r\n              <li>Voices in my head from my enemies that i\'m too retarded to do these things</li>\r\n            </ol>', NULL, NULL, NULL, 0),
 (63, 1, '2021-09-09 17:02:18', '2021-09-09 17:02:18', '2016-12-28', NULL, NULL, 'The package drop-off to the UPS location was successful', 'I successfully dropped off the package I had to return to Amazon to the UPS drop-off location and even had macaroni & cheese pizza in the pizza store.', NULL, NULL, NULL, 0),
 (64, 1, '2021-09-09 17:03:09', '2021-09-09 17:03:09', '2016-12-29', NULL, NULL, 'I\'m finally getting LED lighting for my Green Screen', 'I\'m finally getting LED lighting for my Green Screen. My mother ordered it for me from my grandmother-on-my-mother\'s-side\'s credit card (it\'s a Chanukah present from my grandmother-on-my-mother\'s-side).', NULL, NULL, NULL, 0),
-(67, 1, '2021-09-09 17:31:59', '2021-09-09 17:34:54', '2017-01-02', NULL, NULL, 'My new Green Screen just got delivered to my house and it\'s very big', 'My new Green Screen just got delivered to my house. My old Green Screen was a little small measuring at 6x9 feet. This new one is much bigger measuring at 10x20 feet. See for yourself:', 'greenScreen.jpg', 'Room with greenscreen', NULL, 0);
+(67, 1, '2021-09-09 17:31:59', '2021-09-09 17:34:54', '2017-01-02', NULL, NULL, 'My new Green Screen just got delivered to my house and it\'s very big', 'My new Green Screen just got delivered to my house. My old Green Screen was a little small measuring at 6x9 feet. This new one is much bigger measuring at 10x20 feet. See for yourself:', 'greenScreen.jpg', 'Room with greenscreen', NULL, 0),
+(68, 1, '2021-09-09 17:38:34', '2021-09-09 17:39:22', '2017-01-02', NULL, NULL, 'I received a $50 Amazon gift card and spent most of it in one day', 'I received a $50 Amazon gift card 2 hours ago. I bought with it a:\r\n            <ol>\r\n              <li><a href=\"https://www.amazon.com/gp/product/B01LXO13TF/ref=oh_aui_detailpage_o03_s00?ie=UTF8&psc=1\">Amazon.com: WEKA 3D Hologram Pyramid Display Holographic Showcase for Smartphones Christmas Gift: Cell Phones & Accessories</a></li>\r\n              <li>Amazon.com: Phone Case for Verizon LG Stylo-2-V / Straight Talk LG Stylo 2 LTE (Cricket Wireless) Rugged Cover Wide Stand (Wide Stand-Black Corner): Cell Phones & Accessories</li>\r\n              <li><a href=\"https://www.amazon.com/gp/product/B00XI87KV8/ref=oh_aui_detailpage_o02_s00?ie=UTF8&psc=1\">Amazon.com : AmazonBasics 50-Inch Lightweight Tripod with Bag : Camera & Photo</a></li>\r\n              <li>Amazon.com: Micro USB Charging Dock, Android Smartphones Desktop Stand Sync and Charger Docking Station for All Android Phones with Micro USB 2.0 (360 degrees Rotate Black): Cell Phones & Accessories</li>\r\n            </ol>\r\n            <br />\r\n            After I bought all these stuff, I now have $1.45 left on my Amazon gift card.', NULL, NULL, NULL, 0);
 
 --
 -- Indexes for dumped tables
@@ -106,7 +107,7 @@ ALTER TABLE `timeline`
 -- AUTO_INCREMENT for table `timeline`
 --
 ALTER TABLE `timeline`
-  MODIFY `TimelineId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=68;
+  MODIFY `TimelineId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=69;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
