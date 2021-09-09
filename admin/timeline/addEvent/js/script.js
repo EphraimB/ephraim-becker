@@ -11,5 +11,5 @@ allDay.onchange = function() {
 }
 
 endEventDateExist.onchange = function() {
-  endEventDate.disabled = this.checked;
+  endEventDate.disabled = !this.checked;
 }

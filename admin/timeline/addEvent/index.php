@@ -46,7 +46,7 @@
           <div>
             <label for="endEventDate">End event date:</label>
             <br />
-            <input type="date" id="endEventDate" name="endEventDate" />
+            <input type="date" id="endEventDate" name="endEventDate" disabled />
           </div>
           <div>
             <input type="checkbox" id="endEventDateExist" name="endEventDateExist" value="endEventDateExist">

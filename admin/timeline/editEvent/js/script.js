@@ -9,7 +9,7 @@ document.body.onload = function formsScript() {
     eventTime.disabled = true;
   }
 
-  if(endEventDateExist.checked) {
+  if(!endEventDateExist.checked) {
     endEventDate.disabled = true;
   }
 }
@@ -19,5 +19,5 @@ allDay.onchange = function() {
 }
 
 endEventDateExist.onchange = function() {
-  endEventDate.disabled = this.checked;
+  endEventDate.disabled = !this.checked;
 }
