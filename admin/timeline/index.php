@@ -93,7 +93,7 @@
 
         <div class="row">
           <ul class="actionButtons">
-            <li><a class="edit" href="editEvent/">Edit</a></li>
+            <li><a class="edit" href="editEvent/index.php?id=<?php echo $timelineId ?>">Edit</a></li>
             <?php if($hide == 0) {
               echo "<li><a class='hide' href='hideEvent.php?id=$timelineId'>Hide</a></li>";
             }
