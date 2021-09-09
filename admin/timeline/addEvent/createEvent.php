@@ -1,5 +1,5 @@
 <?php
-  require_once('/home/s8gphl6pjes9/config.php');
+  require_once($_SERVER['DOCUMENT_ROOT'] . '/config.php');
 
   global $link;
 
@@ -48,57 +48,63 @@
     $hidden = $_POST['hidden'];
   }
 
-  $eventImage = basename($_FILES["eventImage"]["name"]);
+  if(is_readable($_FILES["eventImage"]["name"])) {
+    $eventImage = basename($_FILES["eventImage"]["name"]);
 
-  $target_dir = '../../../timeline/img/';
-  $target_file = $target_dir . $eventImage;
-  $uploadOk = 1;
-  $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+    $target_dir = '../../../timeline/img/';
+    $target_file = $target_dir . $eventImage;
+    $uploadOk = 1;
+    $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
 
-  // Check if image file is a actual image or fake image
-  if(isset($_POST["submit"])) {
-    $check = getimagesize($_FILES["eventImage"]["tmp_name"]);
-    if($check !== false) {
-      $uploadOk = 1;
-    } else {
+    // Check if image file is a actual image or fake image
+    if(isset($_POST["submit"])) {
+      $check = getimagesize($_FILES["eventImage"]["tmp_name"]);
+      if($check !== false) {
+        $uploadOk = 1;
+      } else {
+        $uploadOk = 0;
+      }
+    }
+
+    // Check if file already exists
+    if (file_exists($target_file)) {
+      echo "Sorry, file already exists.";
       $uploadOk = 0;
     }
-  }
 
-  // Check if file already exists
-  if (file_exists($target_file)) {
-    echo "Sorry, file already exists.";
-    $uploadOk = 0;
-  }
-
-  // Check file size
-  if ($_FILES["eventImage"]["size"] > 500000) {
-    echo "Sorry, your file is too large.";
-    $uploadOk = 0;
-  }
-
-  // Allow certain file formats
-  if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
-  && $imageFileType != "gif" ) {
-    echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
-    $uploadOk = 0;
-  }
-
-  // Check if $uploadOk is set to 0 by an error
-  if ($uploadOk == 0) {
-    echo "Sorry, your file was not uploaded.";
-  // if everything is ok, try to upload file
-  } else {
-    if (move_uploaded_file($_FILES["eventImage"]["tmp_name"], $target_file)) {
-      $eventImage = basename($_FILES["eventImage"]["name"]);
-      header("location: ../");
-    } else {
-      echo "Sorry, there was an error uploading your file.";
+    // Check file size
+    if ($_FILES["eventImage"]["size"] > 500000) {
+      echo "Sorry, your file is too large.";
+      $uploadOk = 0;
     }
 
+    // Allow certain file formats
+    if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
+    && $imageFileType != "gif" ) {
+      echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
+      $uploadOk = 0;
+    }
+
+    // Check if $uploadOk is set to 0 by an error
+    if ($uploadOk == 0) {
+      echo "Sorry, your file was not uploaded.";
+    // if everything is ok, try to upload file
+    } else {
+      if (move_uploaded_file($_FILES["eventImage"]["tmp_name"], $target_file)) {
+        $eventImage = basename($_FILES["eventImage"]["name"]);
+        header("location: ../");
+      } else {
+        echo "Sorry, there was an error uploading your file.";
+      }
+  }
+} else {
+  $eventImage = NULL;
+}
 
 $sql->execute();
 
 $sql->close();
 $link->close();
+
+header("location: ../");
 ?>

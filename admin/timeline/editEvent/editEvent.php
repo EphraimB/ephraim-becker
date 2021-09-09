@@ -1,10 +1,12 @@
 <?php
-  require_once('/home/s8gphl6pjes9/config.php');
+  require_once($_SERVER['DOCUMENT_ROOT'] . '/config.php');
 
   global $link;
 
 
-  $sql = $link->prepare("UPDATE timeline SET MemoryType=?, DateModified=?, EventDate=?, EventTime=?, EndEventDate=?, EventTitle=?, EventDescription=?, EventMedia=?, EventMediaDescription=?, EventYouTubeLink=?, hide=? WHERE TimelineId=" . $_POST['id']);
+  $id = $_POST['id'];
+
+  $sql = $link->prepare("UPDATE timeline SET MemoryType=?, DateModified=?, EventDate=?, EventTime=?, EndEventDate=?, EventTitle=?, EventDescription=?, EventMedia=?, EventMediaDescription=?, EventYouTubeLink=?, hide=? WHERE TimelineId=" . $id);
   $sql->bind_param('isssssssssi', $memory, $dateModified, $eventDate, $eventTime, $endEventDate, $eventTitle, $eventDescription, $eventImage, $eventImageDescription, $eventYouTubeLink, $hidden);
 
 
@@ -47,8 +49,8 @@
     $hidden = $_POST['hidden'];
   }
 
-  $eventImage = basename($_FILES["eventImage"]["name"]);
-
+  if(is_readable($_FILES["eventImage"]["name"])) {
+    $eventImage = basename($_FILES["eventImage"]["name"]);
 
     $target_dir = '../../../timeline/img/';
     $target_file = $target_dir . $eventImage;
@@ -95,10 +97,22 @@
       } else {
         echo "Sorry, there was an error uploading your file.";
       }
-    }
+  }
+} else {
+  $sqlTwo = "SELECT EventMedia, EventMediaDescription FROM timeline WHERE TimelineId=" . $id;
+
+  $sqlTwoResult = mysqli_query($link, $sqlTwo);
+
+  while($row = mysqli_fetch_array($sqlTwoResult)){
+    $eventImage = $row['EventMedia'];
+    $eventImageDescription = $row['EventMediaDescription'];
+  }
+}
 
 $sql->execute();
 
 $sql->close();
 $link->close();
+
+header("location: ../");
 ?>

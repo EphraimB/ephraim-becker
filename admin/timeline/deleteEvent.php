@@ -1,5 +1,5 @@
 <?php
-  require_once('/home/s8gphl6pjes9/config.php');
+  require_once($_SERVER['DOCUMENT_ROOT'] . '/config.php');
 
   global $link;
 
