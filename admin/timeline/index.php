@@ -91,8 +91,8 @@
           <img src="<?php echo '../../timeline/img/' . $eventMedia ?>" alt="<?php echo $eventMediaDescription ?>" width="200px" height="auto" />
         <?php } ?>
 
-        <div class="row">
-          <ul class="actionButtons">
+        <!-- <div class="row"> -->
+          <ul class="row actionButtons">
             <li><a class="edit" href="editEvent/index.php?id=<?php echo $timelineId ?>">Edit</a></li>
             <?php if($hide == 0) {
               echo "<li><a class='hide' href='hideEvent.php?id=$timelineId'>Hide</a></li>";
@@ -101,9 +101,9 @@
               echo "<li><a class='hide' href='unhideEvent.php?id=$timelineId'>Unhide</a></li>";
             }
             ?>
-            <li><a class="delete" href="deleteEvent.php?id=<?php echo $timelineId ?>">Delete</a></li>
+            <li><a class="delete" href="confirmation.php?id=<?php echo $timelineId ?>">Delete</a></li>
           </ul>
-        </div>
+        <!-- </div> -->
       </div>
 
     <?php } ?>
