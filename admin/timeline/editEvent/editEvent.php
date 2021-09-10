@@ -73,16 +73,24 @@
       $uploadOk = 0;
     }
 
-    // Check file size
-    if ($_FILES["eventImage"]["size"] > 500000) {
-      echo "Sorry, your file is too large.";
-      $uploadOk = 0;
-    }
+    $percent = 0.5;
+
+    // Get new dimensions
+    list($width, $height) = getimagesize($_FILES["eventImage"]["tmp_name"]);
+    $new_width = 200;
+    $new_height = 113;
+
+    // Resample
+    $image_p = imagecreatetruecolor($new_width, $new_height);
+    $image = imagecreatefromjpeg($_FILES["eventImage"]["tmp_name"]);
+    imagecopyresampled($image_p, $image, 0, 0, 0, 0, $new_width, $new_height, $width, $height);
+
+    // Output
+    imagejpeg($image_p, $_FILES["eventImage"]["tmp_name"], 100);
 
     // Allow certain file formats
-    if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
-    && $imageFileType != "gif" ) {
-      echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
+    if($imageFileType != "jpg") {
+      echo "Sorry, only JPG and JPEG files are allowed.";
       $uploadOk = 0;
     }
 
