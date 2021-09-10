@@ -12,6 +12,15 @@
   opacity: 0.5;
 }
 
+.row {
+  display: flex;
+  justify-content: center;
+}
+
+.row div {
+  padding: 10px;
+}
+
 a {
   color: blue;
 }
@@ -70,6 +79,15 @@ a {
 
 .delete:hover {
   background-color: Crimson;
+}
+
+.keep {
+  background-color: green;
+  color: white;
+}
+
+.keep:hover {
+  background-color: lightgreen;
 }
 
 @media screen and (min-width: 1024px) {

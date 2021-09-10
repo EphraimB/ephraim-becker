@@ -50,7 +50,12 @@
   }
 
   if($_FILES['eventImage']['size'] > 0) {
-    $eventImage = basename($_FILES["eventImage"]["name"]);
+    if(is_null($eventImageDescription)) {
+      echo "Sorry, no image description inputted";
+      $uploadOk = 0;
+    }
+
+    $eventImage = strtolower(str_replace(' ', '-', $eventImageDescription . '.jpg'));
 
     $target_dir = '../../../timeline/img/';
     $target_file = $target_dir . $eventImage;
@@ -100,7 +105,6 @@
     // if everything is ok, try to upload file
     } else {
       if (move_uploaded_file($_FILES["eventImage"]["tmp_name"], $target_file)) {
-        $eventImage = basename($_FILES["eventImage"]["name"]);
         header("location: ../");
       } else {
         echo "Sorry, there was an error uploading your file.";
