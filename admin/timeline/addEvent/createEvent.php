@@ -13,12 +13,12 @@
 
   $memory = $_POST['memory'];
 
-  $eventDate = $_POST['eventDate'];
-
   if(isset($_POST['allDay'])) {
     $eventTime = NULL;
+    $eventDate = $_POST['eventDate'];
   } else {
     $eventTime = date('H:i:s', strtotime($_POST['eventTime']) + $_POST['timezoneOffset']);
+    $eventDate = date('Y-m-d', strtotime($_POST['eventDate'] . " " . $_POST['eventTime']) + $_POST['timezoneOffset']);
   }
 
   if(!isset($_POST['endEventDateExist'])) {
