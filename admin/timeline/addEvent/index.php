@@ -35,6 +35,8 @@
             <label for="eventTime">Event time (optional):</label>
             <br />
             <input type="time" id="eventTime" name="eventTime" />
+            <input type="hidden" id="timezone" name="timezone" />
+            <input type="hidden" id="timezoneOffset" name="timezoneOffset" />
           </div>
           <div>
             <input type="checkbox" id="allDay" name="allDay" value="allDay">
