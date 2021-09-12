@@ -4,9 +4,9 @@
   global $link;
 
 
-  $sql = $link->prepare("INSERT INTO timeline (MemoryType, DateCreated, DateModified, EventDate, EventTime, EndEventDate, EventTitle, EventDescription, EventMedia, EventMediaDescription, EventYouTubeLink, hide)
-  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-  $sql->bind_param('issssssssssi', $memory, $dateNow, $dateNow, $eventDate, $eventTime, $endEventDate, $eventTitle, $eventDescription, $eventImage, $eventImageDescription, $eventYouTubeLink, $hidden);
+  $sql = $link->prepare("INSERT INTO timeline (MemoryType, DateCreated, DateModified, EventDate, EventTime, EndEventDate, EventTimeZone, EventTimeZoneOffset, EventTitle, EventDescription, EventMedia, EventMediaDescription, EventYouTubeLink, hide)
+  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+  $sql->bind_param('issssssisssssi', $memory, $dateNow, $dateNow, $eventDate, $eventTime, $endEventDate, $eventTimeZone, $eventTimeZoneOffset, $eventTitle, $eventDescription, $eventImage, $eventImageDescription, $eventYouTubeLink, $hidden);
 
 
   $dateNow = date("Y-m-d H:i:s");
@@ -18,7 +18,7 @@
   if(isset($_POST['allDay'])) {
     $eventTime = NULL;
   } else {
-    $eventTime = $_POST['eventTime'];
+    $eventTime = date('H:i:s', strtotime($_POST['eventTime']) + $_POST['timezoneOffset']);
   }
 
   if(!isset($_POST['endEventDateExist'])) {
@@ -26,6 +26,9 @@
   } else {
     $endEventDate = $_POST['endEventDate'];
   }
+
+  $eventTimeZone = $_POST['timezone'];
+  $eventTimeZoneOffset = $_POST['timezoneOffset'];
 
   $eventTitle = $_POST['eventTitle'];
   $eventDescription = $_POST['eventDescription'];
