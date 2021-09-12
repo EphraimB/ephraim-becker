@@ -54,8 +54,20 @@
       while($row = mysqli_fetch_array($sqlResult)){
         $hide = $row['hide'];
         $timelineId = $row['TimelineId'];
-        $eventDate = $row['EventDate'];
-        $eventTime = $row['EventTime'];
+
+        $eventTimeZone = $row['EventTimeZone'];
+        $eventTimeZoneOffset = $row['EventTimeZoneOffset'];
+
+        $eventUTCDate = $row['EventDate'];
+        $eventUTCTime = $row['EventTime'];
+
+        if(!is_null($eventUTCTime)) {
+          $eventDate = date('Y-m-d', strtotime($eventUTCDate . " " . $eventUTCTime) - $eventTimeZoneOffset);
+          $eventTime = date('H:i:s', strtotime($eventUTCTime) - $eventTimeZoneOffset);
+        } else {
+          $eventDate = $eventUTCDate;
+          $eventTime = NULL;
+        }
 
         $endEventDate = $row['EndEventDate'];
 
@@ -75,7 +87,7 @@
       ?>
 
       <div class="<?php if($hide == 1) { echo 'hidden-memory '; } if($memoryType == 0) { echo 'remembered-memory'; } else if($memoryType == 1) { echo 'diary-memory'; } ?> ">
-        <h2><time itemprop="startDate" datetime="<?php echo $eventDate ?>"><?php if(!is_null($eventTime)) { echo $eventDateFormatted . " " . $eventTimeFormatted; } else { echo $eventDateFormatted; } ?></time><?php if(!is_null($endEventDate)) { echo " - <time itemprop='endDate' datetime='" . $endEventDate . "'>" . $endEventDateFormatted . "</time>"; } ?></h2>
+        <h2><time itemprop="startDate" datetime="<?php echo $eventDate ?>"><?php if(!is_null($eventTime)) { echo $eventDateFormatted . " " . $eventTimeFormatted . " " . $eventTimeZone; } else { echo $eventDateFormatted; } ?></time><?php if(!is_null($endEventDate)) { echo " - <time itemprop='endDate' datetime='" . $endEventDate . "'>" . $endEventDateFormatted . "</time>"; } ?></h2>
         <h3 itemprop="name"><?php echo $eventTitle ?></h3>
         <p itemprop="description"><?php echo $eventDescription ?></p>
 

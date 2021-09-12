@@ -44,6 +44,9 @@
 
             $endEventDate = $row['EndEventDate'];
 
+            $eventTimeZone = $row['EventTimeZone'];
+            $eventTimeZoneOffset = $row['EventTimeZoneOffset'];
+
             $eventTitle = $row['EventTitle'];
             $eventDescription = $row['EventDescription'];
             $memoryType = $row['MemoryType'];
@@ -63,6 +66,8 @@
             <label for="eventTime">Event time (optional):</label>
             <br />
             <input type="time" id="eventTime" name="eventTime" value="<?php echo $eventTime ?>" />
+            <input type="hidden" id="timezone" name="timezone" value="<?php echo $eventTimeZone ?>" />
+            <input type="hidden" id="timezoneOffset" name="timezoneOffset" value="<?php echo $eventTimeZoneOffset ?>" />
           </div>
           <div>
             <input type="checkbox" id="allDay" name="allDay" value="allDay" <?php if(is_null($eventTime)) { echo "checked"; } ?>>
