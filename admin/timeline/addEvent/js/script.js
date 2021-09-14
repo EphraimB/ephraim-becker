@@ -8,7 +8,6 @@ var timezoneOffset = document.getElementById("timezoneOffset");
 var endEventDate = document.getElementById("endEventDate");
 
 
-
 allDay.onchange = function() {
   eventTime.disabled = this.checked;
 }
@@ -17,7 +16,7 @@ endEventDateExist.onchange = function() {
   endEventDate.disabled = !this.checked;
 }
 
-eventTime.onchange = function() {
+eventDate.onchange = function() {
   timezone.value = new Date().toLocaleTimeString('en-us',{timeZoneName:'short'}).split(' ')[2];
   timezoneOffset.value = new Date().getTimezoneOffset()*60;
 }
