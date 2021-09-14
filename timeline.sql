@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Sep 14, 2021 at 07:54 AM
+-- Generation Time: Sep 14, 2021 at 01:01 PM
 -- Server version: 5.7.33-cll-lve
 -- PHP Version: 7.3.6
 
@@ -51,7 +51,7 @@ CREATE TABLE `timeline` (
 --
 
 INSERT INTO `timeline` (`TimelineId`, `MemoryType`, `DateCreated`, `DateModified`, `EventDate`, `EventTime`, `EndEventDate`, `EventTimeZone`, `EventTimeZoneOffset`, `EventTitle`, `EventDescription`, `EventMedia`, `EventMediaDescription`, `EventYouTubeLink`, `hide`) VALUES
-(8, 0, '2021-09-05 14:51:28', '2021-09-05 14:51:28', '1996-07-19', '16:21:00', NULL, 'EDT', 14400, 'Born', 'I was born', NULL, NULL, NULL, 0),
+(8, 0, '2021-09-05 14:51:28', '2021-09-14 15:52:10', '1996-07-19', '16:21:00', NULL, 'EDT', 14400, 'Born', 'I was born', NULL, NULL, NULL, 0),
 (10, 0, '2021-09-05 14:58:09', '2021-09-05 14:58:09', '1996-07-26', NULL, NULL, 'EDT', 14400, '×‘×¨×™×ª', 'My ×‘×¨×™×ª', NULL, NULL, 'https://www.youtube.com/embed/_H-NsuCaajU', 0),
 (11, 0, '2021-09-05 15:03:45', '2021-09-05 15:03:45', '1996-08-18', NULL, NULL, 'EDT', 14400, '×¤×“×™×•×Ÿ ×”×‘×Ÿ', 'My ×¤×“×™×•×Ÿ ×”×‘×Ÿ', NULL, NULL, 'https://www.youtube.com/embed/boNnsiCP5AA', 0),
 (18, 0, '2021-09-06 00:00:00', '2021-09-06 00:00:00', '1999-06-24', NULL, NULL, 'EDT', 14400, 'Upsherin', 'My upsherin', NULL, NULL, 'https://www.youtube.com/embed/W-zU1z_DNmw', 0),
@@ -110,7 +110,8 @@ INSERT INTO `timeline` (`TimelineId`, `MemoryType`, `DateCreated`, `DateModified
 (98, 1, '2021-09-13 12:01:14', '2021-09-13 12:12:56', '2021-09-13', '12:00:00', NULL, 'EDT', 14400, 'I just got on the train', 'I just got on the train to work', 'me-on-the-train.jpg', 'Me on the train', NULL, 0),
 (99, 1, '2021-09-14 02:43:33', '2021-09-14 02:49:19', '2021-09-14', '02:39:00', NULL, 'EDT', 14400, 'What happened today', 'In college, which I went to straight from work, I learnt in database class that I can do math in SQL which would have saved me a lot of time. I learnt about unit tests and pseudocode in Data Structures. In Fundamentals of Speech, I learnt about different ways to say things.', NULL, NULL, NULL, 0),
 (101, 1, '2021-09-14 10:15:40', '2021-09-14 10:15:40', '2021-09-04', '15:45:00', NULL, 'EDT', 14400, 'I like the comment someone made about me', 'Someone watched me take cholent at the kiddush and commented that he realized that I took exactly what I wanted unlike anyone else that just took a spoonful just like an autist. I said to him that Iâ€™m diagnosed as autistic so itâ€™s more like as an autist. This was the first time in a while that someone saw me as autistic. Thatâ€™s just who I am.', NULL, NULL, NULL, 0),
-(102, 1, '2021-09-14 11:12:58', '2021-09-14 11:12:58', '2021-09-14', '11:10:00', NULL, 'EDT', 14400, 'I bought a Yom Hatzmaot machzor', 'I saw a Yom Hatzmaot machzor in Beth Sholom and was surprised that thereâ€™sa lot of added prayers in there and that they sing the Yom Tov by maariv. I bought one from the website as well as the kinnot.', 'yom-hatzmaot-machzor.jpg', 'Yom Hatzmaot machzor', NULL, 0);
+(102, 1, '2021-09-14 11:12:58', '2021-09-14 16:45:59', '2021-09-14', '11:10:00', NULL, 'EDT', 14400, 'I bought a Yom Hatzmaot machzor', 'I saw a Yom Hatzmaot machzor in Beth Sholom and was surprised that thereâ€™s a lot of added prayers in there and that they sing the Yom Tov melody by maariv. I bought one from the website as well as the kinnot.', 'yom-hatzmaot-machzor.jpg', 'Yom Hatzmaot machzor', NULL, 0),
+(112, 0, '2021-09-14 20:00:38', '2021-09-14 20:00:38', '2009-07-25', NULL, NULL, '', 0, 'My ×‘×¨ ×ž×¦×•×”', 'I had my ×‘×¨ ×ž×¦×•×” that ×©×‘×ª and lained the haftora from a klaff.', 'me-when-i-was-bar-mitzva.jpg', 'Me when I was bar mitzva', NULL, 0);
 
 --
 -- Indexes for dumped tables
@@ -130,7 +131,7 @@ ALTER TABLE `timeline`
 -- AUTO_INCREMENT for table `timeline`
 --
 ALTER TABLE `timeline`
-  MODIFY `TimelineId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=104;
+  MODIFY `TimelineId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=113;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
