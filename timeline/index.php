@@ -54,30 +54,25 @@
       </table>
       <div itemscope itemtype="https://schema.org/Event">
         <?php
-        $sql = "SELECT * FROM timeline WHERE hide = 0 ORDER BY EventDate ASC";
+        $sql = "SELECT *, IFNULL(DATE_FORMAT(concat(EventDate, ' ', EventTime) - INTERVAL EventTimeZoneOffset SECOND, '%Y-%m-%d'), EventDate) AS 'LocalDate', IFNULL(TIME_FORMAT(concat(EventDate, ' ', EventTime) - INTERVAL EventTimeZoneOffset SECOND, '%H:%i:%s'), NULL) AS 'LocalTime' FROM timeline WHERE hide = 0 ORDER BY EventDate ASC";
         $sqlResult = mysqli_query($link, $sql);
 
         while($row = mysqli_fetch_array($sqlResult)){
           $eventTimeZone = $row['EventTimeZone'];
           $eventTimeZoneOffset = $row['EventTimeZoneOffset'];
 
-          $eventUTCDate = $row['EventDate'];
-          $eventUTCTime = $row['EventTime'];
+          $eventDate = $row['EventDate'];
+          $eventTime = $row['EventTime'];
 
-          if(!is_null($eventUTCTime)) {
-            $eventDate = date('Y-m-d', strtotime($eventUTCDate . " " . $eventUTCTime) - $eventTimeZoneOffset);
-            $eventTime = date('H:i:s', strtotime($eventUTCTime) - $eventTimeZoneOffset);
-          } else {
-            $eventDate = $eventUTCDate;
-            $eventTime = NULL;
-          }
+          $localDate = $row['LocalDate'];
+          $localTime = $row['LocalTime'];
 
           $endEventDate = $row['EndEventDate'];
 
           $endEventDateFormatted = date("F d, Y", strtotime($endEventDate));
 
-          $eventDateFormatted = date("F d, Y", strtotime($eventDate));
-          $eventTimeFormatted = date("h:i A", strtotime($eventTime));
+          $eventDateFormatted = date("F d, Y", strtotime($localDate));
+          $eventTimeFormatted = date("h:i A", strtotime($localTime));
 
           $eventTitle = $row['EventTitle'];
           $eventDescription = $row['EventDescription'];
@@ -90,7 +85,7 @@
         ?>
 
         <div class="<?php if($memoryType == 0) { echo 'remembered-memory'; } else if($memoryType == 1) { echo 'diary-memory'; } ?> ">
-          <h2><time itemprop="startDate" datetime="<?php echo $eventDate ?>"><?php if(!is_null($eventTime)) { echo $eventDateFormatted . " " . $eventTimeFormatted . " " . $eventTimeZone; } else { echo $eventDateFormatted; } ?></time><?php if(!is_null($endEventDate)) { echo " - <time itemprop='endDate' datetime='" . $endEventDate . "'>" . $endEventDateFormatted . "</time>"; } ?></h2>
+          <h2><time itemprop="startDate" datetime="<?php echo $localDate ?>"><?php if(!is_null($localTime)) { echo $eventDateFormatted . " " . $eventTimeFormatted . " " . $eventTimeZone; } else { echo $eventDateFormatted; } ?></time><?php if(!is_null($endEventDate)) { echo " - <time itemprop='endDate' datetime='" . $endEventDate . "'>" . $endEventDateFormatted . "</time>"; } ?></h2>
           <h3 itemprop="name"><?php echo $eventTitle ?></h3>
           <p itemprop="description"><?php echo $eventDescription ?></p>
 

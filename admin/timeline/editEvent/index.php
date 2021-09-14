@@ -33,7 +33,7 @@
       <form action="editEvent.php" method="post" enctype="multipart/form-data">
         <div class="row">
           <?php
-          $sql = "SELECT * FROM timeline WHERE TimelineId=" . $_GET['id'];
+          $sql = "SELECT *, IFNULL(DATE_FORMAT(concat(EventDate, ' ', EventTime) - INTERVAL EventTimeZoneOffset SECOND, '%Y-%m-%d'), EventDate) AS 'LocalDate', IFNULL(TIME_FORMAT(concat(EventDate, ' ', EventTime) - INTERVAL EventTimeZoneOffset SECOND, '%H:%i:%s'), NULL) AS 'LocalTime' FROM timeline WHERE TimelineId=" . $_GET['id'];
           $sqlResult = mysqli_query($link, $sql);
 
           while($row = mysqli_fetch_array($sqlResult)){
@@ -46,6 +46,9 @@
 
             $eventTimeZone = $row['EventTimeZone'];
             $eventTimeZoneOffset = $row['EventTimeZoneOffset'];
+
+            $localDate = $row['LocalDate'];
+            $localTime = $row['LocalTime'];
 
             $eventTitle = $row['EventTitle'];
             $eventDescription = $row['EventDescription'];
@@ -60,12 +63,12 @@
           <div>
             <label for="eventDate">Start event date:</label>
             <br />
-            <input type="date" id="eventDate" name="eventDate" value="<?php echo $eventDate ?>" required />
+            <input type="date" id="eventDate" name="eventDate" value="<?php echo $localDate ?>" required />
           </div>
           <div>
             <label for="eventTime">Event time (optional):</label>
             <br />
-            <input type="time" id="eventTime" name="eventTime" value="<?php echo $eventTime ?>" />
+            <input type="time" id="eventTime" name="eventTime" value="<?php echo $localTime ?>" />
             <input type="hidden" id="timezone" name="timezone" value="<?php echo $eventTimeZone ?>" />
             <input type="hidden" id="timezoneOffset" name="timezoneOffset" value="<?php echo $eventTimeZoneOffset ?>" />
           </div>
