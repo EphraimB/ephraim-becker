@@ -78,6 +78,7 @@
         $eventYouTubeLink = $row['EventYouTubeLink'];
 
         $eventMedia = $row['EventMedia'];
+        $eventMediaPortrait = $row['EventMediaPortrait'];
         $eventMediaDescription = $row['EventMediaDescription'];
       ?>
 
@@ -94,9 +95,15 @@
         }
 
         if(!is_null($eventMedia)) {
+          if($eventMediaPortrait == 0) {
         ?>
-          <img src="<?php echo '../../timeline/img/' . $eventMedia ?>" alt="<?php echo $eventMediaDescription ?>" width="200px" height="auto" />
-        <?php } ?>
+          <img src="<?php echo '../../timeline/img/' . $eventMedia ?>" alt="<?php echo $eventMediaDescription ?>" width="200px" height="113px" />
+        <?php } else { ?>
+          <img src="<?php echo '../../timeline/img/' . $eventMedia ?>" alt="<?php echo $eventMediaDescription ?>" width="113px" height="200px" />
+        <?php
+        }
+        }
+        ?>
 
         <!-- <div class="row"> -->
           <ul class="row actionButtons">

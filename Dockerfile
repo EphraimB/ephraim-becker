@@ -8,4 +8,4 @@ RUN apt-get update && \
         zlib1g-dev
 
 RUN docker-php-ext-configure gd --enable-gd --with-jpeg
-RUN docker-php-ext-install mysqli gd
+RUN docker-php-ext-install mysqli gd exif
