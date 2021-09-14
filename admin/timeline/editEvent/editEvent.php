@@ -3,12 +3,10 @@
 
   global $link;
 
+  $sql = $link->prepare("UPDATE timeline SET MemoryType=?, DateModified=?, EventDate=?, EventTime=?, EndEventDate=?, EventTimeZone=?, EventTimeZoneOffset=?, EventTitle=?, EventDescription=?, EventMedia=?, EventMediaDescription=?, EventYouTubeLink=?, hide=? WHERE TimelineId=?");
+  $sql->bind_param('isssssisssssii', $memory, $dateModified, $eventDate, $eventTime, $endEventDate, $eventTimeZone, $eventTimeZoneOffset, $eventTitle, $eventDescription, $eventImage, $eventImageDescription, $eventYouTubeLink, $hidden, $id);
 
   $id = $_POST['id'];
-
-  $sql = $link->prepare("UPDATE timeline SET MemoryType=?, DateModified=?, EventDate=?, EventTime=?, EndEventDate=?, EventTimeZone=?, EventTimeZoneOffset=?, EventTitle=?, EventDescription=?, EventMedia=?, EventMediaDescription=?, EventYouTubeLink=?, hide=? WHERE TimelineId=" . $id);
-  $sql->bind_param('isssssisssssi', $memory, $dateModified, $eventDate, $eventTime, $endEventDate, $eventTimeZone, $eventTimeZoneOffset, $eventTitle, $eventDescription, $eventImage, $eventImageDescription, $eventYouTubeLink, $hidden);
-
 
   $dateModified = date("Y-m-d H:i:s");
 
@@ -114,9 +112,14 @@
       }
   }
 } else {
-  $sqlTwo = "SELECT EventMedia, EventMediaDescription FROM timeline WHERE TimelineId=" . $id;
+  $sqlTwo = $link->prepare("SELECT EventMedia, EventMediaDescription FROM timeline WHERE TimelineId=?");
+  $sqlTwo->bind_param("i", $id);
 
-  $sqlTwoResult = mysqli_query($link, $sqlTwo);
+  $id = $_POST['id'];
+
+  $sqlTwo->execute();
+
+  $sqlTwoResult = $sqlTwo->get_result(); // get the mysqli result
 
   while($row = mysqli_fetch_array($sqlTwoResult)){
     $eventImage = $row['EventMedia'];
