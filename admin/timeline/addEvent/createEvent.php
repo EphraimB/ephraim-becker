@@ -4,9 +4,9 @@
   global $link;
 
 
-  $sql = $link->prepare("INSERT INTO timeline (MemoryType, DateCreated, DateModified, EventDate, EventTime, EndEventDate, EventTimeZone, EventTimeZoneOffset, EventTitle, EventDescription, EventMedia, EventMediaDescription, EventYouTubeLink, hide)
-  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-  $sql->bind_param('issssssisssssi', $memory, $dateNow, $dateNow, $eventDate, $eventTime, $endEventDate, $eventTimeZone, $eventTimeZoneOffset, $eventTitle, $eventDescription, $eventImage, $eventImageDescription, $eventYouTubeLink, $hidden);
+  $sql = $link->prepare("INSERT INTO timeline (MemoryType, DateCreated, DateModified, EventDate, EventTime, EndEventDate, EventTimeZone, EventTimeZoneOffset, EventTitle, EventDescription, EventMedia, EventMediaPortrait, EventMediaDescription, EventYouTubeLink, hide)
+  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+  $sql->bind_param('issssssisssissi', $memory, $dateNow, $dateNow, $eventDate, $eventTime, $endEventDate, $eventTimeZone, $eventTimeZoneOffset, $eventTitle, $eventDescription, $eventImage, $eventMediaPortrait, $eventImageDescription, $eventYouTubeLink, $hidden);
 
 
   $dateNow = date("Y-m-d H:i:s");
@@ -80,16 +80,40 @@
       $uploadOk = 0;
     }
 
-    $percent = 0.5;
+    $exif = exif_read_data($_FILES["eventImage"]["tmp_name"]);
 
     // Get new dimensions
     list($width, $height) = getimagesize($_FILES["eventImage"]["tmp_name"]);
-    $new_width = 200;
-    $new_height = 113;
+
+    $image = imagecreatefromjpeg($_FILES["eventImage"]["tmp_name"]);
+
+    if(isset( $exif["Orientation"])) {
+      if($exif["Orientation"] == 6) {
+          // photo needs to be rotated
+          $image = imagerotate($image , -90, 0 );
+
+          $newWidth = $height;
+          $newHeight = $width;
+
+          $width = $newWidth;
+          $height = $newHeight;
+      }
+    }
+
+    if($width > $height) {
+      $new_width = 200;
+      $new_height = 113;
+
+      $eventMediaPortrait = 0;
+    } else {
+      $new_width = 113;
+      $new_height = 200;
+
+      $eventMediaPortrait = 1;
+    }
 
     // Resample
     $image_p = imagecreatetruecolor($new_width, $new_height);
-    $image = imagecreatefromjpeg($_FILES["eventImage"]["tmp_name"]);
     imagecopyresampled($image_p, $image, 0, 0, 0, 0, $new_width, $new_height, $width, $height);
 
     // Output
