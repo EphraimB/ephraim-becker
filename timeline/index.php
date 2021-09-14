@@ -97,9 +97,15 @@
           }
 
           if(!is_null($eventMedia)) {
+            if($eventMediaPortrait == 0) {
           ?>
-            <img src="img/<?php echo $eventMedia ?>" alt="<?php echo $eventMediaDescription ?>" width="200px" height="auto" />
-          <?php } ?>
+            <img src="<?php echo '../../timeline/img/' . $eventMedia ?>" alt="<?php echo $eventMediaDescription ?>" width="200px" height="113px" />
+          <?php } else { ?>
+            <img src="<?php echo '../../timeline/img/' . $eventMedia ?>" alt="<?php echo $eventMediaDescription ?>" width="113px" height="200px" />
+          <?php
+          }
+          }
+          ?>
         </div>
 
       <?php } ?>
