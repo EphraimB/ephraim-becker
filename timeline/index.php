@@ -81,6 +81,7 @@
           $eventYouTubeLink = $row['EventYouTubeLink'];
 
           $eventMedia = $row['EventMedia'];
+          $eventMediaPortrait = $row['EventMediaPortrait'];
           $eventMediaDescription = $row['EventMediaDescription'];
         ?>
 
