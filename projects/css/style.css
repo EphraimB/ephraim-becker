@@ -1,11 +1,12 @@
 .card {
-  background-color: lightgrey;
+  background-color: blue;
+  color: white;
   margin: 10px;
 }
 
 .card a {
   text-decoration: none;
-  color: black;
+  color: white;
 }
 
 .grid-container {

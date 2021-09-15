@@ -122,6 +122,9 @@
 
     <?php } ?>
     </main>
+    <footer>
+      <p>&copy; 2021 Ephraim Becker</p>
+    </footer>
     <script src="../../js/script.js"></script>
   </body>
 </html>
