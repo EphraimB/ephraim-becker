@@ -1,11 +1,16 @@
 .remembered-memory {
-  background-color: lightgrey;
-  color: black;
+  background-color: blue;
+  color: white;
 }
 
 .diary-memory {
   background-color: green;
   color: white;
+}
+
+a {
+  background-color: white;
+  color: blue;
 }
 
 .hidden-memory {
@@ -19,10 +24,6 @@
 
 .row div {
   padding: 10px;
-}
-
-a {
-  color: blue;
 }
 
 .subNav, .actionButtons {
