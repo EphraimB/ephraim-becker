@@ -100,6 +100,16 @@ div iframe {
   height: auto;
 }
 
+footer {
+  margin-top: 25%;
+  background-color: blue;
+  color: white;
+}
+
+footer p {
+  padding: 14px 16px;
+}
+
 @media screen and (min-width: 1024px) {
   html {
     max-width: 900px;
