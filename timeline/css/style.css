@@ -1,6 +1,6 @@
 .remembered-memory {
-  background-color: lightgrey;
-  color: black;
+  background-color: blue;
+  color: white;
 }
 
 .diary-memory {
@@ -9,6 +9,7 @@
 }
 
 a {
+  background-color: white;
   color: blue;
 }
 
