@@ -72,7 +72,7 @@
           <span style="font-weight: bold;">Location: </span>
           <span>Far Rockaway, NY, United States</span>
         </p>
-        <div>
+        <div class="socialLinks">
           <a target="_blank" rel="noopener" style="display: inline; background-color: rgba(0,0,0,0);" href="https://www.facebook.com/ephraim.becker/"><img src="img/f_logo_RGB-Blue_1024.png" alt="Facebook logo" width="50px" height="auto" /></a>
           <a target="_blank" rel="noopener" style="display: inline; background-color: rgba(0,0,0,0);" href="https://www.messenger.com/t/100009677345527/"><img src="img/logo-16@3x.png" alt="Messenger logo" width="50px" height="auto" /></a>
           <a target="_blank" rel="noopener" style="display: inline; background-color: rgba(0,0,0,0);" href="https://www.instagram.com/ephraim.becker/"><img src="img/Instagram_Glyph_Gradient_RGB.png" alt="Instagram logo" width="50px" height="auto" /></a>
@@ -85,6 +85,9 @@
         </div>
       </div>
     </main>
+    <footer>
+      <p>&copy; 2021 Ephraim Becker</p>
+    </footer>
     <script src="js/script.js"></script>
   </body>
 </html>

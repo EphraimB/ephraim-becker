@@ -66,6 +66,9 @@
           </div>
         </div>
     </main>
+    <footer style="margin-top: 100px;">
+      <p>&copy; 2021 Ephraim Becker</p>
+    </footer>
     <script src="../../js/script.js"></script>
   </body>
 </html>
