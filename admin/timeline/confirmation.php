@@ -36,7 +36,7 @@
         $sql = $link->prepare("SELECT EventTitle FROM timeline WHERE TimelineId=?");
         $sql->bind_param("i", $id);
 
-        $id = $_POST['id'];
+        $id = $_GET['id'];
 
         $sql->execute();
 
