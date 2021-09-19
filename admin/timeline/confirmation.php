@@ -33,9 +33,14 @@
     </header>
     <main>
       <?php
-        $sql = "SELECT EventTitle FROM timeline WHERE TimelineId=" . $id;
+        $sql = $link->prepare("SELECT EventTitle FROM timeline WHERE TimelineId=?");
+        $sql->bind_param("i", $id);
 
-        $sqlResult = mysqli_query($link, $sql);
+        $id = $_POST['id'];
+
+        $sql->execute();
+
+        $sqlResult = $sql->get_result();
 
         while($row = mysqli_fetch_array($sqlResult)){
           $eventTitle = $row['EventTitle'];
