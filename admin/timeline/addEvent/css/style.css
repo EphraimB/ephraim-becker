@@ -20,3 +20,21 @@
 .hidden-memory {
   opacity: 0.5;
 }
+
+input[type=submit] {
+  background-color: blue;
+  color: white;
+  border: 0;
+  padding: 16px 32px;
+  width: 100%;
+  cursor: pointer;
+}
+
+input[type=submit]:hover {
+  background-color: lightblue;
+}
+
+input[type=submit][disabled=disabled] {
+  background-color: lightblue;
+  cursor: not-allowed;
+}

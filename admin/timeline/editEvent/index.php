@@ -144,7 +144,8 @@
         </div>
         <input type="hidden" name="id" value="<?php echo $timelineId ?>">
         <br />
-        <input type="submit" value="Submit to timeline" />
+        <input type="submit" id="submit" value="Submit to timeline" />
+        <br />
       </form>
     </main>
     <script src="../../../js/script.js"></script>
