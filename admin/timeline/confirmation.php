@@ -24,7 +24,7 @@
         <li id="hamburger-icon"><a href="#" onclick="toggleNavMenu()">&#9776;</a></li>
         <div id="links">
           <li><a href="../">Admin</a></li>
-          <li class="focus"><a href="#">Timeline</a></li>
+          <li class="focus"><a href="index.php">Timeline</a></li>
         </div>
       </ul>
     </nav>
