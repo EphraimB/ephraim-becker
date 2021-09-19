@@ -103,7 +103,7 @@
           </div>
         </div>
         <br />
-        <input type="submit" id="submit" value="Submit to timeline" disabled />
+        <input type="submit" id="submit" value="Submit to timeline" disabled="disabled" />
         <br />
       </form>
     </main>
