@@ -33,8 +33,14 @@
       <form action="editEvent.php" method="post" enctype="multipart/form-data">
         <div class="row">
           <?php
-          $sql = "SELECT *, IFNULL(DATE_FORMAT(concat(EventDate, ' ', EventTime) - INTERVAL EventTimeZoneOffset SECOND, '%Y-%m-%d'), EventDate) AS 'LocalDate', IFNULL(TIME_FORMAT(concat(EventDate, ' ', EventTime) - INTERVAL EventTimeZoneOffset SECOND, '%H:%i:%s'), NULL) AS 'LocalTime' FROM timeline WHERE TimelineId=" . $_GET['id'];
-          $sqlResult = mysqli_query($link, $sql);
+          $sql = $link->prepare("SELECT *, IFNULL(DATE_FORMAT(concat(EventDate, ' ', EventTime) - INTERVAL EventTimeZoneOffset SECOND, '%Y-%m-%d'), EventDate) AS 'LocalDate', IFNULL(TIME_FORMAT(concat(EventDate, ' ', EventTime) - INTERVAL EventTimeZoneOffset SECOND, '%H:%i:%s'), NULL) AS 'LocalTime' FROM timeline WHERE TimelineId=?");
+          $sql->bind_param("i", $id);
+
+          $id = $_GET['id'];
+
+          $sql->execute();
+
+          $sqlResult = $sql->get_result();
 
           while($row = mysqli_fetch_array($sqlResult)){
             $hide = $row['hide'];
@@ -145,3 +151,8 @@
     <script src="js/script.js"></script>
   </body>
 </html>
+
+<?php
+  $sql->close();
+  $link->close();
+ ?>
