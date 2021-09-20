@@ -42,53 +42,156 @@
     </nav>
 
 <?php
-if($_GET['month'] == 0) {
-  $sql = $link->prepare("SELECT *, IFNULL(DATE_FORMAT(concat(EventDate, ' ', EventTime) - INTERVAL EventTimeZoneOffset SECOND, '%Y-%m-%d'), EventDate) AS 'LocalDate', IFNULL(TIME_FORMAT(concat(EventDate, ' ', EventTime) - INTERVAL EventTimeZoneOffset SECOND, '%H:%i:%s'), NULL) AS 'LocalTime', MONTH(EventDate) AS Month FROM timeline WHERE hide = 0 AND YEAR(EventDate) = ? ORDER BY EventDate ASC");
-  $sql->bind_param("i", $year);
+if($_GET['day'] == 0) {
+  if($_GET['month'] == 0) {
+    $sql = $link->prepare("SELECT *, IFNULL(DATE_FORMAT(concat(EventDate, ' ', EventTime) - INTERVAL EventTimeZoneOffset SECOND, '%Y-%m-%d'), EventDate) AS 'LocalDate', IFNULL(TIME_FORMAT(concat(EventDate, ' ', EventTime) - INTERVAL EventTimeZoneOffset SECOND, '%H:%i:%s'), NULL) AS 'LocalTime', MONTH(EventDate) AS Month FROM timeline WHERE hide = 0 AND YEAR(EventDate) = ? ORDER BY EventDate ASC");
+    $sql->bind_param("i", $year);
 
-  $year = $_GET['year'];
+    $year = $_GET['year'];
 
-  $sql->execute();
+    $sql->execute();
 
-  $sqlResult = $sql->get_result();
+    $sqlResult = $sql->get_result();
 
-  if($sqlResult->num_rows > 12) {
-    $sqlTwo = $link->prepare("SELECT *, IFNULL(DATE_FORMAT(concat(EventDate, ' ', EventTime) - INTERVAL EventTimeZoneOffset SECOND, '%Y-%m-%d'), EventDate) AS 'LocalDate', IFNULL(TIME_FORMAT(concat(EventDate, ' ', EventTime) - INTERVAL EventTimeZoneOffset SECOND, '%H:%i:%s'), NULL) AS 'LocalTime', MONTH(EventDate) AS Month FROM timeline WHERE hide = 0 AND YEAR(EventDate) = ? GROUP BY Month ORDER BY EventDate ASC");
-    $sqlTwo->bind_param("i", $year);
-    $yearTwo = $_GET['year'];
+    if($sqlResult->num_rows > 12) {
+      $sqlTwo = $link->prepare("SELECT *, IFNULL(DATE_FORMAT(concat(EventDate, ' ', EventTime) - INTERVAL EventTimeZoneOffset SECOND, '%Y-%m-%d'), EventDate) AS 'LocalDate', IFNULL(TIME_FORMAT(concat(EventDate, ' ', EventTime) - INTERVAL EventTimeZoneOffset SECOND, '%H:%i:%s'), NULL) AS 'LocalTime', MONTH(EventDate) AS Month FROM timeline WHERE hide = 0 AND YEAR(EventDate) = ? GROUP BY Month ORDER BY EventDate ASC");
+      $sqlTwo->bind_param("i", $year);
+      $yearTwo = $_GET['year'];
 
-    $sqlTwo->execute();
+      $sqlTwo->execute();
 
-    $sqlTwoResult = $sqlTwo->get_result();
-  ?>
-      <header>
-        <h1 style="font-weight: bold;">Timeline - <?php echo $year ?> album</h1>
-      </header>
-      <main>
-      <div id="grid-container">
-        <?php
-        while($row = mysqli_fetch_array($sqlTwoResult)) {
-          $month = $row['Month'];
+      $sqlTwoResult = $sqlTwo->get_result();
+    ?>
+        <header>
+          <h1 style="font-weight: bold;">Timeline - <?php echo $year ?> album</h1>
+        </header>
+        <main>
+          <table>
+            <tr>
+              <td rowspan="3">Legend</td>
+              <td class="remembered-memory">Remembered memory</td>
+            </tr>
+            <tr>
+              <td class="diary-memory">Diary memory</td>
+            </tr>
+          </table>
+        <div id="grid-container">
+          <?php
+          while($row = mysqli_fetch_array($sqlTwoResult)) {
+            $month = $row['Month'];
 
-          $dateObj = DateTime::createFromFormat('!m', $month);
-          $monthName = $dateObj->format('F');
-        ?>
-        <div class="card album-cover" id="album-cover-<?php echo $year . '-' . $month ?>" onclick="filterTimeline('<?php echo $year ?>', '<?php echo $month ?>')">
-          <h2><?php echo $monthName ?></h2>
-          <p>All the events in <?php echo $monthName ?></p>
+            $dateObj = DateTime::createFromFormat('!m', $month);
+            $monthName = $dateObj->format('F');
+          ?>
+          <div class="card album-cover" id="album-cover-<?php echo $year . '-' . $month ?>" onclick="filterTimeline('<?php echo $year ?>', '<?php echo $month ?>')">
+            <h2><?php echo $monthName ?></h2>
+            <p>All the events in <?php echo $monthName ?></p>
+          </div>
+        <?php } ?>
         </div>
-      <?php } ?>
-      </div>
-  <?php
-  } else {
-  ?>
-      <header>
-        <h1 style="font-weight: bold;">Timeline - <?php echo $year ?> album</h1>
-      </header>
-      <main>
-      <?php
+    <?php
+    } else {
+    ?>
+        <header>
+          <h1 style="font-weight: bold;">Timeline - <?php echo $year ?> album</h1>
+        </header>
+        <main>
+          <table>
+            <tr>
+              <td rowspan="3">Legend</td>
+              <td class="remembered-memory">Remembered memory</td>
+            </tr>
+            <tr>
+              <td class="diary-memory">Diary memory</td>
+            </tr>
+          </table>
+        <?php
 
-      while($row = mysqli_fetch_array($sqlResult)) {
+        while($row = mysqli_fetch_array($sqlResult)) {
+          $eventTimeZone = $row['EventTimeZone'];
+          $eventTimeZoneOffset = $row['EventTimeZoneOffset'];
+
+          $eventDate = $row['EventDate'];
+          $eventTime = $row['EventTime'];
+
+          $localDate = $row['LocalDate'];
+          $localTime = $row['LocalTime'];
+
+          $endEventDate = $row['EndEventDate'];
+
+          $endEventDateFormatted = date("F d, Y", strtotime($endEventDate));
+
+          $eventDateFormatted = date("F d, Y", strtotime($localDate));
+          $eventTimeFormatted = date("h:i A", strtotime($localTime));
+
+          $eventTitle = $row['EventTitle'];
+          $eventDescription = $row['EventDescription'];
+          $memoryType = $row['MemoryType'];
+
+          $eventYouTubeLink = $row['EventYouTubeLink'];
+
+          $eventMedia = $row['EventMedia'];
+          $eventMediaPortrait = $row['EventMediaPortrait'];
+          $eventMediaDescription = $row['EventMediaDescription'];
+          ?>
+          <div style="margin-bottom: 10px;" class="<?php if($memoryType == 0) { echo 'remembered-memory'; } else if($memoryType == 1) { echo 'diary-memory'; } ?> ">
+            <h2><time datetime="<?php echo $localDate ?>"><?php if(!is_null($localTime)) { echo $eventDateFormatted . " " . $eventTimeFormatted . " " . $eventTimeZone; } else { echo $eventDateFormatted; } ?></time><?php if(!is_null($endEventDate)) { echo " - <time datetime='" . $endEventDate . "'>" . $endEventDateFormatted . "</time>"; } ?></h2>
+            <h3><?php echo $eventTitle ?></h3>
+            <p><?php echo $eventDescription ?></p>
+
+            <?php
+            if(!is_null($eventYouTubeLink)) {
+            ?>
+            <iframe width="560" height="315" src="<?php echo $eventYouTubeLink ?>" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            <?php
+            }
+
+            if(!is_null($eventMedia)) {
+              if($eventMediaPortrait == 0) {
+            ?>
+              <img src="<?php echo '../../timeline/img/' . $eventMedia ?>" alt="<?php echo $eventMediaDescription ?>" width="200px" height="113px" />
+            <?php } else { ?>
+              <img src="<?php echo '../../timeline/img/' . $eventMedia ?>" alt="<?php echo $eventMediaDescription ?>" width="113px" height="200px" />
+            <?php
+            }
+          }
+        ?>
+      </div>
+      <?php
+        }
+      }
+
+    $sql->close();
+  } else {
+    $year = $_GET['year'];
+    $month = $_GET['month'];
+
+    $dateObj = DateTime::createFromFormat('!m', $month);
+    $monthName = $dateObj->format('F');
+    ?>
+    <header>
+      <h1 style="font-weight: bold;">Timeline - <?php echo $monthName . " " . $year ?> album</h1>
+    </header>
+    <main>
+      <table>
+        <tr>
+          <td rowspan="3">Legend</td>
+          <td class="remembered-memory">Remembered memory</td>
+        </tr>
+        <tr>
+          <td class="diary-memory">Diary memory</td>
+        </tr>
+      </table>
+    <?php
+    $sqlThree = $link->prepare("SELECT *, IFNULL(DATE_FORMAT(concat(EventDate, ' ', EventTime) - INTERVAL EventTimeZoneOffset SECOND, '%Y-%m-%d'), EventDate) AS 'LocalDate', IFNULL(TIME_FORMAT(concat(EventDate, ' ', EventTime) - INTERVAL EventTimeZoneOffset SECOND, '%H:%i:%s'), NULL) AS 'LocalTime', DAY(EventDate) AS Day FROM timeline WHERE hide = 0 AND YEAR(EventDate) = ? AND MONTH(EventDate) = ? ORDER BY EventDate ASC");
+    $sqlThree->bind_param("ii", $year, $month);
+
+    $sqlThree->execute();
+
+    $sqlThreeResult = $sqlThree->get_result();
+
+    if($sqlThreeResult->num_rows < 12) {
+      while($row = mysqli_fetch_array($sqlThreeResult)) {
         $eventTimeZone = $row['EventTimeZone'];
         $eventTimeZoneOffset = $row['EventTimeZoneOffset'];
 
@@ -140,109 +243,119 @@ if($_GET['month'] == 0) {
     </div>
     <?php
       }
-    }
+      $sqlThree->close();
+    } else {
+      $sqlFour = $link->prepare("SELECT *, IFNULL(DATE_FORMAT(concat(EventDate, ' ', EventTime) - INTERVAL EventTimeZoneOffset SECOND, '%Y-%m-%d'), EventDate) AS 'LocalDate', IFNULL(TIME_FORMAT(concat(EventDate, ' ', EventTime) - INTERVAL EventTimeZoneOffset SECOND, '%H:%i:%s'), NULL) AS 'LocalTime', DAY(EventDate) AS Day FROM timeline WHERE hide = 0 AND YEAR(EventDate) = ? AND MONTH(EventDate) = ? GROUP BY Day ORDER BY EventDate ASC");
+      $sqlFour->bind_param("ii", $year, $month);
 
-  $sql->close();
+      $dateObj = DateTime::createFromFormat('!m', $month);
+      $monthName = $dateObj->format('F');
+
+      $sqlFour->execute();
+
+      $sqlFourResult = $sqlFour->get_result();
+      ?>
+      <div id="grid-container">
+    <?php
+      while($row = mysqli_fetch_array($sqlFourResult)) {
+        $day = $row['Day'];
+        ?>
+        <div class="card album-cover" id="album-cover-<?php echo $year . '-' . $month . '-' . $day ?>" onclick="filterTimeline('<?php echo $year ?>', '<?php echo $month ?>', '<?php echo $day ?>')">
+          <h2><?php echo $monthName . " " . $day ?></h2>
+          <p>All the events on <?php echo $monthName . " " . $day ?></p>
+        </div>
+      <?php } ?>
+      </div>
+      <?php
+      }
+  }
 } else {
-  $year = $_GET['year'];
+  $sqlFive = $link->prepare("SELECT *, IFNULL(DATE_FORMAT(concat(EventDate, ' ', EventTime) - INTERVAL EventTimeZoneOffset SECOND, '%Y-%m-%d'), EventDate) AS 'LocalDate', IFNULL(TIME_FORMAT(concat(EventDate, ' ', EventTime) - INTERVAL EventTimeZoneOffset SECOND, '%H:%i:%s'), NULL) AS 'LocalTime', DAY(EventDate) AS Day FROM timeline WHERE hide = 0 AND YEAR(EventDate) = ? AND MONTH(EventDate) = ? AND DAY(EventDate) = ? ORDER BY EventDate ASC");
+  $sqlFive->bind_param("iii", $year, $month, $day);
+
   $month = $_GET['month'];
 
   $dateObj = DateTime::createFromFormat('!m', $month);
   $monthName = $dateObj->format('F');
+
+  $day = $_GET['day'];
+
+  $sqlFive->execute();
+
+  $sqlFiveResult = $sqlFive->get_result();
+
   ?>
   <header>
-    <h1 style="font-weight: bold;">Timeline - <?php echo $monthName . " " . $year ?> album</h1>
+    <h1 style="font-weight: bold;">Timeline - <?php echo $monthName . " " . $day . ", " . $year ?></h1>
   </header>
   <main>
+    <table>
+      <tr>
+        <td rowspan="3">Legend</td>
+        <td class="remembered-memory">Remembered memory</td>
+      </tr>
+      <tr>
+        <td class="diary-memory">Diary memory</td>
+      </tr>
+    </table>
   <?php
-  $sqlThree = $link->prepare("SELECT *, IFNULL(DATE_FORMAT(concat(EventDate, ' ', EventTime) - INTERVAL EventTimeZoneOffset SECOND, '%Y-%m-%d'), EventDate) AS 'LocalDate', IFNULL(TIME_FORMAT(concat(EventDate, ' ', EventTime) - INTERVAL EventTimeZoneOffset SECOND, '%H:%i:%s'), NULL) AS 'LocalTime', DAY(EventDate) AS Day FROM timeline WHERE hide = 0 AND YEAR(EventDate) = ? AND MONTH(EventDate) = ? ORDER BY EventDate ASC");
-  $sqlThree->bind_param("ii", $year, $month);
 
-  $sqlThree->execute();
+  while($row = mysqli_fetch_array($sqlFiveResult)) {
+    $eventTimeZone = $row['EventTimeZone'];
+    $eventTimeZoneOffset = $row['EventTimeZoneOffset'];
 
-  $sqlThreeResult = $sqlThree->get_result();
+    $eventDate = $row['EventDate'];
+    $eventTime = $row['EventTime'];
 
-  if($sqlThreeResult->num_rows < 12) {
-    while($row = mysqli_fetch_array($sqlThreeResult)) {
-      $eventTimeZone = $row['EventTimeZone'];
-      $eventTimeZoneOffset = $row['EventTimeZoneOffset'];
+    $localDate = $row['LocalDate'];
+    $localTime = $row['LocalTime'];
 
-      $eventDate = $row['EventDate'];
-      $eventTime = $row['EventTime'];
+    $endEventDate = $row['EndEventDate'];
 
-      $localDate = $row['LocalDate'];
-      $localTime = $row['LocalTime'];
+    $endEventDateFormatted = date("F d, Y", strtotime($endEventDate));
 
-      $endEventDate = $row['EndEventDate'];
+    $eventDateFormatted = date("F d, Y", strtotime($localDate));
+    $eventTimeFormatted = date("h:i A", strtotime($localTime));
 
-      $endEventDateFormatted = date("F d, Y", strtotime($endEventDate));
+    $eventTitle = $row['EventTitle'];
+    $eventDescription = $row['EventDescription'];
+    $memoryType = $row['MemoryType'];
 
-      $eventDateFormatted = date("F d, Y", strtotime($localDate));
-      $eventTimeFormatted = date("h:i A", strtotime($localTime));
+    $eventYouTubeLink = $row['EventYouTubeLink'];
 
-      $eventTitle = $row['EventTitle'];
-      $eventDescription = $row['EventDescription'];
-      $memoryType = $row['MemoryType'];
+    $eventMedia = $row['EventMedia'];
+    $eventMediaPortrait = $row['EventMediaPortrait'];
+    $eventMediaDescription = $row['EventMediaDescription'];
+    ?>
+    <div style="margin-bottom: 10px;" class="<?php if($memoryType == 0) { echo 'remembered-memory'; } else if($memoryType == 1) { echo 'diary-memory'; } ?> ">
+      <h2><time datetime="<?php echo $localDate ?>"><?php if(!is_null($localTime)) { echo $eventDateFormatted . " " . $eventTimeFormatted . " " . $eventTimeZone; } else { echo $eventDateFormatted; } ?></time><?php if(!is_null($endEventDate)) { echo " - <time datetime='" . $endEventDate . "'>" . $endEventDateFormatted . "</time>"; } ?></h2>
+      <h3><?php echo $eventTitle ?></h3>
+      <p><?php echo $eventDescription ?></p>
 
-      $eventYouTubeLink = $row['EventYouTubeLink'];
-
-      $eventMedia = $row['EventMedia'];
-      $eventMediaPortrait = $row['EventMediaPortrait'];
-      $eventMediaDescription = $row['EventMediaDescription'];
+      <?php
+      if(!is_null($eventYouTubeLink)) {
       ?>
-      <div style="margin-bottom: 10px;" class="<?php if($memoryType == 0) { echo 'remembered-memory'; } else if($memoryType == 1) { echo 'diary-memory'; } ?> ">
-        <h2><time datetime="<?php echo $localDate ?>"><?php if(!is_null($localTime)) { echo $eventDateFormatted . " " . $eventTimeFormatted . " " . $eventTimeZone; } else { echo $eventDateFormatted; } ?></time><?php if(!is_null($endEventDate)) { echo " - <time datetime='" . $endEventDate . "'>" . $endEventDateFormatted . "</time>"; } ?></h2>
-        <h3><?php echo $eventTitle ?></h3>
-        <p><?php echo $eventDescription ?></p>
-
-        <?php
-        if(!is_null($eventYouTubeLink)) {
-        ?>
-        <iframe width="560" height="315" src="<?php echo $eventYouTubeLink ?>" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-        <?php
-        }
-
-        if(!is_null($eventMedia)) {
-          if($eventMediaPortrait == 0) {
-        ?>
-          <img src="<?php echo '../../timeline/img/' . $eventMedia ?>" alt="<?php echo $eventMediaDescription ?>" width="200px" height="113px" />
-        <?php } else { ?>
-          <img src="<?php echo '../../timeline/img/' . $eventMedia ?>" alt="<?php echo $eventMediaDescription ?>" width="113px" height="200px" />
-        <?php
-        }
+      <iframe width="560" height="315" src="<?php echo $eventYouTubeLink ?>" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      <?php
       }
-    ?>
-  </div>
-  <?php
-    }
-    $sqlThree->close();
-  } else {
-    $sqlFour = $link->prepare("SELECT *, IFNULL(DATE_FORMAT(concat(EventDate, ' ', EventTime) - INTERVAL EventTimeZoneOffset SECOND, '%Y-%m-%d'), EventDate) AS 'LocalDate', IFNULL(TIME_FORMAT(concat(EventDate, ' ', EventTime) - INTERVAL EventTimeZoneOffset SECOND, '%H:%i:%s'), NULL) AS 'LocalTime', DAY(EventDate) AS Day FROM timeline WHERE hide = 0 AND YEAR(EventDate) = ? AND MONTH(EventDate) = ? GROUP BY Day ORDER BY EventDate ASC");
-    $sqlFour->bind_param("ii", $year, $month);
 
-    $dateObj = DateTime::createFromFormat('!m', $month);
-    $monthName = $dateObj->format('F');
-
-    $sqlFour->execute();
-
-    $sqlFourResult = $sqlFour->get_result();
-    ?>
-    <div id="grid-container">
-  <?php
-    while($row = mysqli_fetch_array($sqlFourResult)) {
-      $day = $row['Day'];
+      if(!is_null($eventMedia)) {
+        if($eventMediaPortrait == 0) {
       ?>
-      <div class="card album-cover" id="album-cover-<?php echo $year . '-' . $month . '-' . $day ?>" onclick="filterTimeline('<?php echo $year ?>', '<?php echo $month ?>', '<?php echo $day ?>')">
-        <h2><?php echo $monthName . " " . $day ?></h2>
-        <p>All the events on <?php echo $monthName . " " . $day ?></p>
-      </div>
-    <?php } ?>
-    </div>
-    <?php
+        <img src="<?php echo '../../timeline/img/' . $eventMedia ?>" alt="<?php echo $eventMediaDescription ?>" width="200px" height="113px" />
+      <?php } else { ?>
+        <img src="<?php echo '../../timeline/img/' . $eventMedia ?>" alt="<?php echo $eventMediaDescription ?>" width="113px" height="200px" />
+      <?php
+      }
     }
-
-  $link->close();
+  ?>
+</div>
+<?php
+  }
+  $sqlFive->close();
 }
+
+$link->close();
  ?>
 
 </main>

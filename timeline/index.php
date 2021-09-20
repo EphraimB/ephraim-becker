@@ -43,6 +43,15 @@
       <h1 style="font-weight: bold;">Timeline</h1>
     </header>
     <main>
+      <table>
+        <tr>
+          <td rowspan="3">Legend</td>
+          <td class="remembered-memory">Remembered memory</td>
+        </tr>
+        <tr>
+          <td class="diary-memory">Diary memory</td>
+        </tr>
+      </table>
       <div id="grid-container">
         <?php
         $sql = "SELECT *, IFNULL(DATE_FORMAT(concat(EventDate, ' ', EventTime) - INTERVAL EventTimeZoneOffset SECOND, '%Y-%m-%d'), EventDate) AS 'LocalDate', IFNULL(TIME_FORMAT(concat(EventDate, ' ', EventTime) - INTERVAL EventTimeZoneOffset SECOND, '%H:%i:%s'), NULL) AS 'LocalTime', DATE_FORMAT(EventDate - INTERVAL EventTimeZoneOffset SECOND, '%Y') AS Year FROM timeline WHERE hide = 0 GROUP BY Year ORDER BY EventDate ASC";
