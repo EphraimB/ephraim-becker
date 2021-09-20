@@ -42,6 +42,7 @@
     </nav>
 
 <?php
+if($_GET['month'] == 0) {
   $sql = $link->prepare("SELECT *, IFNULL(DATE_FORMAT(concat(EventDate, ' ', EventTime) - INTERVAL EventTimeZoneOffset SECOND, '%Y-%m-%d'), EventDate) AS 'LocalDate', IFNULL(TIME_FORMAT(concat(EventDate, ' ', EventTime) - INTERVAL EventTimeZoneOffset SECOND, '%H:%i:%s'), NULL) AS 'LocalTime', MONTH(EventDate) AS Month FROM timeline WHERE hide = 0 AND YEAR(EventDate) = ? ORDER BY EventDate ASC");
   $sql->bind_param("i", $year);
 
@@ -70,9 +71,9 @@
           $month = $row['Month'];
 
           $dateObj = DateTime::createFromFormat('!m', $month);
-          $monthName = $dateObj->format('F'); // March
+          $monthName = $dateObj->format('F');
         ?>
-        <div class="card album-cover" id="album-cover-<?php echo $year ?>-<?php echo $month ?>" onclick="filterTimeline('<?php echo $year ?>')">
+        <div class="card album-cover" id="album-cover-<?php echo $year . '-' . $month ?>" onclick="filterTimeline('<?php echo $year ?>', '<?php echo $month ?>')">
           <h2><?php echo $monthName ?></h2>
           <p>All the events in <?php echo $monthName ?></p>
         </div>
@@ -143,6 +144,81 @@
 
   $sql->close();
   $link->close();
+} else {
+  $year = $_GET['year'];
+  $month = $_GET['month'];
+
+  $dateObj = DateTime::createFromFormat('!m', $month);
+  $monthName = $dateObj->format('F');
+  ?>
+  <header>
+    <h1 style="font-weight: bold;">Timeline - <?php echo $monthName . " " . $year ?> album</h1>
+  </header>
+  <main>
+  <?php
+  $sqlThree = $link->prepare("SELECT *, IFNULL(DATE_FORMAT(concat(EventDate, ' ', EventTime) - INTERVAL EventTimeZoneOffset SECOND, '%Y-%m-%d'), EventDate) AS 'LocalDate', IFNULL(TIME_FORMAT(concat(EventDate, ' ', EventTime) - INTERVAL EventTimeZoneOffset SECOND, '%H:%i:%s'), NULL) AS 'LocalTime', MONTH(EventDate) AS Month FROM timeline WHERE hide = 0 AND YEAR(EventDate) = ? AND MONTH(EventDate) = ? ORDER BY EventDate ASC");
+  $sqlThree->bind_param("ii", $year, $month);
+
+  $sqlThree->execute();
+
+  $sqlThreeResult = $sqlThree->get_result();
+
+  while($row = mysqli_fetch_array($sqlThreeResult)) {
+    $eventTimeZone = $row['EventTimeZone'];
+    $eventTimeZoneOffset = $row['EventTimeZoneOffset'];
+
+    $eventDate = $row['EventDate'];
+    $eventTime = $row['EventTime'];
+
+    $localDate = $row['LocalDate'];
+    $localTime = $row['LocalTime'];
+
+    $endEventDate = $row['EndEventDate'];
+
+    $endEventDateFormatted = date("F d, Y", strtotime($endEventDate));
+
+    $eventDateFormatted = date("F d, Y", strtotime($localDate));
+    $eventTimeFormatted = date("h:i A", strtotime($localTime));
+
+    $eventTitle = $row['EventTitle'];
+    $eventDescription = $row['EventDescription'];
+    $memoryType = $row['MemoryType'];
+
+    $eventYouTubeLink = $row['EventYouTubeLink'];
+
+    $eventMedia = $row['EventMedia'];
+    $eventMediaPortrait = $row['EventMediaPortrait'];
+    $eventMediaDescription = $row['EventMediaDescription'];
+    ?>
+    <div style="margin-bottom: 10px;" class="<?php if($memoryType == 0) { echo 'remembered-memory'; } else if($memoryType == 1) { echo 'diary-memory'; } ?> ">
+      <h2><time datetime="<?php echo $localDate ?>"><?php if(!is_null($localTime)) { echo $eventDateFormatted . " " . $eventTimeFormatted . " " . $eventTimeZone; } else { echo $eventDateFormatted; } ?></time><?php if(!is_null($endEventDate)) { echo " - <time itemprop='endDate' datetime='" . $endEventDate . "'>" . $endEventDateFormatted . "</time>"; } ?></h2>
+      <h3><?php echo $eventTitle ?></h3>
+      <p><?php echo $eventDescription ?></p>
+
+      <?php
+      if(!is_null($eventYouTubeLink)) {
+      ?>
+      <iframe width="560" height="315" src="<?php echo $eventYouTubeLink ?>" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      <?php
+      }
+
+      if(!is_null($eventMedia)) {
+        if($eventMediaPortrait == 0) {
+      ?>
+        <img src="<?php echo '../../timeline/img/' . $eventMedia ?>" alt="<?php echo $eventMediaDescription ?>" width="200px" height="113px" />
+      <?php } else { ?>
+        <img src="<?php echo '../../timeline/img/' . $eventMedia ?>" alt="<?php echo $eventMediaDescription ?>" width="113px" height="200px" />
+      <?php
+      }
+    }
+  ?>
+</div>
+<?php
+  }
+
+  $sqlThree->close();
+  $link->close();
+}
  ?>
 
 </main>
