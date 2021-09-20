@@ -1,3 +1,9 @@
+.album-cover {
+  background-color: lightgrey;
+  color: black;
+  cursor: pointer;
+}
+
 .remembered-memory {
   background-color: blue;
   color: white;
@@ -8,13 +14,37 @@
   color: white;
 }
 
+h2 {
+  font-weight: bold;
+}
+
 a {
   background-color: white;
   color: blue;
 }
 
+.card {
+  margin: 10px;
+  padding: 10px;
+}
+
+.card a {
+  text-decoration: none;
+  color: white;
+}
+
+#grid-container {
+  display: grid;
+  grid-template-columns: 4fr;
+  padding: 10px;
+}
+
 @media screen and (min-width: 1024px) {
   ol {
     text-align: left;
+  }
+
+  #grid-container {
+    grid-template-columns: auto auto auto;
   }
 }
