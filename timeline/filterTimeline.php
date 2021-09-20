@@ -273,6 +273,7 @@ if($_GET['day'] == 0) {
   $sqlFive = $link->prepare("SELECT *, IFNULL(DATE_FORMAT(concat(EventDate, ' ', EventTime) - INTERVAL EventTimeZoneOffset SECOND, '%Y-%m-%d'), EventDate) AS 'LocalDate', IFNULL(TIME_FORMAT(concat(EventDate, ' ', EventTime) - INTERVAL EventTimeZoneOffset SECOND, '%H:%i:%s'), NULL) AS 'LocalTime', DAY(EventDate) AS Day FROM timeline WHERE hide = 0 AND YEAR(EventDate) = ? AND MONTH(EventDate) = ? AND DAY(EventDate) = ? ORDER BY EventDate ASC");
   $sqlFive->bind_param("iii", $year, $month, $day);
 
+  $year = $_GET['year'];
   $month = $_GET['month'];
 
   $dateObj = DateTime::createFromFormat('!m', $month);
