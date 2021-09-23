@@ -25,7 +25,7 @@
         <li id="hamburger-icon"><a href="#" onclick="toggleNavMenu()">&#9776;</a></li>
         <div id="links">
           <li><a href="../">Home</a></li>
-          <li class="focus"><a href="#">Timeline</a></li>
+          <li class="focus"><a href="../timeline/">Timeline</a></li>
           <div id="dropdown">
             <li><a href="#" onclick="toggleNavSubmenu()">Daily Life &emsp; &#x25BC;</a></li>
             <div id="dropdown-content">
@@ -109,5 +109,7 @@
         ?>
       </div>
     </main>
+    <script src="../js/script.js"></script>
+    <script src="js/ajax.js"></script>
   </body>
 </html>

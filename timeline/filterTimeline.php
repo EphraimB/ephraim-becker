@@ -26,7 +26,7 @@
         <li id="hamburger-icon"><a href="#" onclick="toggleNavMenu()">&#9776;</a></li>
         <div id="links">
           <li><a href="../">Home</a></li>
-          <li class="focus"><a href="../timeline">Timeline</a></li>
+          <li class="focus"><a href="../timeline/">Timeline</a></li>
           <div id="dropdown">
             <li><a href="#" onclick="toggleNavSubmenu()">Daily Life &emsp; &#x25BC;</a></li>
             <div id="dropdown-content">
@@ -108,7 +108,7 @@ if($_GET['day'] == 0) {
         <?php
 
         while($row = mysqli_fetch_array($sqlResult)) {
-          $id= $row['TimelineId'];
+          $id = $row['TimelineId'];
 
           $eventTimeZone = $row['EventTimeZone'];
           $eventTimeZoneOffset = $row['EventTimeZoneOffset'];
@@ -194,6 +194,8 @@ if($_GET['day'] == 0) {
 
     if($sqlThreeResult->num_rows < 12) {
       while($row = mysqli_fetch_array($sqlThreeResult)) {
+        $id = $row['TimelineId'];
+
         $eventTimeZone = $row['EventTimeZone'];
         $eventTimeZoneOffset = $row['EventTimeZoneOffset'];
 
@@ -304,6 +306,8 @@ if($_GET['day'] == 0) {
   <?php
 
   while($row = mysqli_fetch_array($sqlFiveResult)) {
+    $id = $row['TimelineId'];
+    
     $eventTimeZone = $row['EventTimeZone'];
     $eventTimeZoneOffset = $row['EventTimeZoneOffset'];
 
