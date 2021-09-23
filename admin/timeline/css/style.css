@@ -13,6 +13,16 @@ a {
   color: blue;
 }
 
+.more-info-link {
+  text-decoration: none;
+  color: inherit;
+  background-color: inherit;
+}
+
+.more-info-link img {
+  background-color: inherit;
+}
+
 .hidden-memory {
   opacity: 0.5;
 }

@@ -135,28 +135,30 @@ if($_GET['day'] == 0) {
           $eventMediaPortrait = $row['EventMediaPortrait'];
           $eventMediaDescription = $row['EventMediaDescription'];
           ?>
-          <div style="margin-bottom: 10px;" class="event <?php if($memoryType == 0) { echo 'remembered-memory'; } else if($memoryType == 1) { echo 'diary-memory'; } ?> " onclick="eventDetails('<?php echo $id ?>')">
-            <h2><time datetime="<?php echo $localDate ?>"><?php if(!is_null($localTime)) { echo $eventDateFormatted . " " . $eventTimeFormatted . " " . $eventTimeZone; } else { echo $eventDateFormatted; } ?></time><?php if(!is_null($endEventDate)) { echo " - <time datetime='" . $endEventDate . "'>" . $endEventDateFormatted . "</time>"; } ?></h2>
-            <h3><?php echo $eventTitle ?></h3>
-            <p><?php echo $eventDescription ?></p>
+          <div style="margin-bottom: 10px;" class="event <?php if($memoryType == 0) { echo 'remembered-memory'; } else if($memoryType == 1) { echo 'diary-memory'; } ?> ">
+            <a class="more-info-link" href="moreInfo/index.php?id=<?php echo $id ?>">
+              <h2><time datetime="<?php echo $localDate ?>"><?php if(!is_null($localTime)) { echo $eventDateFormatted . " " . $eventTimeFormatted . " " . $eventTimeZone; } else { echo $eventDateFormatted; } ?></time><?php if(!is_null($endEventDate)) { echo " - <time datetime='" . $endEventDate . "'>" . $endEventDateFormatted . "</time>"; } ?></h2>
+              <h3><?php echo $eventTitle ?></h3>
+              <p><?php echo $eventDescription ?></p>
 
-            <?php
-            if(!is_null($eventYouTubeLink)) {
-            ?>
-            <iframe width="560" height="315" src="<?php echo $eventYouTubeLink ?>" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-            <?php
-            }
+              <?php
+              if(!is_null($eventYouTubeLink)) {
+              ?>
+              <iframe width="560" height="315" src="<?php echo $eventYouTubeLink ?>" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+              <?php
+              }
 
-            if(!is_null($eventMedia)) {
-              if($eventMediaPortrait == 0) {
-            ?>
-              <img src="<?php echo '../../timeline/img/' . $eventMedia ?>" alt="<?php echo $eventMediaDescription ?>" width="200px" height="113px" />
-            <?php } else { ?>
-              <img src="<?php echo '../../timeline/img/' . $eventMedia ?>" alt="<?php echo $eventMediaDescription ?>" width="113px" height="200px" />
-            <?php
+              if(!is_null($eventMedia)) {
+                if($eventMediaPortrait == 0) {
+              ?>
+                <img src="<?php echo '../../timeline/img/' . $eventMedia ?>" alt="<?php echo $eventMediaDescription ?>" width="200px" height="113px" />
+              <?php } else { ?>
+                <img src="<?php echo '../../timeline/img/' . $eventMedia ?>" alt="<?php echo $eventMediaDescription ?>" width="113px" height="200px" />
+              <?php
+              }
             }
-          }
-        ?>
+          ?>
+        </a>
         <ul class="row actionButtons">
           <li><a class="edit" href="editEvent/index.php?id=<?php echo $id ?>">Edit</a></li>
           <?php if($hide == 0) {
@@ -237,28 +239,30 @@ if($_GET['day'] == 0) {
         $eventMediaPortrait = $row['EventMediaPortrait'];
         $eventMediaDescription = $row['EventMediaDescription'];
         ?>
-        <div style="margin-bottom: 10px;" class="event <?php if($memoryType == 0) { echo 'remembered-memory'; } else if($memoryType == 1) { echo 'diary-memory'; } ?> " onclick="eventDetails('<?php echo $id ?>')">
-          <h2><time datetime="<?php echo $localDate ?>"><?php if(!is_null($localTime)) { echo $eventDateFormatted . " " . $eventTimeFormatted . " " . $eventTimeZone; } else { echo $eventDateFormatted; } ?></time><?php if(!is_null($endEventDate)) { echo " - <time datetime='" . $endEventDate . "'>" . $endEventDateFormatted . "</time>"; } ?></h2>
-          <h3><?php echo $eventTitle ?></h3>
-          <p><?php echo $eventDescription ?></p>
+        <div style="margin-bottom: 10px;" class="event <?php if($memoryType == 0) { echo 'remembered-memory'; } else if($memoryType == 1) { echo 'diary-memory'; } ?> ">
+          <a class="more-info-link" href="moreInfo/index.php?id=<?php echo $id ?>">
+            <h2><time datetime="<?php echo $localDate ?>"><?php if(!is_null($localTime)) { echo $eventDateFormatted . " " . $eventTimeFormatted . " " . $eventTimeZone; } else { echo $eventDateFormatted; } ?></time><?php if(!is_null($endEventDate)) { echo " - <time datetime='" . $endEventDate . "'>" . $endEventDateFormatted . "</time>"; } ?></h2>
+            <h3><?php echo $eventTitle ?></h3>
+            <p><?php echo $eventDescription ?></p>
 
-          <?php
-          if(!is_null($eventYouTubeLink)) {
-          ?>
-          <iframe width="560" height="315" src="<?php echo $eventYouTubeLink ?>" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-          <?php
-          }
+            <?php
+            if(!is_null($eventYouTubeLink)) {
+            ?>
+            <iframe width="560" height="315" src="<?php echo $eventYouTubeLink ?>" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            <?php
+            }
 
-          if(!is_null($eventMedia)) {
-            if($eventMediaPortrait == 0) {
-          ?>
-            <img src="<?php echo '../../timeline/img/' . $eventMedia ?>" alt="<?php echo $eventMediaDescription ?>" width="200px" height="113px" />
-          <?php } else { ?>
-            <img src="<?php echo '../../timeline/img/' . $eventMedia ?>" alt="<?php echo $eventMediaDescription ?>" width="113px" height="200px" />
-          <?php
+            if(!is_null($eventMedia)) {
+              if($eventMediaPortrait == 0) {
+            ?>
+              <img src="<?php echo '../../timeline/img/' . $eventMedia ?>" alt="<?php echo $eventMediaDescription ?>" width="200px" height="113px" />
+            <?php } else { ?>
+              <img src="<?php echo '../../timeline/img/' . $eventMedia ?>" alt="<?php echo $eventMediaDescription ?>" width="113px" height="200px" />
+            <?php
+            }
           }
-        }
-      ?>
+        ?>
+      </a>
       <ul class="row actionButtons">
         <li><a class="edit" href="editEvent/index.php?id=<?php echo $id ?>">Edit</a></li>
         <?php if($hide == 0) {
@@ -365,28 +369,30 @@ if($_GET['day'] == 0) {
     $eventMediaPortrait = $row['EventMediaPortrait'];
     $eventMediaDescription = $row['EventMediaDescription'];
     ?>
-    <div style="margin-bottom: 10px;" class="event <?php if($memoryType == 0) { echo 'remembered-memory'; } else if($memoryType == 1) { echo 'diary-memory'; } ?> " onclick="eventDetails('<?php echo $id ?>')">
-      <h2><time datetime="<?php echo $localDate ?>"><?php if(!is_null($localTime)) { echo $eventDateFormatted . " " . $eventTimeFormatted . " " . $eventTimeZone; } else { echo $eventDateFormatted; } ?></time><?php if(!is_null($endEventDate)) { echo " - <time datetime='" . $endEventDate . "'>" . $endEventDateFormatted . "</time>"; } ?></h2>
-      <h3><?php echo $eventTitle ?></h3>
-      <p><?php echo $eventDescription ?></p>
+    <div style="margin-bottom: 10px;" class="event <?php if($memoryType == 0) { echo 'remembered-memory'; } else if($memoryType == 1) { echo 'diary-memory'; } ?> ">
+      <a class="more-info-link" href="moreInfo/index.php?id=<?php echo $id ?>">
+        <h2><time datetime="<?php echo $localDate ?>"><?php if(!is_null($localTime)) { echo $eventDateFormatted . " " . $eventTimeFormatted . " " . $eventTimeZone; } else { echo $eventDateFormatted; } ?></time><?php if(!is_null($endEventDate)) { echo " - <time datetime='" . $endEventDate . "'>" . $endEventDateFormatted . "</time>"; } ?></h2>
+        <h3><?php echo $eventTitle ?></h3>
+        <p><?php echo $eventDescription ?></p>
 
-      <?php
-      if(!is_null($eventYouTubeLink)) {
-      ?>
-      <iframe width="560" height="315" src="<?php echo $eventYouTubeLink ?>" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-      <?php
-      }
+        <?php
+        if(!is_null($eventYouTubeLink)) {
+        ?>
+        <iframe width="560" height="315" src="<?php echo $eventYouTubeLink ?>" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <?php
+        }
 
-      if(!is_null($eventMedia)) {
-        if($eventMediaPortrait == 0) {
-      ?>
-        <img src="<?php echo '../../timeline/img/' . $eventMedia ?>" alt="<?php echo $eventMediaDescription ?>" width="200px" height="113px" />
-      <?php } else { ?>
-        <img src="<?php echo '../../timeline/img/' . $eventMedia ?>" alt="<?php echo $eventMediaDescription ?>" width="113px" height="200px" />
-      <?php
+        if(!is_null($eventMedia)) {
+          if($eventMediaPortrait == 0) {
+        ?>
+          <img src="<?php echo '../../timeline/img/' . $eventMedia ?>" alt="<?php echo $eventMediaDescription ?>" width="200px" height="113px" />
+        <?php } else { ?>
+          <img src="<?php echo '../../timeline/img/' . $eventMedia ?>" alt="<?php echo $eventMediaDescription ?>" width="113px" height="200px" />
+        <?php
+        }
       }
-    }
-  ?>
+    ?>
+  </a>
   <ul class="row actionButtons">
     <li><a class="edit" href="editEvent/index.php?id=<?php echo $id ?>">Edit</a></li>
     <?php if($hide == 0) {
