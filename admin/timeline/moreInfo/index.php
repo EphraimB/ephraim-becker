@@ -99,13 +99,13 @@
         <ul class="row actionButtons">
           <li><a class="edit" href="../editEvent/index.php?id=<?php echo $id ?>">Edit</a></li>
           <?php if($hide == 0) {
-            echo "<li><a class='hide' href='../hideEvent.php?id=$id'>Hide</a></li>";
+            echo "<li><a class='hide' href='hideEvent.php?id=$id'>Hide</a></li>";
           }
           else if($hide == 1) {
-            echo "<li><a class='hide' href='../unhideEvent.php?id=$id'>Unhide</a></li>";
+            echo "<li><a class='hide' href='unhideEvent.php?id=$id'>Unhide</a></li>";
           }
           ?>
-          <li><a class="delete" href="../confirmation.php?id=<?php echo $id ?>">Delete</a></li>
+          <li><a class="delete" href="confirmation.php?id=<?php echo $id ?>">Delete</a></li>
         </ul>
       </div>
     </main>
