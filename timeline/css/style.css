@@ -8,6 +8,16 @@
   cursor: pointer;
 }
 
+.more-info-link {
+  text-decoration: none;
+  color: inherit;
+  background-color: inherit;
+}
+
+.more-info-link img {
+  background-color: inherit;
+}
+
 .remembered-memory {
   background-color: lightgrey;
   color: black;
