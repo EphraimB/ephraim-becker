@@ -87,7 +87,7 @@ if($_GET['day'] == 0) {
     } else {
     ?>
         <header>
-          <h1 style="font-weight: bold;">Timeline - <?php echo $year ?> album</h1>
+          <h1 style="font-weight: bold;">Admin - Timeline - <?php echo $year ?> album</h1>
         </header>
         <main>
           <table>
@@ -182,7 +182,7 @@ if($_GET['day'] == 0) {
     $monthName = $dateObj->format('F');
     ?>
     <header>
-      <h1 style="font-weight: bold;">Timeline - <?php echo $monthName . " " . $year ?> album</h1>
+      <h1 style="font-weight: bold;">Admin - Timeline - <?php echo $monthName . " " . $year ?> album</h1>
     </header>
     <main>
       <table>
@@ -317,7 +317,7 @@ if($_GET['day'] == 0) {
 
   ?>
   <header>
-    <h1 style="font-weight: bold;">Timeline - <?php echo $monthName . " " . $day . ", " . $year ?></h1>
+    <h1 style="font-weight: bold;">Admin - Timeline - <?php echo $monthName . " " . $day . ", " . $year ?></h1>
   </header>
   <main>
     <table>

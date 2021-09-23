@@ -30,7 +30,7 @@
       </ul>
     </nav>
     <header>
-      <h1 style="font-weight: bold;">Admin - Timeline</h1>
+      <h1 style="font-weight: bold;">Admin - Timeline - Details</h1>
     </header>
     <main>
       <?php
