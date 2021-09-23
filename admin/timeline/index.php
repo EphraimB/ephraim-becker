@@ -104,8 +104,6 @@
         }
         }
         ?>
-
-        <!-- <div class="row"> -->
           <ul class="row actionButtons">
             <li><a class="edit" href="editEvent/index.php?id=<?php echo $timelineId ?>">Edit</a></li>
             <?php if($hide == 0) {
@@ -117,7 +115,6 @@
             ?>
             <li><a class="delete" href="confirmation.php?id=<?php echo $timelineId ?>">Delete</a></li>
           </ul>
-        <!-- </div> -->
       </div>
 
     <?php } ?>

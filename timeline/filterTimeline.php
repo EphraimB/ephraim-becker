@@ -108,6 +108,8 @@ if($_GET['day'] == 0) {
         <?php
 
         while($row = mysqli_fetch_array($sqlResult)) {
+          $id= $row['TimelineId'];
+
           $eventTimeZone = $row['EventTimeZone'];
           $eventTimeZoneOffset = $row['EventTimeZoneOffset'];
 
@@ -134,7 +136,7 @@ if($_GET['day'] == 0) {
           $eventMediaPortrait = $row['EventMediaPortrait'];
           $eventMediaDescription = $row['EventMediaDescription'];
           ?>
-          <div style="margin-bottom: 10px;" class="<?php if($memoryType == 0) { echo 'remembered-memory'; } else if($memoryType == 1) { echo 'diary-memory'; } ?> ">
+          <div style="margin-bottom: 10px;" class="event <?php if($memoryType == 0) { echo 'remembered-memory'; } else if($memoryType == 1) { echo 'diary-memory'; } ?> " onclick="eventDetails('<?php echo $id ?>')">
             <h2><time datetime="<?php echo $localDate ?>"><?php if(!is_null($localTime)) { echo $eventDateFormatted . " " . $eventTimeFormatted . " " . $eventTimeZone; } else { echo $eventDateFormatted; } ?></time><?php if(!is_null($endEventDate)) { echo " - <time datetime='" . $endEventDate . "'>" . $endEventDateFormatted . "</time>"; } ?></h2>
             <h3><?php echo $eventTitle ?></h3>
             <p><?php echo $eventDescription ?></p>
@@ -218,7 +220,7 @@ if($_GET['day'] == 0) {
         $eventMediaPortrait = $row['EventMediaPortrait'];
         $eventMediaDescription = $row['EventMediaDescription'];
         ?>
-        <div style="margin-bottom: 10px;" class="<?php if($memoryType == 0) { echo 'remembered-memory'; } else if($memoryType == 1) { echo 'diary-memory'; } ?> ">
+        <div style="margin-bottom: 10px;" class="event <?php if($memoryType == 0) { echo 'remembered-memory'; } else if($memoryType == 1) { echo 'diary-memory'; } ?> " onclick="eventDetails('<?php echo $id ?>')">
           <h2><time datetime="<?php echo $localDate ?>"><?php if(!is_null($localTime)) { echo $eventDateFormatted . " " . $eventTimeFormatted . " " . $eventTimeZone; } else { echo $eventDateFormatted; } ?></time><?php if(!is_null($endEventDate)) { echo " - <time datetime='" . $endEventDate . "'>" . $endEventDateFormatted . "</time>"; } ?></h2>
           <h3><?php echo $eventTitle ?></h3>
           <p><?php echo $eventDescription ?></p>
@@ -328,7 +330,7 @@ if($_GET['day'] == 0) {
     $eventMediaPortrait = $row['EventMediaPortrait'];
     $eventMediaDescription = $row['EventMediaDescription'];
     ?>
-    <div style="margin-bottom: 10px;" class="<?php if($memoryType == 0) { echo 'remembered-memory'; } else if($memoryType == 1) { echo 'diary-memory'; } ?> ">
+    <div style="margin-bottom: 10px;" class="event <?php if($memoryType == 0) { echo 'remembered-memory'; } else if($memoryType == 1) { echo 'diary-memory'; } ?> " onclick="eventDetails('<?php echo $id ?>')">
       <h2><time datetime="<?php echo $localDate ?>"><?php if(!is_null($localTime)) { echo $eventDateFormatted . " " . $eventTimeFormatted . " " . $eventTimeZone; } else { echo $eventDateFormatted; } ?></time><?php if(!is_null($endEventDate)) { echo " - <time datetime='" . $endEventDate . "'>" . $endEventDateFormatted . "</time>"; } ?></h2>
       <h3><?php echo $eventTitle ?></h3>
       <p><?php echo $eventDescription ?></p>

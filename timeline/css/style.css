@@ -4,6 +4,10 @@
   cursor: pointer;
 }
 
+.event {
+  cursor: pointer;
+}
+
 .remembered-memory {
   background-color: blue;
   color: white;
