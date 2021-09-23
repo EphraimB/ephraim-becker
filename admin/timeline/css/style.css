@@ -91,6 +91,33 @@ a {
   background-color: lightgreen;
 }
 
+.card {
+  margin: 10px;
+  padding: 10px;
+}
+
+.card a {
+  text-decoration: none;
+  color: white;
+}
+
+.album-cover {
+  background-color: lightgrey;
+  color: black;
+  cursor: pointer;
+}
+
+.event {
+  cursor: pointer;
+}
+
+#grid-container {
+  display: grid;
+  grid-template-columns: 4fr;
+  padding: 10px;
+}
+
+
 @media screen and (min-width: 1024px) {
   ol {
     text-align: left;
@@ -98,5 +125,9 @@ a {
 
   .subNav a {
     padding: 25px;
+  }
+
+  #grid-container {
+    grid-template-columns: auto auto auto;
   }
 }
