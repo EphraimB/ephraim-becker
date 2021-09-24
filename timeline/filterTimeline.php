@@ -153,7 +153,7 @@ if($_GET['day'] == 0) {
     $sqlResult = $sql->get_result();
 
     if($sqlResult->num_rows > 12) {
-      $sqlTwo = $link->prepare("SELECT *, IFNULL(DATE_FORMAT(concat(EventDate, ' ', EventTime) - INTERVAL EventTimeZoneOffset SECOND, '%Y-%m-%d'), EventDate) AS 'LocalDate', IFNULL(TIME_FORMAT(concat(EventDate, ' ', EventTime) - INTERVAL EventTimeZoneOffset SECOND, '%H:%i:%s'), NULL) AS 'LocalTime', MONTH(EventDate) AS Month FROM timeline WHERE YEAR(EventDate) = ? GROUP BY Month ORDER BY EventDate ASC");
+      $sqlTwo = $link->prepare("SELECT *, IFNULL(DATE_FORMAT(concat(EventDate, ' ', EventTime) - INTERVAL EventTimeZoneOffset SECOND, '%Y-%m-%d'), EventDate) AS 'LocalDate', IFNULL(TIME_FORMAT(concat(EventDate, ' ', EventTime) - INTERVAL EventTimeZoneOffset SECOND, '%H:%i:%s'), NULL) AS 'LocalTime', MONTH(EventDate) AS Month FROM timeline WHERE hide = 0 AND YEAR(EventDate) = ? GROUP BY Month ORDER BY EventDate ASC");
       $sqlTwo->bind_param("i", $year);
       $yearTwo = $_GET['year'];
 
@@ -213,7 +213,7 @@ if($_GET['day'] == 0) {
   $sqlFiveResult = $sqlFive->get_result();
 
   displayAllEvents($sqlFiveResult);
-  
+
   $sqlFive->close();
 }
 
