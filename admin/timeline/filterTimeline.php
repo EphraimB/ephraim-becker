@@ -5,6 +5,9 @@
 
 
   function displayAllEvents($sqlResult) {
+    $year = $_GET['year'];
+    $month = $_GET['month'];
+    $day = $_GET['day'];
     while($row = mysqli_fetch_array($sqlResult)) {
       $id = $row['TimelineId'];
 
@@ -61,12 +64,12 @@
       ?>
     </a>
     <ul class="row actionButtons">
-      <li><a class="edit" href="editEvent/index.php?id=<?php echo $id ?>">Edit</a></li>
+      <li><a class="edit" href="editEvent/index.php?id=<?php echo $id ?>&year=<?php echo $year ?>&month=<?php echo $month ?>&day=<?php echo $day ?>">Edit</a></li>
       <?php if($hide == 0) {
-        echo "<li><a class='hide' href='hideEvent.php?id=$id'>Hide</a></li>";
+        echo "<li><a class='hide' href='hideEvent.php?id=$id&year=$year&month=$month&day=$day'>Hide</a></li>";
       }
       else if($hide == 1) {
-        echo "<li><a class='hide' href='unhideEvent.php?id=$id'>Unhide</a></li>";
+        echo "<li><a class='hide' href='unhideEvent.php?id=$id&year=$year&month=$month&day=$day'>Unhide</a></li>";
       }
       ?>
       <li><a class="delete" href="confirmation.php?id=<?php echo $id ?>">Delete</a></li>

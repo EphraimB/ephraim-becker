@@ -14,5 +14,9 @@
   $sql->close();
   $link->close();
 
-  header("location: index.php");
+  $year = $_GET['year'];
+  $month = $_GET['month'];
+  $day = $_GET['day'];
+
+  header("location: index.php#" . $year . "-" . $month . "-" . $day);
 ?>

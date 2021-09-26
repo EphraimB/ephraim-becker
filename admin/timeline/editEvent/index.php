@@ -2,6 +2,10 @@
   require_once($_SERVER['DOCUMENT_ROOT'] . '/environment.php');
 
   global $link;
+
+  $year = $_GET['year'];
+  $month = $_GET['month'];
+  $day = $_GET['day'];
 ?>
 
 <!DOCTYPE html>
@@ -142,7 +146,10 @@
             </div>
           </div>
         </div>
-        <input type="hidden" name="id" value="<?php echo $timelineId ?>">
+        <input type="hidden" name="id" value="<?php echo $timelineId ?>" />
+        <input type="hidden" name="year" value="<?php echo $year ?>" />
+        <input type="hidden" name="month" value="<?php echo $month ?>" />
+        <input type="hidden" name="day" value="<?php echo $day ?>" />
         <br />
         <input type="submit" id="submit" value="Submit to timeline" />
         <br />
