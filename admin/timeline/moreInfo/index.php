@@ -109,8 +109,9 @@
       </div>
       <br />
       <form action="addThought.php?id=<?php echo $id ?>" method="post">
-        <textarea rows="6" cols="45" required></textarea>
+        <textarea name="thought" rows="6" cols="45" required></textarea>
         <input class="thought" type="submit" value="Add thought" />
+        <input type="hidden" name="id" value="<?php echo $id ?>" />
       </form>
     </main>
     <script src="../../../js/script.js"></script>
