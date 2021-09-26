@@ -42,6 +42,19 @@
     $eventMediaPortrait = $row['EventMediaPortrait'];
     $eventMediaDescription = $row['EventMediaDescription'];
   }
+
+  $sqlTwo = $link->prepare("SELECT * FROM thoughts WHERE TimelineId=?");
+  $sqlTwo->bind_param("i", $id);
+
+  $sqlTwo->execute();
+
+  $sqlTwoResult = $sqlTwo->get_result();
+
+  while($rowTwo = mysqli_fetch_array($sqlTwoResult)) {
+    $date = $rowTwo['DateCreated'];
+    $dateModified = $rowTwo['DateModified'];
+    $thought = $rowTwo['Thought'];
+  }
 ?>
 
 <!DOCTYPE html>
@@ -108,12 +121,20 @@
         </ul>
       </div>
       <br />
+      <div class="thought">
+        <h2><time class="date" datetime="<?php echo $date ?>"><?php echo $date ?></time></h2>
+        <p><?php echo $thought ?></p>
+      </div>
+      <br />
+      <br />
       <form action="addThought.php?id=<?php echo $id ?>" method="post">
         <textarea name="thought" rows="6" cols="45" required></textarea>
-        <input class="thought" type="submit" value="Add thought" />
         <input type="hidden" name="id" value="<?php echo $id ?>" />
+
+        <input class="thoughtButton" type="submit" value="Add thought" />
       </form>
     </main>
     <script src="../../../js/script.js"></script>
+    <script src="js/script.js"></script>
   </body>
 </html>
