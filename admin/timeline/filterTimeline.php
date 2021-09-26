@@ -64,6 +64,7 @@
       ?>
     </a>
     <ul class="row actionButtons">
+      <li><a class="thought" href="addThought/index.php?id=<?php echo $id ?>">Add thought</a></li>
       <li><a class="edit" href="editEvent/index.php?id=<?php echo $id ?>&year=<?php echo $year ?>&month=<?php echo $month ?>&day=<?php echo $day ?>">Edit</a></li>
       <?php if($hide == 0) {
         echo "<li><a class='hide' href='hideEvent.php?id=$id&year=$year&month=$month&day=$day'>Hide</a></li>";
