@@ -50,7 +50,6 @@
     <meta charset="utf-8">
     <title>Ephraim Becker - Admin - Timeline - More info</title>
     <link rel="stylesheet" href="../../../css/style.css" />
-    <link rel="stylesheet" href="../../css/style.css" />
     <link rel="stylesheet" href="../css/style.css" />
     <link rel="canonical" href="https://www.ephraimbecker.com/timeline/moreInfo/" />
     <link rel="icon" href="../../../img/ephraim_becker.ico" type="image/x-icon" />
@@ -97,7 +96,6 @@
         }
         ?>
         <ul class="row actionButtons">
-          <li><a class="thought" href="addThought/index.php?id=<?php echo $id ?>">Add thought</a></li>
           <li><a class="edit" href="../editEvent/index.php?id=<?php echo $id ?>">Edit</a></li>
           <?php if($hide == 0) {
             echo "<li><a class='hide' href='hideEvent.php?id=$id'>Hide</a></li>";
@@ -109,6 +107,11 @@
           <li><a class="delete" href="confirmation.php?id=<?php echo $id ?>">Delete</a></li>
         </ul>
       </div>
+      <br />
+      <form action="addThought.php?id=<?php echo $id ?>" method="post">
+        <textarea rows="6" cols="45" required></textarea>
+        <input class="thought" type="submit" value="Add thought" />
+      </form>
     </main>
     <script src="../../../js/script.js"></script>
   </body>

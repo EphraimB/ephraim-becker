@@ -104,6 +104,10 @@ a {
 .thought {
   background-color: rgb(255, 215, 0);
   color: black;
+  border: 0;
+  width: 100%;
+  padding: 16px 32px;
+  cursor: pointer;
 }
 
 .thought:hover {
