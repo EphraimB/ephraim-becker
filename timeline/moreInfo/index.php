@@ -70,6 +70,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="Hi! My name is Ephraim Becker and here's a timeline about my life and how people can learn from it." />
     <meta name="keywords" content="Ephraim Becker, autism, aspergers, ADHD" />
+    <script src="js/script.js"></script>
   </head>
   <body>
     <nav>
@@ -120,8 +121,15 @@
         ?>
       </div>
       <br />
+      <?php
+        if(isset($_GET['offset'])) {
+          $offset = $_GET['offset'];
+        } else {
+          $offset = NULL;
+        }
+       ?>
       <div class="thought">
-        <h2 class="date"><time datetime="<?php echo date('Y-m-d H:i:s', strtotime($date) - intval($_GET['offset'])); ?>"><?php echo date('m/d/Y h:i A', strtotime($date) - intval($_GET['offset'])); ?></time></h2>
+        <h2 class="date"><time datetime="<?php echo date('Y-m-d H:i:s', strtotime($date) - intval($offset)); ?>"><?php echo date('m/d/Y h:i A', strtotime($date) - intval($offset)); ?></time></h2>
         <p><?php echo $thought ?></p>
       </div>
     </main>
@@ -129,6 +137,5 @@
       <p>&copy; 2021 Ephraim Becker</p>
     </footer>
     <script src="../../js/script.js"></script>
-    <script src="js/script.js"></script>
   </body>
 </html>
