@@ -96,6 +96,8 @@
       <h1 style="font-weight: bold;">Timeline - <?php echo $eventTitle ?></h1>
     </header>
     <main>
+      <input type="hidden" id="timeOffset" />
+      <script src="js/script.js"></script>
       <div class="<?php if($hide == 1) { echo 'hidden-memory '; } if($memoryType == 0) { echo 'remembered-memory'; } else if($memoryType == 1) { echo 'diary-memory'; } ?> ">
         <h2><time itemprop="startDate" datetime="<?php echo $localDate ?>"><?php if(!is_null($localTime)) { echo $eventDateFormatted . " " . $eventTimeFormatted . " " . $eventTimeZone; } else { echo $eventDateFormatted; } ?></time><?php if(!is_null($endEventDate)) { echo " - <time itemprop='endDate' datetime='" . $endEventDate . "'>" . $endEventDateFormatted . "</time>"; } ?></h2>
         <h3 itemprop="name"><?php echo $eventTitle ?></h3>
@@ -119,12 +121,15 @@
         }
         ?>
       </div>
+      <br />
       <div class="thought">
-        <h2 class="date"><time datetime="<?php echo new Date($date -  ?>"><?php echo $date ?></time></h2>
+        <h2 class="date"><time datetime="<?php echo date('Y-m-d H:i:s', strtotime($date) - '<script>parseInt(offsetDiv.value)</script>'); ?>"><?php echo date('m/d/Y H:i:s', strtotime($date) - '<script>parseInt(offsetDiv.value)</script>'); ?></time></h2>
         <p><?php echo $thought ?></p>
       </div>
     </main>
+    <footer>
+      <p>&copy; 2021 Ephraim Becker</p>
+    </footer>
     <script src="../../js/script.js"></script>
-    <script src="js/script.js"></script>
   </body>
 </html>
