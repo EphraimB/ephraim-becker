@@ -120,7 +120,7 @@
         ?>
       </div>
       <div class="thought">
-        <h2><time class="date" datetime="<?php echo $date ?>"><?php echo $date ?></time></h2>
+        <h2 class="date"><time datetime="<?php echo new Date($date -  ?>"><?php echo $date ?></time></h2>
         <p><?php echo $thought ?></p>
       </div>
     </main>
