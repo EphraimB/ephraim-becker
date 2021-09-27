@@ -42,6 +42,19 @@
     $eventMediaPortrait = $row['EventMediaPortrait'];
     $eventMediaDescription = $row['EventMediaDescription'];
   }
+
+  $sqlTwo = $link->prepare("SELECT * FROM thoughts WHERE TimelineId=?");
+  $sqlTwo->bind_param("i", $id);
+
+  $sqlTwo->execute();
+
+  $sqlTwoResult = $sqlTwo->get_result();
+
+  while($rowTwo = mysqli_fetch_array($sqlTwoResult)) {
+    $date = $rowTwo['DateCreated'];
+    $dateModified = $rowTwo['DateModified'];
+    $thought = $rowTwo['Thought'];
+  }
 ?>
 
 <!DOCTYPE html>
@@ -106,7 +119,12 @@
         }
         ?>
       </div>
+      <div class="thought">
+        <h2><time class="date" datetime="<?php echo $date ?>"><?php echo $date ?></time></h2>
+        <p><?php echo $thought ?></p>
+      </div>
     </main>
     <script src="../../js/script.js"></script>
+    <script src="js/script.js"></script>
   </body>
 </html>
