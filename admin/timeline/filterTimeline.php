@@ -4,7 +4,7 @@
   global $link;
 
 
-  function displayAllEvents($sqlResult) {
+  function displayAllEvents($sqlResult, $link) {
     $year = $_GET['year'];
     $month = $_GET['month'];
     $day = $_GET['day'];
@@ -38,10 +38,32 @@
       $eventMedia = $row['EventMedia'];
       $eventMediaPortrait = $row['EventMediaPortrait'];
       $eventMediaDescription = $row['EventMediaDescription'];
+
+      $sqlThoughts = $link->prepare("SELECT COUNT(*) AS NumberOfThoughts FROM thoughts WHERE TimelineId=?");
+      $sqlThoughts->bind_param("i", $id);
+
+      $sqlThoughts->execute();
+
+      $sqlThoughtsResult = $sqlThoughts->get_result();
+
+      while($rowTwo = mysqli_fetch_array($sqlThoughtsResult)) {
+        $numberOfThoughts = $rowTwo['NumberOfThoughts'];
+      }
       ?>
       <div style="margin-bottom: 10px;" class="event <?php if($memoryType == 0) { echo 'remembered-memory'; } else if($memoryType == 1) { echo 'diary-memory'; } ?> ">
         <a class="more-info-link" href="moreInfo/index.php?id=<?php echo $id ?>">
-          <h2><time datetime="<?php echo $localDate ?>"><?php if(!is_null($localTime)) { echo $eventDateFormatted . " " . $eventTimeFormatted . " " . $eventTimeZone; } else { echo $eventDateFormatted; } ?></time><?php if(!is_null($endEventDate)) { echo " - <time datetime='" . $endEventDate . "'>" . $endEventDateFormatted . "</time>"; } ?></h2>
+          <div class="row">
+            <h2><time datetime="<?php echo $localDate ?>"><?php if(!is_null($localTime)) { echo $eventDateFormatted . " " . $eventTimeFormatted . " " . $eventTimeZone; } else { echo $eventDateFormatted; } ?></time><?php if(!is_null($endEventDate)) { echo " - <time datetime='" . $endEventDate . "'>" . $endEventDateFormatted . "</time>"; } ?></h2>
+            <?php
+            if($numberOfThoughts > 0) {
+            ?>
+            <div class="number-of-thoughts">
+              <span><?php echo $numberOfThoughts ?></span>
+            </div>
+            <?php
+            }
+             ?>
+          </div>
           <h3><?php echo $eventTitle ?></h3>
           <p><?php echo $eventDescription ?></p>
 
@@ -141,7 +163,7 @@
         <li id="hamburger-icon"><a href="#" onclick="toggleNavMenu()">&#9776;</a></li>
         <div id="links">
           <li><a href="../">Admin</a></li>
-          <li class="focus"><a href="#">Timeline</a></li>
+          <li class="focus"><a href="../timeline/">Timeline</a></li>
         </div>
       </ul>
     </nav>
@@ -169,7 +191,7 @@ if($_GET['day'] == 0) {
 
       displaySorter($sqlTwoResult);
     } else {
-        displayAllEvents($sqlResult);
+        displayAllEvents($sqlResult, $link);
     }
 
     $sql->close();
@@ -188,7 +210,7 @@ if($_GET['day'] == 0) {
     $sqlThreeResult = $sqlThree->get_result();
 
     if($sqlThreeResult->num_rows < 12) {
-      displayAllEvents($sqlThreeResult);
+      displayAllEvents($sqlThreeResult, $link);
 
       $sqlThree->close();
     } else {
@@ -218,7 +240,7 @@ if($_GET['day'] == 0) {
 
   $sqlFiveResult = $sqlFive->get_result();
 
-  displayAllEvents($sqlFiveResult);
+  displayAllEvents($sqlFiveResult, $link);
 
   $sqlFive->close();
 }
