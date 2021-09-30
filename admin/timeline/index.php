@@ -30,6 +30,11 @@
       <h1 style="font-weight: bold;">Admin - Timeline</h1>
     </header>
     <main>
+      <div class="row">
+        <ul class="subNav">
+          <li><a style="text-decoration: none;" href="addEvent/">+</a></li>
+        </ul>
+      </div>
       <div id="grid-container">
         <?php
         $sql = "SELECT *, IFNULL(DATE_FORMAT(concat(EventDate, ' ', EventTime) - INTERVAL EventTimeZoneOffset SECOND, '%Y-%m-%d'), EventDate) AS 'LocalDate', IFNULL(TIME_FORMAT(concat(EventDate, ' ', EventTime) - INTERVAL EventTimeZoneOffset SECOND, '%H:%i:%s'), NULL) AS 'LocalTime', DATE_FORMAT(EventDate - INTERVAL EventTimeZoneOffset SECOND, '%Y') AS Year FROM timeline GROUP BY Year ORDER BY EventDate ASC";
