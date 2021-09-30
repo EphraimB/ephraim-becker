@@ -3,6 +3,10 @@
 
   global $link;
 
+  $year = $_POST['year'];
+  $month = $_POST['month'];
+  $day = $_POST['day'];
+
   $sql = $link->prepare("UPDATE timeline SET MemoryType=?, DateModified=?, EventDate=?, EventTime=?, EndEventDate=?, EventTimeZone=?, EventTimeZoneOffset=?, EventTitle=?, EventDescription=?, EventMedia=?, EventMediaPortrait=?, EventMediaDescription=?, EventYouTubeLink=?, hide=? WHERE TimelineId=?");
   $sql->bind_param('isssssisssissii', $memory, $dateModified, $eventDate, $eventTime, $endEventDate, $eventTimeZone, $eventTimeZoneOffset, $eventTitle, $eventDescription, $eventImage, $eventMediaPortrait, $eventImageDescription, $eventYouTubeLink, $hidden, $id);
 
@@ -156,5 +160,5 @@ $sql->execute();
 $sql->close();
 $link->close();
 
-header("location: ../");
+header("location: ../index.php#$year-$month-$day");
 ?>

@@ -3,8 +3,8 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Sep 15, 2021 at 06:11 AM
--- Server version: 5.7.33-cll-lve
+-- Generation Time: Sep 23, 2021 at 12:27 PM
+-- Server version: 5.7.35-cll-lve
 -- PHP Version: 7.3.6
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -52,7 +52,7 @@ CREATE TABLE `timeline` (
 --
 
 INSERT INTO `timeline` (`TimelineId`, `MemoryType`, `DateCreated`, `DateModified`, `EventDate`, `EventTime`, `EndEventDate`, `EventTimeZone`, `EventTimeZoneOffset`, `EventTitle`, `EventDescription`, `EventMedia`, `EventMediaPortrait`, `EventMediaDescription`, `EventYouTubeLink`, `hide`) VALUES
-(8, 0, '2021-09-05 14:51:28', '2021-09-14 15:52:10', '1996-07-19', '16:21:00', NULL, 'EDT', 14400, 'Born', 'I was born', NULL, 0, NULL, NULL, 0),
+(8, 0, '2021-09-05 14:51:28', '2021-09-19 18:44:24', '1996-07-19', '16:21:00', NULL, 'EDT', 14400, 'Born', 'I was born', NULL, NULL, NULL, NULL, 0),
 (10, 0, '2021-09-05 14:58:09', '2021-09-05 14:58:09', '1996-07-26', NULL, NULL, 'EDT', 14400, '×‘×¨×™×ª', 'My ×‘×¨×™×ª', NULL, 0, NULL, 'https://www.youtube.com/embed/_H-NsuCaajU', 0),
 (11, 0, '2021-09-05 15:03:45', '2021-09-05 15:03:45', '1996-08-18', NULL, NULL, 'EDT', 14400, '×¤×“×™×•×Ÿ ×”×‘×Ÿ', 'My ×¤×“×™×•×Ÿ ×”×‘×Ÿ', NULL, 0, NULL, 'https://www.youtube.com/embed/boNnsiCP5AA', 0),
 (18, 0, '2021-09-06 00:00:00', '2021-09-06 00:00:00', '1999-06-24', NULL, NULL, 'EDT', 14400, 'Upsherin', 'My upsherin', NULL, 0, NULL, 'https://www.youtube.com/embed/W-zU1z_DNmw', 0),
@@ -112,8 +112,13 @@ INSERT INTO `timeline` (`TimelineId`, `MemoryType`, `DateCreated`, `DateModified
 (99, 1, '2021-09-14 02:43:33', '2021-09-14 02:49:19', '2021-09-14', '02:39:00', NULL, 'EDT', 14400, 'What happened today', 'In college, which I went to straight from work, I learnt in database class that I can do math in SQL which would have saved me a lot of time. I learnt about unit tests and pseudocode in Data Structures. In Fundamentals of Speech, I learnt about different ways to say things.', NULL, 0, NULL, NULL, 0),
 (101, 1, '2021-09-14 10:15:40', '2021-09-14 10:15:40', '2021-09-04', '15:45:00', NULL, 'EDT', 14400, 'I like the comment someone made about me', 'Someone watched me take cholent at the kiddush and commented that he realized that I took exactly what I wanted unlike anyone else that just took a spoonful just like an autist. I said to him that Iâ€™m diagnosed as autistic so itâ€™s more like as an autist. This was the first time in a while that someone saw me as autistic. Thatâ€™s just who I am.', NULL, 0, NULL, NULL, 0),
 (102, 1, '2021-09-14 11:12:58', '2021-09-14 22:38:49', '2021-09-14', '11:10:00', NULL, 'EDT', 14400, 'I bought a Yom Hatzmaot machzor', 'I saw a Yom Hatzmaot machzor in Beth Sholom and was surprised that thereâ€™s a lot of added prayers in there and that they sing the Yom Tov melody by maariv. I bought one from the website as well as the kinnot.', 'yom-hatzmaot-machzor.jpg', 1, 'Yom Hatzmaot machzor', NULL, 0),
-(112, 0, '2021-09-14 20:00:38', '2021-09-14 20:00:38', '2009-07-25', NULL, NULL, 'EDT', 14400, 'My ×‘×¨ ×ž×¦×•×”', 'I had my ×‘×¨ ×ž×¦×•×” that ×©×‘×ª and lained the haftora from a klaff.', 'me-when-i-was-bar-mitzva.jpg', 0, 'Me when I was bar mitzva', NULL, 0),
-(117, 1, '2021-09-15 13:11:11', '2021-09-15 13:11:11', '2021-09-15', '12:55:00', NULL, 'EDT', 14400, 'I\'m back from ×ª×©×œ×™×š', 'I made a detour on my way back from Beth Sholom to go to ×ª×©×œ×™×š by Rockaway Beach. I\'m back home now. I should have said ×ª×©×œ×™×š on the first day of ×¨××© ×”×©× ×” but there would be a lot of people as usual and very hectic with all the noise so I went today on ×¢×¨×‘ ×™×•× ×›×™×¤×•×¨. I meant to do ×ª×©×œ×™×š on Monday in Manhattan at work but I completely forgot.', NULL, NULL, NULL, NULL, 0);
+(112, 0, '2021-09-14 20:00:38', '2021-09-20 02:27:16', '2009-07-25', NULL, NULL, 'EDT', 14400, 'My ×‘×¨ ×ž×¦×•×”', 'I had my ×‘×¨ ×ž×¦×•×” that ×©×‘×ª and lained the haftora from a klaff.', 'portrait-of-me-when-i-was-bar-mitzva.jpg', 1, 'Portrait of me when I was bar mitzva', NULL, 0),
+(117, 1, '2021-09-15 13:11:11', '2021-09-15 13:11:11', '2021-09-15', '12:55:00', NULL, 'EDT', 14400, 'I\'m back from ×ª×©×œ×™×š', 'I made a detour on my way back from Beth Sholom to go to ×ª×©×œ×™×š by Rockaway Beach. I\'m back home now. I should have said ×ª×©×œ×™×š on the first day of ×¨××© ×”×©× ×” but there would be a lot of people as usual and very hectic with all the noise so I went today on ×¢×¨×‘ ×™×•× ×›×™×¤×•×¨. I meant to do ×ª×©×œ×™×š on Monday in Manhattan at work but I completely forgot.', NULL, NULL, NULL, NULL, 0),
+(119, 1, '2021-09-17 02:20:48', '2021-09-17 02:21:12', '2021-09-17', '02:15:00', NULL, 'EDT', 14400, 'How my Yom Kippur was', 'Yom Kippur is over. Yom Kippur started last night and I walked 41 minutes to the Young Israel of Lawrence-Cedarhurst (YILC) and saw my friends there. The fast wasn\'t as hard as last year\'s because I took a caffeine pill. I went to YILC for everything and stayed until the end. I walked back home and broke my fast 45 minutes after the fast was over because of the long walk. I can finally take my crocs off and put on regular shoes.', NULL, NULL, NULL, NULL, 0),
+(120, 1, '2021-09-19 02:50:36', '2021-09-19 02:50:36', '2021-09-18', '22:50:00', NULL, 'EDT', 14400, 'Someone in my local shul in Far Rockaway some behind my back', 'Someone spoke behind my back in my local Shul. I only overheard him speak to someone younger than me about many battles lost and the × ×‘×™×¢×™×. I got uncomfortable and left the Shul and went to the Young Israel for ×ž×¢×¨×™×‘. Iâ€™m provably not going to daven at my local shul anymore.', NULL, NULL, NULL, NULL, 0),
+(121, 1, '2021-09-23 01:03:25', '2021-09-23 01:03:25', '2021-09-23', '00:55:00', NULL, 'EDT', 14400, 'How my ×¡×•×›×•×ª was', 'I completely avoided my local ×‘×™×ª ×”×›× ×¡×ª in Far Rockaway walking 41 minutes to a ×‘×™×ª ×”×›× ×¡×ª that I like, but unfortunately, I didnâ€™t see my friend there. I had my grandparents and my cousins over ×™×•× ×˜×•×‘ and the meals were good. There were hush puppies, pastrami borekas with mushroom sauce (photo below) and I even was invited for a day meal.', 'pastrami-boreka.jpg', 0, 'Pastrami boreka', NULL, 0),
+(122, 1, '2021-09-23 01:49:09', '2021-09-23 01:49:09', '2021-09-23', '01:46:00', NULL, 'EDT', 14400, 'I got accepted into Yachad again', 'I got accepted into Yachad again. Iâ€™m not sure if the Yachad members will be happy to see me though because of my past. I hope they forgive me for my past and being in defense mode on them. Hopefully, Iâ€™ll meet new people my type there thatâ€™s around my age.', 'yachad-package.jpg', 0, 'Yachad package', NULL, 0),
+(123, 1, '2021-09-23 01:58:04', '2021-09-23 01:58:04', '2021-09-23', '01:54:00', NULL, 'EDT', 14400, 'My cousin colored the Yachad Apple', 'My cousin colored the the Yachad Apple', 'cousin-colored-yachad-apple.jpg', 1, 'Cousin colored Yachad Apple', NULL, 0);
 
 --
 -- Indexes for dumped tables
@@ -133,7 +138,7 @@ ALTER TABLE `timeline`
 -- AUTO_INCREMENT for table `timeline`
 --
 ALTER TABLE `timeline`
-  MODIFY `TimelineId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=118;
+  MODIFY `TimelineId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=124;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

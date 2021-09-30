@@ -8,6 +8,16 @@
   cursor: pointer;
 }
 
+.more-info-link {
+  text-decoration: none;
+  color: inherit;
+  background-color: inherit;
+}
+
+.more-info-link img {
+  background-color: inherit;
+}
+
 .remembered-memory {
   background-color: lightgrey;
   color: black;
@@ -16,6 +26,11 @@
 .diary-memory {
   background-color: green;
   color: white;
+}
+
+.thought {
+  background-color: rgb(255, 215, 0);
+  color: black;
 }
 
 h2 {
@@ -41,6 +56,24 @@ a {
   display: grid;
   grid-template-columns: 4fr;
   padding: 10px;
+}
+
+.number-of-thoughts {
+  border-radius: 25px;
+  background-color: red;
+  color: white;
+  width: 10px;
+  height: 10px;
+  padding: 10px;
+  position: absolute;
+  top: 5px;
+  right: 5px;
+}
+
+.row {
+  display: flex;
+  justify-content: center;
+  position: relative;
 }
 
 @media screen and (min-width: 1024px) {
