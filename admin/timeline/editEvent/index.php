@@ -151,7 +151,7 @@
         <input type="hidden" name="month" value="<?php echo $month ?>" />
         <input type="hidden" name="day" value="<?php echo $day ?>" />
         <br />
-        <input type="submit" id="submit" value="Submit to timeline" />
+        <input type="submit" id="submit" value="Edit event" />
         <br />
       </form>
     </main>

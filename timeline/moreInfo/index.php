@@ -42,19 +42,6 @@
     $eventMediaPortrait = $row['EventMediaPortrait'];
     $eventMediaDescription = $row['EventMediaDescription'];
   }
-
-  $sqlTwo = $link->prepare("SELECT * FROM thoughts WHERE TimelineId=?");
-  $sqlTwo->bind_param("i", $id);
-
-  $sqlTwo->execute();
-
-  $sqlTwoResult = $sqlTwo->get_result();
-
-  while($rowTwo = mysqli_fetch_array($sqlTwoResult)) {
-    $date = $rowTwo['DateCreated'];
-    $dateModified = $rowTwo['DateModified'];
-    $thought = $rowTwo['Thought'];
-  }
 ?>
 
 <!DOCTYPE html>
@@ -127,11 +114,27 @@
         } else {
           $offset = NULL;
         }
-       ?>
-      <div class="thought">
-        <h2 class="date"><time datetime="<?php echo date('Y-m-d H:i:s', strtotime($date) - intval($offset)); ?>"><?php echo date('m/d/Y h:i A', strtotime($date) - intval($offset)); ?></time></h2>
-        <p><?php echo $thought ?></p>
-      </div>
+
+        $sqlTwo = $link->prepare("SELECT * FROM thoughts WHERE TimelineId=? AND hide=0");
+        $sqlTwo->bind_param("i", $id);
+
+        $sqlTwo->execute();
+
+        $sqlTwoResult = $sqlTwo->get_result();
+
+       while($rowTwo = mysqli_fetch_array($sqlTwoResult)) {
+         $thoughtId = $rowTwo['ThoughtId'];
+         $date = $rowTwo['DateCreated'];
+         $dateModified = $rowTwo['DateModified'];
+         $thought = $rowTwo['Thought'];
+      ?>
+     <div class="thought">
+       <h2 class="date"><time datetime="<?php echo date('Y-m-d H:i:s', strtotime($date) - intval($offset)); ?>"><?php echo date('m/d/Y h:i A', strtotime($date) - intval($offset)); ?></time></h2>
+       <p><?php echo $thought ?></p>
+     </div>
+     <?php
+       }
+      ?>
     </main>
     <footer>
       <p>&copy; 2021 Ephraim Becker</p>

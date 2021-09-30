@@ -42,19 +42,6 @@
     $eventMediaPortrait = $row['EventMediaPortrait'];
     $eventMediaDescription = $row['EventMediaDescription'];
   }
-
-  $sqlTwo = $link->prepare("SELECT * FROM thoughts WHERE TimelineId=?");
-  $sqlTwo->bind_param("i", $id);
-
-  $sqlTwo->execute();
-
-  $sqlTwoResult = $sqlTwo->get_result();
-
-  while($rowTwo = mysqli_fetch_array($sqlTwoResult)) {
-    $date = $rowTwo['DateCreated'];
-    $dateModified = $rowTwo['DateModified'];
-    $thought = $rowTwo['Thought'];
-  }
 ?>
 
 <!DOCTYPE html>
@@ -129,11 +116,39 @@
         } else {
           $offset = NULL;
         }
+
+        $sqlTwo = $link->prepare("SELECT * FROM thoughts WHERE TimelineId=?");
+        $sqlTwo->bind_param("i", $id);
+
+        $sqlTwo->execute();
+
+        $sqlTwoResult = $sqlTwo->get_result();
+
+        while($rowTwo = mysqli_fetch_array($sqlTwoResult)) {
+          $thoughtId = $rowTwo['ThoughtId'];
+          $hide = $rowTwo['hide'];
+          $date = $rowTwo['DateCreated'];
+          $dateModified = $rowTwo['DateModified'];
+          $thought = $rowTwo['Thought'];
        ?>
-      <div class="thought">
+      <div class="thought <?php if($hide == 1) { echo "hidden-memory"; } ?>">
         <h2 class="date"><time datetime="<?php echo date('Y-m-d H:i:s', strtotime($date) - intval($offset)); ?>"><?php echo date('m/d/Y h:i A', strtotime($date) - intval($offset)); ?></time></h2>
         <p><?php echo $thought ?></p>
+        <ul class="row actionButtons">
+          <li><a class="edit" href="editThought/index.php?id=<?php echo $thoughtId ?>">Edit</a></li>
+          <?php if($hide == 0) {
+            echo "<li><a class='hide' href='hideThought.php?id=$thoughtId'>Hide</a></li>";
+          }
+          else if($hide == 1) {
+            echo "<li><a class='hide' href='unhideThought.php?id=$thoughtId'>Unhide</a></li>";
+          }
+          ?>
+          <li><a class="delete" href="confirmationThought.php?id=<?php echo $thoughtId ?>">Delete</a></li>
+        </ul>
       </div>
+      <?php
+        }
+       ?>
       <br />
       <br />
       <form action="addThought.php?id=<?php echo $id ?>" method="post">
