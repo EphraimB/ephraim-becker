@@ -98,7 +98,7 @@
         }
         ?>
         <ul class="row actionButtons">
-          <li><a class="edit" href="../editEvent/index.php?id=<?php echo $id ?>">Edit</a></li>
+          <li><a class="edit" href="editEvent/index.php?id=<?php echo $id ?>">Edit</a></li>
           <?php if($hide == 0) {
             echo "<li><a class='hide' href='hideEvent.php?id=$id'>Hide</a></li>";
           }
