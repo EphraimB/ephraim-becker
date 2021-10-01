@@ -105,8 +105,6 @@
   <?php
     }
 
-    $datesArray = array();
-
     $sqlDates = $link->prepare("SELECT EventDate, YEAR(EventDate) AS Year, MONTH(EventDate) AS Month, DAY(EventDate) AS Day FROM timeline WHERE EventDate>? GROUP BY EventDate LIMIT 1");
     $sqlDates->bind_param("s", $navvedEventDate);
 
