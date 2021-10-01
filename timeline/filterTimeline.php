@@ -107,7 +107,7 @@
     ?>
     <div class="row">
     <?php
-    $sqlDatesDesc = $link->prepare("SELECT EventDate, YEAR(EventDate) AS Year, MONTH(EventDate) AS Month, DAY(EventDate) AS Day FROM timeline WHERE EventDate<? AND hide=0 GROUP BY EventDate DESC LIMIT 1");
+    $sqlDatesDesc = $link->prepare("SELECT EventDate, YEAR(EventDate) AS Year, MONTH(EventDate) AS Month, DAY(EventDate) AS Day FROM timeline WHERE EventDate<? AND hide=0 GROUP BY EventDate ORDER BY EventDate DESC LIMIT 1");
     $sqlDatesDesc->bind_param("s", $navvedEventDateDesc);
 
     $navvedEventDateDesc = $year . "-" . $month . "-" . $day;
@@ -127,7 +127,7 @@
         $month = $prevMonth;
         $day = $prevDay;
       } else if($month == 0 && $day == 0) {
-        $sqlDatesTwoDesc = $link->prepare("SELECT EventDate, YEAR(EventDate) AS Year, MONTH(EventDate) AS Month, DAY(EventDate) AS Day FROM timeline WHERE EventDate<? AND hide=0 GROUP BY Year DESC LIMIT 1");
+        $sqlDatesTwoDesc = $link->prepare("SELECT EventDate, YEAR(EventDate) AS Year, MONTH(EventDate) AS Month, DAY(EventDate) AS Day FROM timeline WHERE EventDate<? AND hide=0 GROUP BY Year ORDER BY EventDate DESC LIMIT 1");
         $sqlDatesTwoDesc->bind_param("s", $navvedEventDateDesc);
 
         $navvedEventDateDesc = $prevYear . "-0-0";
