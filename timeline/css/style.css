@@ -73,7 +73,17 @@ a {
 .row {
   display: flex;
   justify-content: center;
+  align-items: center;
   position: relative;
+}
+
+.navButton {
+  background-color: lightgrey;
+  color: black;
+  width: 50px;
+  height: 50px;
+  border-radius: 25px;
+  cursor: pointer;
 }
 
 @media screen and (min-width: 1024px) {

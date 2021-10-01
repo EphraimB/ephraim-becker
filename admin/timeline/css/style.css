@@ -27,15 +27,6 @@ a {
   opacity: 0.5;
 }
 
-.row {
-  display: flex;
-  justify-content: center;
-}
-
-.row div {
-  padding: 10px;
-}
-
 .subNav, .actionButtons {
   overflow: hidden;
   position: relative;
@@ -160,9 +151,18 @@ a {
 .row {
   display: flex;
   justify-content: center;
+  align-items: center;
   position: relative;
 }
 
+.navButton {
+  background-color: lightgrey;
+  color: black;
+  width: 50px;
+  height: 50px;
+  border-radius: 25px;
+  cursor: pointer;
+}
 
 @media screen and (min-width: 1024px) {
   ol {
