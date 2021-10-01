@@ -9,6 +9,23 @@
     $month = $_GET['month'];
     $day = $_GET['day'];
 
+    ?>
+
+    <header>
+      <h1 style="font-weight: bold;">Timeline - <?php echo $year ?> album</h1>
+    </header>
+    <main>
+      <table>
+        <tr>
+          <td rowspan="3">Legend</td>
+          <td class="remembered-memory">Remembered memory</td>
+        </tr>
+        <tr>
+          <td class="diary-memory">Diary memory</td>
+        </tr>
+      </table>
+      <br />
+    <?php
     while($row = mysqli_fetch_array($sqlResult)) {
       $id = $row['TimelineId'];
 
