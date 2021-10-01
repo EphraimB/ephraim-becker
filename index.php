@@ -17,7 +17,7 @@
         <h1 style="font-weight: bold;" itemprop="name">Ephraim Becker</h1>
         <p>
           <span style="font-weight: bold;">Age: </span>
-          <span>' . <?php echo $age; ?> . '</span>
+          <span>' . $age . '</span>
         </p>
         <p>
           <span style="font-weight: bold;">Diagnosis: </span>
