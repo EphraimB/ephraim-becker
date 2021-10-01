@@ -5,6 +5,10 @@
 
 
   function displayAllEvents($sqlResult, $link) {
+    $year = $_GET['year'];
+    $month = $_GET['month'];
+    $day = $_GET['day'];
+
     while($row = mysqli_fetch_array($sqlResult)) {
       $id = $row['TimelineId'];
 
@@ -83,7 +87,49 @@
   </div>
   <?php
     }
-  }
+
+    $datesArray = array();
+
+    $sqlDates = $link->prepare("SELECT EventDate, YEAR(EventDate) AS Year, MONTH(EventDate) AS Month, DAY(EventDate) AS Day FROM timeline WHERE EventDate>? GROUP BY EventDate LIMIT 1");
+    $sqlDates->bind_param("s", $navvedEventDate);
+
+    $navvedEventDate = $year . "-" . $month . "-" . $day;
+
+    $sqlDates->execute();
+
+    $sqlDatesResult = $sqlDates->get_result();
+
+    while($row = mysqli_fetch_array($sqlDatesResult)) {
+      $nextYear = $row['Year'];
+      $nextMonth = $row['Month'];
+      $nextDay = $row['Day'];
+    }
+
+    if($month > 0 && $day > 0) {
+      $year = $nextYear;
+      $month = $nextMonth;
+      $day = $nextDay;
+    } else if($month == 0 && $day == 0) {
+      $sqlDatesTwo = $link->prepare("SELECT EventDate, YEAR(EventDate) AS Year, MONTH(EventDate) AS Month, DAY(EventDate) AS Day FROM timeline WHERE EventDate>? GROUP BY Year LIMIT 1");
+      $sqlDatesTwo->bind_param("s", $navvedEventDate);
+
+      $navvedEventDate = $nextYear . "-12-31";
+
+      $sqlDatesTwo->execute();
+
+      $sqlDatesTwoResult = $sqlDatesTwo->get_result();
+
+      while($rowTwo = mysqli_fetch_array($sqlDatesTwoResult)) {
+        $year = $rowTwo['Year'];
+      }
+    }
+
+    ?>
+    <div class="row navButton" onclick="filterTimeline('<?php echo $year ?>', '<?php echo $month ?>', '<?php echo $day ?>')">
+       >
+    </div>
+    <?php
+    }
 
   function displaySorter($sqlResult) {
     $year = $_GET['year'];
