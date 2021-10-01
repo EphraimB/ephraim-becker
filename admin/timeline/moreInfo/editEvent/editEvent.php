@@ -136,18 +136,19 @@
       }
   }
 } else {
-  $sqlTwo = $link->prepare("SELECT EventMedia, EventMediaDescription FROM timeline WHERE TimelineId=?");
+  $sqlTwo = $link->prepare("SELECT EventMedia, EventMediaDescription, EventMediaPortrait FROM timeline WHERE TimelineId=?");
   $sqlTwo->bind_param("i", $id);
 
   $id = $_POST['id'];
 
   $sqlTwo->execute();
 
-  $sqlTwoResult = $sqlTwo->get_result(); // get the mysqli result
+  $sqlTwoResult = $sqlTwo->get_result();
 
   while($row = mysqli_fetch_array($sqlTwoResult)){
     $eventImage = $row['EventMedia'];
     $eventImageDescription = $row['EventMediaDescription'];
+    $eventMediaPortrait = $row['EventMediaPortrait'];
   }
 }
 
