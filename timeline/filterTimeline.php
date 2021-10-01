@@ -139,12 +139,14 @@
         }
       }
       ?>
-      <div class="row navButton" onclick="filterTimeline('<?php echo $year ?>', '<?php echo $month ?>', '<?php echo $day ?>')">
-         <
+      <br />
+      <div class="row">
+      <div class="navButton" onclick="filterTimeline('<?php echo $year ?>', '<?php echo $month ?>', '<?php echo $day ?>')">
+         <p><</p>
       </div>
     <?php
     }
-    
+
 
     $year = $_GET['year'];
     $month = $_GET['month'];
@@ -186,9 +188,10 @@
       }
 
       ?>
-      <div class="row navButton" onclick="filterTimeline('<?php echo $year ?>', '<?php echo $month ?>', '<?php echo $day ?>')">
-         >
+      <div class="navButton" onclick="filterTimeline('<?php echo $year ?>', '<?php echo $month ?>', '<?php echo $day ?>')">
+         <p>></p>
       </div>
+    </div>
       <?php
     }
   }

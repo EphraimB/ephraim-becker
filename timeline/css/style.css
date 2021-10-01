@@ -84,7 +84,6 @@ a {
   height: 50px;
   border-radius: 25px;
   cursor: pointer;
-  float: left;
 }
 
 @media screen and (min-width: 1024px) {
