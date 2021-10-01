@@ -57,7 +57,7 @@
     $month = $_GET['month'];
     $day = $_GET['day'];
 
-    $sqlDates = $link->prepare("SELECT EventDate, YEAR(EventDate) AS Year, MONTH(EventDate) AS Month, DAY(EventDate) AS Day FROM timeline WHERE EventDate>? GROUP BY EventDate LIMIT 1");
+    $sqlDates = $link->prepare("SELECT EventDate, YEAR(EventDate) AS Year, MONTH(EventDate) AS Month, DAY(EventDate) AS Day FROM timeline WHERE EventDate>? AND hide=0 GROUP BY EventDate LIMIT 1");
     $sqlDates->bind_param("s", $navvedEventDate);
 
     $navvedEventDate = $year . "-" . $month . "-" . $day;
@@ -78,7 +78,7 @@
         $month = $nextMonth;
         $day = $nextDay;
       } else if($month == 0 && $day == 0) {
-        $sqlDatesTwo = $link->prepare("SELECT EventDate, YEAR(EventDate) AS Year, MONTH(EventDate) AS Month, DAY(EventDate) AS Day FROM timeline WHERE EventDate>? GROUP BY Year LIMIT 1");
+        $sqlDatesTwo = $link->prepare("SELECT EventDate, YEAR(EventDate) AS Year, MONTH(EventDate) AS Month, DAY(EventDate) AS Day FROM timeline WHERE EventDate>? AND hide=0 GROUP BY Year LIMIT 1");
         $sqlDatesTwo->bind_param("s", $navvedEventDate);
 
         $navvedEventDate = $nextYear . "-12-31";
