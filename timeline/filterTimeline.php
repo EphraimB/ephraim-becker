@@ -34,7 +34,7 @@
         $sqlDatesTwoDesc = $link->prepare("SELECT EventDate, YEAR(EventDate) AS Year, MONTH(EventDate) AS Month, DAY(EventDate) AS Day FROM timeline WHERE EventDate<? AND hide=0 GROUP BY Year ORDER BY EventDate DESC LIMIT 1");
         $sqlDatesTwoDesc->bind_param("s", $navvedEventDateDesc);
 
-        $navvedEventDateDesc = $prevYear . "-0-0";
+        $navvedEventDateDesc = $_GET['year'] . "-0-0";
 
         $sqlDatesTwoDesc->execute();
 
