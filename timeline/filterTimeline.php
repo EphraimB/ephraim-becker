@@ -105,6 +105,51 @@
   <?php
     }
 
+    $sqlDatesDesc = $link->prepare("SELECT EventDate, YEAR(EventDate) AS Year, MONTH(EventDate) AS Month, DAY(EventDate) AS Day FROM timeline WHERE EventDate<? GROUP BY EventDate DESC LIMIT 1");
+    $sqlDatesDesc->bind_param("s", $navvedEventDateDesc);
+
+    $navvedEventDateDesc = $year . "-" . $month . "-" . $day;
+
+    $sqlDatesDesc->execute();
+
+    $sqlDatesDescResult = $sqlDatesDesc->get_result();
+
+    if($sqlDatesDescResult->num_rows > 0) {
+      while($row = mysqli_fetch_array($sqlDatesDescResult)) {
+        $prevYear = $row['Year'];
+        $prevMonth = $row['Month'];
+        $prevDay = $row['Day'];
+      }
+      if($month > 0 && $day > 0) {
+        $year = $prevYear;
+        $month = $prevMonth;
+        $day = $prevDay;
+      } else if($month == 0 && $day == 0) {
+        $sqlDatesTwoDesc = $link->prepare("SELECT EventDate, YEAR(EventDate) AS Year, MONTH(EventDate) AS Month, DAY(EventDate) AS Day FROM timeline WHERE EventDate<? GROUP BY Year DESC LIMIT 1");
+        $sqlDatesTwoDesc->bind_param("s", $navvedEventDateDesc);
+
+        $navvedEventDateDesc = $prevYear . "-0-0";
+
+        $sqlDatesTwoDesc->execute();
+
+        $sqlDatesTwoDescResult = $sqlDatesTwoDesc->get_result();
+
+        while($rowTwoDesc = mysqli_fetch_array($sqlDatesTwoDescResult)) {
+          $year = $rowTwoDesc['Year'];
+        }
+      }
+      ?>
+      <div class="row navButton" onclick="filterTimeline('<?php echo $year ?>', '<?php echo $month ?>', '<?php echo $day ?>')">
+         <
+      </div>
+    <?php
+    }
+    
+
+    $year = $_GET['year'];
+    $month = $_GET['month'];
+    $day = $_GET['day'];
+
     $sqlDates = $link->prepare("SELECT EventDate, YEAR(EventDate) AS Year, MONTH(EventDate) AS Month, DAY(EventDate) AS Day FROM timeline WHERE EventDate>? GROUP BY EventDate LIMIT 1");
     $sqlDates->bind_param("s", $navvedEventDate);
 
