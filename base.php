@@ -17,10 +17,10 @@
         <li id="first"><img src="img/ephraim-becker.jpg" alt="Photo of Ephraim Becker" width="70px" height="70px" /></li>
         <li id="hamburger-icon"><a href="#" onclick="toggleNavMenu()">&#9776;</a></li>
         <div id="links">
-          <li class="focus"><a href="index.php">Home</a></li>
+          <li><a href="index.php">Home</a></li>
           <li><a href="timeline/">Timeline</a></li>
           <div id="dropdown">
-            <li><a href="#" onclick="toggleNavSubmenu()">Daily Life &emsp; &#x25BC;</a></li>
+            <li><a href="#dailyLife" onclick="toggleNavSubmenu()">Daily Life &emsp; &#x25BC;</a></li>
             <div id="dropdown-content">
               <li><a href="everydayLife/">Everyday Life</a></li>
               <li><a href="college/">College Life</a></li>
