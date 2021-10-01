@@ -17,7 +17,7 @@
         <h1 style="font-weight: bold;" itemprop="name">Ephraim Becker</h1>
         <p>
           <span style="font-weight: bold;">Age: </span>
-          <span><?php echo $age; ?></span>
+          <span>' . <?php echo $age; ?> . '</span>
         </p>
         <p>
           <span style="font-weight: bold;">Diagnosis: </span>
@@ -51,6 +51,6 @@
           <a target="_blank" rel="noopener" style="display: inline; background-color: rgba(0,0,0,0);" href="https://www.aspergerexperts.com/profile/60330-ephraim-becker/"><img src="img/aesquare.png" alt="Aspergers Experts logo" width="auto" height="50px" /></a>
         </div>
       </div>';
-      
+
       require("base.php");
  ?>
