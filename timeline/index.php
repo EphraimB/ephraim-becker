@@ -43,70 +43,18 @@
       <h1 style="font-weight: bold;">Timeline</h1>
     </header>
     <main>
-      <table>
-        <tr>
-          <td rowspan="2">Legend</td>
-          <td class="remembered-memory">Remembered memory</td>
-        </tr>
-        <tr>
-          <td class="diary-memory">Diary memory</td>
-        </tr>
-      </table>
-      <div itemscope itemtype="https://schema.org/Event">
+      <div id="grid-container">
         <?php
-        $sql = "SELECT *, IFNULL(DATE_FORMAT(concat(EventDate, ' ', EventTime) - INTERVAL EventTimeZoneOffset SECOND, '%Y-%m-%d'), EventDate) AS 'LocalDate', IFNULL(TIME_FORMAT(concat(EventDate, ' ', EventTime) - INTERVAL EventTimeZoneOffset SECOND, '%H:%i:%s'), NULL) AS 'LocalTime' FROM timeline WHERE hide = 0 ORDER BY EventDate ASC";
+        $sql = "SELECT *, IFNULL(DATE_FORMAT(concat(EventDate, ' ', EventTime) - INTERVAL EventTimeZoneOffset SECOND, '%Y-%m-%d'), EventDate) AS 'LocalDate', IFNULL(TIME_FORMAT(concat(EventDate, ' ', EventTime) - INTERVAL EventTimeZoneOffset SECOND, '%H:%i:%s'), NULL) AS 'LocalTime', DATE_FORMAT(EventDate - INTERVAL EventTimeZoneOffset SECOND, '%Y') AS Year FROM timeline WHERE hide = 0 GROUP BY Year ORDER BY EventDate ASC";
         $sqlResult = mysqli_query($link, $sql);
 
         while($row = mysqli_fetch_array($sqlResult)){
-          $eventTimeZone = $row['EventTimeZone'];
-          $eventTimeZoneOffset = $row['EventTimeZoneOffset'];
-
-          $eventDate = $row['EventDate'];
-          $eventTime = $row['EventTime'];
-
-          $localDate = $row['LocalDate'];
-          $localTime = $row['LocalTime'];
-
-          $endEventDate = $row['EndEventDate'];
-
-          $endEventDateFormatted = date("F d, Y", strtotime($endEventDate));
-
-          $eventDateFormatted = date("F d, Y", strtotime($localDate));
-          $eventTimeFormatted = date("h:i A", strtotime($localTime));
-
-          $eventTitle = $row['EventTitle'];
-          $eventDescription = $row['EventDescription'];
-          $memoryType = $row['MemoryType'];
-
-          $eventYouTubeLink = $row['EventYouTubeLink'];
-
-          $eventMedia = $row['EventMedia'];
-          $eventMediaPortrait = $row['EventMediaPortrait'];
-          $eventMediaDescription = $row['EventMediaDescription'];
+          $year = $row['Year'];
         ?>
 
-        <div class="<?php if($memoryType == 0) { echo 'remembered-memory'; } else if($memoryType == 1) { echo 'diary-memory'; } ?> ">
-          <h2><time itemprop="startDate" datetime="<?php echo $localDate ?>"><?php if(!is_null($localTime)) { echo $eventDateFormatted . " " . $eventTimeFormatted . " " . $eventTimeZone; } else { echo $eventDateFormatted; } ?></time><?php if(!is_null($endEventDate)) { echo " - <time itemprop='endDate' datetime='" . $endEventDate . "'>" . $endEventDateFormatted . "</time>"; } ?></h2>
-          <h3 itemprop="name"><?php echo $eventTitle ?></h3>
-          <p itemprop="description"><?php echo $eventDescription ?></p>
-
-          <?php
-          if(!is_null($eventYouTubeLink)) {
-          ?>
-          <iframe width="560" height="315" src="<?php echo $eventYouTubeLink ?>" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-          <?php
-          }
-
-          if(!is_null($eventMedia)) {
-            if($eventMediaPortrait == 0) {
-          ?>
-            <img src="<?php echo '../../timeline/img/' . $eventMedia ?>" alt="<?php echo $eventMediaDescription ?>" width="200px" height="113px" />
-          <?php } else { ?>
-            <img src="<?php echo '../../timeline/img/' . $eventMedia ?>" alt="<?php echo $eventMediaDescription ?>" width="113px" height="200px" />
-          <?php
-          }
-          }
-          ?>
+        <div class="card album-cover" id="album-cover-<?php echo $year ?>" onclick="filterTimeline('<?php echo $year ?>')">
+          <h2><?php echo $year ?></h2>
+          <p>All the events in <?php echo $year ?> when I was <?php echo $year-1996 ?> years old</p>
         </div>
 
       <?php } ?>
@@ -116,5 +64,6 @@
       <p>&copy; 2021 Ephraim Becker</p>
     </footer>
     <script src="../js/script.js"></script>
+    <script src="js/ajax.js"></script>
   </body>
 </html>

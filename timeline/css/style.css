@@ -1,6 +1,26 @@
+.album-cover {
+  background-color: lightgrey;
+  color: black;
+  cursor: pointer;
+}
+
+.event {
+  cursor: pointer;
+}
+
+.more-info-link {
+  text-decoration: none;
+  color: inherit;
+  background-color: inherit;
+}
+
+.more-info-link img {
+  background-color: inherit;
+}
+
 .remembered-memory {
-  background-color: blue;
-  color: white;
+  background-color: lightgrey;
+  color: black;
 }
 
 .diary-memory {
@@ -8,13 +28,70 @@
   color: white;
 }
 
+.thought {
+  background-color: rgb(255, 215, 0);
+  color: black;
+}
+
+h2 {
+  font-weight: bold;
+}
+
 a {
   background-color: white;
   color: blue;
 }
 
+.card {
+  margin: 10px;
+  padding: 10px;
+}
+
+.card a {
+  text-decoration: none;
+  color: white;
+}
+
+#grid-container {
+  display: grid;
+  grid-template-columns: 4fr;
+  padding: 10px;
+}
+
+.number-of-thoughts {
+  border-radius: 25px;
+  background-color: red;
+  color: white;
+  width: 10px;
+  height: 10px;
+  padding: 10px;
+  position: absolute;
+  top: 5px;
+  right: 5px;
+}
+
+.row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.navButton {
+  background-color: lightgrey;
+  color: black;
+  width: 50px;
+  height: 50px;
+  border-radius: 25px;
+  cursor: pointer;
+}
+
 @media screen and (min-width: 1024px) {
   ol {
     text-align: left;
+  }
+
+  #grid-container {
+    grid-template-columns: auto auto auto;
   }
 }

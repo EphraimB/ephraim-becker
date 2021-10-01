@@ -2,10 +2,6 @@
   require_once($_SERVER['DOCUMENT_ROOT'] . '/environment.php');
 
   global $link;
-
-  $year = $_GET['year'];
-  $month = $_GET['month'];
-  $day = $_GET['day'];
 ?>
 
 <!DOCTYPE html>
@@ -13,20 +9,20 @@
   <head>
     <meta charset="utf-8">
     <title>Ephraim Becker - Admin - Timeline - Edit Event</title>
-    <link rel="stylesheet" href="../../../css/style.css" />
+    <link rel="stylesheet" href="../../../../css/style.css" />
     <link rel="stylesheet" href="css/style.css" />
-    <link rel="icon" href="../../../img/ephraim_becker.ico" type="image/x-icon" />
-    <link rel="apple-touch-icon" href="../../../img/ephraim-becker.png" />
+    <link rel="icon" href="../../../../img/ephraim_becker.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" href="../../../../img/ephraim-becker.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
   <body>
     <nav>
       <ul>
-        <li id="first"><img src="../../../img/ephraim-becker.jpg" alt="Photo of Ephraim Becker" width="70px" height="70px" /></li>
+        <li id="first"><img src="../../../../img/ephraim-becker.jpg" alt="Photo of Ephraim Becker" width="70px" height="70px" /></li>
         <li id="hamburger-icon"><a href="#" onclick="toggleNavMenu()">&#9776;</a></li>
         <div id="links">
-          <li><a href="../../">Admin</a></li>
-          <li class="focus"><a href="../">Timeline</a></li>
+          <li><a href="../../../">Admin</a></li>
+          <li class="focus"><a href="../../">Timeline</a></li>
         </div>
       </ul>
     </nav>
@@ -147,9 +143,6 @@
           </div>
         </div>
         <input type="hidden" name="id" value="<?php echo $timelineId ?>" />
-        <input type="hidden" name="year" value="<?php echo $year ?>" />
-        <input type="hidden" name="month" value="<?php echo $month ?>" />
-        <input type="hidden" name="day" value="<?php echo $day ?>" />
         <br />
         <input type="submit" id="submit" value="Edit event" />
         <br />
