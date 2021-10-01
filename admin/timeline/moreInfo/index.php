@@ -76,9 +76,9 @@
     </header>
     <main>
       <div class="<?php if($hide == 1) { echo 'hidden-memory '; } if($memoryType == 0) { echo 'remembered-memory'; } else if($memoryType == 1) { echo 'diary-memory'; } ?> ">
-        <h2><time itemprop="startDate" datetime="<?php echo $localDate ?>"><?php if(!is_null($localTime)) { echo $eventDateFormatted . " " . $eventTimeFormatted . " " . $eventTimeZone; } else { echo $eventDateFormatted; } ?></time><?php if(!is_null($endEventDate)) { echo " - <time itemprop='endDate' datetime='" . $endEventDate . "'>" . $endEventDateFormatted . "</time>"; } ?></h2>
-        <h3 itemprop="name"><?php echo $eventTitle ?></h3>
-        <p itemprop="description"><?php echo $eventDescription ?></p>
+        <h2><time datetime="<?php echo $localDate ?>"><?php if(!is_null($localTime)) { echo $eventDateFormatted . " " . $eventTimeFormatted . " " . $eventTimeZone; } else { echo $eventDateFormatted; } ?></time><?php if(!is_null($endEventDate)) { echo " - <time datetime='" . $endEventDate . "'>" . $endEventDateFormatted . "</time>"; } ?></h2>
+        <h3><?php echo $eventTitle ?></h3>
+        <p><?php echo $eventDescription ?></p>
 
         <?php
         if(!is_null($eventYouTubeLink)) {
