@@ -9,6 +9,7 @@
     : (date("Y") - $birthDate[2]));
 
     $title = "Ephraim Becker - All about my autistic life";
+    $localStyleSheet = NULL;
     $header = NULL;
     $body = '
     <main>
@@ -51,6 +52,8 @@
           <a target="_blank" rel="noopener" style="display: inline; background-color: rgba(0,0,0,0);" href="https://www.aspergerexperts.com/profile/60330-ephraim-becker/"><img src="img/aesquare.png" alt="Aspergers Experts logo" width="auto" height="50px" /></a>
         </div>
       </div>';
+
+      $localScript = NULL;
 
       require("base.php");
  ?>
