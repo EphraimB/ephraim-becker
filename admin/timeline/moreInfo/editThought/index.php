@@ -5,7 +5,7 @@
 
   $title = "Ephraim Becker - Admin - Timeline - Edit Thought";
   $header = "Admin - Timeline - Edit Thought";
-  $localStyleSheet = '<link rel="stylesheet" href="../css/style.css" />';
+  $localStyleSheet = '<link rel="stylesheet" href="css/style.css" />';
   $localScript = '<script src="js/script.js"></script>';
 
   $body = '<form action="editThought.php" method="post">
@@ -29,7 +29,7 @@
     $body .= '<div>
           <label for="eventDescription">Thought:</label>
           <br />
-          <textarea id="thought" name="thought" rows="6" cols="50" required><?php echo $thought ?></textarea>
+          <textarea id="thought" name="thought" rows="6" cols="45" required>' . $thought . '</textarea>
         </div>
         <br />
         <div>
