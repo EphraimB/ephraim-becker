@@ -85,7 +85,7 @@
         }
 
         $body .= '<ul class="row actionButtons">
-          <li><a class="edit" href="editEvent/index.php?id=<?php echo $id ?>">Edit</a></li>';
+          <li><a class="edit" href="editEvent/index.php?id=' . $id . '">Edit</a></li>';
 
           if($hide == 0) {
             $body .= '<li><a class="hide" href="hideEvent.php?id=' . $id . '">Hide</a></li>';
@@ -123,10 +123,10 @@
       $body .= '<div class="thought ';
 
       if($hide == 1) {
-        $body .= "hidden-memory";
+        $body .= 'hidden-memory';
       }
 
-      $body .= '>
+      $body .= '">
         <h2 class="date"><time datetime="' . date('Y-m-d H:i:s', strtotime($date) - intval($offset)) . '">' . date('m/d/Y h:i A', strtotime($date) - intval($offset)) . '</time></h2>
         <p>' . $thought . '</p>
         <ul class="row actionButtons">
