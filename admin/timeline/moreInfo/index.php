@@ -42,75 +42,64 @@
     $eventMediaPortrait = $row['EventMediaPortrait'];
     $eventMediaDescription = $row['EventMediaDescription'];
   }
-?>
 
-<!DOCTYPE html>
-<html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <title>Ephraim Becker - Admin - Timeline - More info</title>
-    <link rel="stylesheet" href="../../../css/style.css" />
-    <link rel="stylesheet" href="../css/style.css" />
-    <link rel="canonical" href="https://www.ephraimbecker.com/timeline/moreInfo/" />
-    <link rel="icon" href="../../../img/ephraim_becker.ico" type="image/x-icon" />
-    <link rel="apple-touch-icon" href="../../img/ephraim-becker.png" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Hi! My name is Ephraim Becker and here's a timeline about my life and how people can learn from it." />
+  $title = "Ephraim Becker - Admin - Timeline - More info";
+  $header = 'Admin - Timeline - ' . $eventTitle;
+  $localStyleSheet = '<link rel="stylesheet" href="../css/style.css" />';
+  $localScript = '<script src="js/script.js"></script>';
 
-    <script src="js/script.js"></script>
-    <meta name="keywords" content="Ephraim Becker, autism, aspergers, ADHD" />
-  </head>
-  <body>
-    <nav>
-      <ul>
-        <li id="first"><img src="../../../img/ephraim-becker.jpg" alt="Photo of Ephraim Becker" width="70px" height="70px" /></li>
-        <li id="hamburger-icon"><a href="#" onclick="toggleNavMenu()">&#9776;</a></li>
-        <div id="links">
-          <li><a href="../../">Admin</a></li>
-          <li class="focus"><a href="../">Timeline</a></li>
-        </div>
-      </ul>
-    </nav>
-    <header>
-      <h1 style="font-weight: bold;">Admin - Timeline - <?php echo $eventTitle ?></h1>
-    </header>
-    <main>
-      <div class="<?php if($hide == 1) { echo 'hidden-memory '; } if($memoryType == 0) { echo 'remembered-memory'; } else if($memoryType == 1) { echo 'diary-memory'; } ?> ">
-        <h2><time datetime="<?php echo $localDate ?>"><?php if(!is_null($localTime)) { echo $eventDateFormatted . " " . $eventTimeFormatted . " " . $eventTimeZone; } else { echo $eventDateFormatted; } ?></time><?php if(!is_null($endEventDate)) { echo " - <time datetime='" . $endEventDate . "'>" . $endEventDateFormatted . "</time>"; } ?></h2>
-        <h3><?php echo $eventTitle ?></h3>
-        <p><?php echo $eventDescription ?></p>
+  $body = '<div class="';
 
-        <?php
+  if($hide == 1) {
+    $body .= 'hidden-memory "';
+   } if($memoryType == 0) {
+     $body .= 'remembered-memory"';
+    } else if($memoryType == 1) {
+      $body .= 'diary-memory"';
+     }
+     $body .= '>
+        <h2><time datetime="' . $localDate . '">';
+    if(!is_null($localTime)) {
+      $body .= $eventDateFormatted . " " . $eventTimeFormatted . " " . $eventTimeZone;
+     } else {
+       $body .= $eventDateFormatted;
+     }
+     $body .= '</time>';
+     if(!is_null($endEventDate)) {
+       $body .= ' - <time datetime="' . $endEventDate . '">' . $endEventDateFormatted . '</time>';
+     }
+     $body .= '</h2>
+        <h3>' . $eventTitle . '</h3>
+        <p>' . $eventDescription . '</p>';
+
         if(!is_null($eventYouTubeLink)) {
-        ?>
-        <iframe width="560" height="315" src="<?php echo $eventYouTubeLink ?>" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-        <?php
+          $body .= '<iframe width="560" height="315" src="' . $eventYouTubeLink . '" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>';
         }
 
         if(!is_null($eventMedia)) {
           if($eventMediaPortrait == 0) {
-        ?>
-          <img src="<?php echo '../../timeline/img/' . $eventMedia ?>" alt="<?php echo $eventMediaDescription ?>" width="200px" height="113px" />
-        <?php } else { ?>
-          <img src="<?php echo '../../timeline/img/' . $eventMedia ?>" alt="<?php echo $eventMediaDescription ?>" width="113px" height="200px" />
-        <?php
-        }
-        }
-        ?>
-        <ul class="row actionButtons">
-          <li><a class="edit" href="editEvent/index.php?id=<?php echo $id ?>">Edit</a></li>
-          <?php if($hide == 0) {
-            echo "<li><a class='hide' href='hideEvent.php?id=$id'>Hide</a></li>";
+            $body .= '<img src="../../timeline/img/' . $eventMedia . '" alt="' . $eventMediaDescription . '" width="200px" height="113px" />';
+          } else {
+            $body .= '<img src="../../timeline/img/' . $eventMedia . '" alt="' . $eventMediaDescription . '" width="113px" height="200px" />';
           }
+        }
+
+        $body .= '<ul class="row actionButtons">
+          <li><a class="edit" href="editEvent/index.php?id=<?php echo $id ?>">Edit</a></li>';
+
+          if($hide == 0) {
+            $body .= '<li><a class="hide" href="hideEvent.php?id=' . $id . '">Hide</a></li>';
+          }
+
           else if($hide == 1) {
-            echo "<li><a class='hide' href='unhideEvent.php?id=$id'>Unhide</a></li>";
+            $body .= '<li><a class="hide" href="unhideEvent.php?id=' . $id . '">Unhide</a></li>';
           }
-          ?>
-          <li><a class="delete" href="confirmation.php?id=<?php echo $id ?>">Delete</a></li>
+
+          $body .= '<li><a class="delete" href="confirmation.php?id=' . $id . '">Delete</a></li>
         </ul>
       </div>
-      <br />
-      <?php
+      <br />';
+
         if(isset($_GET['offset'])) {
           $offset = $_GET['offset'];
         } else {
@@ -130,37 +119,40 @@
           $date = $rowTwo['DateCreated'];
           $dateModified = $rowTwo['DateModified'];
           $thought = $rowTwo['Thought'];
-       ?>
-      <div class="thought <?php if($hide == 1) { echo "hidden-memory"; } ?>">
-        <h2 class="date"><time datetime="<?php echo date('Y-m-d H:i:s', strtotime($date) - intval($offset)); ?>"><?php echo date('m/d/Y h:i A', strtotime($date) - intval($offset)); ?></time></h2>
-        <p><?php echo $thought ?></p>
+
+      $body .= '<div class="thought ';
+
+      if($hide == 1) {
+        $body .= "hidden-memory";
+      }
+
+      $body .= '>
+        <h2 class="date"><time datetime="' . date('Y-m-d H:i:s', strtotime($date) - intval($offset)) . '">' . date('m/d/Y h:i A', strtotime($date) - intval($offset)) . '</time></h2>
+        <p>' . $thought . '</p>
         <ul class="row actionButtons">
-          <li><a class="edit" href="editThought/index.php?id=<?php echo $thoughtId ?>">Edit</a></li>
-          <?php if($hide == 0) {
-            echo "<li><a class='hide' href='hideThought.php?id=$thoughtId'>Hide</a></li>";
+          <li><a class="edit" href="editThought/index.php?id=' . $thoughtId . '">Edit</a></li>';
+
+          if($hide == 0) {
+            $body .= '<li><a class="hide" href="hideThought.php?id=' . $thoughtId . '">Hide</a></li>';
           }
+
           else if($hide == 1) {
-            echo "<li><a class='hide' href='unhideThought.php?id=$thoughtId'>Unhide</a></li>";
+            $body .= '<li><a class="hide" href="unhideThought.php?id=' . $thoughtId . '">Unhide</a></li>';
           }
-          ?>
-          <li><a class="delete" href="confirmationThought.php?id=<?php echo $thoughtId ?>">Delete</a></li>
+
+          $body .= '<li><a class="delete" href="confirmationThought.php?id=' . $thoughtId . '">Delete</a></li>
         </ul>
-      </div>
-      <?php
-        }
-       ?>
+      </div>';
+      }
+
+      $body .= '<br />
       <br />
-      <br />
-      <form action="addThought.php?id=<?php echo $id ?>" method="post">
+      <form action="addThought.php?id=' . $id . '" method="post">
         <textarea name="thought" rows="6" cols="45" required></textarea>
-        <input type="hidden" name="id" value="<?php echo $id ?>" />
+        <input type="hidden" name="id" value="' . $id . '" />
 
         <input class="thoughtButton" type="submit" value="Add thought" />
-      </form>
-    </main>
-    <footer>
-      <p>&copy; 2021 Ephraim Becker</p>
-    </footer>
-    <script src="../../../js/script.js"></script>
-  </body>
-</html>
+      </form>';
+
+      require("../../base.php");
+?>
