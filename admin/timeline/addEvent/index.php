@@ -1,30 +1,10 @@
-<!DOCTYPE html>
-<html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <title>Ephraim Becker - Admin - Timeline - Add Event</title>
-    <link rel="stylesheet" href="../../../css/style.css" />
-    <link rel="stylesheet" href="css/style.css" />
-    <link rel="icon" href="../../../img/ephraim_becker.ico" type="image/x-icon" />
-    <link rel="apple-touch-icon" href="../../../img/ephraim-becker.png" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  </head>
-  <body>
-    <nav>
-      <ul>
-        <li id="first"><img src="../../../img/ephraim-becker.jpg" alt="Photo of Ephraim Becker" width="70px" height="70px" /></li>
-        <li id="hamburger-icon"><a href="#" onclick="toggleNavMenu()">&#9776;</a></li>
-        <div id="links">
-          <li><a href="../../">Admin</a></li>
-          <li class="focus"><a href="../">Timeline</a></li>
-        </div>
-      </ul>
-    </nav>
-    <header>
-      <h1 style="font-weight: bold;">Admin - Timeline - Add Event</h1>
-    </header>
-    <main>
-      <form action="createEvent.php" method="post" enctype="multipart/form-data">
+<?php
+  $title = "Ephraim Becker - Admin - Timeline - Add Event";
+  $header = "Admin - Timeline - Add Event";
+  $localStyleSheet = '<link rel="stylesheet" href="css/style.css" />';
+  $localScript = '<script src="js/script.js"></script>';
+
+  $body = '<form action="createEvent.php" method="post" enctype="multipart/form-data">
         <div class="row">
           <div>
             <label for="eventDate">Start event date:</label>
@@ -105,9 +85,7 @@
         <br />
         <input type="submit" id="submit" value="Submit to timeline" disabled="disabled" />
         <br />
-      </form>
-    </main>
-    <script src="../../../js/script.js"></script>
-    <script src="js/script.js"></script>
-  </body>
-</html>
+      </form>';
+
+  require("../../base.php");
+?>
