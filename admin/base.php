@@ -18,8 +18,8 @@
         <li id="first"><img src="/img/ephraim-becker.jpg" alt="Photo of Ephraim Becker" width="70px" height="70px" /></li>
         <li id="hamburger-icon"><a href="#" onclick="toggleNavMenu()">&#9776;</a></li>
         <div id="links">
-          <li><a href="/index.php">Admin</a></li>
-          <li><a href="/timeline/">Timeline</a></li>
+          <li><a href="/admin/index.php">Admin</a></li>
+          <li><a href="/admin/timeline/">Timeline</a></li>
         </div>
       </ul>
     </nav>
