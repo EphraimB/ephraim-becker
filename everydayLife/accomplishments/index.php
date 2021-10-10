@@ -1,6 +1,6 @@
 <?php
-  $title = "Ephraim Becker - Everyday Life - Goals";
-  $header = "Goals";
+  $title = "Ephraim Becker - Everyday Life - Accomplishments";
+  $header = "Accomplishments";
   $localStyleSheet = '<link rel="stylesheet" href="css/style.css" />';
   $localScript = NULL;
 
