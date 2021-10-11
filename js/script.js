@@ -24,14 +24,16 @@ function onTouchStart() {
 
 function highlightNavItem() {
   var links = document.getElementById("links").getElementsByTagName("li");
-  var current = 0;
+
+  links[2].classList.remove('focus');
 
   for(var i = 0; i < links.length; i++) {
-      if (links[i].children[0].href === document.URL) {
-          current = i;
-      }
+    if(window.location.pathname == "/") {
+      links[0].className = 'focus';
+    } else if(links[i].children[0].pathname == window.location.pathname) {
+        links[i].className = 'focus';
+    }
   }
-  links[current].className = 'focus';
 }
 
 highlightNavItem();
