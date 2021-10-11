@@ -42,73 +42,54 @@
     $eventMediaPortrait = $row['EventMediaPortrait'];
     $eventMediaDescription = $row['EventMediaDescription'];
   }
-?>
 
-<!DOCTYPE html>
-<html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <title>Ephraim Becker - Timeline - More info</title>
-    <link rel="stylesheet" href="../../css/style.css" />
-    <link rel="stylesheet" href="../css/style.css" />
-    <link rel="canonical" href="https://www.ephraimbecker.com/timeline/moreInfo/" />
-    <link rel="icon" href="../../img/ephraim_becker.ico" type="image/x-icon" />
-    <link rel="apple-touch-icon" href="../img/ephraim-becker.png" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Hi! My name is Ephraim Becker and here's a timeline about my life and how people can learn from it." />
-    <meta name="keywords" content="Ephraim Becker, autism, aspergers, ADHD" />
-    <script src="js/script.js"></script>
-  </head>
-  <body>
-    <nav>
-      <ul>
-        <li id="first"><img src="../../img/ephraim-becker.jpg" alt="Photo of Ephraim Becker" width="70px" height="70px" /></li>
-        <li id="hamburger-icon"><a href="#" onclick="toggleNavMenu()">&#9776;</a></li>
-        <div id="links">
-          <li><a href="../../">Home</a></li>
-          <li class="focus"><a href="../">Timeline</a></li>
-          <div id="dropdown">
-            <li><a href="#" onclick="toggleNavSubmenu()">Daily Life &emsp; &#x25BC;</a></li>
-            <div id="dropdown-content">
-              <li><a href="../../everydayLife/">Everyday Life</a></li>
-              <li><a href="../../college/">College Life</a></li>
-            </div>
-          </div>
-          <li><a href="../../projects/">Projects</a></li>
-          <li><a href="../../resources/">Resources</a></li>
-          <li><a href="../../about/">About</a></li>
-        </div>
-      </ul>
-    </nav>
-    <header>
-      <h1 style="font-weight: bold;">Timeline - <?php echo $eventTitle ?></h1>
-    </header>
-    <main>
-      <div class="<?php if($hide == 1) { echo 'hidden-memory '; } if($memoryType == 0) { echo 'remembered-memory'; } else if($memoryType == 1) { echo 'diary-memory'; } ?> ">
-        <h2><time datetime="<?php echo $localDate ?>"><?php if(!is_null($localTime)) { echo $eventDateFormatted . " " . $eventTimeFormatted . " " . $eventTimeZone; } else { echo $eventDateFormatted; } ?></time><?php if(!is_null($endEventDate)) { echo " - <time datetime='" . $endEventDate . "'>" . $endEventDateFormatted . "</time>"; } ?></h2>
-        <h3><?php echo $eventTitle ?></h3>
-        <p><?php echo $eventDescription ?></p>
+  $title = "Ephraim Becker - Timeline - More info";
+  $header = "Timeline - " . $eventTitle;
+  $localStyleSheet = '<link rel="stylesheet" href="../css/style.css" />';
+  $localScript = '<script src="js/script.js"></script>';
 
-        <?php
+  $body = '<div class="';
+
+  if($hide == 1) {
+    $body .= 'hidden-memory "';
+  }
+
+  if($memoryType == 0) {
+    $body .= 'remembered-memory"';
+  } else if($memoryType == 1) {
+    $body .= 'diary-memory"';
+  }
+  $body .= '>
+        <h2><time datetime="' . $localDate . '">';
+
+        if(!is_null($localTime)) {
+          $body .= $eventDateFormatted . " " . $eventTimeFormatted . " " . $eventTimeZone;
+         } else {
+           $body .= $eventDateFormatted;
+          }
+          $body .= '</time>';
+
+          if(!is_null($endEventDate)) {
+            $body .= ' - <time datetime="' . $endEventDate . '">' . $endEventDateFormatted . '</time>';
+           }
+           $body .= '</h2>
+        <h3>' . $eventTitle . '</h3>
+        <p>' . $eventDescription . '</p>';
+
         if(!is_null($eventYouTubeLink)) {
-        ?>
-        <iframe width="560" height="315" src="<?php echo $eventYouTubeLink ?>" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-        <?php
+          $body .= '<iframe width="560" height="315" src="' . $eventYouTubeLink . '" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>';
         }
 
         if(!is_null($eventMedia)) {
           if($eventMediaPortrait == 0) {
-        ?>
-          <img src="<?php echo '../../timeline/img/' . $eventMedia ?>" alt="<?php echo $eventMediaDescription ?>" width="200px" height="113px" />
-        <?php } else { ?>
-          <img src="<?php echo '../../timeline/img/' . $eventMedia ?>" alt="<?php echo $eventMediaDescription ?>" width="113px" height="200px" />
-        <?php
+            $body .= '<img src="../../timeline/img/' . $eventMedia . '" alt="' . $eventMediaDescription . '" width="200px" height="113px" />';
+        } else {
+          $body .= '<img src="../../timeline/img/' . $eventMedia . '" alt="' . $eventMediaDescription . '" width="113px" height="200px" />';
         }
-        }
-        ?>
-      </div>
-      <br />
-      <?php
+      }
+      $body .= '</div>
+      <br />';
+
         if(isset($_GET['offset'])) {
           $offset = $_GET['offset'];
         } else {
@@ -127,18 +108,12 @@
          $date = $rowTwo['DateCreated'];
          $dateModified = $rowTwo['DateModified'];
          $thought = $rowTwo['Thought'];
-      ?>
-     <div class="thought">
-       <h2 class="date"><time datetime="<?php echo date('Y-m-d H:i:s', strtotime($date) - intval($offset)); ?>"><?php echo date('m/d/Y h:i A', strtotime($date) - intval($offset)); ?></time></h2>
-       <p><?php echo $thought ?></p>
-     </div>
-     <?php
-       }
-      ?>
-    </main>
-    <footer>
-      <p>&copy; 2021 Ephraim Becker</p>
-    </footer>
-    <script src="../../js/script.js"></script>
-  </body>
-</html>
+
+     $body .= '<div class="thought">
+       <h2 class="date"><time datetime="' . date('Y-m-d H:i:s', strtotime($date) - intval($offset)) . '">' . date('m/d/Y h:i A', strtotime($date) - intval($offset)) . '</time></h2>
+       <p>' . $thought . '</p>
+     </div>';
+    }
+
+    require("../../base.php");
+?>

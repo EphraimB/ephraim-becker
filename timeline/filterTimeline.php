@@ -3,14 +3,20 @@
 
   global $link;
 
+  $title = "";
+  $header = "";
+  $localStyleSheet = '<link rel="stylesheet" href="css/style.css" />';
+  $body = "";
+  $localScript = '<script src="js/ajax.js"></script>';
 
-  function navButtons($link) {
+
+  function navButtons($link, $body) {
     $year = $_GET['year'];
     $month = $_GET['month'];
     $day = $_GET['day'];
-    ?>
-    <div class="row">
-    <?php
+
+    $body .= '<div class="row">';
+
     $sqlDatesDesc = $link->prepare("SELECT EventDate, YEAR(EventDate) AS Year, MONTH(EventDate) AS Month, DAY(EventDate) AS Day FROM timeline WHERE EventDate<? AND hide=0 GROUP BY EventDate ORDER BY EventDate DESC LIMIT 1");
     $sqlDatesDesc->bind_param("s", $navvedEventDateDesc);
 
@@ -44,12 +50,11 @@
           $year = $rowTwoDesc['Year'];
         }
       }
-      ?>
-      <br />
-      <div class="navButton" onclick="filterTimeline('<?php echo $year ?>', '<?php echo $month ?>', '<?php echo $day ?>')">
+
+      $body .= '<br />
+      <div class="navButton" onclick="filterTimeline(' . $year . ', ' . $month . ', ' . $day . ')">
          <p><</p>
-      </div>
-    <?php
+      </div>';
     }
 
 
@@ -92,29 +97,25 @@
         }
       }
 
-      ?>
-      <div class="navButton" onclick="filterTimeline('<?php echo $year ?>', '<?php echo $month ?>', '<?php echo $day ?>')">
+      $body .= '<div class="navButton" onclick="filterTimeline(\'' . $year . '\', \'' . $month . '\', \'' . $day . '\')">
          <p>></p>
-      </div>
-      <?php
+      </div>';
     }
-    ?>
-    </div>
-    <?php
+
+    $body .= '</div>';
+
+    return $body;
   }
 
-  function displayAllEvents($sqlResult, $link) {
+  function displayAllEvents($sqlResult, $link, $title, $header, $body) {
     $year = $_GET['year'];
     $month = $_GET['month'];
     $day = $_GET['day'];
 
-    ?>
+    $title .= "Ephraim Becker - Timeline - " . $year . " album";
+    $header .= "Ephraim Becker - Timeline - " . $year . " album";
 
-    <header>
-      <h1 style="font-weight: bold;">Timeline - <?php echo $year ?> album</h1>
-    </header>
-    <main>
-      <table>
+    $body .= '<table>
         <tr>
           <td rowspan="3">Legend</td>
           <td class="remembered-memory">Remembered memory</td>
@@ -123,8 +124,8 @@
           <td class="diary-memory">Diary memory</td>
         </tr>
       </table>
-      <br />
-    <?php
+      <br />';
+
     while($row = mysqli_fetch_array($sqlResult)) {
       $id = $row['TimelineId'];
 
@@ -164,58 +165,67 @@
       while($rowTwo = mysqli_fetch_array($sqlThoughtsResult)) {
         $numberOfThoughts = $rowTwo['NumberOfThoughts'];
       }
-      ?>
-      <div style="margin-bottom: 10px;" class="event <?php if($memoryType == 0) { echo 'remembered-memory'; } else if($memoryType == 1) { echo 'diary-memory'; } ?> ">
-        <a class="more-info-link" href="moreInfo/index.php?id=<?php echo $id ?>">
-          <div class="row">
-            <h2><time datetime="<?php echo $localDate ?>"><?php if(!is_null($localTime)) { echo $eventDateFormatted . " " . $eventTimeFormatted . " " . $eventTimeZone; } else { echo $eventDateFormatted; } ?></time><?php if(!is_null($endEventDate)) { echo " - <time datetime='" . $endEventDate . "'>" . $endEventDateFormatted . "</time>"; } ?></h2>
-            <?php
-            if($numberOfThoughts > 0) {
-            ?>
-            <div class="number-of-thoughts">
-              <span><?php echo $numberOfThoughts ?></span>
-            </div>
-            <?php
-            }
-             ?>
-          </div>
-          <h3><?php echo $eventTitle ?></h3>
-          <p><?php echo $eventDescription ?></p>
 
-          <?php
+      $body .= '<div style="margin-bottom: 10px;" class="event ';
+       if($memoryType == 0) {
+         $body .= 'remembered-memory';
+        } else if($memoryType == 1) {
+          $body .= 'diary-memory'; }
+          $body .= '">
+        <a class="more-info-link" href="moreInfo/index.php?id=' . $id . '">
+          <div class="row">
+            <h2><time datetime="' . $localDate . '">';
+            if(!is_null($localTime)) {
+              $body .= $eventDateFormatted . " " . $eventTimeFormatted . " " . $eventTimeZone;
+             } else {
+               $body .= $eventDateFormatted;
+             }
+             $body .= '</time>';
+              if(!is_null($endEventDate)) {
+                $body .= " - <time datetime='" . $endEventDate . "'>"
+               . $endEventDateFormatted . "</time>";
+             }
+             $body .= '</h2>';
+
+            if($numberOfThoughts > 0) {
+            $body .= '<div class="number-of-thoughts">
+              <span>' . $numberOfThoughts . '</span>
+            </div>';
+            }
+          $body .= '</div>
+          <h3>' . $eventTitle . '</h3>
+          <p>' . $eventDescription . '</p>';
+
           if(!is_null($eventYouTubeLink)) {
-          ?>
-          <iframe width="560" height="315" src="<?php echo $eventYouTubeLink ?>" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-          <?php
+          $body .= '<iframe width="560" height="315" src="' . $eventYouTubeLink . '" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>';
+
           }
 
           if(!is_null($eventMedia)) {
             if($eventMediaPortrait == 0) {
-          ?>
-            <img src="<?php echo '../../timeline/img/' . $eventMedia ?>" alt="<?php echo $eventMediaDescription ?>" width="200px" height="113px" />
-          <?php } else { ?>
-            <img src="<?php echo '../../timeline/img/' . $eventMedia ?>" alt="<?php echo $eventMediaDescription ?>" width="113px" height="200px" />
-          <?php
+            $body .= '<img src="../../timeline/img/' . $eventMedia . " alt=" . $eventMediaDescription . '" width="200px" height="113px" />';
+          } else {
+            $body .= '<img src="../../timeline/img/' . $eventMedia . '" alt="' . $eventMediaDescription . '" width="113px" height="200px" />';
           }
         }
-      ?>
-    </a>
+    $body .= '</a>
   </div>
-  <br />
-  <?php
+  <br />';
     }
-    navButtons($link);
+
+    $body = navButtons($link, $body);
+
+    return array($title, $header, $body);
   }
 
-  function displaySorter($sqlResult, $link) {
+  function displaySorter($sqlResult, $link, $title, $header, $body) {
     $year = $_GET['year'];
     $month = $_GET['month'];
-    ?>
-    <header>
-      <h1 style="font-weight: bold;">Timeline - <?php echo $year ?> album</h1>
-    </header>
-    <main>
-      <table>
+
+    $title .= "Ephraim Becker - Timeline - " . $year . " album";
+    $header .= "Ephraim Becker - Timeline - " . $year . " album";
+
+      $body .= '<table>
         <tr>
           <td rowspan="3">Legend</td>
           <td class="remembered-memory">Remembered memory</td>
@@ -224,8 +234,8 @@
           <td class="diary-memory">Diary memory</td>
         </tr>
       </table>
-      <div id="grid-container">
-    <?php
+      <div id="grid-container">';
+
       while($row = mysqli_fetch_array($sqlResult)) {
         $month = $row['Month'];
 
@@ -237,56 +247,27 @@
         } else {
           $day = NULL;
         }
-        ?>
-        <div class="card album-cover" id="album-cover-<?php if(!is_null($day)) { echo $year . '-' . $month . '-' . $day; } else { echo $year . '-' . $month; } ?>" onclick="filterTimeline('<?php echo $year ?>', '<?php echo $month ?>', '<?php echo $day ?>')">
-          <h2><?php echo $monthName . " " . $day ?></h2>
-          <p>All the events on <?php echo $monthName . " " . $day ?></p>
-        </div>
-      <?php } ?>
-      </div>
-      <br />
-      <?php
-      navButtons($link);
+
+        $body .= '<div class="card album-cover" id="album-cover-';
+        if(!is_null($day)) {
+          $body .= $year . '-' . $month . '-' . $day;
+         } else {
+           $body .= $year . '-' . $month;
+          }
+          $body .= '" onclick="filterTimeline(\'' . $year . '\', \'' . $month .
+         '\', \'' . $day . '\')">
+          <h2>' . $monthName . " " . $day . '</h2>
+          <p>All the events on ' . $monthName . " " . $day . '</p>
+        </div>';
+      }
+      $body .= '</div>
+      <br />';
+
+      $body = navButtons($link, $body);
+
+      return array($title, $header, $body);
     }
-?>
 
-<!DOCTYPE html>
-<html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <title>Ephraim Becker - Timeline</title>
-    <link rel="stylesheet" href="../css/style.css" />
-    <link rel="stylesheet" href="css/style.css" />
-    <link rel="canonical" href="https://www.ephraimbecker.com/timeline/" />
-    <link rel="icon" href="../img/ephraim_becker.ico" type="image/x-icon" />
-    <link rel="apple-touch-icon" href="../img/ephraim-becker.png" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Hi! My name is Ephraim Becker and here's a timeline about my life and how people can learn from it." />
-    <meta name="keywords" content="Ephraim Becker, autism, aspergers, ADHD" />
-  </head>
-  <body>
-    <nav>
-      <ul>
-        <li id="first"><img src="../img/ephraim-becker.jpg" alt="Photo of Ephraim Becker" width="70px" height="70px" /></li>
-        <li id="hamburger-icon"><a href="#" onclick="toggleNavMenu()">&#9776;</a></li>
-        <div id="links">
-          <li><a href="../">Home</a></li>
-          <li class="focus"><a href="../timeline/">Timeline</a></li>
-          <div id="dropdown">
-            <li><a href="#" onclick="toggleNavSubmenu()">Daily Life &emsp; &#x25BC;</a></li>
-            <div id="dropdown-content">
-              <li><a href="../everydayLife/">Everyday Life</a></li>
-              <li><a href="../college/">College Life</a></li>
-            </div>
-          </div>
-          <li><a href="../projects/">Projects</a></li>
-          <li><a href="../resources/">Resources</a></li>
-          <li><a href="../about/">About</a></li>
-        </div>
-      </ul>
-    </nav>
-
-<?php
 if($_GET['day'] == 0) {
   if($_GET['month'] == 0) {
     $sql = $link->prepare("SELECT *, IFNULL(DATE_FORMAT(concat(EventDate, ' ', EventTime) - INTERVAL EventTimeZoneOffset SECOND, '%Y-%m-%d'), EventDate) AS 'LocalDate', IFNULL(TIME_FORMAT(concat(EventDate, ' ', EventTime) - INTERVAL EventTimeZoneOffset SECOND, '%H:%i:%s'), NULL) AS 'LocalTime', MONTH(EventDate) AS Month FROM timeline WHERE hide = 0 AND YEAR(EventDate) = ? ORDER BY EventDate ASC");
@@ -307,9 +288,9 @@ if($_GET['day'] == 0) {
 
       $sqlTwoResult = $sqlTwo->get_result();
 
-      displaySorter($sqlTwoResult, $link);
+      list($title, $header, $body) = displaySorter($sqlTwoResult, $link, $title, $header, $body);
     } else {
-        displayAllEvents($sqlResult, $link);
+        list($title, $header, $body) = displayAllEvents($sqlResult, $link, $title, $header, $body);
     }
 
     $sql->close();
@@ -328,7 +309,7 @@ if($_GET['day'] == 0) {
     $sqlThreeResult = $sqlThree->get_result();
 
     if($sqlThreeResult->num_rows < 12) {
-      displayAllEvents($sqlThreeResult, $link);
+      list($title, $header, $body) = displayAllEvents($sqlThreeResult, $link, $title, $header, $body);
 
       $sqlThree->close();
     } else {
@@ -339,7 +320,7 @@ if($_GET['day'] == 0) {
 
         $sqlFourResult = $sqlFour->get_result();
 
-        displaySorter($sqlFourResult, $link);
+        list($title, $header, $body) = displaySorter($sqlFourResult, $link, $title, $header, $body);
       }
     }
   } else {
@@ -358,19 +339,12 @@ if($_GET['day'] == 0) {
 
   $sqlFiveResult = $sqlFive->get_result();
 
-  displayAllEvents($sqlFiveResult, $link);
+  list($title, $header, $body) = displayAllEvents($sqlFiveResult, $link, $title, $header, $body);
 
   $sqlFive->close();
 }
 
 $link->close();
- ?>
 
-</main>
-<footer>
-  <p>&copy; 2021 Ephraim Becker</p>
-</footer>
-<script src="../js/script.js"></script>
-<script src="js/ajax.js"></script>
-</body>
-</html>
+require("../base.php");
+ ?>
