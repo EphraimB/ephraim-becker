@@ -1,4 +1,9 @@
 <?php
+  session_start();
+
+  require_once($_SERVER['DOCUMENT_ROOT'] . '/environment.php');
+
+  global $link;
   //date in mm/dd/yyyy format; or it can be in other formats as well
   $birthDate = "07/19/1996";
   //explode the date to get month, day and year
@@ -8,10 +13,20 @@
     ? ((date("Y") - $birthDate[2]) - 1)
     : (date("Y") - $birthDate[2]));
 
+
     $title = "Ephraim Becker - All about my autistic life";
     $localStyleSheet = NULL;
     $header = NULL;
-    $body = '
+    $body = '';
+
+    if(isset($_SESSION['username'])) {
+      $admin = '<li><a href="/adminLogout.php">Logout</a></li>';
+      $body .= 'Hey, admin';
+    } else {
+      $admin = '<li><a href="/adminLogin/">Login</a></li>';
+    }
+
+    $body .= '
     <main>
       <div id="profileCard" itemscope itemtype="https://schema.org/Person">
         <img src="img/ephraim-becker.jpg" itemprop="image" alt="Photo of Ephraim Becker" width="100px" height="100px" />

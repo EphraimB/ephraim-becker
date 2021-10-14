@@ -30,7 +30,7 @@
           <li><a href="/projects/">Projects</a></li>
           <li><a href="/resources/">Resources</a></li>
           <li><a href="/about/">About</a></li>
-          <li><a href="/adminLogin/">Admin</a></li>
+          <?php echo $admin; ?>
         </div>
       </ul>
     </nav>
