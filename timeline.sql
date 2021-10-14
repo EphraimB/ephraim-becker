@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.9.4
+-- version 4.9.5
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Oct 12, 2021 at 05:38 AM
+-- Generation Time: Oct 14, 2021 at 07:23 AM
 -- Server version: 5.7.35-cll-lve
--- PHP Version: 7.3.6
+-- PHP Version: 7.3.27
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -142,7 +142,12 @@ INSERT INTO `timeline` (`TimelineId`, `MemoryType`, `DateCreated`, `DateModified
 (144, 1, '2021-10-11 14:32:34', '2021-10-11 14:32:34', '2021-10-11', '01:30:00', NULL, 'EDT', 14400, 'How my evening was', 'I went back to the Irving Place minyan for ×ž× ×—×”/×ž×¢×¨×™×‘ and spoke to people about where there would be people on the spectrum that\'s in my age group. I exchanged phone numbers with some people and the Rabbi. I met my family in The Upper Crust for supper because of my sister\'s birthday.', NULL, NULL, NULL, NULL, 0),
 (145, 1, '2021-10-11 18:13:56', '2021-10-11 18:13:56', '2021-10-11', '18:06:00', NULL, 'EDT', 14400, 'How my day is going so far', 'I took everything I needed for work and college with me to Beth Sholom where I davened ×©×—×¨×™×ª and then went to Gourmet Glatt where I bought a box of Amnon\'s pizza and mozzarella sticks and a personal $20 boat of sushi for lunch. I then took the train to my work in Lower Manhattan. I\'m keeping the pizza and mozzarella sticks in the freezer at my work. I went to the 1:35PM ×ž× ×—×” at the Wall St Synagogue where I was the ×—×–×Ÿ. I\'m now back at work and will take the QM7 express bus to Landers College after I finish work at 3PM. I\'m doing tutorials on Salesforce Trailhead but I\'m getting distracted by my anxious thoughts on making and maintaining new friends.', NULL, NULL, NULL, NULL, 0),
 (146, 1, '2021-10-11 20:55:59', '2021-10-11 20:55:59', '2021-10-11', '20:54:00', NULL, 'EDT', 14400, 'Supper before college', 'I had pizza and sushi in Benjyâ€™s Kosher Pizza before college.', 'supper-before-college.jpg', 0, 'Supper before college', NULL, 0),
-(147, 1, '2021-10-12 01:47:33', '2021-10-12 01:47:33', '2021-10-12', '01:40:00', NULL, 'EDT', 14400, 'How college was', 'In database class, I learnt about join operators. In Data Structures 1, I took notes and learnt about exceptions and resolving problems with zazas which everyone took (photo below). After was Precalculus class where I learnt about piecewise equations and moving the domain of graphs to the left and right. There was no Fundamentals of Speech class so Iâ€™m now waiting for my carpool.', 'bag-of-zazas.jpg', 1, 'Bag of zazas', NULL, 0);
+(147, 1, '2021-10-12 01:47:33', '2021-10-12 01:47:33', '2021-10-12', '01:40:00', NULL, 'EDT', 14400, 'How college was', 'In database class, I learnt about join operators. In Data Structures 1, I took notes and learnt about exceptions and resolving problems with zazas which everyone took (photo below). After was Precalculus class where I learnt about piecewise equations and moving the domain of graphs to the left and right. There was no Fundamentals of Speech class so Iâ€™m now waiting for my carpool.', 'bag-of-zazas.jpg', 1, 'Bag of zazas', NULL, 0),
+(148, 1, '2021-10-12 20:28:40', '2021-10-12 20:28:40', '2021-10-12', '20:25:00', NULL, 'EDT', 14400, 'Iâ€™m curious about the Jewish Center of Atlantic Beach', 'Iâ€™m curious about the Jewish Center of Atlantic Beach. Itâ€™s a modern orthodox ×‘×™×ª ×”×›× ×¡×ª so I can try it out and hope that thereâ€™s someone autistic there thatâ€™s my type in my age group thatâ€™s into computers. Unfortunately, itâ€™s not clear what time the minyanim are.', NULL, NULL, NULL, NULL, 0),
+(149, 1, '2021-10-12 23:08:39', '2021-10-12 23:08:39', '2021-10-12', '23:04:00', NULL, 'EDT', 14400, 'How my journey to and from Atlantic Beach was', 'I walked to the Jewish Center of Atlantic Beach and asked about other people on the autism spectrum and someone told me that he knows of 2 people off the top of his head. That person drove me to someone\'s house and introduced me to someone turning 17 on the autism spectrum and I got along with him just fine. That person that drove me then drove me back to Far Rockaway. I was very thankful to him.', NULL, NULL, NULL, NULL, 0),
+(150, 1, '2021-10-13 12:13:31', '2021-10-13 12:13:31', '2021-10-13', '12:10:00', NULL, 'EDT', 14400, '×©×—×¨×™×ª at the White Shul', 'I meant to go to Beth Sholom for ×©×—×¨×™×ª but I woke up late so I would have been 15 minutes late to Beth Sholom if I would have walked all the way there so I went to the White Shul instead. I was the ×—×–×Ÿ from the second ××©×¨×™ until the end.', NULL, NULL, NULL, NULL, 0),
+(151, 1, '2021-10-13 15:39:41', '2021-10-13 15:39:41', '2021-10-13', '15:39:00', NULL, 'EDT', 14400, 'Hard time focusing at work', 'My website, https://www.ephraimbecker.com/, was my first successful project I worked on that actually came to fruition. The thing is that I know that is a little mess and can be improved but I would need to learn Adobe photoshop and maybe even XD in order to brainstorm what I want to improve. The thing is that I have work and college which is making it hard to focus on anything and causes me to pace around. I canâ€™t get any work done because of this and anxiety. Iâ€™m supposed to be working now but instead Iâ€™m unfortunately slacking off.', NULL, NULL, NULL, NULL, 0),
+(152, 1, '2021-10-14 02:57:08', '2021-10-14 02:57:08', '2021-10-14', '02:51:00', NULL, 'EDT', 14400, 'How my college was', 'College was on zoom today. In database class, I learnt more about joins. In Data Structures 1 class, I learnt about reusing code and other stuff. In Precalculus class, I learnt more about functions and solving the y intercept. In Fundamentals of Speech class, I learnt about making a public speech out of words and that itâ€™s not what you say, itâ€™s how you say it.', NULL, NULL, NULL, NULL, 0);
 
 --
 -- Indexes for dumped tables
@@ -162,7 +167,7 @@ ALTER TABLE `timeline`
 -- AUTO_INCREMENT for table `timeline`
 --
 ALTER TABLE `timeline`
-  MODIFY `TimelineId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=148;
+  MODIFY `TimelineId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=153;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
