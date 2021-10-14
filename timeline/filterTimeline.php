@@ -292,19 +292,31 @@
 
 if($_GET['day'] == 0) {
   if($_GET['month'] == 0) {
-    $sql = $link->prepare("SELECT *, IFNULL(DATE_FORMAT(concat(EventDate, ' ', EventTime) - INTERVAL EventTimeZoneOffset SECOND, '%Y-%m-%d'), EventDate) AS 'LocalDate', IFNULL(TIME_FORMAT(concat(EventDate, ' ', EventTime) - INTERVAL EventTimeZoneOffset SECOND, '%H:%i:%s'), NULL) AS 'LocalTime', MONTH(EventDate) AS Month FROM timeline WHERE hide = 0 AND YEAR(EventDate) = ? ORDER BY EventDate ASC");
-    $sql->bind_param("i", $year);
+    $sql = $link->prepare("SELECT *, IFNULL(DATE_FORMAT(concat(EventDate, ' ', EventTime) - INTERVAL EventTimeZoneOffset SECOND, '%Y-%m-%d'), EventDate) AS 'LocalDate', IFNULL(TIME_FORMAT(concat(EventDate, ' ', EventTime) - INTERVAL EventTimeZoneOffset SECOND, '%H:%i:%s'), NULL) AS 'LocalTime', MONTH(EventDate) AS Month FROM timeline WHERE hide = IF(1=?, hide, 0) AND YEAR(EventDate) = ? ORDER BY EventDate ASC");
+    $sql->bind_param("ii", $year, $isAdmin);
 
     $year = $_GET['year'];
+
+    if(isset($_SESSION['username'])) {
+      $isAdmin = 1;
+    } else {
+      $isAdmin = 0;
+    }
 
     $sql->execute();
 
     $sqlResult = $sql->get_result();
 
     if($sqlResult->num_rows > 12) {
-      $sqlTwo = $link->prepare("SELECT *, IFNULL(DATE_FORMAT(concat(EventDate, ' ', EventTime) - INTERVAL EventTimeZoneOffset SECOND, '%Y-%m-%d'), EventDate) AS 'LocalDate', IFNULL(TIME_FORMAT(concat(EventDate, ' ', EventTime) - INTERVAL EventTimeZoneOffset SECOND, '%H:%i:%s'), NULL) AS 'LocalTime', MONTH(EventDate) AS Month FROM timeline WHERE hide = 0 AND YEAR(EventDate) = ? GROUP BY Month ORDER BY EventDate ASC");
-      $sqlTwo->bind_param("i", $year);
+      $sqlTwo = $link->prepare("SELECT *, IFNULL(DATE_FORMAT(concat(EventDate, ' ', EventTime) - INTERVAL EventTimeZoneOffset SECOND, '%Y-%m-%d'), EventDate) AS 'LocalDate', IFNULL(TIME_FORMAT(concat(EventDate, ' ', EventTime) - INTERVAL EventTimeZoneOffset SECOND, '%H:%i:%s'), NULL) AS 'LocalTime', MONTH(EventDate) AS Month FROM timeline WHERE hide = IF(1=?, hide, 0) AND YEAR(EventDate) = ? GROUP BY Month ORDER BY EventDate ASC");
+      $sqlTwo->bind_param("ii", $year, $isAdmin);
       $yearTwo = $_GET['year'];
+
+      if(isset($_SESSION['username'])) {
+        $isAdmin = 1;
+      } else {
+        $isAdmin = 0;
+      }
 
       $sqlTwo->execute();
 
@@ -323,8 +335,14 @@ if($_GET['day'] == 0) {
     $dateObj = DateTime::createFromFormat('!m', $month);
     $monthName = $dateObj->format('F');
 
-    $sqlThree = $link->prepare("SELECT *, IFNULL(DATE_FORMAT(concat(EventDate, ' ', EventTime) - INTERVAL EventTimeZoneOffset SECOND, '%Y-%m-%d'), EventDate) AS 'LocalDate', IFNULL(TIME_FORMAT(concat(EventDate, ' ', EventTime) - INTERVAL EventTimeZoneOffset SECOND, '%H:%i:%s'), NULL) AS 'LocalTime', DAY(EventDate) AS Day FROM timeline WHERE hide = 0 AND YEAR(EventDate) = ? AND MONTH(EventDate) = ? ORDER BY EventDate ASC");
-    $sqlThree->bind_param("ii", $year, $month);
+    $sqlThree = $link->prepare("SELECT *, IFNULL(DATE_FORMAT(concat(EventDate, ' ', EventTime) - INTERVAL EventTimeZoneOffset SECOND, '%Y-%m-%d'), EventDate) AS 'LocalDate', IFNULL(TIME_FORMAT(concat(EventDate, ' ', EventTime) - INTERVAL EventTimeZoneOffset SECOND, '%H:%i:%s'), NULL) AS 'LocalTime', DAY(EventDate) AS Day FROM timeline WHERE hide = IF(1=?, hide, 0) AND YEAR(EventDate) = ? AND MONTH(EventDate) = ? ORDER BY EventDate ASC");
+    $sqlThree->bind_param("iii", $year, $month, $isAdmin);
+
+    if(isset($_SESSION['username'])) {
+      $isAdmin = 1;
+    } else {
+      $isAdmin = 0;
+    }
 
     $sqlThree->execute();
 
@@ -335,8 +353,14 @@ if($_GET['day'] == 0) {
 
       $sqlThree->close();
     } else {
-        $sqlFour = $link->prepare("SELECT *, IFNULL(DATE_FORMAT(concat(EventDate, ' ', EventTime) - INTERVAL EventTimeZoneOffset SECOND, '%Y-%m-%d'), EventDate) AS 'LocalDate', IFNULL(TIME_FORMAT(concat(EventDate, ' ', EventTime) - INTERVAL EventTimeZoneOffset SECOND, '%H:%i:%s'), NULL) AS 'LocalTime', MONTH(EventDate) AS Month, DAY(EventDate) AS Day FROM timeline WHERE hide = 0 AND YEAR(EventDate) = ? AND MONTH(EventDate) = ? GROUP BY Day ORDER BY EventDate ASC");
-        $sqlFour->bind_param("ii", $year, $month);
+        $sqlFour = $link->prepare("SELECT *, IFNULL(DATE_FORMAT(concat(EventDate, ' ', EventTime) - INTERVAL EventTimeZoneOffset SECOND, '%Y-%m-%d'), EventDate) AS 'LocalDate', IFNULL(TIME_FORMAT(concat(EventDate, ' ', EventTime) - INTERVAL EventTimeZoneOffset SECOND, '%H:%i:%s'), NULL) AS 'LocalTime', MONTH(EventDate) AS Month, DAY(EventDate) AS Day FROM timeline WHERE hide = IF(1=?, hide, 0) AND YEAR(EventDate) = ? AND MONTH(EventDate) = ? GROUP BY Day ORDER BY EventDate ASC");
+        $sqlFour->bind_param("iii", $year, $month, $isAdmin);
+
+        if(isset($_SESSION['username'])) {
+          $isAdmin = 1;
+        } else {
+          $isAdmin = 0;
+        }
 
         $sqlFour->execute();
 
@@ -346,11 +370,17 @@ if($_GET['day'] == 0) {
       }
     }
   } else {
-  $sqlFive = $link->prepare("SELECT *, IFNULL(DATE_FORMAT(concat(EventDate, ' ', EventTime) - INTERVAL EventTimeZoneOffset SECOND, '%Y-%m-%d'), EventDate) AS 'LocalDate', IFNULL(TIME_FORMAT(concat(EventDate, ' ', EventTime) - INTERVAL EventTimeZoneOffset SECOND, '%H:%i:%s'), NULL) AS 'LocalTime', DAY(EventDate) AS Day FROM timeline WHERE hide = 0 AND YEAR(EventDate) = ? AND MONTH(EventDate) = ? AND DAY(EventDate) = ? ORDER BY EventDate ASC");
-  $sqlFive->bind_param("iii", $year, $month, $day);
+  $sqlFive = $link->prepare("SELECT *, IFNULL(DATE_FORMAT(concat(EventDate, ' ', EventTime) - INTERVAL EventTimeZoneOffset SECOND, '%Y-%m-%d'), EventDate) AS 'LocalDate', IFNULL(TIME_FORMAT(concat(EventDate, ' ', EventTime) - INTERVAL EventTimeZoneOffset SECOND, '%H:%i:%s'), NULL) AS 'LocalTime', DAY(EventDate) AS Day FROM timeline WHERE hide = IF(1=?, hide, 0) AND YEAR(EventDate) = ? AND MONTH(EventDate) = ? AND DAY(EventDate) = ? ORDER BY EventDate ASC");
+  $sqlFive->bind_param("iiii", $year, $month, $day, $isAdmin);
 
   $year = $_GET['year'];
   $month = $_GET['month'];
+
+  if(isset($_SESSION['username'])) {
+    $isAdmin = 1;
+  } else {
+    $isAdmin = 0;
+  }
 
   $dateObj = DateTime::createFromFormat('!m', $month);
   $monthName = $dateObj->format('F');
