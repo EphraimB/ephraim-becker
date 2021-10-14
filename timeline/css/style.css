@@ -33,6 +33,84 @@
   color: black;
 }
 
+.subNav, .actionButtons {
+  overflow: hidden;
+  position: relative;
+  height: 25%;
+  list-style-type: none;
+}
+
+.subNav li, .actionButtons a {
+  float: left;
+}
+
+.subNav a {
+  text-decoration: none;
+  display: block;
+  padding: 14px 16px;
+  background-color: green;
+  color: white;
+}
+
+.subNav a:hover {
+  background-color: lightgreen;
+}
+
+.actionButtons a {
+  text-decoration: none;
+  display: block;
+  padding: 14px 16px;
+}
+
+.edit {
+  background-color: yellow;
+  color: black;
+}
+
+.edit:hover {
+  background-color: lightyellow;
+}
+
+.hide {
+  background-color: white;
+  color: black;
+}
+
+.hide:hover {
+  background-color: grey;
+}
+
+.delete {
+  background-color: red;
+  color: white;
+}
+
+.delete:hover {
+  background-color: Crimson;
+}
+
+.keep {
+  background-color: green;
+  color: white;
+}
+
+.keep:hover {
+  background-color: lightgreen;
+}
+
+.thoughtButton {
+  background-color: rgb(255, 215, 0);
+  color: black;
+  border: 0;
+  width: 100%;
+  padding: 16px 32px;
+  cursor: pointer;
+}
+
+.thoughtButton:hover {
+  background-color: rgb(250, 250, 210);
+}
+
 h2 {
   font-weight: bold;
 }

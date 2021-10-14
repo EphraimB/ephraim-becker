@@ -1,4 +1,6 @@
 <?php
+  session_start();
+
   require_once($_SERVER['DOCUMENT_ROOT'] . '/environment.php');
 
   global $link;
@@ -8,6 +10,12 @@
   $localStyleSheet = '<link rel="stylesheet" href="css/style.css" />';
   $body = "";
   $localScript = '<script src="js/ajax.js"></script>';
+
+  if(isset($_SESSION['username'])) {
+    $admin = '<li><a href="/adminLogout.php">Logout</a></li>';
+  } else {
+    $admin = '<li><a href="/adminLogin/">Login</a></li>';
+  }
 
 
   function navButtons($link, $body) {
@@ -208,8 +216,22 @@
             $body .= '<img src="../../timeline/img/' . $eventMedia . '" alt="' . $eventMediaDescription . '" width="113px" height="200px" />';
           }
         }
-    $body .= '</a>
-  </div>
+    $body .= '</a>';
+
+    if(isset($_SESSION['username'])) {
+      $body .= '<ul class="row actionButtons">
+        <li><a class="edit" href="editEvent/index.php?id=' . $id . '&year=' . $year . '&month=' . $month . '&day=' . $day . '">Edit</a></li>';
+        if($hide == 0) {
+          $body .= '<li><a class="hide" href="hideEvent.php?id=' . $id . '&year=' . $year . '&month=' . $month . '&day=' . $day . '">Hide</a></li>';
+        }
+        else if($hide == 1) {
+          $body .= '<li><a class="hide" href="unhideEvent.php?id=' . $id . '&year=' . $year . '&month=' . $month . '&day=' . $day . '">Unhide</a></li>';
+        }
+        $body .= '<li><a class="delete" href="confirmation.php?id=' . $id . '">Delete</a></li>
+        </ul>';
+      }
+
+  $body .= '</div>
   <br />';
     }
 
