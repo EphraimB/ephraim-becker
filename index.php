@@ -21,7 +21,6 @@
 
     if(isset($_SESSION['username'])) {
       $admin = '<li><a href="/adminLogout.php">Logout</a></li>';
-      $body .= 'Hey, admin';
     } else {
       $admin = '<li><a href="/adminLogin/">Login</a></li>';
     }
