@@ -3,6 +3,9 @@
 
   global $link;
 
+  if(!isset($_SESSION['username'])) {
+    header("location: ../");
+  }
 
   $sql = $link->prepare("DELETE FROM timeline WHERE TimelineId=?");
   $sql->bind_param("i", $id);

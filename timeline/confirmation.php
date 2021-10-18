@@ -3,12 +3,22 @@
 
   global $link;
 
+  if(!isset($_SESSION['username'])) {
+    header("location: ../");
+  }
+
   $id = $_GET['id'];
 
   $title = "Ephraim Becker - Admin - Timeline - Delete?";
   $header = "Admin - Timeline - Delete?";
   $localStyleSheet = '<link rel="stylesheet" href="css/style.css" />';
   $localScript = NULL;
+
+  if(isset($_SESSION['username'])) {
+    $admin = '<li><a href="/adminLogout.php">Logout</a></li>';
+  } else {
+    $admin = '<li><a href="/adminLogin/">Login</a></li>';
+  }
 
         $sql = $link->prepare("SELECT EventTitle FROM timeline WHERE TimelineId=?");
         $sql->bind_param("i", $id);

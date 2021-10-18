@@ -3,6 +3,9 @@
 
   global $link;
 
+  if(!isset($_SESSION['username'])) {
+    header("location: ../");
+  }
 
   $sql = $link->prepare("UPDATE timeline SET hide = 1 WHERE TimelineId=?");
   $sql->bind_param("i", $id);
