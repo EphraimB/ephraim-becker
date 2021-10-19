@@ -5,11 +5,12 @@
 
   global $link;
 
+
   if(!isset($_SESSION['username'])) {
     header("location: ../");
   }
-
-  $sql = $link->prepare("UPDATE timeline SET hide = 1 WHERE TimelineId=?");
+  
+  $sql = $link->prepare("DELETE FROM timeline WHERE TimelineId=?");
   $sql->bind_param("i", $id);
 
   $id = $_GET['id'];
@@ -19,9 +20,5 @@
   $sql->close();
   $link->close();
 
-  $year = $_GET['year'];
-  $month = $_GET['month'];
-  $day = $_GET['day'];
-
-  header("location: index.php#" . $year . "-" . $month . "-" . $day);
+  header("location: ../index.php");
 ?>
