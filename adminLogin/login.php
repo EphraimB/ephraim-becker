@@ -23,6 +23,6 @@
       $_SESSION['username'] = $_POST['username'];
     }
 
-    header("location: /index.php");
+    header("location: " . $_GET['url']);
   }
 ?>

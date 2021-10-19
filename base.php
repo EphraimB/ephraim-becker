@@ -32,9 +32,9 @@
           <li><a href="/about/">About</a></li>
           <?php
           if(isset($_SESSION['username'])) {
-            echo '<li><a href="/adminLogout.php">Logout</a></li>';
+            echo '<li><a href="/adminLogout.php?fromUrl=' . $url . '">Logout</a></li>';
           } else {
-            echo '<li><a href="/adminLogin/">Login</a></li>';
+            echo '<li><a href="/adminLogin/index.php?fromUrl=' . $url . '">Login</a></li>';
           }
           ?>
         </div>

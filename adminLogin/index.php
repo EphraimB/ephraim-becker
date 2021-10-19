@@ -5,7 +5,9 @@
 
   $localScript = NULL;
 
-  $body = '<form action="login.php" method="post">
+  $url = $_GET['fromUrl'];
+
+  $body = '<form action="login.php?url=' . $url . '" method="post">
               <div class="row">
                 <label for="username">User Name: </label>
                 <input type="text" id="username" name="username" />
