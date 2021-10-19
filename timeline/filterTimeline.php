@@ -10,7 +10,7 @@
   $localStyleSheet = '<link rel="stylesheet" href="css/style.css" />';
   $body = "";
   $localScript = '<script src="js/ajax.js"></script>';
-  
+
 
   function navButtons($link, $body) {
     $year = $_GET['year'];
@@ -413,5 +413,6 @@ if($_GET['day'] == 0) {
 
   $link->close();
 
+  $url = $_SERVER['REQUEST_URI'];
   require($_SERVER['DOCUMENT_ROOT'] . "/base.php");
  ?>

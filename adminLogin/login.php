@@ -22,7 +22,7 @@
     if(password_verify($_POST['password'], $password)) {
       $_SESSION['username'] = $_POST['username'];
     }
-    
+
     header("location: /index.php");
   }
 ?>

@@ -40,5 +40,6 @@
 
   $localScript = '<script src="js/ajax.js"></script>';
 
+  $url = $_SERVER['REQUEST_URI'];
   require($_SERVER['DOCUMENT_ROOT'] . "/base.php");
 ?>

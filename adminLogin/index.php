@@ -2,7 +2,7 @@
   $title = "Ephraim Becker - Admin login";
   $localStyleSheet = '<link rel="stylesheet" href="css/style.css" />';
   $header = "Ephraim Becker - Admin login";
-  
+
   $localScript = NULL;
 
   $body = '<form action="login.php" method="post">

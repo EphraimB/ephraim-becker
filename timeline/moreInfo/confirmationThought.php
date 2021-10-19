@@ -37,5 +37,6 @@
         <a class="delete" href="deleteThought.php?id=' . $id . '">Yes</a>
       </div>';
 
+  $url = $_SERVER['REQUEST_URI'];
   require($_SERVER['DOCUMENT_ROOT'] . "/base.php");
 ?>

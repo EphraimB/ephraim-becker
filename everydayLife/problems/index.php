@@ -66,5 +66,6 @@
       <p style="margin-top: 10px;">I also have sensory issues with flashing lights and noises which can be a problem when going on family trips. It would be nice to make friends with other people on the spectrum and go on special autistic-friendly trips with them.</p>
       <p>That\'s my autism problems. My ADHD problems are being very hyperactive and a hard time focusing (I\'m on medication for it now).</p>';
 
+  $url = $_SERVER['REQUEST_URI'];
   require($_SERVER['DOCUMENT_ROOT'] . "/base.php");
 ?>

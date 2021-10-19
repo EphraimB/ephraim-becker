@@ -171,5 +171,6 @@
       </form>';
     }
 
+    $url = $_SERVER['REQUEST_URI'];
     require($_SERVER['DOCUMENT_ROOT'] . "/base.php");
 ?>
