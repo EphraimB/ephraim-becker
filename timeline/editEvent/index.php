@@ -18,12 +18,6 @@
   $localStyleSheet = '<link rel="stylesheet" href="css/style.css" />';
   $localScript = '<script src="js/script.js"></script>';
 
-  if(isset($_SESSION['username'])) {
-    $admin = '<li><a href="/adminLogout.php">Logout</a></li>';
-  } else {
-    $admin = '<li><a href="/adminLogin/">Login</a></li>';
-  }
-
   $body = '<form action="editEvent.php" method="post" enctype="multipart/form-data">
         <div class="row">';
 
