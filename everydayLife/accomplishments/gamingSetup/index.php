@@ -123,5 +123,5 @@
         </tr>
       </table>';
 
-  require("../../../base.php");
+  require($_SERVER['DOCUMENT_ROOT'] . "/base.php");
 ?>
