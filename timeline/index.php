@@ -12,17 +12,14 @@
 
   if(isset($_SESSION['username'])) {
     $admin = '<li><a href="/adminLogout.php">Logout</a></li>';
-  } else {
-    $admin = '<li><a href="/adminLogin/">Login</a></li>';
-  }
-
-  if(isset($_SESSION['username'])) {
     $body .= '<div class="row">
           <ul class="subNav">
             <li><a style="text-decoration: none;" href="addEvent/">+</a></li>
           </ul>
         </div>
         <div id="grid-container">';
+  } else {
+    $admin = '<li><a href="/adminLogin/">Login</a></li>';
   }
 
   $body .= '<div id="grid-container">';
