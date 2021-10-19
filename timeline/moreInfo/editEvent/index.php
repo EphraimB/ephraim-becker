@@ -8,7 +8,7 @@
   if(!isset($_SESSION['username'])) {
     header("location: ../");
   }
-  
+
   $title = "Ephraim Becker - Admin - Timeline - Edit Event";
   $header = 'Admin - Timeline - Edit Event';
   $localStyleSheet = '<link rel="stylesheet" href="css/style.css" />';
@@ -159,8 +159,8 @@
         <br />
       </form>';
 
-  require("../../../base.php");
-
   $sql->close();
   $link->close();
+
+  require($_SERVER['DOCUMENT_ROOT'] . "/base.php");
  ?>
