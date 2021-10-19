@@ -1,6 +1,6 @@
 <?php
   session_start();
-  
+
   require_once($_SERVER['DOCUMENT_ROOT'] . '/environment.php');
 
   global $link;
@@ -22,28 +22,25 @@
     $admin = '<li><a href="/adminLogin/">Login</a></li>';
   }
 
-        $sql = $link->prepare("SELECT EventTitle FROM timeline WHERE TimelineId=?");
-        $sql->bind_param("i", $id);
+  $sql = $link->prepare("SELECT EventTitle FROM timeline WHERE TimelineId=?");
+  $sql->bind_param("i", $id);
 
-        $id = $_GET['id'];
+  $id = $_GET['id'];
 
-        $sql->execute();
+  $sql->execute();
 
-        $sqlResult = $sql->get_result();
+  $sqlResult = $sql->get_result();
 
-        while($row = mysqli_fetch_array($sqlResult)){
-          $eventTitle = $row['EventTitle'];
-        }
+  while($row = mysqli_fetch_array($sqlResult)){
+    $eventTitle = $row['EventTitle'];
+  }
 
-      $body = '<h2>Are you sure you want to delete the event named "' . $eventTitle . '"?</h2>
+  $body = '<h2>Are you sure you want to delete the event named "' . $eventTitle . '"?</h2>
 
-      <div class="row actionButtons">
-        <a class="keep" href="index.php">No</a>
-        <a class="delete" href="deleteEvent.php?id=' . $id . '">Yes</a>
-      </div>
-    </main>
-  </body>
-</html>';
+  <div class="row actionButtons">
+    <a class="keep" href="index.php">No</a>
+    <a class="delete" href="deleteEvent.php?id=' . $id . '">Yes</a>
+  </div>';
 
-require("../base.php");
+  require($_SERVER['DOCUMENT_ROOT'] . "/base.php");
 ?>
