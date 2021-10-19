@@ -28,6 +28,10 @@
   color: white;
 }
 
+.hidden-memory {
+  opacity: 0.5;
+}
+
 .thought {
   background-color: rgb(255, 215, 0);
   color: black;

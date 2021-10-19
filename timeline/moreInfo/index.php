@@ -62,16 +62,19 @@
 
   $body = '<div class="';
 
-  if($hide == 1) {
-    $body .= 'hidden-memory "';
+  if($memoryType == 0) {
+    $body .= 'remembered-memory';
+  } else if($memoryType == 1) {
+    $body .= 'diary-memory';
   }
 
-  if($memoryType == 0) {
-    $body .= 'remembered-memory"';
-  } else if($memoryType == 1) {
-    $body .= 'diary-memory"';
+  if(isset($_SESSION['username'])) {
+    if($hide == 1) {
+      $body .= ' hidden-memory';
+    }
   }
-  $body .= '>
+
+  $body .= '">
         <h2><time datetime="' . $localDate . '">';
 
         if(!is_null($localTime)) {

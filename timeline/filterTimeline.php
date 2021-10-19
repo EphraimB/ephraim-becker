@@ -142,8 +142,15 @@
         </tr>
         <tr>
           <td class="diary-memory">Diary memory</td>
-        </tr>
-      </table>
+        </tr>';
+
+        if(isset($_SESSION['username'])) {
+          $body .= '<tr>
+            <td class="diary-memory hidden-memory">Hidden memory</td>
+          </tr>';
+        }
+
+      $body .= '</table>
       <br />';
 
     while($row = mysqli_fetch_array($sqlResult)) {
@@ -191,11 +198,19 @@
       }
 
       $body .= '<div style="margin-bottom: 10px;" class="event ';
-       if($memoryType == 0) {
-         $body .= 'remembered-memory';
-        } else if($memoryType == 1) {
-          $body .= 'diary-memory'; }
-          $body .= '">
+      if($memoryType == 0) {
+        $body .= 'remembered-memory';
+      } else if($memoryType == 1) {
+        $body .= 'diary-memory';
+      }
+
+      if(isset($_SESSION['username'])) {
+        if($hide == 1) {
+          $body .= ' hidden-memory';
+        }
+      }
+
+      $body .= '">
         <a class="more-info-link" href="moreInfo/index.php?id=' . $id . '">
           <div class="row">
             <h2><time datetime="' . $localDate . '">';
