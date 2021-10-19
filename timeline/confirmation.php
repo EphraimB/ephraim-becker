@@ -11,8 +11,8 @@
 
   $id = $_GET['id'];
 
-  $title = "Ephraim Becker - Admin - Timeline - Delete?";
-  $header = "Admin - Timeline - Delete?";
+  $title = "Ephraim Becker - Timeline - Delete?";
+  $header = "Timeline - Delete?";
   $localStyleSheet = '<link rel="stylesheet" href="css/style.css" />';
   $localScript = NULL;
 

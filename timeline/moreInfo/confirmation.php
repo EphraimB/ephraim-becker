@@ -11,9 +11,9 @@
 
   $id = $_GET['id'];
 
-  $title = "Ephraim Becker - Admin - Timeline - Delete?";
+  $title = "Ephraim Becker - Timeline - Delete?";
   $localStyleSheet = '<link rel="stylesheet" href="../css/style.css" />';
-  $header = "Admin - Timeline - Delete?";
+  $header = "Timeline - Delete?";
 
   $sql = $link->prepare("SELECT EventTitle FROM timeline WHERE TimelineId=?");
   $sql->bind_param("i", $id);
@@ -30,8 +30,8 @@
   $body .= '<h2>Are you sure you want to delete the event named "' . $eventTitle . '"?</h2>
 
       <div class="row actionButtons">
-        <a class="keep" href="index.php?id=<?php echo $id ?>">No</a>
-        <a class="delete" href="deleteEvent.php?id=<?php echo $id ?>">Yes</a>
+        <a class="keep" href="index.php?id=' . $id . '">No</a>
+        <a class="delete" href="deleteEvent.php?id='. $id . '">Yes</a>
       </div>';
 
   $url = $_SERVER['REQUEST_URI'];

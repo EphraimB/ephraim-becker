@@ -13,8 +13,8 @@
   $month = $_GET['month'];
   $day = $_GET['day'];
 
-  $title = "Ephraim Becker - Admin - Timeline - Edit Event";
-  $header = "Admin - Timeline - Edit Event";
+  $title = "Ephraim Becker - Timeline - Edit Event";
+  $header = "Timeline - Edit Event";
   $localStyleSheet = '<link rel="stylesheet" href="css/style.css" />';
   $localScript = '<script src="js/script.js"></script>';
 

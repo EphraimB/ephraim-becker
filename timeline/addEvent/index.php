@@ -5,8 +5,8 @@
     header("location: ../");
   }
 
-  $title = "Ephraim Becker - Admin - Timeline - Add Event";
-  $header = "Admin - Timeline - Add Event";
+  $title = "Ephraim Becker - Timeline - Add Event";
+  $header = "Timeline - Add Event";
   $localStyleSheet = '<link rel="stylesheet" href="css/style.css" />';
   $localScript = '<script src="js/script.js"></script>';
 

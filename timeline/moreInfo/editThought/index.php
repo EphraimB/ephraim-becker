@@ -9,8 +9,8 @@
     header("location: ../");
   }
 
-  $title = "Ephraim Becker - Admin - Timeline - Edit Thought";
-  $header = "Admin - Timeline - Edit Thought";
+  $title = "Ephraim Becker - Timeline - Edit Thought";
+  $header = "Timeline - Edit Thought";
   $localStyleSheet = '<link rel="stylesheet" href="css/style.css" />';
   $localScript = '<script src="js/script.js"></script>';
 

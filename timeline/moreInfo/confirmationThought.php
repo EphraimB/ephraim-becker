@@ -11,9 +11,9 @@
 
   $id = $_GET['id'];
 
-  $title = "Ephraim Becker - Admin - Timeline - Delete thought?";
+  $title = "Ephraim Becker - Timeline - Delete thought?";
   $localStyleSheet = '<link rel="stylesheet" href="../css/style.css" />';
-  $header = "Admin - Timeline - Delete thought?";
+  $header = "Timeline - Delete thought?";
 
   $body = '<h2>Are you sure you want to delete this thought"?</h2>';
 
