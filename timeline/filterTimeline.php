@@ -1,4 +1,6 @@
 <?php
+  session_start();
+
   require_once($_SERVER['DOCUMENT_ROOT'] . '/environment.php');
 
   global $link;
@@ -17,7 +19,11 @@
 
     $body .= '<div class="row">';
 
-    $sqlDatesDesc = $link->prepare("SELECT EventDate, YEAR(EventDate) AS Year, MONTH(EventDate) AS Month, DAY(EventDate) AS Day FROM timeline WHERE EventDate<? AND hide=0 GROUP BY EventDate ORDER BY EventDate DESC LIMIT 1");
+    if(isset($_SESSION['username'])) {
+      $sqlDatesDesc = $link->prepare("SELECT EventDate, YEAR(EventDate) AS Year, MONTH(EventDate) AS Month, DAY(EventDate) AS Day FROM timeline WHERE EventDate<? GROUP BY EventDate ORDER BY EventDate DESC LIMIT 1");
+    } else {
+      $sqlDatesDesc = $link->prepare("SELECT EventDate, YEAR(EventDate) AS Year, MONTH(EventDate) AS Month, DAY(EventDate) AS Day FROM timeline WHERE EventDate<? AND hide = 0 GROUP BY EventDate ORDER BY EventDate DESC LIMIT 1");
+    }
     $sqlDatesDesc->bind_param("s", $navvedEventDateDesc);
 
     $navvedEventDateDesc = $year . "-" . $month . "-" . $day;
@@ -37,7 +43,11 @@
         $month = $prevMonth;
         $day = $prevDay;
       } else if($month == 0 && $day == 0) {
-        $sqlDatesTwoDesc = $link->prepare("SELECT EventDate, YEAR(EventDate) AS Year, MONTH(EventDate) AS Month, DAY(EventDate) AS Day FROM timeline WHERE EventDate<? AND hide=0 GROUP BY Year ORDER BY EventDate DESC LIMIT 1");
+        if(isset($_SESSION['username'])) {
+          $sqlDatesTwoDesc = $link->prepare("SELECT EventDate, YEAR(EventDate) AS Year, MONTH(EventDate) AS Month, DAY(EventDate) AS Day FROM timeline WHERE EventDate<? GROUP BY Year ORDER BY EventDate DESC LIMIT 1");
+        } else {
+          $sqlDatesTwoDesc = $link->prepare("SELECT EventDate, YEAR(EventDate) AS Year, MONTH(EventDate) AS Month, DAY(EventDate) AS Day FROM timeline WHERE EventDate<? AND hide = 0 GROUP BY Year ORDER BY EventDate DESC LIMIT 1");
+        }
         $sqlDatesTwoDesc->bind_param("s", $navvedEventDateDesc);
 
         $navvedEventDateDesc = $_GET['year'] . "-0-0";
@@ -62,7 +72,11 @@
     $month = $_GET['month'];
     $day = $_GET['day'];
 
-    $sqlDates = $link->prepare("SELECT EventDate, YEAR(EventDate) AS Year, MONTH(EventDate) AS Month, DAY(EventDate) AS Day FROM timeline WHERE EventDate>? AND hide=0 GROUP BY EventDate LIMIT 1");
+    if(isset($_SESSION['username'])) {
+      $sqlDates = $link->prepare("SELECT EventDate, YEAR(EventDate) AS Year, MONTH(EventDate) AS Month, DAY(EventDate) AS Day FROM timeline WHERE EventDate>? GROUP BY EventDate LIMIT 1");
+    } else {
+      $sqlDates = $link->prepare("SELECT EventDate, YEAR(EventDate) AS Year, MONTH(EventDate) AS Month, DAY(EventDate) AS Day FROM timeline WHERE EventDate>? AND hide = 0 GROUP BY EventDate LIMIT 1");
+    }
     $sqlDates->bind_param("s", $navvedEventDate);
 
     $navvedEventDate = $year . "-" . $month . "-" . $day;
@@ -122,12 +136,23 @@
         </tr>
         <tr>
           <td class="diary-memory">Diary memory</td>
-        </tr>
-      </table>
+        </tr>';
+
+        if(isset($_SESSION['username'])) {
+          $body .= '<tr>
+            <td class="diary-memory hidden-memory">Hidden memory</td>
+          </tr>';
+        }
+
+      $body .= '</table>
       <br />';
 
     while($row = mysqli_fetch_array($sqlResult)) {
       $id = $row['TimelineId'];
+
+      if(isset($_SESSION['username'])) {
+        $hide = $row['hide'];
+      }
 
       $eventTimeZone = $row['EventTimeZone'];
       $eventTimeZoneOffset = $row['EventTimeZoneOffset'];
@@ -167,11 +192,19 @@
       }
 
       $body .= '<div style="margin-bottom: 10px;" class="event ';
-       if($memoryType == 0) {
-         $body .= 'remembered-memory';
-        } else if($memoryType == 1) {
-          $body .= 'diary-memory'; }
-          $body .= '">
+      if($memoryType == 0) {
+        $body .= 'remembered-memory';
+      } else if($memoryType == 1) {
+        $body .= 'diary-memory';
+      }
+
+      if(isset($_SESSION['username'])) {
+        if($hide == 1) {
+          $body .= ' hidden-memory';
+        }
+      }
+
+      $body .= '">
         <a class="more-info-link" href="moreInfo/index.php?id=' . $id . '">
           <div class="row">
             <h2><time datetime="' . $localDate . '">';
@@ -208,8 +241,22 @@
             $body .= '<img src="../../timeline/img/' . $eventMedia . '" alt="' . $eventMediaDescription . '" width="113px" height="200px" />';
           }
         }
-    $body .= '</a>
-  </div>
+    $body .= '</a>';
+
+    if(isset($_SESSION['username'])) {
+      $body .= '<ul class="row actionButtons">
+        <li><a class="edit" href="editEvent/index.php?id=' . $id . '&year=' . $year . '&month=' . $month . '&day=' . $day . '">Edit</a></li>';
+        if($hide == 0) {
+          $body .= '<li><a class="hide" href="hideEvent.php?id=' . $id . '&year=' . $year . '&month=' . $month . '&day=' . $day . '">Hide</a></li>';
+        }
+        else if($hide == 1) {
+          $body .= '<li><a class="hide" href="unhideEvent.php?id=' . $id . '&year=' . $year . '&month=' . $month . '&day=' . $day . '">Unhide</a></li>';
+        }
+        $body .= '<li><a class="delete" href="confirmation.php?id=' . $id . '">Delete</a></li>
+        </ul>';
+      }
+
+  $body .= '</div>
   <br />';
     }
 
@@ -270,7 +317,11 @@
 
 if($_GET['day'] == 0) {
   if($_GET['month'] == 0) {
-    $sql = $link->prepare("SELECT *, IFNULL(DATE_FORMAT(concat(EventDate, ' ', EventTime) - INTERVAL EventTimeZoneOffset SECOND, '%Y-%m-%d'), EventDate) AS 'LocalDate', IFNULL(TIME_FORMAT(concat(EventDate, ' ', EventTime) - INTERVAL EventTimeZoneOffset SECOND, '%H:%i:%s'), NULL) AS 'LocalTime', MONTH(EventDate) AS Month FROM timeline WHERE hide = 0 AND YEAR(EventDate) = ? ORDER BY EventDate ASC");
+    if(isset($_SESSION['username'])) {
+      $sql = $link->prepare("SELECT *, IFNULL(DATE_FORMAT(concat(EventDate, ' ', EventTime) - INTERVAL EventTimeZoneOffset SECOND, '%Y-%m-%d'), EventDate) AS 'LocalDate', IFNULL(TIME_FORMAT(concat(EventDate, ' ', EventTime) - INTERVAL EventTimeZoneOffset SECOND, '%H:%i:%s'), NULL) AS 'LocalTime', MONTH(EventDate) AS Month FROM timeline WHERE YEAR(EventDate) = ? ORDER BY EventDate ASC");
+    } else {
+      $sql = $link->prepare("SELECT *, IFNULL(DATE_FORMAT(concat(EventDate, ' ', EventTime) - INTERVAL EventTimeZoneOffset SECOND, '%Y-%m-%d'), EventDate) AS 'LocalDate', IFNULL(TIME_FORMAT(concat(EventDate, ' ', EventTime) - INTERVAL EventTimeZoneOffset SECOND, '%H:%i:%s'), NULL) AS 'LocalTime', MONTH(EventDate) AS Month FROM timeline WHERE hide = 0 AND YEAR(EventDate) = ? ORDER BY EventDate ASC");
+    }
     $sql->bind_param("i", $year);
 
     $year = $_GET['year'];
@@ -280,7 +331,11 @@ if($_GET['day'] == 0) {
     $sqlResult = $sql->get_result();
 
     if($sqlResult->num_rows > 12) {
-      $sqlTwo = $link->prepare("SELECT *, IFNULL(DATE_FORMAT(concat(EventDate, ' ', EventTime) - INTERVAL EventTimeZoneOffset SECOND, '%Y-%m-%d'), EventDate) AS 'LocalDate', IFNULL(TIME_FORMAT(concat(EventDate, ' ', EventTime) - INTERVAL EventTimeZoneOffset SECOND, '%H:%i:%s'), NULL) AS 'LocalTime', MONTH(EventDate) AS Month FROM timeline WHERE hide = 0 AND YEAR(EventDate) = ? GROUP BY Month ORDER BY EventDate ASC");
+      if(isset($_SESSION['username'])) {
+        $sqlTwo = $link->prepare("SELECT *, IFNULL(DATE_FORMAT(concat(EventDate, ' ', EventTime) - INTERVAL EventTimeZoneOffset SECOND, '%Y-%m-%d'), EventDate) AS 'LocalDate', IFNULL(TIME_FORMAT(concat(EventDate, ' ', EventTime) - INTERVAL EventTimeZoneOffset SECOND, '%H:%i:%s'), NULL) AS 'LocalTime', MONTH(EventDate) AS Month FROM timeline WHERE YEAR(EventDate) = ? GROUP BY Month ORDER BY EventDate ASC");
+      } else {
+        $sqlTwo = $link->prepare("SELECT *, IFNULL(DATE_FORMAT(concat(EventDate, ' ', EventTime) - INTERVAL EventTimeZoneOffset SECOND, '%Y-%m-%d'), EventDate) AS 'LocalDate', IFNULL(TIME_FORMAT(concat(EventDate, ' ', EventTime) - INTERVAL EventTimeZoneOffset SECOND, '%H:%i:%s'), NULL) AS 'LocalTime', MONTH(EventDate) AS Month FROM timeline WHERE hide = 0 AND YEAR(EventDate) = ? GROUP BY Month ORDER BY EventDate ASC");
+      }
       $sqlTwo->bind_param("i", $year);
       $yearTwo = $_GET['year'];
 
@@ -301,7 +356,11 @@ if($_GET['day'] == 0) {
     $dateObj = DateTime::createFromFormat('!m', $month);
     $monthName = $dateObj->format('F');
 
-    $sqlThree = $link->prepare("SELECT *, IFNULL(DATE_FORMAT(concat(EventDate, ' ', EventTime) - INTERVAL EventTimeZoneOffset SECOND, '%Y-%m-%d'), EventDate) AS 'LocalDate', IFNULL(TIME_FORMAT(concat(EventDate, ' ', EventTime) - INTERVAL EventTimeZoneOffset SECOND, '%H:%i:%s'), NULL) AS 'LocalTime', DAY(EventDate) AS Day FROM timeline WHERE hide = 0 AND YEAR(EventDate) = ? AND MONTH(EventDate) = ? ORDER BY EventDate ASC");
+    if(isset($_SESSION['username'])) {
+      $sqlThree = $link->prepare("SELECT *, IFNULL(DATE_FORMAT(concat(EventDate, ' ', EventTime) - INTERVAL EventTimeZoneOffset SECOND, '%Y-%m-%d'), EventDate) AS 'LocalDate', IFNULL(TIME_FORMAT(concat(EventDate, ' ', EventTime) - INTERVAL EventTimeZoneOffset SECOND, '%H:%i:%s'), NULL) AS 'LocalTime', DAY(EventDate) AS Day FROM timeline WHERE YEAR(EventDate) = ? AND MONTH(EventDate) = ? ORDER BY EventDate ASC");
+    } else {
+      $sqlThree = $link->prepare("SELECT *, IFNULL(DATE_FORMAT(concat(EventDate, ' ', EventTime) - INTERVAL EventTimeZoneOffset SECOND, '%Y-%m-%d'), EventDate) AS 'LocalDate', IFNULL(TIME_FORMAT(concat(EventDate, ' ', EventTime) - INTERVAL EventTimeZoneOffset SECOND, '%H:%i:%s'), NULL) AS 'LocalTime', DAY(EventDate) AS Day FROM timeline WHERE hide = 0 AND YEAR(EventDate) = ? AND MONTH(EventDate) = ? ORDER BY EventDate ASC");
+    }
     $sqlThree->bind_param("ii", $year, $month);
 
     $sqlThree->execute();
@@ -313,7 +372,11 @@ if($_GET['day'] == 0) {
 
       $sqlThree->close();
     } else {
-        $sqlFour = $link->prepare("SELECT *, IFNULL(DATE_FORMAT(concat(EventDate, ' ', EventTime) - INTERVAL EventTimeZoneOffset SECOND, '%Y-%m-%d'), EventDate) AS 'LocalDate', IFNULL(TIME_FORMAT(concat(EventDate, ' ', EventTime) - INTERVAL EventTimeZoneOffset SECOND, '%H:%i:%s'), NULL) AS 'LocalTime', MONTH(EventDate) AS Month, DAY(EventDate) AS Day FROM timeline WHERE hide = 0 AND YEAR(EventDate) = ? AND MONTH(EventDate) = ? GROUP BY Day ORDER BY EventDate ASC");
+        if(isset($_SESSION['username'])) {
+          $sqlFour = $link->prepare("SELECT *, IFNULL(DATE_FORMAT(concat(EventDate, ' ', EventTime) - INTERVAL EventTimeZoneOffset SECOND, '%Y-%m-%d'), EventDate) AS 'LocalDate', IFNULL(TIME_FORMAT(concat(EventDate, ' ', EventTime) - INTERVAL EventTimeZoneOffset SECOND, '%H:%i:%s'), NULL) AS 'LocalTime', MONTH(EventDate) AS Month, DAY(EventDate) AS Day FROM timeline WHERE YEAR(EventDate) = ? AND MONTH(EventDate) = ? GROUP BY Day ORDER BY EventDate ASC");
+        } else {
+          $sqlFour = $link->prepare("SELECT *, IFNULL(DATE_FORMAT(concat(EventDate, ' ', EventTime) - INTERVAL EventTimeZoneOffset SECOND, '%Y-%m-%d'), EventDate) AS 'LocalDate', IFNULL(TIME_FORMAT(concat(EventDate, ' ', EventTime) - INTERVAL EventTimeZoneOffset SECOND, '%H:%i:%s'), NULL) AS 'LocalTime', MONTH(EventDate) AS Month, DAY(EventDate) AS Day FROM timeline WHERE hide = 0 AND YEAR(EventDate) = ? AND MONTH(EventDate) = ? GROUP BY Day ORDER BY EventDate ASC");
+        }
         $sqlFour->bind_param("ii", $year, $month);
 
         $sqlFour->execute();
@@ -324,27 +387,32 @@ if($_GET['day'] == 0) {
       }
     }
   } else {
-  $sqlFive = $link->prepare("SELECT *, IFNULL(DATE_FORMAT(concat(EventDate, ' ', EventTime) - INTERVAL EventTimeZoneOffset SECOND, '%Y-%m-%d'), EventDate) AS 'LocalDate', IFNULL(TIME_FORMAT(concat(EventDate, ' ', EventTime) - INTERVAL EventTimeZoneOffset SECOND, '%H:%i:%s'), NULL) AS 'LocalTime', DAY(EventDate) AS Day FROM timeline WHERE hide = 0 AND YEAR(EventDate) = ? AND MONTH(EventDate) = ? AND DAY(EventDate) = ? ORDER BY EventDate ASC");
-  $sqlFive->bind_param("iii", $year, $month, $day);
+    if(isset($_SESSION['username'])) {
+      $sqlFive = $link->prepare("SELECT *, IFNULL(DATE_FORMAT(concat(EventDate, ' ', EventTime) - INTERVAL EventTimeZoneOffset SECOND, '%Y-%m-%d'), EventDate) AS 'LocalDate', IFNULL(TIME_FORMAT(concat(EventDate, ' ', EventTime) - INTERVAL EventTimeZoneOffset SECOND, '%H:%i:%s'), NULL) AS 'LocalTime', DAY(EventDate) AS Day FROM timeline WHERE YEAR(EventDate) = ? AND MONTH(EventDate) = ? AND DAY(EventDate) = ? ORDER BY EventDate ASC");
+    } else {
+      $sqlFive = $link->prepare("SELECT *, IFNULL(DATE_FORMAT(concat(EventDate, ' ', EventTime) - INTERVAL EventTimeZoneOffset SECOND, '%Y-%m-%d'), EventDate) AS 'LocalDate', IFNULL(TIME_FORMAT(concat(EventDate, ' ', EventTime) - INTERVAL EventTimeZoneOffset SECOND, '%H:%i:%s'), NULL) AS 'LocalTime', DAY(EventDate) AS Day FROM timeline WHERE hide = 0 AND YEAR(EventDate) = ? AND MONTH(EventDate) = ? AND DAY(EventDate) = ? ORDER BY EventDate ASC");
+    }
+    $sqlFive->bind_param("iii", $year, $month, $day);
 
-  $year = $_GET['year'];
-  $month = $_GET['month'];
+    $year = $_GET['year'];
+    $month = $_GET['month'];
 
-  $dateObj = DateTime::createFromFormat('!m', $month);
-  $monthName = $dateObj->format('F');
+    $dateObj = DateTime::createFromFormat('!m', $month);
+    $monthName = $dateObj->format('F');
 
-  $day = $_GET['day'];
+    $day = $_GET['day'];
 
-  $sqlFive->execute();
+    $sqlFive->execute();
 
-  $sqlFiveResult = $sqlFive->get_result();
+    $sqlFiveResult = $sqlFive->get_result();
 
-  list($title, $header, $body) = displayAllEvents($sqlFiveResult, $link, $title, $header, $body);
+    list($title, $header, $body) = displayAllEvents($sqlFiveResult, $link, $title, $header, $body);
 
-  $sqlFive->close();
-}
+    $sqlFive->close();
+  }
 
-$link->close();
+  $link->close();
 
-require("../base.php");
+  $url = "/timeline/";
+  require($_SERVER['DOCUMENT_ROOT'] . "/base.php");
  ?>

@@ -1,4 +1,9 @@
 <?php
+  session_start();
+
+  require_once($_SERVER['DOCUMENT_ROOT'] . '/environment.php');
+
+  global $link;
   //date in mm/dd/yyyy format; or it can be in other formats as well
   $birthDate = "07/19/1996";
   //explode the date to get month, day and year
@@ -8,9 +13,11 @@
     ? ((date("Y") - $birthDate[2]) - 1)
     : (date("Y") - $birthDate[2]));
 
+
     $title = "Ephraim Becker - All about my autistic life";
     $localStyleSheet = NULL;
     $header = NULL;
+
     $body = '
     <main>
       <div id="profileCard" itemscope itemtype="https://schema.org/Person">
@@ -55,5 +62,6 @@
 
       $localScript = NULL;
 
-      require("base.php");
+      $url = $_SERVER['REQUEST_URI'];
+      require($_SERVER['DOCUMENT_ROOT'] . "/base.php");
  ?>

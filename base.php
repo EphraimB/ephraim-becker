@@ -30,6 +30,13 @@
           <li><a href="/projects/">Projects</a></li>
           <li><a href="/resources/">Resources</a></li>
           <li><a href="/about/">About</a></li>
+          <?php
+          if(isset($_SESSION['username'])) {
+            echo '<li><a href="/adminLogout.php?fromUrl=' . $url . '">Logout</a></li>';
+          } else {
+            echo '<li><a href="/adminLogin/index.php?fromUrl=' . $url . '">Login</a></li>';
+          }
+          ?>
         </div>
       </ul>
     </nav>

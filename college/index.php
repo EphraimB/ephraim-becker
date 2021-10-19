@@ -101,5 +101,6 @@
         <progress id="DegreeProgress" value="26" max="120">21.7%</progress>
       </div>';
 
-  require("../base.php");
+  $url = $_SERVER['REQUEST_URI'];
+  require($_SERVER['DOCUMENT_ROOT'] . "/base.php");
 ?>

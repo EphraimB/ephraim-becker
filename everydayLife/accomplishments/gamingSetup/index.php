@@ -1,5 +1,5 @@
 <?php
-  $title = "Ephraim Becker - Everyday Life - Accomplishments";
+  $title = "Ephraim Becker - Everyday Life - Accomplishments - Gaming setup";
   $header = "Gaming setup";
   $localStyleSheet = '<link rel="stylesheet" href="css/style.css" />';
   $localScript = NULL;
@@ -123,5 +123,6 @@
         </tr>
       </table>';
 
-  require("../../../base.php");
+  $url = $_SERVER['REQUEST_URI'];
+  require($_SERVER['DOCUMENT_ROOT'] . "/base.php");
 ?>
