@@ -28,7 +28,8 @@ function highlightNavItem() {
   for(var i = 0; i < links.length; i++) {
     if(window.location.pathname == "/") {
       links[0].className = 'focus';
-    } else if(links[i].children[0].pathname == window.location.pathname) {
+    } else if(links[i].children[0].pathname == window.location.pathname.match(new RegExp("^" + links[i].children[0].pathname,"g"))) {
+      console.log(window.location.pathname.match(new RegExp("^" + links[i].children[0].pathname,"g")));
         links[i].className = 'focus';
         links[2].classList.remove('focus');
 
