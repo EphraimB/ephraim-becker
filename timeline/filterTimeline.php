@@ -272,15 +272,22 @@
     $title .= "Ephraim Becker - Timeline - " . $year . " album";
     $header .= "Ephraim Becker - Timeline - " . $year . " album";
 
-      $body .= '<table>
+    $body .= '<table>
         <tr>
           <td rowspan="3">Legend</td>
           <td class="remembered-memory">Remembered memory</td>
         </tr>
         <tr>
           <td class="diary-memory">Diary memory</td>
-        </tr>
-      </table>
+        </tr>';
+
+        if(isset($_SESSION['username'])) {
+          $body .= '<tr>
+            <td class="diary-memory hidden-memory">Hidden memory</td>
+          </tr>';
+        }
+
+      $body .= '</table>
       <div id="grid-container">';
 
       while($row = mysqli_fetch_array($sqlResult)) {
