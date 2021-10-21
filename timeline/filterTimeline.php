@@ -5,11 +5,8 @@
 
   global $link;
 
-  $title = "";
   $header = "";
-  $localStyleSheet = '<link rel="stylesheet" href="css/style.css" />';
   $body = "";
-  $localScript = '<script src="js/ajax.js"></script>';
 
 
   function navButtons($link, $body) {
@@ -121,13 +118,12 @@
     return $body;
   }
 
-  function displayAllEvents($sqlResult, $link, $title, $header, $body) {
+  function displayAllEvents($sqlResult, $link, $header, $body) {
     $year = $_GET['year'];
     $month = $_GET['month'];
     $day = $_GET['day'];
 
-    $title .= "Ephraim Becker - Timeline - " . $year . " album";
-    $header .= "Ephraim Becker - Timeline - " . $year . " album";
+    $header .= $year . " album";
 
     $body .= '<table>
         <tr>
@@ -207,7 +203,7 @@
       $body .= '">
         <a class="more-info-link" href="moreInfo/index.php?id=' . $id . '">
           <div class="row">
-            <h2><time datetime="' . $localDate . '">';
+            <h3><time datetime="' . $localDate . '">';
             if(!is_null($localTime)) {
               $body .= $eventDateFormatted . " " . $eventTimeFormatted . " " . $eventTimeZone;
              } else {
@@ -218,7 +214,7 @@
                 $body .= " - <time datetime='" . $endEventDate . "'>"
                . $endEventDateFormatted . "</time>";
              }
-             $body .= '</h2>';
+             $body .= '</h3>';
 
             if($numberOfThoughts > 0) {
             $body .= '<div class="number-of-thoughts">
@@ -226,7 +222,7 @@
             </div>';
             }
           $body .= '</div>
-          <h3>' . $eventTitle . '</h3>
+          <h4>' . $eventTitle . '</h4>
           <p>' . $eventDescription . '</p>';
 
           if(!is_null($eventYouTubeLink)) {
@@ -262,15 +258,14 @@
 
     $body = navButtons($link, $body);
 
-    return array($title, $header, $body);
+    return array($header, $body);
   }
 
-  function displaySorter($sqlResult, $link, $title, $header, $body) {
+  function displaySorter($sqlResult, $link, $header, $body) {
     $year = $_GET['year'];
     $month = $_GET['month'];
 
-    $title .= "Ephraim Becker - Timeline - " . $year . " album";
-    $header .= "Ephraim Becker - Timeline - " . $year . " album";
+    $header .= $year . " album";
 
     $body .= '<table>
         <tr>
@@ -310,7 +305,7 @@
           }
           $body .= '" onclick="filterTimeline(\'' . $year . '\', \'' . $month .
          '\', \'' . $day . '\')">
-          <h2>' . $monthName . " " . $day . '</h2>
+          <h3>' . $monthName . " " . $day . '</h3>
           <p>All the events on ' . $monthName . " " . $day . '</p>
         </div>';
       }
@@ -319,7 +314,7 @@
 
       $body = navButtons($link, $body);
 
-      return array($title, $header, $body);
+      return array($header, $body);
     }
 
 if($_GET['day'] == 0) {
@@ -350,9 +345,9 @@ if($_GET['day'] == 0) {
 
       $sqlTwoResult = $sqlTwo->get_result();
 
-      list($title, $header, $body) = displaySorter($sqlTwoResult, $link, $title, $header, $body);
+      list($header, $body) = displaySorter($sqlTwoResult, $link, $header, $body);
     } else {
-        list($title, $header, $body) = displayAllEvents($sqlResult, $link, $title, $header, $body);
+        list($header, $body) = displayAllEvents($sqlResult, $link, $header, $body);
     }
 
     $sql->close();
@@ -375,7 +370,7 @@ if($_GET['day'] == 0) {
     $sqlThreeResult = $sqlThree->get_result();
 
     if($sqlThreeResult->num_rows < 12) {
-      list($title, $header, $body) = displayAllEvents($sqlThreeResult, $link, $title, $header, $body);
+      list($header, $body) = displayAllEvents($sqlThreeResult, $link, $header, $body);
 
       $sqlThree->close();
     } else {
@@ -390,7 +385,7 @@ if($_GET['day'] == 0) {
 
         $sqlFourResult = $sqlFour->get_result();
 
-        list($title, $header, $body) = displaySorter($sqlFourResult, $link, $title, $header, $body);
+        list($header, $body) = displaySorter($sqlFourResult, $link, $header, $body);
       }
     }
   } else {
@@ -413,7 +408,7 @@ if($_GET['day'] == 0) {
 
     $sqlFiveResult = $sqlFive->get_result();
 
-    list($title, $header, $body) = displayAllEvents($sqlFiveResult, $link, $title, $header, $body);
+    list($header, $body) = displayAllEvents($sqlFiveResult, $link, $header, $body);
 
     $sqlFive->close();
   }
@@ -422,5 +417,7 @@ if($_GET['day'] == 0) {
  ?>
 
 <div>
+  <h2><?php echo $header ?></h2>
+  <br />
   <?php echo $body; ?>
 </div>
