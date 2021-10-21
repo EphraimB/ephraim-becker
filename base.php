@@ -16,12 +16,12 @@
     <nav>
       <ul>
         <li id="first"><img src="<?php $_SERVER['DOCUMENT_ROOT'] ?>/img/ephraim-becker.jpg" alt="Photo of Ephraim Becker" width="70px" height="70px" /></li>
-        <li id="hamburger-icon"><a href="#" onclick="toggleNavMenu()">&#9776;</a></li>
+        <li id="hamburger-icon"><a href="javascript:;" onclick="toggleNavMenu()">&#9776;</a></li>
         <div id="links">
           <li><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/index.php">Home</a></li>
           <li><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/timeline/">Timeline</a></li>
           <div id="dropdown">
-            <li><a href="#" onclick="toggleNavSubmenu()">Daily Life &emsp; &#x25BC;</a></li>
+            <li><a href="javascript:;" onclick="toggleNavSubmenu()">Daily Life &emsp; &#x25BC;</a></li>
             <div id="dropdown-content">
               <li><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/everydayLife/">Everyday Life</a></li>
               <li><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/college/">College Life</a></li>
