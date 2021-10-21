@@ -6,3 +6,8 @@ services:
       - "8080:80"
     volumes:
       - ./src/:/var/www/html/
+  ephraim-becker-test:
+    build: .
+    image: phpunit/phpunit
+    volumes:
+      - ./tests/:/var/www/html/tests/
