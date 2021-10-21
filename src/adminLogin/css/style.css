@@ -1,0 +1,19 @@
+input[type=submit] {
+  background-color: blue;
+  color: white;
+  border: 0;
+  padding: 16px 32px;
+  width: 100%;
+  cursor: pointer;
+}
+
+input[type=submit]:hover {
+  background-color: lightblue;
+}
+
+.row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
