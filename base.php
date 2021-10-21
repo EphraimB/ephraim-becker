@@ -57,5 +57,6 @@
     </footer>
     <script src="<?php $_SERVER['DOCUMENT_ROOT'] ?>/js/script.js"></script>
     <?php echo $localScript; ?>
+    <script>highlightNavItem();</script>
   </body>
 </html>
