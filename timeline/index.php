@@ -31,7 +31,7 @@
       $year = $row['Year'];
 
     $body .= '<div class="card album-cover" id="album-cover-' . $year . '" onclick="filterTimeline(\'' . $year . '\')">';
-      $body .= '<h2>' . $year . '</h2>';
+      $body .= '<h3>' . $year . '</h3>';
       $body .= '<p>All the events in ' . $year . ' when I was ' . ($year-1996) . ' years old</p>';
     $body .= '</div>';
   };

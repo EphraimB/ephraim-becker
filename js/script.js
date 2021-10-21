@@ -28,9 +28,10 @@ function highlightNavItem() {
   for(var i = 0; i < links.length; i++) {
     if(window.location.pathname == "/") {
       links[0].className = 'focus';
-    } else if(links[i].children[0].pathname == window.location.pathname) {
+    } else if(links[i].children[0].pathname == window.location.pathname.match(new RegExp("^" + links[i].children[0].pathname,"g"))) {
+      console.log(links[i].children[0].pathname);
+      console.log(window.location.pathname.match(new RegExp("^" + links[i].children[0].pathname,"g")));
         links[i].className = 'focus';
-        links[2].classList.remove('focus');
 
         if(i == 3 || i == 4) {
           links[2].className = 'focus';
