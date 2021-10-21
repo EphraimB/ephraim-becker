@@ -29,6 +29,7 @@ function highlightNavItem() {
     if(window.location.pathname == "/") {
       links[0].className = 'focus';
     } else if(links[i].children[0].pathname == window.location.pathname.match(new RegExp("^" + links[i].children[0].pathname,"g"))) {
+      console.log(links[i].children[0].pathname);
       console.log(window.location.pathname.match(new RegExp("^" + links[i].children[0].pathname,"g")));
         links[i].className = 'focus';
 
@@ -38,3 +39,5 @@ function highlightNavItem() {
     }
   }
 }
+
+highlightNavItem();
