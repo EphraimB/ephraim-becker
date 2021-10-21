@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <title><?php echo $title; ?></title>
-    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/css/style.css" />
     <?php echo $localStyleSheet; ?>
     <link rel="canonical" href="https://www.ephraimbecker.com/" />
     <link rel="icon" href="/img/ephraim_becker.ico" type="image/x-icon" />
@@ -15,26 +15,30 @@
   <body>
     <nav>
       <ul>
-        <li id="first"><img src="/img/ephraim-becker.jpg" alt="Photo of Ephraim Becker" width="70px" height="70px" /></li>
+        <li id="first"><img src="<?php $_SERVER['DOCUMENT_ROOT'] ?>/img/ephraim-becker.jpg" alt="Photo of Ephraim Becker" width="70px" height="70px" /></li>
         <li id="hamburger-icon"><a href="#" onclick="toggleNavMenu()">&#9776;</a></li>
         <div id="links">
-          <li><a href="/index.php">Home</a></li>
-          <li><a href="/timeline/">Timeline</a></li>
+          <li><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/index.php">Home</a></li>
+          <li><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/timeline/">Timeline</a></li>
           <div id="dropdown">
             <li><a href="#" onclick="toggleNavSubmenu()">Daily Life &emsp; &#x25BC;</a></li>
             <div id="dropdown-content">
-              <li><a href="/everydayLife/">Everyday Life</a></li>
-              <li><a href="/college/">College Life</a></li>
+              <li><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/everydayLife/">Everyday Life</a></li>
+              <li><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/college/">College Life</a></li>
             </div>
           </div>
-          <li><a href="/projects/">Projects</a></li>
-          <li><a href="/resources/">Resources</a></li>
-          <li><a href="/about/">About</a></li>
+          <li><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/projects/">Projects</a></li>
+          <li><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/resources/">Resources</a></li>
+          <li><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/about/">About</a></li>
           <?php
           if(isset($_SESSION['username'])) {
-            echo '<li><a href="/adminLogout.php?fromUrl=' . $url . '">Logout</a></li>';
+          ?>
+            <li><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/adminLogout.php?fromUrl=<?php echo $url ?>">Logout</a></li>
+          <?php
           } else {
-            echo '<li><a href="/adminLogin/index.php?fromUrl=' . $url . '">Login</a></li>';
+          ?>
+            <li><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/adminLogin/index.php?fromUrl=<?php echo $url ?>">Login</a></li>
+          <?php
           }
           ?>
         </div>
@@ -51,7 +55,7 @@
     <footer>
       <p>&copy; 2021 Ephraim Becker</p>
     </footer>
-    <script src="/js/script.js"></script>
+    <script src="<?php $_SERVER['DOCUMENT_ROOT'] ?>/js/script.js"></script>
     <?php echo $localScript; ?>
   </body>
 </html>
