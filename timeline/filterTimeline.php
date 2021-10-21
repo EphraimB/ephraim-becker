@@ -419,7 +419,8 @@ if($_GET['day'] == 0) {
   }
 
   $link->close();
-
-  $url = "/timeline/";
-  require($_SERVER['DOCUMENT_ROOT'] . "/base.php");
  ?>
+
+<div>
+  <?php echo $body; ?>
+</div>

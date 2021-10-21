@@ -48,7 +48,7 @@
       <h1 style="font-weight: bold;"><?php echo $header; ?></h1>
     </header>
     <body>
-      <main>
+      <main id="main">
         <?php echo $body; ?>
       </main>
     </body>

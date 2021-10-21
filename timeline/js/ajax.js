@@ -1,3 +1,5 @@
+var main = document.getElementById("main");
+
 function filterTimeline(year, month, day) {
   month = month || 0;
   day = day || 0;
@@ -5,7 +7,7 @@ function filterTimeline(year, month, day) {
   var xmlhttp = new XMLHttpRequest();
   xmlhttp.onreadystatechange = function() {
     if (this.readyState == 4 && this.status == 200) {
-      document.body.innerHTML = this.responseText;
+      main.innerHTML = this.responseText;
       window.history.pushState("Timeline - "+year, "Ephraim Becker - Timeline", "/timeline/index.php#"+year+"-"+month+"-"+day);
     }
   };
