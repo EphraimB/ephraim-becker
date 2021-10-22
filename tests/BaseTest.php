@@ -8,6 +8,7 @@ class BaseTest extends TestCase
 {
   function testGetDocumentRoot()
   {
-    $this->assertEquals('', Base::getDocumentRoot());
+    $base = new Base(NULL, '/', 'Testing', 'Testing', 'Just testing', NULL);
+    $this->assertEquals('', $base->getDocumentRoot());
   }
 }

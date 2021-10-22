@@ -9,15 +9,9 @@ class Base
   private $localScript;
   private $documentRoot;
 
-  function __construct($localStyleSheet, string $url, string $title, $header, string $body, $localScript)
+  function __construct()
   {
-    $this->localStyleSheet = $localStyleSheet;
-    $this->url = $url;
-    $this->title = $title;
-    $this->header = $header;
-    $this->body = $body;
-    $this->localScript = $localScript;
-    $this->documentRoot = '';  // $_SERVER['DOCUMENT_ROOT'];
+    
   }
 
   function getDocumentRoot(): string
@@ -25,9 +19,19 @@ class Base
     return $this->documentRoot;
   }
 
+  function setDocumentRoot(string $documentRoot): void
+  {
+    $this->documentRoot = $documentRoot;
+  }
+
   function getLocalStyleSheet()
   {
     return $this->localStyleSheet;
+  }
+
+  function setLocalStyleSheet($localStyleSheet): void
+  {
+    $this->localStyleSheet = $localStyleSheet;
   }
 
   function getUrl(): string
@@ -35,9 +39,19 @@ class Base
     return $this->url;
   }
 
+  function setUrl(string $url): void
+  {
+    $this->url = $url;
+  }
+
   function getTitle(): string
   {
     return $this->title;
+  }
+
+  function setTitle(string $title): void
+  {
+    $this->title = $title;
   }
 
   function getHeader()
@@ -45,14 +59,29 @@ class Base
     return $this->header;
   }
 
+  function setHeader($header): void
+  {
+    $this->header = $header;
+  }
+
   function getBody(): string
   {
     return $this->body;
   }
 
+  function setBody(string $body): void
+  {
+    $this->body = $body;
+  }
+
   function getLocalScript()
   {
     return $this->localScript;
+  }
+
+  function setLocalScript($localScript): void
+  {
+    $this->localScript = $localScript;
   }
 
   function ensureValidDocumentRoot(): bool
@@ -64,13 +93,13 @@ class Base
     }
   }
 
-  function head($localStyleSheet, string $title): string
+  function head(): string
   {
 
     $html = '
       <head>
         <meta charset="utf-8">
-        <title>' . $title . '</title>
+        <title>' . $this->getTitle() . '</title>
         <link rel="stylesheet" href="' . $this->getDocumentRoot() . '/css/style.css" />';
         $html .= $this->getLocalStyleSheet() . '
         <link rel="canonical" href="https://www.ephraimbecker.com' . $this->getUrl() . '" />
@@ -157,13 +186,13 @@ class Base
     {
       $html = '<!DOCTYPE html>
       <html lang="en" dir="ltr">';
-      $html .= $this->head($this->getLocalStyleSheet(), $this->getTitle());
+      $html .= $this->head();
       $html .= '<body>';
-      $html .= $this->nav($this->getUrl());
-      $html .= $this->header($this->getHeader());
-      $html .= $this->main($this->getBody());
+      $html .= $this->nav();
+      $html .= $this->header();
+      $html .= $this->main();
       $html .= $this->footer();
-      $html .= $this->scripts($this->getLocalScript());
+      $html .= $this->scripts();
       $html .= '
         </body>
       </html>';
@@ -172,6 +201,14 @@ class Base
     }
 }
 
-$base = new Base($localStyleSheet, $url, $title, $header, $body, $localScript);
+$base = new Base();
+$base->setDocumentRoot('');
+$base->setHeader($header);
+$base->setLocalStyleSheet($localStyleSheet);
+$base->setUrl($url);
+$base->setTitle($title);
+$base->setBody($body);
+$base->setLocalScript($localScript);
+
 $base->html();
 ?>
