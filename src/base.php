@@ -74,15 +74,16 @@ class Base
         <link rel="stylesheet" href="<?php $this->getDocumentRoot() ?>/css/style.css" />
         <?php
         $html .= $this->getLocalStyleSheet() . '
-        <link rel="canonical" href="https://www.ephraimbecker.com/" />
-        <link rel="icon" href="' . $this->getDocumentRoot() . '/img/ephraim_becker.ico" type="image/x-icon" />
-        <link rel="apple-touch-icon" href="' . $this->getDocumentRoot() . '/img/ephraim-becker.png" />
+        <link rel="canonical" href="https://www.ephraimbecker.com/" />';
+        ?>
+        <link rel="icon" href="<?php $this->getDocumentRoot() ?>/img/ephraim_becker.ico" type="image/x-icon" />
+        <link rel="apple-touch-icon" href="<?php $this->getDocumentRoot() ?>/img/ephraim-becker.png" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="description" content="Hi! My name is Ephraim Becker and this is a website about my life and how people can learn from it." />
         <meta name="keywords" content="Ephraim Becker, autism, aspergers, ADHD" />
       </head>
-    ';
 
+    <?php
     return $html;
   }
 
