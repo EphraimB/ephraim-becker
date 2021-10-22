@@ -12,13 +12,6 @@ require($_SERVER['DOCUMENT_ROOT'] . "/base.php");
 class Index extends Base
 {
   private $age;
-  private $localStyleSheet;
-  private $url;
-  private $title;
-  private $header;
-  private $body;
-  private $localScript;
-  private $documentRoot;
 
   function __construct()
   {
