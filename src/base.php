@@ -73,7 +73,7 @@ class Base
         <title>' . $title . '</title>
         <link rel="stylesheet" href="' . $this->getDocumentRoot() . '/css/style.css" />';
         $html .= $this->getLocalStyleSheet() . '
-        <link rel="canonical" href="https://www.ephraimbecker.com/" />
+        <link rel="canonical" href="https://www.ephraimbecker.com' . $this->getUrl() . '" />
         <link rel="icon" href="'. $this->getDocumentRoot() . '/img/ephraim_becker.ico" type="image/x-icon" />
         <link rel="apple-touch-icon" href="' . $this->getDocumentRoot() . '/img/ephraim-becker.png" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
