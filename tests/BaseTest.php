@@ -6,17 +6,10 @@ require(__DIR__ . '/../src/base.php');
 
 class BaseTest extends TestCase
 {
-  function testGetDocumentRoot()
+  function testGetDocumentRoot(): void
   {
-    // $base = new Base();
-    // $base->setDocumentRoot('');
-    // $base->setHeader("Testing");
-    // $base->setLocalStyleSheet(NULL);
-    // $base->setUrl('/');
-    // $base->setTitle("Testing");
-    // $base->setBody("Just testing");
-    // $base->setLocalScript(NULL);
+    $base = new Base();
 
-    $this->assertEquals('', Base::getDocumentRoot());
+    $this->assertEquals('', $base->getDocumentRoot());
   }
 }
