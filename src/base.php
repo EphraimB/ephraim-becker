@@ -17,7 +17,7 @@ class Base
     $this->header = $header;
     $this->body = $body;
     $this->localScript = $localScript;
-    $this->documentRoot = $_SERVER['DOCUMENT_ROOT'];
+    $this->documentRoot = '';  // $_SERVER['DOCUMENT_ROOT'];
   }
 
   function getDocumentRoot(): string
@@ -66,24 +66,21 @@ class Base
 
   function head($localStyleSheet, string $title): string
   {
+
     $html = '
       <head>
         <meta charset="utf-8">
-        <title>' . $title . '</title>';
-        ?>
-        <link rel="stylesheet" href="<?php $this->getDocumentRoot() ?>/css/style.css" />
-        <?php
+        <title>' . $title . '</title>
+        <link rel="stylesheet" href="' . $this->getDocumentRoot() . '/css/style.css" />';
         $html .= $this->getLocalStyleSheet() . '
-        <link rel="canonical" href="https://www.ephraimbecker.com/" />';
-        ?>
-        <link rel="icon" href="<?php $this->getDocumentRoot() ?>/img/ephraim_becker.ico" type="image/x-icon" />
-        <link rel="apple-touch-icon" href="<?php $this->getDocumentRoot() ?>/img/ephraim-becker.png" />
+        <link rel="canonical" href="https://www.ephraimbecker.com/" />
+        <link rel="icon" href="'. $this->getDocumentRoot() . '/img/ephraim_becker.ico" type="image/x-icon" />
+        <link rel="apple-touch-icon" href="' . $this->getDocumentRoot() . '/img/ephraim-becker.png" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="description" content="Hi! My name is Ephraim Becker and this is a website about my life and how people can learn from it." />
         <meta name="keywords" content="Ephraim Becker, autism, aspergers, ADHD" />
-      </head>
+      </head>';
 
-    <?php
     return $html;
   }
 
