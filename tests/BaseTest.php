@@ -8,7 +8,15 @@ class BaseTest extends TestCase
 {
   function testGetDocumentRoot()
   {
-    $base = new Base(NULL, '/', 'Testing', 'Testing', 'Just testing', NULL);
+    $base = new Base();
+    $base->setDocumentRoot('');
+    $base->setHeader("Testing");
+    $base->setLocalStyleSheet(NULL);
+    $base->setUrl('/');
+    $base->setTitle("Testing");
+    $base->setBody("Just testing");
+    $base->setLocalScript(NULL);
+
     $this->assertEquals('', $base->getDocumentRoot());
   }
 }

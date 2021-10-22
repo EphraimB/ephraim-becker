@@ -11,7 +11,7 @@ class Base
 
   function __construct()
   {
-    
+
   }
 
   function getDocumentRoot(): string
