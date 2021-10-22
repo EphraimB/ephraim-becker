@@ -1,5 +1,5 @@
 <?php declare(strict_types=1);
-final class Base
+class Base
 {
   private $localStyleSheet;
   private $url;
