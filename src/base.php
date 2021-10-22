@@ -7,21 +7,16 @@ class Base
   private $header;
   private $body;
   private $localScript;
-  private $documentRoot;
+  private $documentRoot = '';
 
   function __construct()
   {
-
+    $this->documentRoot = '';
   }
 
   function getDocumentRoot(): string
   {
     return $this->documentRoot;
-  }
-
-  function setDocumentRoot(string $documentRoot): void
-  {
-    $this->documentRoot = $documentRoot;
   }
 
   function getLocalStyleSheet()
@@ -95,7 +90,6 @@ class Base
 
   function head(): string
   {
-
     $html = '
       <head>
         <meta charset="utf-8">
@@ -200,15 +194,4 @@ class Base
       echo $html;
     }
 }
-
-$base = new Base();
-$base->setDocumentRoot('');
-$base->setHeader($header);
-$base->setLocalStyleSheet($localStyleSheet);
-$base->setUrl($url);
-$base->setTitle($title);
-$base->setBody($body);
-$base->setLocalScript($localScript);
-
-$base->html();
 ?>
