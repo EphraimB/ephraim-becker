@@ -12,4 +12,12 @@ class BaseTest extends TestCase
 
     $this->assertEquals('', $base->getDocumentRoot());
   }
+
+  function testGetLocalStyleSheet(): void
+  {
+    $base = new Base();
+    $base->setLocalStyleSheet('css/style.css');
+
+    $this->assertEquals('css/style.css', $base->getLocalStyleSheet());
+  }
 }
