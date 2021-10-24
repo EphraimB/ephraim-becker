@@ -14,6 +14,10 @@ class IndexTest extends TestCase
     unset($_SERVER['DOCUMENT_ROOT']);
   }
 
+    /**
+  * @test
+  * @runInSeparateProcess
+  */
   function testGetAge(): void
   {
     $index = new Index();
