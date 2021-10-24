@@ -1,22 +1,44 @@
 <?php
-  session_start();
+declare(strict_types=1);
 
-  require_once($_SERVER['DOCUMENT_ROOT'] . '/environment.php');
+session_start();
 
-  global $link;
+global $link;
 
-  $title = "Ephraim Becker - Timeline";
-  $localStyleSheet = '<link rel="stylesheet" href="css/style.css" />';
-  $header = "Ephraim Becker - Timeline";
-  $body = '';
+require($_SERVER['DOCUMENT_ROOT'] . "/base.php");
 
-  if(isset($_SESSION['username'])) {
-    $body .= '<div class="row">
-          <ul class="subNav">
-            <li><a style="text-decoration: none;" href="addEvent/">+</a></li>
-          </ul>
-        </div>
-        <div id="grid-container">';
+class Timeline extends Base
+{
+  private $isAdmin;
+
+  function __construct()
+  {
+    $this->setIsAdmin();
+  }
+
+  function setIsAdmin(): void
+  {
+    if(isset($_SESSION['username'])) {
+      $this->isAdmin = true;
+    } else {
+      $this->isAdmin = false;
+    }
+  }
+
+  function getIsAdmin(): bool
+  {
+    return $this->isAdmin;
+  }
+
+  function addEvent(): string
+  {
+    if($this->getIsAdmin() == true) {
+      $html .= '<div class="row">
+            <ul class="subNav">
+              <li><a style="text-decoration: none;" href="addEvent/">+</a></li>
+            </ul>
+          </div>';
+      }
   }
 
   $body .= '<div id="grid-container">';
@@ -38,8 +60,14 @@
 
   $body .= '</div>';
 
-  $localScript = '<script src="js/ajax.js"></script>';
 
-  $url = $_SERVER['REQUEST_URI'];
-  require($_SERVER['DOCUMENT_ROOT'] . "/base.php");
+  $timeline = new Timeline();
+  $index->setTitle("Ephraim Becker - Timeline");
+  $index->setLocalStyleSheet('css/style.css');
+  $index->setLocalScript('js/ajax.js');
+  $index->setHeader('Ephraim Becker - Timeline');
+  $index->setUrl($_SERVER['REQUEST_URI']);
+  $index->setBody($index->main());
+
+  $index->html();
 ?>
