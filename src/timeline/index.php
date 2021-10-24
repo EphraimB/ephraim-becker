@@ -62,12 +62,12 @@ class Timeline extends Base
 
 
   $timeline = new Timeline();
-  $index->setTitle("Ephraim Becker - Timeline");
-  $index->setLocalStyleSheet('css/style.css');
-  $index->setLocalScript('js/ajax.js');
-  $index->setHeader('Ephraim Becker - Timeline');
-  $index->setUrl($_SERVER['REQUEST_URI']);
-  $index->setBody($index->main());
+  $timeline->setTitle("Ephraim Becker - Timeline");
+  $timeline->setLocalStyleSheet('css/style.css');
+  $timeline->setLocalScript('js/ajax.js');
+  $timeline->setHeader('Ephraim Becker - Timeline');
+  $timeline->setUrl($_SERVER['REQUEST_URI']);
+  $timeline->setBody($index->main());
 
-  $index->html();
+  $timeline->html();
 ?>
