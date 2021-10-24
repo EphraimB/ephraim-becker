@@ -81,7 +81,7 @@ class Base
 
   function ensureValidDocumentRoot(): bool
   {
-    if($this->getDocumentRoot() == '/') {
+    if($this->getDocumentRoot() == '') {
       return true;
     } else {
       return false;

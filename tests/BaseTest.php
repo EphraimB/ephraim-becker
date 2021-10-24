@@ -60,4 +60,11 @@ class BaseTest extends TestCase
 
     $this->assertEquals('js/script.js', $base->getLocalScript());
   }
+
+  function testEnsureValidDocumentRoot(): void
+  {
+    $base = new Base();
+
+    $this->assertEquals(true, $base->ensureValidDocumentRoot());
+  }
 }
