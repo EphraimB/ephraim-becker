@@ -12,15 +12,6 @@ function filterTimeline(year, month, day) {
     }
   };
 
-  xmlhttp.open("GET", "filterTimeline.php?year="+year+"&month="+month+"&day="+day, true);
+  xmlhttp.open("GET", "/timeline/index.php?year="+year+"&month="+month+"&day="+day, true);
   xmlhttp.send();
-}
-
-if(window.location.hash) {
-  var hash = window.location.hash.substring(1);
-  var hashArr = hash.split("-");
-  var year = hashArr[0];
-  var month = hashArr[1];
-  var day = hashArr[2];
-  filterTimeline(year, month, day);
 }
