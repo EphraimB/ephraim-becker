@@ -3,8 +3,6 @@ declare(strict_types=1);
 
 session_start();
 
-require_once($_SERVER['DOCUMENT_ROOT'] . '/environment.php');
-
 global $link;
 
 require($_SERVER['DOCUMENT_ROOT'] . "/base.php");
