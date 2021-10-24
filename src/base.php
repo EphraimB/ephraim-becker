@@ -146,9 +146,13 @@ class Base
 
     function header(): string
     {
-      $html = '<header>
-        <h1 style="font-weight: bold;">' . $this->getHeader() . '</h1>
-      </header>';
+      if($this->getHeader() != NULL) {
+        $html = '<header>
+          <h1 style="font-weight: bold;">' . $this->getHeader() . '</h1>
+        </header>';
+      } else {
+        $html = '';
+      }
 
       return $html;
     }
@@ -174,8 +178,11 @@ class Base
 
     function scripts(): string
     {
-      $html = '<script src="' . $this->getDocumentRoot() . '/js/script.js"></script>
-      ' . $this->getLocalScript();
+      $html = '<script src="' . $this->getDocumentRoot() . '/js/script.js"></script>';
+
+      if($this->getLocalScript() != NULL) {
+        $html .= '<script src="' . $this->getLocalScript() . '"></script>';
+      }
 
       return $html;
     }
