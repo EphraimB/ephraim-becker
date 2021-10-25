@@ -8,7 +8,6 @@ function filterTimeline(year, month, day) {
   xmlhttp.onreadystatechange = function() {
     if (this.readyState == 4 && this.status == 200) {
       main.innerHTML = this.responseText;
-      window.history.pushState("Timeline - "+year, "Ephraim Becker - Timeline", "/timeline/index.php#"+year+"-"+month+"-"+day);
     }
   };
 

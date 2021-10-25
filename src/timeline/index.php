@@ -13,11 +13,11 @@ class Timeline extends Base
   private $year;
   private $month;
   private $day;
+  private $query;
 
   function __construct()
   {
-    $this->setIsAdmin();
-    $this->setDate();
+
   }
 
   function setLink($link)
@@ -39,6 +39,16 @@ class Timeline extends Base
     }
   }
 
+  function getQuery(): string
+  {
+    return $this->query;
+  }
+
+  function setQuery($query): void
+  {
+    $this->query = $query;
+  }
+
   function getIsAdmin(): bool
   {
     return $this->isAdmin;
@@ -51,17 +61,25 @@ class Timeline extends Base
 
   function setYear(): void
   {
-    $this->year = $_GET['year'] || 0;
+    if(isset($_GET['year'])) {
+      $this->year = intval($_GET['year']);
+    } else {
+      $this->year = 0;
+    }
   }
 
   function getMonth(): int
   {
-    return $this->year;
+    return $this->month;
   }
 
   function setMonth(): void
   {
-    $this->month = $_GET['month'] || 0;
+    if(isset($_GET['month'])) {
+      $this->month = intval($_GET['month']);
+    } else {
+      $this->month = 0;
+    }
   }
 
   function getDay(): int
@@ -71,7 +89,46 @@ class Timeline extends Base
 
   function setDay(): void
   {
-    $this->year = $_GET['day'] || 0;
+    if(isset($_GET['day'])) {
+      $this->day = intval($_GET['day']);
+    } else {
+      $this->day = 0;
+    }
+  }
+
+  function selectQuery(int $view): void
+  {
+    $query = 'SELECT *, IFNULL(DATE_FORMAT(concat(EventDate, " ", EventTime) - INTERVAL EventTimeZoneOffset SECOND, "%Y-%m-%d"), EventDate) AS "LocalDate", IFNULL(TIME_FORMAT(concat(EventDate, " ", EventTime) - INTERVAL EventTimeZoneOffset SECOND, "%H:%i:%s"), NULL) AS "LocalTime"';
+
+    if($this->getYear() == 0 && $this->getMonth() == 0 && $this->getDay() == 0) {
+      $query .= ', DATE_FORMAT(EventDate - INTERVAL EventTimeZoneOffset SECOND, "%Y") AS Year';
+    } else if($this->getYear() > 0 && $this->getMonth() == 0 && $this->getDay() == 0) {
+      $query .= ', MONTH(EventDate) AS Month';
+    }
+
+    $query .= ' FROM timeline';
+
+    if($this->getYear() > 0 && $this->getMonth() == 0 && $this->getDay() == 0) {
+      $query .= ' WHERE YEAR(EventDate) = ?';
+    }
+
+    if($this->getIsAdmin() == false) {
+      if($this->getYear() > 0) {
+        $query .= ' AND';
+      } else {
+        $query .= ' WHERE';
+      }
+
+      $query .= ' hide = 0';
+    }
+
+    if($this->getYear() == 0 && $this->getMonth() == 0 && $this->getDay() == 0) {
+      $query .= ' GROUP BY Year';
+    } else {
+       $query .= ' ORDER BY EventDate ASC';
+    }
+
+    $this->setQuery($query);
   }
 
   function addEvent(): string
@@ -89,59 +146,37 @@ class Timeline extends Base
       return $html;
   }
 
-  function fetchEvents($link): mysqli_result
+  function fetchEvents(): mysqli_result
   {
-    if($this->getYear() == 0 && $this->getMonth() == 0 && $this->getDay() == 0) {
-      if($this->getIsAdmin()) {
-        $sql = "SELECT *, IFNULL(DATE_FORMAT(concat(EventDate, ' ', EventTime) - INTERVAL EventTimeZoneOffset SECOND, '%Y-%m-%d'), EventDate) AS 'LocalDate', IFNULL(TIME_FORMAT(concat(EventDate, ' ', EventTime) - INTERVAL EventTimeZoneOffset SECOND, '%H:%i:%s'), NULL) AS 'LocalTime', DATE_FORMAT(EventDate - INTERVAL EventTimeZoneOffset SECOND, '%Y') AS Year FROM timeline GROUP BY Year ORDER BY EventDate ASC";
-      } else {
-        $sql = "SELECT *, IFNULL(DATE_FORMAT(concat(EventDate, ' ', EventTime) - INTERVAL EventTimeZoneOffset SECOND, '%Y-%m-%d'), EventDate) AS 'LocalDate', IFNULL(TIME_FORMAT(concat(EventDate, ' ', EventTime) - INTERVAL EventTimeZoneOffset SECOND, '%H:%i:%s'), NULL) AS 'LocalTime', DATE_FORMAT(EventDate - INTERVAL EventTimeZoneOffset SECOND, '%Y') AS Year FROM timeline WHERE hide = 0 GROUP BY Year ORDER BY EventDate ASC";
-      }
-      $sqlResult = mysqli_query($this->getLink(), $sql);
-    } else {
-      if($this->getIsAdmin()) {
-        $sql = $link->prepare("SELECT *, IFNULL(DATE_FORMAT(concat(EventDate, ' ', EventTime) - INTERVAL EventTimeZoneOffset SECOND, '%Y-%m-%d'), EventDate) AS 'LocalDate', IFNULL(TIME_FORMAT(concat(EventDate, ' ', EventTime) - INTERVAL EventTimeZoneOffset SECOND, '%H:%i:%s'), NULL) AS 'LocalTime', MONTH(EventDate) AS Month FROM timeline WHERE YEAR(EventDate) = ? ORDER BY EventDate ASC");
-      } else {
-        $sql = $link->prepare("SELECT *, IFNULL(DATE_FORMAT(concat(EventDate, ' ', EventTime) - INTERVAL EventTimeZoneOffset SECOND, '%Y-%m-%d'), EventDate) AS 'LocalDate', IFNULL(TIME_FORMAT(concat(EventDate, ' ', EventTime) - INTERVAL EventTimeZoneOffset SECOND, '%H:%i:%s'), NULL) AS 'LocalTime', MONTH(EventDate) AS Month FROM timeline WHERE hide = 0 AND YEAR(EventDate) = ? ORDER BY EventDate ASC");
-      }
+    if($this->getYear() > 0) {
+      $sql = $this->getLink()->prepare($this->getQuery());
       $sql->bind_param("i", $year);
 
-      $year = $_GET['year'];
+      $year = $this->getYear();
 
       $sql->execute();
 
       $sqlResult = $sql->get_result();
+    } else {
+      $sql = $this->getQuery();
+      $sqlResult = mysqli_query($this->getLink(), $sql);
     }
 
     return $sqlResult;
   }
 
-  function yearView($sqlResult, $year): string
+  function navButtons(): string
   {
-    $html = '<div class="card album-cover" id="album-cover-' . $year . '" onclick="filterTimeline(\'' . $year . '\')">';
-    $html .= '<h3>' . $year . '</h3>';
-    $html .= '<p>All the events in ' . $year . ' when I was ' . ($year-1996) . ' years old</p>';
-    $html .= '</div>';
-
-    return $html;
-  }
-
-  function navButtons($link, $body): string
-  {
-    $year = $_GET['year'];
-    $month = $_GET['month'];
-    $day = $_GET['day'];
-
-    $body .= '<div class="row">';
+    $body = '<div class="row">';
 
     if($this->getIsAdmin()) {
-      $sqlDatesDesc = $link->prepare("SELECT EventDate, YEAR(EventDate) AS Year, MONTH(EventDate) AS Month, DAY(EventDate) AS Day FROM timeline WHERE EventDate<? GROUP BY EventDate ORDER BY EventDate DESC LIMIT 1");
+      $sqlDatesDesc = $this->getLink()->prepare("SELECT EventDate, YEAR(EventDate) AS Year, MONTH(EventDate) AS Month, DAY(EventDate) AS Day FROM timeline WHERE EventDate<? GROUP BY EventDate ORDER BY EventDate DESC LIMIT 1");
     } else {
-      $sqlDatesDesc = $link->prepare("SELECT EventDate, YEAR(EventDate) AS Year, MONTH(EventDate) AS Month, DAY(EventDate) AS Day FROM timeline WHERE EventDate<? AND hide = 0 GROUP BY EventDate ORDER BY EventDate DESC LIMIT 1");
+      $sqlDatesDesc = $this->getLink()->prepare("SELECT EventDate, YEAR(EventDate) AS Year, MONTH(EventDate) AS Month, DAY(EventDate) AS Day FROM timeline WHERE EventDate<? AND hide = 0 GROUP BY EventDate ORDER BY EventDate DESC LIMIT 1");
     }
     $sqlDatesDesc->bind_param("s", $navvedEventDateDesc);
 
-    $navvedEventDateDesc = $year . "-" . $month . "-" . $day;
+    $navvedEventDateDesc = $this->getYear() . "-" . $this->getMonth() . "-" . $this->getDay();
 
     $sqlDatesDesc->execute();
 
@@ -159,13 +194,13 @@ class Timeline extends Base
         $day = $prevDay;
       } else if($month == 0 && $day == 0) {
         if($this->getIsAdmin()) {
-          $sqlDatesTwoDesc = $link->prepare("SELECT EventDate, YEAR(EventDate) AS Year, MONTH(EventDate) AS Month, DAY(EventDate) AS Day FROM timeline WHERE EventDate<? GROUP BY Year ORDER BY EventDate DESC LIMIT 1");
+          $sqlDatesTwoDesc = $this->getLink()->prepare("SELECT EventDate, YEAR(EventDate) AS Year, MONTH(EventDate) AS Month, DAY(EventDate) AS Day FROM timeline WHERE EventDate<? GROUP BY Year ORDER BY EventDate DESC LIMIT 1");
         } else {
-          $sqlDatesTwoDesc = $link->prepare("SELECT EventDate, YEAR(EventDate) AS Year, MONTH(EventDate) AS Month, DAY(EventDate) AS Day FROM timeline WHERE EventDate<? AND hide = 0 GROUP BY Year ORDER BY EventDate DESC LIMIT 1");
+          $sqlDatesTwoDesc = $this->getLink()->prepare("SELECT EventDate, YEAR(EventDate) AS Year, MONTH(EventDate) AS Month, DAY(EventDate) AS Day FROM timeline WHERE EventDate<? AND hide = 0 GROUP BY Year ORDER BY EventDate DESC LIMIT 1");
         }
         $sqlDatesTwoDesc->bind_param("s", $navvedEventDateDesc);
 
-        $navvedEventDateDesc = $_GET['year'] . "-0-0";
+        $navvedEventDateDesc = $this->getYear() . "-0-0";
 
         $sqlDatesTwoDesc->execute();
 
@@ -177,24 +212,21 @@ class Timeline extends Base
       }
 
       $body .= '<br />
-      <div class="navButton" onclick="filterTimeline(' . $year . ', ' . $month . ', ' . $day . ')">
+      <a href="./index.php?year=' . $year . '&month=' . $month . '&day=' . $day . '">
+      <div class="navButton">
          <p><</p>
-      </div>';
+      </div>
+      </a>';
     }
 
-
-    $year = $_GET['year'];
-    $month = $_GET['month'];
-    $day = $_GET['day'];
-
     if($this->getIsAdmin()) {
-      $sqlDates = $link->prepare("SELECT EventDate, YEAR(EventDate) AS Year, MONTH(EventDate) AS Month, DAY(EventDate) AS Day FROM timeline WHERE EventDate>? GROUP BY EventDate LIMIT 1");
+      $sqlDates = $this->getLink()->prepare("SELECT EventDate, YEAR(EventDate) AS Year, MONTH(EventDate) AS Month, DAY(EventDate) AS Day FROM timeline WHERE EventDate>? GROUP BY EventDate LIMIT 1");
     } else {
-      $sqlDates = $link->prepare("SELECT EventDate, YEAR(EventDate) AS Year, MONTH(EventDate) AS Month, DAY(EventDate) AS Day FROM timeline WHERE EventDate>? AND hide = 0 GROUP BY EventDate LIMIT 1");
+      $sqlDates = $this->getLink()->prepare("SELECT EventDate, YEAR(EventDate) AS Year, MONTH(EventDate) AS Month, DAY(EventDate) AS Day FROM timeline WHERE EventDate>? AND hide = 0 GROUP BY EventDate LIMIT 1");
     }
     $sqlDates->bind_param("s", $navvedEventDate);
 
-    $navvedEventDate = $year . "-" . $month . "-" . $day;
+    $navvedEventDate = $this->getYear() . "-" . $this->getMonth() . "-" . $this->getDay();
 
     $sqlDates->execute();
 
@@ -207,12 +239,12 @@ class Timeline extends Base
         $nextDay = $row['Day'];
       }
 
-      if($month > 0 && $day > 0) {
+      if($this->getMonth() > 0 && $this->getDay() > 0) {
         $year = $nextYear;
         $month = $nextMonth;
         $day = $nextDay;
-      } else if($month == 0 && $day == 0) {
-        $sqlDatesTwo = $link->prepare("SELECT EventDate, YEAR(EventDate) AS Year, MONTH(EventDate) AS Month, DAY(EventDate) AS Day FROM timeline WHERE EventDate>? AND hide=0 GROUP BY Year LIMIT 1");
+      } else if($this->getMonth() == 0 && $this->getDay() == 0) {
+        $sqlDatesTwo = $this->getLink()->prepare("SELECT EventDate, YEAR(EventDate) AS Year, MONTH(EventDate) AS Month, DAY(EventDate) AS Day FROM timeline WHERE EventDate>? AND hide=0 GROUP BY Year LIMIT 1");
         $sqlDatesTwo->bind_param("s", $navvedEventDate);
 
         $navvedEventDate = $nextYear . "-12-31";
@@ -226,7 +258,8 @@ class Timeline extends Base
         }
       }
 
-      $body .= '<div class="navButton" onclick="filterTimeline(\'' . $year . '\', \'' . $month . '\', \'' . $day . '\')">
+      $body .= '<a href="./index.php?year=' . $year . '&month=">
+      <div class="navButton">
          <p>></p>
       </div>';
     }
@@ -236,11 +269,19 @@ class Timeline extends Base
     return $body;
   }
 
-  function displayAllEvents($sqlResult, $link, $header, $body) {
-    $year = $_GET['year'];
-    $month = $_GET['month'];
-    $day = $_GET['day'];
+  function yearView($sqlResult, $year): string
+  {
+    $html = '<a href="./index.php?year=' . $year . '">';
+    $html .= '<div class="card album-cover" id="album-cover-' . $year . '"';
+    $html .= '<h3>' . $year . '</h3>';
+    $html .= '<p>All the events in ' . $year . ' when I was ' . ($year-1996) . ' years old</p>';
+    $html .= '</div>';
+    $html .= '</a>';
 
+    return $html;
+  }
+
+  function displayAllEvents($sqlResult) {
     $this->setHeader('Ephraim Becker - Timeline');
 
     while($row = mysqli_fetch_array($sqlResult)) {
@@ -261,10 +302,15 @@ class Timeline extends Base
 
       $endEventDate = $row['EndEventDate'];
 
-      $endEventDateFormatted = date("F d, Y", strtotime($endEventDate));
+      if(!is_null($endEventDate)) {
+        $endEventDateFormatted = date("F d, Y", strtotime($endEventDate));
+      }
 
       $eventDateFormatted = date("F d, Y", strtotime($localDate));
-      $eventTimeFormatted = date("h:i A", strtotime($localTime));
+
+      if(!is_null($eventTime)) {
+        $eventTimeFormatted = date("h:i A", strtotime($localTime));
+      }
 
       $eventTitle = $row['EventTitle'];
       $eventDescription = $row['EventDescription'];
@@ -276,7 +322,7 @@ class Timeline extends Base
       $eventMediaPortrait = $row['EventMediaPortrait'];
       $eventMediaDescription = $row['EventMediaDescription'];
 
-      $sqlThoughts = $link->prepare("SELECT COUNT(*) AS NumberOfThoughts FROM thoughts WHERE TimelineId=?");
+      $sqlThoughts = $this->getLink()->prepare("SELECT COUNT(*) AS NumberOfThoughts FROM thoughts WHERE TimelineId=?");
       $sqlThoughts->bind_param("i", $id);
 
       $sqlThoughts->execute();
@@ -287,7 +333,7 @@ class Timeline extends Base
         $numberOfThoughts = $rowTwo['NumberOfThoughts'];
       }
 
-      $body .= '<div style="margin-bottom: 10px;" class="event ';
+      $body = '<div style="margin-bottom: 10px;" class="event ';
       if($memoryType == 0) {
         $body .= 'remembered-memory';
       } else if($memoryType == 1) {
@@ -356,9 +402,7 @@ class Timeline extends Base
   <br />';
     }
 
-    $body = navButtons($link, $body);
-
-    return array($header, $body);
+    return $body;
   }
 
   function main(): string
@@ -383,18 +427,32 @@ class Timeline extends Base
 
       $html .= $this->addEvent();
       $html .= '<div id="grid-container">';
-      $sqlResult = $this->fetchEvents($this->link, $this->getDate());
+      $sqlResult = $this->fetchEvents();
 
       while($row = mysqli_fetch_array($sqlResult)) {
-        $year = $row['Year'];
+        if(isset($row['Year'])) {
+          $year = $row['Year'];
+        }
 
-        $html .= $this->yearView($sqlResult);
+        if(isset($row['month'])) {
+          $month = $row['month'];
+        }
+
+        if(isset($row['day'])) {
+          $day = $row['day'];
+        }
+
+        if($this->getYear() == 0) {
+          $html .= $this->yearView($sqlResult, $year);
+        } else {
+          $html .= $this->displayAllEvents($sqlResult);
+          $html .= $this->navButtons();
+        }
       }
 
       $html .= '</div>';
-    }
 
-    return $html;
+      return $html;
   }
 }
 
@@ -403,6 +461,12 @@ $link = $config->connectToServer();
 
 $timeline = new Timeline();
 $timeline->setLink($link);
+$timeline->setIsAdmin();
+$timeline->setYear();
+$timeline->setMonth();
+$timeline->setDay();
+$timeline->selectQuery(0);
+echo $timeline->getQuery();
 $timeline->setTitle("Ephraim Becker - Timeline");
 $timeline->setLocalStyleSheet('css/style.css');
 $timeline->setLocalScript('js/ajax.js');
