@@ -1,17 +1,127 @@
 <?php
-  $title = "Ephraim Becker - College";
-  $header = "College Life";
-  $localStyleSheet = NULL;
-  $localScript = NULL;
+declare(strict_types=1);
 
-  $body = '<table>
-        <caption>Touro College - BS in Computer Science</caption>
+session_start();
+
+require_once($_SERVER['DOCUMENT_ROOT'] . '/environment.php');
+require($_SERVER['DOCUMENT_ROOT'] . "/base.php");
+
+class College extends Base
+{
+  private $isAdmin;
+  private $link;
+  private $degree;
+  private $currentSemester;
+  private $major;
+  private $collegeName;
+
+
+  function __construct()
+  {
+
+  }
+
+  function setLink($link)
+  {
+    $this->link = $link;
+  }
+
+  function getLink()
+  {
+    return $this->link;
+  }
+
+  function setIsAdmin(): void
+  {
+    if(isset($_SESSION['username'])) {
+      $this->isAdmin = true;
+    } else {
+      $this->isAdmin = false;
+    }
+  }
+
+  function getIsAdmin(): bool
+  {
+    return $this->isAdmin;
+  }
+
+  function setDegree($degree): void
+  {
+    $this->degree = $degree;
+  }
+
+  function getDegree(): string
+  {
+    return $this->degree;
+  }
+
+  function setMajor($major): void
+  {
+    $this->major = $major;
+  }
+
+  function getMajor(): string
+  {
+    return $this->major;
+  }
+
+  function setCurrentSemester($currentSemester): void
+  {
+    $this->currentSemester = $currentSemester;
+  }
+
+  function getCurrentSemester(): string
+  {
+    return $this->currentSemester;
+  }
+
+  function setCollegeName($collegeName): void
+  {
+    $this->collegeName = $collegeName;
+  }
+
+  function getCollegeName(): string
+  {
+    return $this->collegeName;
+  }
+
+  function fetchQuery(): mysqli_result
+  {
+
+  }
+
+  function generateCollegeInformation(): string
+  {
+    $html = '<caption>';
+    $html .= $this->getCollegeName();
+    $html .= ' - ';
+    $html .= $this->getDegree();
+    $html .= ' in ';
+    $html .= $this->getMajor();
+    $html .= '</caption>';
+
+    return $html;
+  }
+
+  function createHeaderRow(): string
+  {
+    $html = '
         <tr>
           <th>Semester</th>
           <th>Course</th>
           <th>Credits</th>
           <th>Grade</th>
-        </tr>
+        </tr>';
+  }
+
+  function main(): string
+  {
+    $html = '<table>';
+    $html .= generateCollegeInformation();
+    $html .= createHeaderRow();
+  }
+
+    $body = '
         <tr class="semesterDivider">
           <td>Spring 2020</td>
           <td>Fundamentals Of Computer W Micro</td>
@@ -100,7 +210,16 @@
         <label for="DegreeProgress">Degree progress:</label>
         <progress id="DegreeProgress" value="26" max="120">21.7%</progress>
       </div>';
+}
 
-  $url = $_SERVER['REQUEST_URI'];
-  require($_SERVER['DOCUMENT_ROOT'] . "/base.php");
+  $college = new College();
+  $college->setLink($link);
+  $college->setTitle("Ephraim Becker - College");
+  $college->setLocalStyleSheet(NULL);
+  $college->setLocalScript(NULL);
+  $college->setHeader("College Life");
+  $college->setUrl($_SERVER['REQUEST_URI']);
+  $college->setBody($college->main());
+
+  $college->html();
 ?>
