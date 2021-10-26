@@ -13,14 +13,11 @@ class Index extends Base
 
   function __construct()
   {
-    $this->setAge();
+    $this->setAge("1996-07-19 16:21 GMT");
   }
 
-  function setAge(): void
+  function setAge($birthDate): void
   {
-    $epochTime = mktime(0, 0, 0, 07, 19, 1996);
-    $birthDate = "1996-07-19";
-
     $age = date_diff(date_create($birthDate), date_create(date("Y-m-d")));
 
     $this->age = intval($age->format("%y"));
