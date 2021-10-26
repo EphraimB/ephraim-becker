@@ -148,7 +148,7 @@ class College extends Base
   function main(): string
   {
     $html = '<table>';
-    // $html .= $this->generateCollegeInformation();
+    $html .= $this->generateCollegeInformation();
     $html .= $this->createHeaderRow();
     $sqlResult = $this->fetchQuery();
 
@@ -195,6 +195,9 @@ $link = $config->connectToServer();
 
 $college = new College();
 $college->setLink($link);
+$college->setCollegeName("Landers College for men");
+$college->setDegree("BS");
+$college->setMajor("Computer Science");
 $college->setTitle("Ephraim Becker - College");
 $college->setLocalStyleSheet(NULL);
 $college->setLocalScript(NULL);
