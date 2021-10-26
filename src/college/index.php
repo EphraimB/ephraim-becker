@@ -19,7 +19,7 @@ class College extends Base
 
   function __construct()
   {
-    $this->setQuery('SELECT college.college_id, semester.semester_id, course.course_id, CourseName AS "course", CourseType, Credits, grade, semester FROM college JOIN course ON college.course_id = course.course_id JOIN semester ON college.semester_id = semester.semester_id ORDER BY semester_id, CourseType DESC');
+    $this->setQuery('SELECT college.college_id, semester.semester_id, course.course_id, CourseName AS "course", CourseType, Credits, grade, semester, if(grade = "F", "Fail", if(grade = "I", "Incomplete", "Pass")) AS "status" FROM college JOIN course ON college.course_id = course.course_id JOIN semester ON college.semester_id = semester.semester_id ORDER BY semester_id, CourseType DESC');
   }
 
   function setLink($link)
@@ -96,6 +96,17 @@ class College extends Base
     return $this->collegeName;
   }
 
+  function getColorCode($status): array
+  {
+    if($status == "Pass") {
+      return array("green", "white");
+    } else if($status == "Incomplete") {
+      return array("yellow", "black");
+    } else {
+      return array("red", "white");
+    }
+  }
+
   function fetchQuery(): mysqli_result
   {
     $sql = $this->getQuery();
@@ -157,11 +168,15 @@ class College extends Base
       $credits = $row['Credits'];
       $grade = $row['grade'];
       $semester = $row['semester'];
+      $status = $row['status'];
 
-      $html .= '<tr class="semesterDivider">
-      <td>' . $semester . '</td>
+      $colorCode = $this->getColorCode($status);
+
+      $html .= '<tr style="background-color: ' . $colorCode[0] . '; color: ' . $colorCode[1] . '">';
+
+      $html .= '<td>' . $semester . '</td>
       <td>' . $course . '</td>
-      <td style="font-weight: bold;">' . $credits . '</td>
+      <td>' . $credits . '</td>
       <td>' . $grade . '</td>
     </tr>';
   }
