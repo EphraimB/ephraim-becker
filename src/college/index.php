@@ -14,11 +14,12 @@ class College extends Base
   private $currentSemester;
   private $major;
   private $collegeName;
+  private $query;
 
 
   function __construct()
   {
-
+    $this->setQuery('SELECT college.college_id, semester.semester_id, course.course_id, CourseName AS "course", CourseType, Credits, grade, semester FROM college JOIN course ON college.course_id = course.course_id JOIN semester ON college.semester_id = semester.semester_id ORDER BY semester_id, CourseType DESC');
   }
 
   function setLink($link)
@@ -43,6 +44,16 @@ class College extends Base
   function getIsAdmin(): bool
   {
     return $this->isAdmin;
+  }
+
+  function setQuery($query): void
+  {
+    $this->query = $query;
+  }
+
+  function getQuery(): string
+  {
+    return $this->query;
   }
 
   function setDegree($degree): void
@@ -87,7 +98,10 @@ class College extends Base
 
   function fetchQuery(): mysqli_result
   {
+    $sql = $this->getQuery();
+    $sqlResult = mysqli_query($this->getLink(), $sql);
 
+    return $sqlResult;
   }
 
   function generateCollegeInformation(): string
@@ -112,6 +126,8 @@ class College extends Base
           <th>Credits</th>
           <th>Grade</th>
         </tr>';
+
+    return $html;
   }
 
   function addCollegeInformation(): string
@@ -133,77 +149,24 @@ class College extends Base
   {
     $html = '<table>';
     // $html .= $this->generateCollegeInformation();
-    // $html .= $this->createHeaderRow();
-    $html .= '<tr class="semesterDivider">
-      <td>Spring 2020</td>
-      <td>Fundamentals Of Computer W Micro</td>
-      <td style="font-weight: bold;">4</td>
-      <td>A+</td>
-    </tr>
-    <tr class="semesterDivider">
-      <td rowspan="4">Fall 2020</td>
-      <td>Computing Theory And Applications</td>
-      <td style="font-weight: bold;">4</td>
-      <td>A</td>
-    </tr>
-    <tr>
-      <td>Introduction To Programming</td>
-      <td style="font-weight: bold;">3</td>
-      <td>B</td>
-    </tr>
-    <tr>
-      <td>English Composition I</td>
-      <td style="font-weight: bold;">0</td>
-      <td>Incomplete</td>
-    </tr>
-    <tr>
-      <td>Readings In Rambam</td>
-      <td style="font-weight: bold;">3</td>
-      <td>C+</td>
-    </tr>
-    <tr class="semesterDivider">
-      <td rowspan="4">Spring 2021</td>
-      <td>Advanced Programming & File Struct</td>
-      <td style="font-weight: bold;">3</td>
-      <td>A</td>
-    </tr>
-    <tr>
-      <td>Computer Architecture</td>
-      <td style="font-weight: bold;">3</td>
-      <td>A</td>
-    </tr>
-    <tr>
-      <td>College Math</td>
-      <td style="font-weight: bold;">3</td>
-      <td>A</td>
-    </tr>
-    <tr>
-      <td>English Composition I (audit for makeup work)</td>
-      <td style="font-weight: bold;">3</td>
-      <td>A-</td>
-    </tr>
-    <tr class="semesterDivider">
-      <td rowspan="4">Fall 2021</td>
-      <td>Database Management and Administration</td>
-      <td>3</td>
-      <td></td>
-    </tr>
-    <tr>
-      <td>Data Structures I</td>
-      <td>3</td>
-      <td></td>
-    </tr>
-    <tr>
-      <td>Pre-Calculus</td>
-      <td>3</td>
-      <td></td>
-    </tr>
-    <tr>
-      <td>Fund Of Speech I</td>
-      <td>3</td>
-      <td></td>
-    </tr>
-    <tr>
+    $html .= $this->createHeaderRow();
+    $sqlResult = $this->fetchQuery();
+
+    while($row = mysqli_fetch_array($sqlResult)) {
+      $course = $row['course'];
+      $credits = $row['Credits'];
+      $grade = $row['grade'];
+      $semester = $row['semester'];
+
+      $html .= '<tr class="semesterDivider">
+      <td>' . $semester . '</td>
+      <td>' . $course . '</td>
+      <td style="font-weight: bold;">' . $credits . '</td>
+      <td>' . $grade . '</td>
+    </tr>';
+  }
+
+    $html .= '<tr>
       <td colspan="4"><span style="font-weight: bold;">Total completed credits: </span>26/120</td>
     </tr>
   </table>
