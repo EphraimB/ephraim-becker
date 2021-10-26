@@ -7,8 +7,6 @@ require($_SERVER['DOCUMENT_ROOT'] . "/base.php");
 
 class Projects extends Base
 {
-  private $age;
-
   function __construct()
   {
 
