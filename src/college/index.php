@@ -14,12 +14,13 @@ class College extends Base
   private $currentSemester;
   private $major;
   private $collegeName;
+  private $totalCredits;
   private $query;
 
 
   function __construct()
   {
-    $this->setQuery('SELECT college.college_id, semester.semester_id, course.course_id, CourseName AS "course", CourseType, Credits, grade, semester, if(grade = "F", "Fail", if(grade = "I", "Incomplete", "Pass")) AS "status" FROM college JOIN course ON college.course_id = course.course_id JOIN semester ON college.semester_id = semester.semester_id ORDER BY semester_id, CourseType DESC');
+    $this->setQuery('SELECT college.college_id, semester.semester_id, course.course_id, CourseName AS "course", CourseType, Credits, grade, semester, if(grade = "F", "Fail", if(grade = "I", "Incomplete", if(ISNULL(grade), "Ongoing", "Pass"))) AS "status" FROM college JOIN course ON college.course_id = course.course_id JOIN semester ON college.semester_id = semester.semester_id ORDER BY semester_id, CourseType DESC');
   }
 
   function setLink($link)
@@ -54,6 +55,23 @@ class College extends Base
   function getQuery(): string
   {
     return $this->query;
+  }
+
+  function getTotalCredits(): string
+  {
+    return $this->totalCredits;
+  }
+
+  function setTotalCredits(): void
+  {
+    $sql = "SELECT SUM(credits) AS 'totalCredits' FROM college JOIN course ON college.course_id = course.course_id JOIN semester ON college.semester_id = semester.semester_id WHERE grade < 'F'";
+    $sqlResult = mysqli_query($this->getLink(), $sql);
+
+    while($row = mysqli_fetch_array($sqlResult)) {
+      $totalCredits = $row['totalCredits'];
+    }
+
+    $this->totalCredits = $totalCredits;
   }
 
   function setDegree($degree): void
@@ -102,8 +120,10 @@ class College extends Base
       return array("green", "white");
     } else if($status == "Incomplete") {
       return array("yellow", "black");
-    } else {
+    } else if($status == "Fail") {
       return array("red", "white");
+    } else {
+      return array("white", "black");
     }
   }
 
@@ -182,7 +202,7 @@ class College extends Base
   }
 
     $html .= '<tr>
-      <td colspan="4"><span style="font-weight: bold;">Total completed credits: </span>26/120</td>
+      <td colspan="4"><span style="font-weight: bold;">Total completed credits: </span>' . $this->getTotalCredits() . '/120</td>
     </tr>
   </table>
 
@@ -210,6 +230,7 @@ $link = $config->connectToServer();
 
 $college = new College();
 $college->setLink($link);
+$college->setTotalCredits();
 $college->setCollegeName("Landers College for men");
 $college->setDegree("BS");
 $college->setMajor("Computer Science");
