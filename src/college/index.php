@@ -114,6 +114,21 @@ class College extends Base
         </tr>';
   }
 
+  function addCollegeInformation(): string
+  {
+    if($this->getIsAdmin() == true) {
+      $html = '<div class="row">
+            <ul class="subNav">
+              <li><a style="text-decoration: none;" href="addCollegeInformation/">+</a></li>
+            </ul>
+          </div>';
+      } else {
+        $html = '';
+      }
+
+      return $html;
+  }
+
   function main(): string
   {
     $html = '<table>';
