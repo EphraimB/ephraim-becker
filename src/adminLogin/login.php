@@ -1,21 +1,70 @@
 <?php
-  require_once($_SERVER['DOCUMENT_ROOT'] . '/environment.php');
+declare(strict_types=1);
 
-  global $link;
+session_start();
 
-  session_start();
+require_once($_SERVER['DOCUMENT_ROOT'] . '/environment.php');
 
-  if(isset($_POST['loginButton'])) {
-    $sql = $link->prepare("SELECT * FROM admins WHERE username=?");
+class Login
+{
+  private $link;
+  private $url;
+  private $query;
+
+  function __construct()
+  {
+    $this->setQuery("SELECT * FROM admins WHERE username=?");
+  }
+
+  function setLink($link): void
+  {
+    $this->link = $link;
+  }
+
+  function getLink()
+  {
+    return $this->link;
+  }
+
+  function setQuery($query): void
+  {
+    $this->query = $query;
+  }
+
+  function getQuery(): string
+  {
+    return $this->query;
+  }
+
+  function setUrl($url): void
+  {
+    $this->url = $url;
+  }
+
+  function getUrl(): string
+  {
+    return $this->url;
+  }
+
+  function fetchFromDatabase(): mysqli_result
+  {
+    $sql = $this->getLink()->prepare($this->getQuery());
     $sql->bind_param("s", $username);
 
     $username = $_POST['username'];
 
     $sql->execute();
 
-    $sql = $sql->get_result();
+    $sqlResult = $sql->get_result();
 
-    while($row = mysqli_fetch_array($sql)) {
+    return $sqlResult;
+  }
+
+  function login(): void
+  {
+    $sqlResult = $this->fetchFromDatabase();
+
+    while($row = mysqli_fetch_array($sqlResult)) {
       $password = $row['password'];
     }
 
@@ -25,4 +74,12 @@
 
     header("location: " . $_GET['url']);
   }
+}
+
+$config = new Config();
+$link = $config->connectToServer();
+
+$login = new Login();
+$login->setLink($link);
+$login->login();
 ?>
