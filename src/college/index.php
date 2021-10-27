@@ -179,6 +179,7 @@ class College extends Base
   function main(): string
   {
     $html = '<table>';
+    $html .= $this->addCollegeInformation();
     $html .= $this->generateCollegeInformation();
     $html .= $this->createHeaderRow();
     $sqlResult = $this->fetchQuery();
@@ -230,6 +231,7 @@ $link = $config->connectToServer();
 
 $college = new College();
 $college->setLink($link);
+$college->setIsAdmin();
 $college->setTotalCredits();
 $college->setCollegeName("Landers College for men");
 $college->setDegree("BS");
