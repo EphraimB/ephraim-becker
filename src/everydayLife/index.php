@@ -1,10 +1,21 @@
 <?php
-  $title = "Ephraim Becker - Everyday Life";
-  $header = "Everyday Life";
-  $localStyleSheet = '<link rel="stylesheet" href="css/style.css" />';
-  $localScript = NULL;
+declare(strict_types=1);
 
-  $body = '<p>It\'s pretty much the same thing everyday. I have a hard time making real friends while my siblings are having an easy and fun time with their friends. There are some accomplishments though like building my own computer (but that\'s not a social accomplishment).</p>
+session_start();
+
+require($_SERVER['DOCUMENT_ROOT'] . "/base.php");
+
+class EverydayLife extends Base
+{
+
+  function __construct()
+  {
+
+  }
+
+  function main(): string
+  {
+    $body = '<p>It\'s pretty much the same thing everyday. I have a hard time making real friends while my siblings are having an easy and fun time with their friends. There are some accomplishments though like building my own computer (but that\'s not a social accomplishment).</p>
       <div class="grid-container">
           <div style="background-color: red;" class="card">
             <a href="problems/">
@@ -29,6 +40,17 @@
           </div>
         </div>';
 
-  $url = $_SERVER['REQUEST_URI'];
-  require($_SERVER['DOCUMENT_ROOT'] . "/base.php");
+    return $body;
+  }
+}
+
+$everydayLife = new EverydayLife();
+$everydayLife->setUrl($_SERVER['REQUEST_URI']);
+$everydayLife->setTitle('Ephraim Becker - Everyday Life');
+$everydayLife->setLocalStyleSheet('css/style.css');
+$everydayLife->setLocalScript(NULL);
+$everydayLife->setHeader('Everyday Life');
+$everydayLife->setBody($everydayLife->main());
+
+$everydayLife->html();
 ?>
