@@ -1,4 +1,20 @@
 <?php
+declare(strict_types=1);
+
+session_start();
+
+require($_SERVER['DOCUMENT_ROOT'] . "/base.php");
+
+class GamingSetup extends Base
+{
+
+  function __construct()
+  {
+
+  }
+
+  function main(): string
+  {
   $title = "Ephraim Becker - Everyday Life - Accomplishments - Gaming setup";
   $header = "Gaming setup";
   $localStyleSheet = '<link rel="stylesheet" href="css/style.css" />';
@@ -123,6 +139,17 @@
         </tr>
       </table>';
 
-  $url = $_SERVER['REQUEST_URI'];
-  require($_SERVER['DOCUMENT_ROOT'] . "/base.php");
+    return $body;
+  }
+}
+
+$gamingSetup = new GamingSetup();
+$gamingSetup->setUrl($_SERVER['REQUEST_URI']);
+$gamingSetup->setTitle('Ephraim Becker - Everyday Life - Accomplishments - Gaming setup');
+$gamingSetup->setLocalStyleSheet('css/style.css');
+$gamingSetup->setLocalScript(NULL);
+$gamingSetup->setHeader('Gaming setup');
+$gamingSetup->setBody($gamingSetup->main());
+
+$gamingSetup->html();
 ?>
