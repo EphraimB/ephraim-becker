@@ -166,7 +166,7 @@ class College extends Base
     if($this->getIsAdmin() == true) {
       $html = '<div class="row">
             <ul class="subNav">
-              <li><a style="text-decoration: none;" href="addCollegeInformation/">+</a></li>
+              <li><a href="addCollegeInformation/">+</a></li>
             </ul>
           </div>';
       } else {
@@ -237,7 +237,7 @@ $college->setCollegeName("Landers College for men");
 $college->setDegree("BS");
 $college->setMajor("Computer Science");
 $college->setTitle("Ephraim Becker - College");
-$college->setLocalStyleSheet(NULL);
+$college->setLocalStyleSheet("css/style.css");
 $college->setLocalScript(NULL);
 $college->setHeader("College Life");
 $college->setUrl($_SERVER['REQUEST_URI']);
