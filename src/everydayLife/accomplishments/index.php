@@ -1,10 +1,21 @@
 <?php
-  $title = "Ephraim Becker - Everyday Life - Accomplishments";
-  $header = "Accomplishments";
-  $localStyleSheet = '<link rel="stylesheet" href="css/style.css" />';
-  $localScript = NULL;
+declare(strict_types=1);
 
-  $body = '<div class="grid-container">
+session_start();
+
+require($_SERVER['DOCUMENT_ROOT'] . "/base.php");
+
+class Accomplishments extends Base
+{
+
+  function __construct()
+  {
+
+  }
+
+  function main(): string
+  {
+    $body = '<div class="grid-container">
           <div style="background-color: green;" class="card">
             <a href="../../projects/">
               <h2>Projects</h2>
@@ -33,6 +44,17 @@
           </div>
         </div>';
 
-  $url = $_SERVER['REQUEST_URI'];
-  require($_SERVER['DOCUMENT_ROOT'] . "/base.php");
+      return $body;
+    }
+}
+
+$accomplishments = new Accomplishments();
+$accomplishments->setUrl($_SERVER['REQUEST_URI']);
+$accomplishments->setTitle('Ephraim Becker - Everyday Life - Accomplishments');
+$accomplishments->setLocalStyleSheet('css/style.css');
+$accomplishments->setLocalScript(NULL);
+$accomplishments->setHeader('Accomplishments');
+$accomplishments->setBody($accomplishments->main());
+
+$accomplishments->html();
 ?>
