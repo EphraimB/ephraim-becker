@@ -15,12 +15,7 @@ class GamingSetup extends Base
 
   function main(): string
   {
-  $title = "Ephraim Becker - Everyday Life - Accomplishments - Gaming setup";
-  $header = "Gaming setup";
-  $localStyleSheet = '<link rel="stylesheet" href="css/style.css" />';
-  $localScript = NULL;
-
-  $body = '<div>
+    $body = '<div>
         <img src="img/gamingSetup.jpeg" alt="gaming setup" width="256px" height="auto" />
         <img src="img/computer.jpeg" alt="computer" width="143px" height="auto" />
       </div>
