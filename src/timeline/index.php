@@ -619,7 +619,6 @@ $timeline->setYear();
 $timeline->setMonth();
 $timeline->setDay();
 $timeline->selectQuery();
-echo $timeline->getQuery();
 $timeline->setTitle("Ephraim Becker - Timeline");
 $timeline->setLocalStyleSheet('css/style.css');
 $timeline->setLocalScript('js/ajax.js');
