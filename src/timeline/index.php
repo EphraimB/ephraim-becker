@@ -96,7 +96,7 @@ class Timeline extends Base
     }
   }
 
-  function selectQuery(int $view): void
+  function selectQuery(): void
   {
     $query = 'SELECT *, IFNULL(DATE_FORMAT(concat(EventDate, " ", EventTime) - INTERVAL EventTimeZoneOffset SECOND, "%Y-%m-%d"), EventDate) AS "LocalDate", IFNULL(TIME_FORMAT(concat(EventDate, " ", EventTime) - INTERVAL EventTimeZoneOffset SECOND, "%H:%i:%s"), NULL) AS "LocalTime"';
 
@@ -125,6 +125,9 @@ class Timeline extends Base
     if($this->getYear() == 0 && $this->getMonth() == 0 && $this->getDay() == 0) {
       $query .= ' GROUP BY Year';
     } else {
+      if($this->getMonth() == 0) {
+        $query .= ' GROUP BY Month';
+      }
        $query .= ' ORDER BY EventDate ASC';
     }
 
@@ -188,11 +191,11 @@ class Timeline extends Base
         $prevMonth = $row['Month'];
         $prevDay = $row['Day'];
       }
-      if($month > 0 && $day > 0) {
+      if($this->getMonth() > 0 && $this->getDay() > 0) {
         $year = $prevYear;
         $month = $prevMonth;
         $day = $prevDay;
-      } else if($month == 0 && $day == 0) {
+      } else if($this->getMonth() == 0 && $this->getMonth() == 0) {
         if($this->getIsAdmin()) {
           $sqlDatesTwoDesc = $this->getLink()->prepare("SELECT EventDate, YEAR(EventDate) AS Year, MONTH(EventDate) AS Month, DAY(EventDate) AS Day FROM timeline WHERE EventDate<? GROUP BY Year ORDER BY EventDate DESC LIMIT 1");
         } else {
@@ -208,13 +211,20 @@ class Timeline extends Base
 
         while($rowTwoDesc = mysqli_fetch_array($sqlDatesTwoDescResult)) {
           $year = $rowTwoDesc['Year'];
+          $month = 0;
+          $day = 0;
         }
       }
 
+      if(is_null($month)) {
+        $month = 0;
+      }
+
       $body .= '<br />
-      <a href="./index.php?year=' . $year . '&month=' . $month . '&day=' . $day . '">
       <div class="navButton">
+        <a href="./index.php?year=' . $year . '&month=' . $month . '&day=' . $day . '">
          <p><</p>
+        </a>
       </div>
       </a>';
     }
@@ -255,12 +265,16 @@ class Timeline extends Base
 
         while($rowTwo = mysqli_fetch_array($sqlDatesTwoResult)) {
           $year = $rowTwo['Year'];
+          $month = 0;
+          $day = 0;
         }
       }
 
-      $body .= '<a href="./index.php?year=' . $year . '&month=">
+      $body .= '
       <div class="navButton">
+        <a href="./index.php?year=' . $year . '&month=' . $month . '&day=' . $day . '">
          <p>></p>
+        </a>
       </div>';
     }
 
@@ -271,20 +285,19 @@ class Timeline extends Base
 
   function yearView($sqlResult, $year): string
   {
-    $html = '<a href="./index.php?year=' . $year . '">';
-    $html .= '<div class="card album-cover" id="album-cover-' . $year . '"';
+    $html = '<div class="card album-cover" id="album-cover-' . $year . '">';
+    $html .= '<a href="./index.php?year=' . $year . '&month=0&day=0">';
     $html .= '<h3>' . $year . '</h3>';
     $html .= '<p>All the events in ' . $year . ' when I was ' . ($year-1996) . ' years old</p>';
-    $html .= '</div>';
     $html .= '</a>';
+    $html .= '</div>';
 
     return $html;
   }
 
-  function displayAllEvents($sqlResult) {
+  function displayAllEvents($sqlResult, $row) {
     $this->setHeader('Ephraim Becker - Timeline');
 
-    while($row = mysqli_fetch_array($sqlResult)) {
       $id = $row['TimelineId'];
 
       if($this->getIsAdmin()) {
@@ -400,10 +413,42 @@ class Timeline extends Base
 
   $body .= '</div>
   <br />';
-    }
 
     return $body;
   }
+
+  function displaySorter($sqlResult, $row) {
+    $month = $row['Month'];
+
+    $dateObj = DateTime::createFromFormat('!m', strval($month));
+    $monthName = $dateObj->format('F');
+
+    if(isset($row['Day'])) {
+      $day = $row['Day'];
+    } else {
+      $day = 0;
+    }
+
+    $body = '<div class="card album-cover" id="album-cover-';
+    if($day != 0) {
+      $body .= $this->getYear() . '-' . $month . '-' . $day;
+      } else {
+        $body .= $this->getYear() . '-' . $month;
+      }
+      $body .= '">';
+      $body .= '<a href="./index.php?year=' . $this->getYear() . '&month=' . $month . '&day=' . $day . '">';
+
+      if($day != 0) {
+        $body .= '<h3>' . $monthName . " " . $day . '</h3>';
+        $body .= '<p>All the events on ' . $monthName . " " . $day . '</p>';
+      } else {
+        $body .= '<h3>' . $monthName . '</h3>';
+        $body .= '<p>All the events on ' . $monthName . '</p>';
+      }
+      $body .= '</div>';
+
+      return $body;
+    }
 
   function main(): string
   {
@@ -426,7 +471,11 @@ class Timeline extends Base
       <br />';
 
       $html .= $this->addEvent();
-      $html .= '<div id="grid-container">';
+      if($this->getYear() == 0 || $this->getMonth() == 0) {
+        $html .= '<div id="grid-container">';
+      } else {
+        $html .= '<div id="row">';
+      }
       $sqlResult = $this->fetchEvents();
 
       while($row = mysqli_fetch_array($sqlResult)) {
@@ -442,12 +491,56 @@ class Timeline extends Base
           $day = $row['day'];
         }
 
+        $id = $row['TimelineId'];
+
+        if($this->getIsAdmin()) {
+          $hide = $row['hide'];
+        }
+
+        $eventTimeZone = $row['EventTimeZone'];
+        $eventTimeZoneOffset = $row['EventTimeZoneOffset'];
+
+        $eventDate = $row['EventDate'];
+        $eventTime = $row['EventTime'];
+
+        $localDate = $row['LocalDate'];
+        $localTime = $row['LocalTime'];
+
+        $endEventDate = $row['EndEventDate'];
+
+        if(!is_null($endEventDate)) {
+          $endEventDateFormatted = date("F d, Y", strtotime($endEventDate));
+        }
+
+        $eventDateFormatted = date("F d, Y", strtotime($localDate));
+
+        if(!is_null($eventTime)) {
+          $eventTimeFormatted = date("h:i A", strtotime($localTime));
+        }
+
+        $eventTitle = $row['EventTitle'];
+        $eventDescription = $row['EventDescription'];
+        $memoryType = $row['MemoryType'];
+
+        $eventYouTubeLink = $row['EventYouTubeLink'];
+
+        $eventMedia = $row['EventMedia'];
+        $eventMediaPortrait = $row['EventMediaPortrait'];
+        $eventMediaDescription = $row['EventMediaDescription'];
+
         if($this->getYear() == 0) {
           $html .= $this->yearView($sqlResult, $year);
         } else {
-          $html .= $this->displayAllEvents($sqlResult);
-          $html .= $this->navButtons();
+          if($this->getMonth() == 0) {
+            $html .= $this->displaySorter($sqlResult, $row);
+          } else {
+            $html .= $this->displayAllEvents($sqlResult, $row);
+          }
         }
+      }
+
+      if($this->getYear() > 0) {
+        $html .= $this->navButtons();
       }
 
       $html .= '</div>';
@@ -465,7 +558,7 @@ $timeline->setIsAdmin();
 $timeline->setYear();
 $timeline->setMonth();
 $timeline->setDay();
-$timeline->selectQuery(0);
+$timeline->selectQuery();
 echo $timeline->getQuery();
 $timeline->setTitle("Ephraim Becker - Timeline");
 $timeline->setLocalStyleSheet('css/style.css');

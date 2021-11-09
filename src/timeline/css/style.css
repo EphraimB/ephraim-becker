@@ -131,7 +131,7 @@ a {
 
 .card a {
   text-decoration: none;
-  color: white;
+  color: black;
 }
 
 #grid-container {
@@ -157,6 +157,11 @@ a {
   justify-content: center;
   align-items: center;
   position: relative;
+}
+
+.navButton a {
+  text-decoration: none;
+  color: black;
 }
 
 .navButton {
