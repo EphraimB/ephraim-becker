@@ -104,6 +104,8 @@ class Timeline extends Base
       $query .= ', DATE_FORMAT(EventDate - INTERVAL EventTimeZoneOffset SECOND, "%Y") AS Year';
     } else if($this->getYear() > 0 && $this->getMonth() == 0 && $this->getDay() == 0) {
       $query .= ', MONTH(EventDate) AS Month';
+    } else if($this->getYear() > 0 && $this->getMonth() > 0 && $this->getDay() == 0) {
+      $query .= ', DAY(EventDate) AS Day';
     }
 
     $query .= ' FROM timeline';
@@ -114,6 +116,10 @@ class Timeline extends Base
 
     if($this->getMonth() > 0) {
       $query .= ' AND MONTH(EventDate) = ?';
+    }
+
+    if($this->getDay() > 0) {
+      $query .= ' AND DAY(EventDate) = ?';
     }
 
     if($this->getIsAdmin() == false) {
@@ -131,8 +137,10 @@ class Timeline extends Base
     } else {
       if($this->getMonth() == 0) {
         $query .= ' GROUP BY Month';
+      } else if($this->getDay() == 0) {
+        $query .= ' GROUP BY Day';
       }
-       $query .= ' ORDER BY EventDate ASC';
+       $query .= ' ORDER BY EventDate, EventTime';
     }
 
     $this->setQuery($query);
@@ -158,7 +166,9 @@ class Timeline extends Base
     if($this->getYear() > 0) {
       $sql = $this->getLink()->prepare($this->getQuery());
 
-      if($this->getMonth() > 0) {
+      if($this->getDay() > 0) {
+        $sql->bind_param("iii", $year, $month, $day);
+      } else if($this->getMonth() > 0) {
         $sql->bind_param("ii", $year, $month);
       } else {
         $sql->bind_param("i", $year);
@@ -166,6 +176,7 @@ class Timeline extends Base
 
       $year = $this->getYear();
       $month = $this->getMonth();
+      $day = $this->getDay();
 
       $sql->execute();
 
@@ -428,7 +439,11 @@ class Timeline extends Base
   }
 
   function displaySorter($sqlResult, $row) {
-    $month = $row['Month'];
+    if(isset($row['Month'])) {
+      $month = $row['Month'];
+    } else {
+      $month = $this->getMonth();
+    }
 
     $dateObj = DateTime::createFromFormat('!m', strval($month));
     $monthName = $dateObj->format('F');
@@ -481,7 +496,7 @@ class Timeline extends Base
       <br />';
 
       $html .= $this->addEvent();
-      if($this->getYear() == 0 || $this->getMonth() == 0) {
+      if($this->getYear() == 0 || $this->getMonth() == 0 || $this->getDay() == 0) {
         $html .= '<div id="grid-container">';
       } else {
         $html .= '<div id="row">';
@@ -541,7 +556,7 @@ class Timeline extends Base
         if($this->getYear() == 0) {
           $html .= $this->yearView($sqlResult, $year);
         } else {
-          if($this->getMonth() == 0 && $this->getDay() == 0) {
+          if($this->getMonth() == 0 || $this->getDay() == 0) {
             $html .= $this->displaySorter($sqlResult, $row);
           } else {
             $html .= $this->displayAllEvents($sqlResult, $row);
