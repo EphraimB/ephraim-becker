@@ -108,7 +108,7 @@ class Timeline extends Base
 
     $query .= ' FROM timeline';
 
-    if($this->getYear() > 0 && $this->getMonth() == 0 && $this->getDay() == 0) {
+    if($this->getYear() > 0) {
       $query .= ' WHERE YEAR(EventDate) = ?';
     }
 
