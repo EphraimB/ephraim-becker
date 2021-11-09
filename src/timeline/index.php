@@ -112,6 +112,10 @@ class Timeline extends Base
       $query .= ' WHERE YEAR(EventDate) = ?';
     }
 
+    if($this->getMonth() > 0) {
+      $query .= ' AND MONTH(EventDate) = ?';
+    }
+
     if($this->getIsAdmin() == false) {
       if($this->getYear() > 0) {
         $query .= ' AND';
@@ -153,9 +157,15 @@ class Timeline extends Base
   {
     if($this->getYear() > 0) {
       $sql = $this->getLink()->prepare($this->getQuery());
-      $sql->bind_param("i", $year);
+
+      if($this->getMonth() > 0) {
+        $sql->bind_param("ii", $year, $month);
+      } else {
+        $sql->bind_param("i", $year);
+      }
 
       $year = $this->getYear();
+      $month = $this->getMonth();
 
       $sql->execute();
 
@@ -531,7 +541,7 @@ class Timeline extends Base
         if($this->getYear() == 0) {
           $html .= $this->yearView($sqlResult, $year);
         } else {
-          if($this->getMonth() == 0) {
+          if($this->getMonth() == 0 && $this->getDay() == 0) {
             $html .= $this->displaySorter($sqlResult, $row);
           } else {
             $html .= $this->displayAllEvents($sqlResult, $row);
