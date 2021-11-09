@@ -216,7 +216,7 @@ class Timeline extends Base
         $year = $prevYear;
         $month = $prevMonth;
         $day = $prevDay;
-      } else if($this->getMonth() == 0 && $this->getMonth() == 0) {
+      } else if($this->getMonth() == 0 && $this->getDay() == 0) {
         if($this->getIsAdmin()) {
           $sqlDatesTwoDesc = $this->getLink()->prepare("SELECT EventDate, YEAR(EventDate) AS Year, MONTH(EventDate) AS Month, DAY(EventDate) AS Day FROM timeline WHERE EventDate<? GROUP BY Year ORDER BY EventDate DESC LIMIT 1");
         } else {
@@ -235,10 +235,25 @@ class Timeline extends Base
           $month = 0;
           $day = 0;
         }
-      }
+      } else if($this->getMonth() > 0 && $this->getDay() == 0) {
+        if($this->getIsAdmin()) {
+          $sqlDatesThreeDesc = $this->getLink()->prepare("SELECT EventDate, YEAR(EventDate) AS Year, MONTH(EventDate) AS Month, DAY(EventDate) AS Day FROM timeline WHERE EventDate<? ORDER BY EventDate DESC LIMIT 1");
+        } else {
+          $sqlDatesThreeDesc = $this->getLink()->prepare("SELECT EventDate, YEAR(EventDate) AS Year, MONTH(EventDate) AS Month, DAY(EventDate) AS Day FROM timeline WHERE EventDate<? AND hide = 0 ORDER BY EventDate DESC LIMIT 1");
+        }
+        $sqlDatesThreeDesc->bind_param("s", $navvedEventDateDesc);
 
-      if(is_null($month)) {
-        $month = 0;
+        $navvedEventDateDesc = $this->getYear() . "-" . $this->getMonth() . "-0";
+
+        $sqlDatesThreeDesc->execute();
+
+        $sqlDatesThreeDescResult = $sqlDatesThreeDesc->get_result();
+
+        while($rowThreeDesc = mysqli_fetch_array($sqlDatesThreeDescResult)) {
+          $year = $rowThreeDesc['Year'];
+          $month = $rowThreeDesc['Month'];
+          $day = 0;
+        }
       }
 
       $body .= '<br />
@@ -287,6 +302,25 @@ class Timeline extends Base
         while($rowTwo = mysqli_fetch_array($sqlDatesTwoResult)) {
           $year = $rowTwo['Year'];
           $month = 0;
+          $day = 0;
+        }
+      } else if($this->getMonth() > 0 && $this->getDay() == 0) {
+        if($this->getIsAdmin()) {
+            $sqlDatesThree = $this->getLink()->prepare("SELECT EventDate, YEAR(EventDate) AS Year, MONTH(EventDate) AS Month, DAY(EventDate) AS Day FROM timeline WHERE EventDate>? LIMIT 1");
+        } else {
+          $sqlDatesThree = $this->getLink()->prepare("SELECT EventDate, YEAR(EventDate) AS Year, MONTH(EventDate) AS Month, DAY(EventDate) AS Day FROM timeline WHERE EventDate>? AND hide=0 LIMIT 1");
+        }
+        $sqlDatesThree->bind_param("s", $navvedEventDate);
+
+        $navvedEventDate = $nextYear . "-" . $this->getMonth() . "-31";
+
+        $sqlDatesThree->execute();
+
+        $sqlDatesThreeResult = $sqlDatesThree->get_result();
+
+        while($rowThree = mysqli_fetch_array($sqlDatesThreeResult)) {
+          $year = $rowThree['Year'];
+          $month = $rowThree['Month'];
           $day = 0;
         }
       }
@@ -470,6 +504,7 @@ class Timeline extends Base
         $body .= '<h3>' . $monthName . '</h3>';
         $body .= '<p>All the events on ' . $monthName . '</p>';
       }
+      $body .= '</a>';
       $body .= '</div>';
 
       return $body;
@@ -564,11 +599,11 @@ class Timeline extends Base
         }
       }
 
+      $html .= '</div>';
+
       if($this->getYear() > 0) {
         $html .= $this->navButtons();
       }
-
-      $html .= '</div>';
 
       return $html;
   }
