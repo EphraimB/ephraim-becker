@@ -207,9 +207,9 @@ class College extends Base
 
       if($this->getIsAdmin()) {
         $html .= '<td>
-          <a class="edit" href="">Edit</a>
-          <a class="remove" href="">Remove</a>
-          <a class="grade" href="">Grade</a>
+          <a class="edit" href="editClass/">Edit</a>
+          <a class="remove" href="removeClass.php">Remove</a>
+          <a class="grade" href="gradeClass/">Grade</a>
         </td>';
       }
 
