@@ -33,3 +33,24 @@
   display: block;
   padding: 14px 16px;
 }
+
+.edit {
+  background-color: yellow;
+  color: black;
+  text-decoration: none;
+  margin: 10px;
+}
+
+.remove {
+  background-color: red;
+  color: white;
+  text-decoration: none;
+  margin: 10px;
+}
+
+.grade {
+  background-color: purple;
+  color: white;
+  text-decoration: none;
+  margin: 10px;
+}

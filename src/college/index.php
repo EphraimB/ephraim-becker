@@ -155,8 +155,13 @@ class College extends Base
           <th>Semester</th>
           <th>Course</th>
           <th>Credits</th>
-          <th>Grade</th>
-        </tr>';
+          <th>Grade</th>';
+
+    if($this->getIsAdmin()) {
+      $html .= '<th>Actions</th>';
+    }
+
+    $html .= '</tr>';
 
     return $html;
   }
@@ -198,31 +203,40 @@ class College extends Base
       $html .= '<td>' . $semester . '</td>
       <td>' . $course . '</td>
       <td>' . $credits . '</td>
-      <td>' . $grade . '</td>
-    </tr>';
-  }
+      <td>' . $grade . '</td>';
+
+      if($this->getIsAdmin()) {
+        $html .= '<td>
+          <a class="edit" href="">Edit</a>
+          <a class="remove" href="">Remove</a>
+          <a class="grade" href="">Grade</a>
+        </td>';
+      }
+
+      $html .= '</tr>';
+    }
 
     $html .= '<tr>
-      <td colspan="4"><span style="font-weight: bold;">Total completed credits: </span>' . $this->getTotalCredits() . '/120</td>
-    </tr>
-  </table>
+          <td colspan="4"><span style="font-weight: bold;">Total completed credits: </span>' . $this->getTotalCredits() . '/120</td>
+        </tr>
+      </table>
 
-  <div style="margin-top: 10px;">
-    <label for="MajorProgress">Major progress:</label>
-    <progress id="MajorProgress" value="17" max="56">30%</progress>
-  </div>
+      <div style="margin-top: 10px;">
+        <label for="MajorProgress">Major progress:</label>
+        <progress id="MajorProgress" value="17" max="56">30%</progress>
+      </div>
 
-  <div>
-    <label for="CoreProgress">Core progress:</label>
-    <progress id="CoreProgress" value="9" max="24">37.5%</progress>
-  </div>
+      <div>
+        <label for="CoreProgress">Core progress:</label>
+        <progress id="CoreProgress" value="9" max="24">37.5%</progress>
+      </div>
 
-  <div>
-    <label for="DegreeProgress">Degree progress:</label>
-    <progress id="DegreeProgress" value="26" max="120">21.7%</progress>
-  </div>';
+      <div>
+        <label for="DegreeProgress">Degree progress:</label>
+        <progress id="DegreeProgress" value="26" max="120">21.7%</progress>
+      </div>';
 
-  return $html;
+    return $html;
   }
 }
 
