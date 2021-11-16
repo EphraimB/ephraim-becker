@@ -166,7 +166,7 @@ class College extends Base
     if($this->getIsAdmin() == true) {
       $html = '<div class="row">
             <ul class="subNav">
-              <li><a href="addCollegeInformation/">+</a></li>
+              <li><a href="addCollegeClass/">+</a></li>
             </ul>
           </div>';
       } else {
