@@ -211,7 +211,7 @@ class College extends Base
 
       if($this->getIsAdmin()) {
         $html .= '<td>
-          <a class="edit" href="editClass/index.php?id=' . $course_id . '">Edit</a>
+          <a class="edit" href="editClass/index.php?id=' . $college_id . '">Edit</a>
           <a class="remove" href="confirmation.php?id=' . $college_id . '">Remove</a>
           <a class="grade" href="gradeClass/index.php?id=' . $course_id . '">Grade</a>
         </td>';
