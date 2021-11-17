@@ -20,7 +20,7 @@ class College extends Base
 
   function __construct()
   {
-    $this->setQuery('SELECT college.college_id, semester.semester_id, course.course_id, CourseName AS "course", CourseType, Credits, grade, semester, if(grade = "F", "Fail", if(grade = "I", "Incomplete", if(ISNULL(grade), "Ongoing", "Pass"))) AS "status" FROM college JOIN course ON college.course_id = course.course_id JOIN semester ON college.semester_id = semester.semester_id ORDER BY semester_id, CourseType DESC');
+    $this->setQuery('SELECT college.college_id, semester.semester_id, course.course_id, CourseName AS "course", CourseType, Credits, grade, semester, if(grade = "F", "Fail", if(grade = "I", "Incomplete", if(ISNULL(grade), "Ongoing", if(grade = "W", "Withdrawn", "Pass")))) AS "status" FROM college JOIN course ON college.course_id = course.course_id JOIN semester ON college.semester_id = semester.semester_id ORDER BY semester_id, CourseType DESC');
   }
 
   function setLink($link)
@@ -122,6 +122,8 @@ class College extends Base
       return array("yellow", "black");
     } else if($status == "Fail") {
       return array("red", "white");
+    } else if($status == "Withdrawn") {
+      return array("red", "white");
     } else {
       return array("white", "black");
     }
@@ -190,6 +192,8 @@ class College extends Base
     $sqlResult = $this->fetchQuery();
 
     while($row = mysqli_fetch_array($sqlResult)) {
+      $college_id = $row['college_id'];
+      $course_id = $row['course_id'];
       $course = $row['course'];
       $credits = $row['Credits'];
       $grade = $row['grade'];
@@ -207,9 +211,9 @@ class College extends Base
 
       if($this->getIsAdmin()) {
         $html .= '<td>
-          <a class="edit" href="editClass/">Edit</a>
-          <a class="remove" href="removeClass.php">Remove</a>
-          <a class="grade" href="gradeClass/">Grade</a>
+          <a class="edit" href="editClass/index.php?id=' . $course_id . '">Edit</a>
+          <a class="remove" href="removeClass.php?id=' . $college_id . '">Remove</a>
+          <a class="grade" href="gradeClass/index.php?id=' . $course_id . '">Grade</a>
         </td>';
       }
 

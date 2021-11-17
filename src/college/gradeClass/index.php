@@ -5,7 +5,7 @@ session_start();
 
 require($_SERVER['DOCUMENT_ROOT'] . "/base.php");
 
-class GradeClass extends Base
+class GradeClassForm extends Base
 {
   private $isAdmin;
 
@@ -33,7 +33,7 @@ class GradeClass extends Base
     $html = '<form action="gradeClass.php" method="post">
               <div>
                 <label">Grade:</label>
-                <select>
+                <select name="grade" id="grade">
                   <option value="A+">A+</option>
                   <option value="A">A</option>
                   <option value="A-">A-</option>
@@ -48,6 +48,7 @@ class GradeClass extends Base
                   <option value="W">W</option>
                 </select>
               </div>
+              <input type="hidden" name="id" id="id" value="' . $_GET['id'] . '" />
               <br />
               <input type="submit" id="submit" value="Grade class" />
               <br />
@@ -57,13 +58,13 @@ class GradeClass extends Base
   }
 }
 
-$gradeClass = new GradeClass();
-$gradeClass->setIsAdmin();
-$gradeClass->setLocalStyleSheet("css/style.css");
-$gradeClass->setLocalScript(NULL);
-$gradeClass->setTitle("Ephraim Becker - Grade class");
-$gradeClass->setHeader(NULL);
-$gradeClass->setUrl($_SERVER['REQUEST_URI']);
-$gradeClass->setBody($gradeClass->main());
+$gradeClassForm = new GradeClassForm();
+$gradeClassForm->setIsAdmin();
+$gradeClassForm->setLocalStyleSheet("css/style.css");
+$gradeClassForm->setLocalScript(NULL);
+$gradeClassForm->setTitle("Ephraim Becker - Grade class");
+$gradeClassForm->setHeader(NULL);
+$gradeClassForm->setUrl($_SERVER['REQUEST_URI']);
+$gradeClassForm->setBody($gradeClassForm->main());
 
-$gradeClass->html();
+$gradeClassForm->html();
