@@ -72,7 +72,7 @@ class Login
       $_SESSION['username'] = $_POST['username'];
     }
 
-    header("location: " . $_GET['url']);
+    header("location: " . $this->getUrl());
   }
 }
 
@@ -81,5 +81,6 @@ $link = $config->connectToServer();
 
 $login = new Login();
 $login->setLink($link);
+$login->setUrl($_POST['url']);
 $login->login();
 ?>

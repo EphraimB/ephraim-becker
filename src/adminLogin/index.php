@@ -53,7 +53,7 @@ class LoginForm extends Base
 
   function main(): string
   {
-    $body = '<form action="login.php?url=' . $this->getUrl() . '" method="post">
+    $body = '<form action="login.php" method="post">
                 <div class="row">
                   <label for="username">User Name: </label>
                   <input type="text" id="username" name="username" />
@@ -63,6 +63,7 @@ class LoginForm extends Base
                   <label for="password">Password: </label>
                   <input type="password" id="password" name="password" />
                 </div>
+                <input type="hidden" name="url" id="url" value="' . $this->getUrl() . '" />
                 <br />
                 <input type="submit" name="loginButton" id="submitButton" value="Login" />
               </form>';
