@@ -90,3 +90,4 @@ $gradeClass->setCourseId();
 $gradeClass->setGrade($_POST['grade']);
 
 $gradeClass->gradeClass();
+?>

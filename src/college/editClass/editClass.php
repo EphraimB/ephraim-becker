@@ -77,3 +77,4 @@ if(!$editClass->getIsAdmin()) {
 }
 
 $editClass->editClass();
+?>

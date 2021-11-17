@@ -69,3 +69,4 @@ $confirmation->setUrl($_SERVER['REQUEST_URI']);
 $confirmation->setBody($confirmation->main());
 
 $confirmation->html();
+?>

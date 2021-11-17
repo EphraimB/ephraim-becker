@@ -93,3 +93,4 @@ if(!$removeClass->getIsAdmin()) {
 $removeClass->setCollegeId();
 
 $removeClass->removeClass();
+?>

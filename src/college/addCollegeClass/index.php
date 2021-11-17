@@ -92,3 +92,4 @@ $addCollegeClassForm->setUrl($_SERVER['REQUEST_URI']);
 $addCollegeClassForm->setBody($addCollegeClassForm->main());
 
 $addCollegeClassForm->html();
+?>

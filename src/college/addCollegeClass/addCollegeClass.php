@@ -77,3 +77,4 @@ if(!$addClass->getIsAdmin()) {
 }
 
 $addClass->addClass();
+?>

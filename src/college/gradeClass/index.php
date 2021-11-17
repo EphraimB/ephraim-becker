@@ -68,3 +68,4 @@ $gradeClassForm->setUrl($_SERVER['REQUEST_URI']);
 $gradeClassForm->setBody($gradeClassForm->main());
 
 $gradeClassForm->html();
+?>

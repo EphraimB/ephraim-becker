@@ -172,3 +172,4 @@ $editCollegeClassForm->setUrl($_SERVER['REQUEST_URI']);
 $editCollegeClassForm->setBody($editCollegeClassForm->main());
 
 $editCollegeClassForm->html();
+?>
