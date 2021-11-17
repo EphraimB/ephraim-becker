@@ -1,41 +1,88 @@
 <?php
-  session_start();
+declare(strict_types=1);
 
-  require_once($_SERVER['DOCUMENT_ROOT'] . '/environment.php');
+session_start();
 
-  global $link;
+require($_SERVER['DOCUMENT_ROOT'] . "/base.php");
+require_once($_SERVER['DOCUMENT_ROOT'] . '/environment.php');
 
-  if(!isset($_SESSION['username'])) {
-    header("location: ../");
+class EventConfirmation extends Base
+{
+  private $isAdmin;
+  private $college_id;
+  private $link;
+
+  function __construct()
+  {
+    $this->setIsAdmin();
+
+    if(!$this->getIsAdmin()) {
+      header("location: ../");
+    }
   }
 
-  $id = $_GET['id'];
-
-  $title = "Ephraim Becker - Timeline - Delete?";
-  $header = "Timeline - Delete?";
-  $localStyleSheet = '<link rel="stylesheet" href="css/style.css" />';
-  $localScript = NULL;
-
-  $sql = $link->prepare("SELECT EventTitle FROM timeline WHERE TimelineId=?");
-  $sql->bind_param("i", $id);
-
-  $id = $_GET['id'];
-
-  $sql->execute();
-
-  $sqlResult = $sql->get_result();
-
-  while($row = mysqli_fetch_array($sqlResult)){
-    $eventTitle = $row['EventTitle'];
+  function setIsAdmin(): void
+  {
+    if(isset($_SESSION['username'])) {
+      $this->isAdmin = true;
+    } else {
+      $this->isAdmin = false;
+    }
   }
 
-  $body = '<h2>Are you sure you want to delete the event named "' . $eventTitle . '"?</h2>
+  function getIsAdmin(): bool
+  {
+    return $this->isAdmin;
+  }
 
-  <div class="row actionButtons">
-    <a class="keep" href="index.php">No</a>
-    <a class="delete" href="deleteEvent.php?id=' . $id . '">Yes</a>
-  </div>';
+  function setLink($link)
+  {
+    $this->link = $link;
+  }
 
-  $url = $_SERVER['REQUEST_URI'];
-  require($_SERVER['DOCUMENT_ROOT'] . "/base.php");
+  function getLink()
+  {
+    return $this->link;
+  }
+
+  function main(): string
+  {
+    $sql = $this->getLink()->prepare("SELECT EventTitle FROM timeline WHERE TimelineId=?");
+    $sql->bind_param("i", $id);
+
+    $id = $_GET['id'];
+
+    $sql->execute();
+
+    $sqlResult = $sql->get_result();
+
+    while($row = mysqli_fetch_array($sqlResult)){
+      $eventTitle = $row['EventTitle'];
+    }
+
+    $body = '<h2>Are you sure you want to delete the event named "' . $eventTitle . '"?</h2>
+
+    <div class="row actionButtons">
+      <a class="keep" href="index.php">No</a>
+      <a class="delete" href="deleteEvent.php?id=' . $id . '">Yes</a>
+    </div>';
+
+    return $body;
+  }
+}
+
+$config = new Config();
+$link = $config->connectToServer();
+
+$eventConfirmation = new EventConfirmation();
+$eventConfirmation->setLink($link);
+
+$eventConfirmation->setTitle("Ephraim Becker - Timeline - Delete?");
+$eventConfirmation->setLocalStyleSheet("css/style.css");
+$eventConfirmation->setLocalScript(NULL);
+$eventConfirmation->setHeader("Timeline - Delete?");
+$eventConfirmation->setUrl($_SERVER['REQUEST_URI']);
+$eventConfirmation->setBody($eventConfirmation->main());
+
+$eventConfirmation->html();
 ?>

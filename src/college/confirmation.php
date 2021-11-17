@@ -9,7 +9,6 @@ class Confirmation extends Base
 {
   private $isAdmin;
   private $college_id;
-  private $link;
 
   function __construct()
   {
