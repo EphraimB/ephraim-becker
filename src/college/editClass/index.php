@@ -73,10 +73,10 @@ class EditCollegeClassForm extends Base
       $credits = $row['credits'];
     }
 
-    $html = '<form action="addCollegeClass.php" method="post">
+    $html = '<form action="editClass.php" method="post">
             <div>
               <label for="eventDescription">College semester:</label>
-              <select>
+              <select name="semesterId" id="semesterId">
                 <option value="1" ';
 
                 if($semesterId == 1) {
@@ -127,7 +127,7 @@ class EditCollegeClassForm extends Base
               <h3>Class type:</h3>
               <div class="row">
                 <div>
-                  <input type="radio" id="major" name="class" value="1" ';
+                  <input type="radio" id="major" name="classType" value="1" ';
 
                   if($courseType == 1) {
                     $html .= "checked ";
@@ -137,7 +137,7 @@ class EditCollegeClassForm extends Base
                   <label for="major">Major</label>
                 </div>
                 <div>
-                  <input type="radio" id="core" name="class" value="0" ';
+                  <input type="radio" id="core" name="classType" value="0" ';
 
                   if($courseType == 0) {
                     $html .= "checked ";
@@ -148,6 +148,8 @@ class EditCollegeClassForm extends Base
                 </div>
               </div>
             </div>
+            <input type="hidden" name="courseId" id="courseId" value="' . $courseId . '" />
+            <input type="hidden" name="collegeId" id="collegeId" value="' . $collegeId . '" />
             <br />
             <input type="submit" id="submit" value="Edit class" />
             <br />
