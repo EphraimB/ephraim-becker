@@ -36,8 +36,8 @@ class AddCollegeClassForm extends Base
   {
     $html = '<form action="addCollegeClass.php" method="post" enctype="multipart/form-data">
             <div>
-              <label for="eventDescription">College semester:</label>
-              <select>
+              <label for="semester">College semester:</label>
+              <select name="semester" id="semester">
                 <option value="1">Spring 2020</option>
                 <option value="2">Fall 2020</option>
                 <option value="3">Spring 2021</option>
@@ -64,11 +64,11 @@ class AddCollegeClassForm extends Base
               <h3>Class type:</h3>
               <div class="row">
                 <div>
-                  <input type="radio" id="major" name="class" value="1" required />
+                  <input type="radio" id="major" name="classType" value="1" required />
                   <label for="major">Major</label>
                 </div>
                 <div>
-                  <input type="radio" id="core" name="class" value="0" />
+                  <input type="radio" id="core" name="classType" value="0" />
                   <label for="core">Core requirement</label>
                 </div>
               </div>

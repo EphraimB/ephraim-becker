@@ -54,3 +54,21 @@
   text-decoration: none;
   margin: 10px;
 }
+
+.delete {
+  background-color: red;
+  color: white;
+}
+
+.delete:hover {
+  background-color: Crimson;
+}
+
+.keep {
+  background-color: green;
+  color: white;
+}
+
+.keep:hover {
+  background-color: lightgreen;
+}
