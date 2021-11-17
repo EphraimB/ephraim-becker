@@ -455,12 +455,12 @@ class Timeline extends Base
 
     if($this->getIsAdmin()) {
       $body .= '<ul class="row actionButtons">
-        <li><a class="edit" href="editEvent/index.php?id=' . $id . '&year=' . $year . '&month=' . $month . '&day=' . $day . '">Edit</a></li>';
+        <li><a class="edit" href="editEvent/index.php?id=' . $id . '&year=' . $this->getYear() . '&month=' . $this->getMonth() . '&day=' . $this->getDay() . '">Edit</a></li>';
         if($hide == 0) {
-          $body .= '<li><a class="hide" href="hideEvent.php?id=' . $id . '&year=' . $year . '&month=' . $month . '&day=' . $day . '">Hide</a></li>';
+          $body .= '<li><a class="hide" href="hideEvent.php?id=' . $id . '&year=' . $this->getYear() . '&month=' . $this->getMonth() . '&day=' . $this->getDay() . '">Hide</a></li>';
         }
         else if($hide == 1) {
-          $body .= '<li><a class="hide" href="unhideEvent.php?id=' . $id . '&year=' . $year . '&month=' . $month . '&day=' . $day . '">Unhide</a></li>';
+          $body .= '<li><a class="hide" href="unhideEvent.php?id=' . $id . '&year=' . $this->getYear() . '&month=' . $this->getMonth() . '&day=' . $this->getDay() . '">Unhide</a></li>';
         }
         $body .= '<li><a class="delete" href="confirmation.php?id=' . $id . '">Delete</a></li>
         </ul>';
