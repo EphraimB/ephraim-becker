@@ -446,28 +446,28 @@ class Timeline extends Base
 
           if(!is_null($eventMedia)) {
             if($eventMediaPortrait == 0) {
-            $body .= '<img src="../../timeline/img/' . $eventMedia . " alt=" . $eventMediaDescription . '" width="200px" height="113px" />';
-          } else {
-            $body .= '<img src="../../timeline/img/' . $eventMedia . '" alt="' . $eventMediaDescription . '" width="113px" height="200px" />';
+              $body .= '<img src="img/' . $eventMedia . '" alt="' . $eventMediaDescription . '" width="200px" height="113px" />';
+            } else {
+              $body .= '<img src="img/' . $eventMedia . '" alt="' . $eventMediaDescription . '" width="113px" height="200px" />';
+            }
           }
-        }
-    $body .= '</a>';
+          $body .= '</a>';
 
-    if($this->getIsAdmin()) {
-      $body .= '<ul class="row actionButtons">
-        <li><a class="edit" href="editEvent/index.php?id=' . $id . '&year=' . $this->getYear() . '&month=' . $this->getMonth() . '&day=' . $this->getDay() . '">Edit</a></li>';
-        if($hide == 0) {
-          $body .= '<li><a class="hide" href="hideEvent.php?id=' . $id . '&year=' . $this->getYear() . '&month=' . $this->getMonth() . '&day=' . $this->getDay() . '">Hide</a></li>';
-        }
-        else if($hide == 1) {
-          $body .= '<li><a class="hide" href="unhideEvent.php?id=' . $id . '&year=' . $this->getYear() . '&month=' . $this->getMonth() . '&day=' . $this->getDay() . '">Unhide</a></li>';
-        }
-        $body .= '<li><a class="delete" href="confirmation.php?id=' . $id . '">Delete</a></li>
-        </ul>';
-      }
+          if($this->getIsAdmin()) {
+            $body .= '<ul class="row actionButtons">
+              <li><a class="edit" href="editEvent/index.php?id=' . $id . '&year=' . $this->getYear() . '&month=' . $this->getMonth() . '&day=' . $this->getDay() . '">Edit</a></li>';
+              if($hide == 0) {
+                $body .= '<li><a class="hide" href="hideEvent.php?id=' . $id . '&year=' . $this->getYear() . '&month=' . $this->getMonth() . '&day=' . $this->getDay() . '">Hide</a></li>';
+              }
+              else if($hide == 1) {
+                $body .= '<li><a class="hide" href="unhideEvent.php?id=' . $id . '&year=' . $this->getYear() . '&month=' . $this->getMonth() . '&day=' . $this->getDay() . '">Unhide</a></li>';
+              }
+              $body .= '<li><a class="delete" href="confirmation.php?id=' . $id . '">Delete</a></li>
+              </ul>';
+            }
 
-  $body .= '</div>
-  <br />';
+        $body .= '</div>
+        <br />';
 
     return $body;
   }
