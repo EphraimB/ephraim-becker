@@ -55,7 +55,7 @@ class DeleteEvent
     $sql->close();
     $this->getLink()->close();
 
-    header("location: ../");
+    header("location: index.php");
   }
 }
 $config = new Config();

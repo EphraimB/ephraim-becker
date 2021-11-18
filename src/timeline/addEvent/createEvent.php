@@ -160,60 +160,6 @@ class AddEvent
 
   function setEventImage($eventImage): void
   {
-    if($_FILES['eventImage']['size'] > 0) {
-      if(is_null($eventImageDescription)) {
-        echo "Sorry, no image description inputted";
-        $uploadOk = 0;
-      }
-
-      $eventImage = strtolower(str_replace(' ', '-', $this->getEventImageDescription() . '.jpg'));
-
-      $target_dir = '../../../timeline/img/';
-      $target_file = $target_dir . $eventImage;
-      $uploadOk = 1;
-      $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
-
-      // Check if image file is a actual image or fake image
-      if(isset($_POST["submit"])) {
-        $check = getimagesize($_FILES["eventImage"]["tmp_name"]);
-        if($check !== false) {
-          $uploadOk = 1;
-        } else {
-          $uploadOk = 0;
-        }
-      }
-
-      // Check if file already exists
-      if (file_exists($target_file)) {
-        echo "Sorry, file already exists.";
-        $uploadOk = 0;
-      }
-
-      $exif = exif_read_data($_FILES["eventImage"]["tmp_name"]);
-
-      $this->addImage();
-
-      // Allow certain file formats
-      if($imageFileType != "jpg") {
-        echo "Sorry, only JPG and JPEG files are allowed.";
-        $uploadOk = 0;
-      }
-
-      // Check if $uploadOk is set to 0 by an error
-      if ($uploadOk == 0) {
-        echo "Sorry, your file was not uploaded.";
-      // if everything is ok, try to upload file
-      } else {
-        if (move_uploaded_file($_FILES["eventImage"]["tmp_name"], $target_file)) {
-          header("location: ../");
-        } else {
-          echo "Sorry, there was an error uploading your file.";
-        }
-      }
-    } else {
-      $eventImage = NULL;
-    }
-
     $this->eventImage = $eventImage;
   }
 
@@ -242,6 +188,16 @@ class AddEvent
     return $this->imageWidth;
   }
 
+  function setImageHeight($height): void
+  {
+    $this->imageHeight = $height;
+  }
+
+  function getImageHeight(): int
+  {
+    return $this->imageHeight;
+  }
+
   function setEventMediaPortrait(): void
   {
     if(isset($exif["Orientation"])) {
@@ -265,12 +221,32 @@ class AddEvent
     return $this->eventMediaPortrait;
   }
 
-  function addImage()
+  function addImage(): void
   {
     if($_FILES['eventImage']['size'] > 0) {
-      $image = imagecreatefromjpeg($_FILES["eventImage"]["tmp_name"]);
+      if(is_null($this->getEventImageDescription())) {
+        echo "Sorry, no image description inputted";
+        $uploadOk = 0;
+      }
+
+      $eventImage = strtolower(str_replace(' ', '-', $this->getEventImageDescription() . '.jpg'));
+
+      $target_dir = '../img/';
+      $target_file = $target_dir . $eventImage;
+      $uploadOk = 1;
+      $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+
+      // Check if file already exists
+      if (file_exists($target_file)) {
+        echo "Sorry, file already exists.";
+        $uploadOk = 0;
+      }
+
+      $exif = exif_read_data($_FILES["eventImage"]["tmp_name"]);
 
       list($width, $height) = getimagesize($_FILES["eventImage"]["tmp_name"]);
+
+      $image = imagecreatefromjpeg($_FILES["eventImage"]["tmp_name"]);
 
       $this->setImageWidth($width);
       $this->setImageHeight($height);
@@ -308,9 +284,7 @@ class AddEvent
         echo "Sorry, your file was not uploaded.";
       // if everything is ok, try to upload file
       } else {
-        if (move_uploaded_file($_FILES["eventImage"]["tmp_name"], $target_file)) {
-          header("location: ../");
-        } else {
+        if (!move_uploaded_file($_FILES["eventImage"]["tmp_name"], $target_file)) {
           echo "Sorry, there was an error uploading your file.";
         }
       }
@@ -318,7 +292,7 @@ class AddEvent
       $eventImage = NULL;
     }
 
-    return $eventImage;
+    $this->setEventImage($eventImage);
   }
 
   function createEvent(): void
@@ -337,6 +311,9 @@ class AddEvent
     $eventTimeZoneOffset = $this->getEventTimeZoneOffset();
     $eventTitle = $this->getEventTitle();
     $eventDescription = $this->getEventDescription();
+
+    $this->addImage();
+
     $eventImage = $this->getEventImage();
     $eventMediaPortrait = $this->getEventMediaPortrait();
     $eventImageDescription = $this->getEventImageDescription();
