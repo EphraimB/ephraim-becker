@@ -1,23 +1,67 @@
 <?php
-  session_start();
-  
-  require_once($_SERVER['DOCUMENT_ROOT'] . '/environment.php');
+declare(strict_types=1);
 
-  global $link;
+session_start();
 
-  if(!isset($_SESSION['username'])) {
-    header("location: ../");
+require_once($_SERVER['DOCUMENT_ROOT'] . '/environment.php');
+
+class DeleteEvent
+{
+  private $link;
+  private $isAdmin;
+
+  function __construct()
+  {
+    $this->setIsAdmin();
+
+    if(!$this->getIsAdmin()) {
+      header("location: ../");
+    }
   }
 
-  $sql = $link->prepare("DELETE FROM timeline WHERE TimelineId=?");
-  $sql->bind_param("i", $id);
+  function setLink($link)
+  {
+    $this->link = $link;
+  }
 
-  $id = $_GET['id'];
+  function getLink()
+  {
+    return $this->link;
+  }
 
-  $sql->execute();
+  function setIsAdmin(): void
+  {
+    if(isset($_SESSION['username'])) {
+      $this->isAdmin = true;
+    } else {
+      $this->isAdmin = false;
+    }
+  }
 
-  $sql->close();
-  $link->close();
+  function getIsAdmin(): bool
+  {
+    return $this->isAdmin;
+  }
 
-  header("location: index.php");
+  function deleteEvent(): void
+  {
+    $sql = $this->getLink()->prepare("DELETE FROM timeline WHERE TimelineId=?");
+    $sql->bind_param("i", $id);
+
+    $id = $_GET['id'];
+
+    $sql->execute();
+
+    $sql->close();
+    $this->getLink()->close();
+
+    header("location: ../");
+  }
+}
+$config = new Config();
+$link = $config->connectToServer();
+
+$deleteEvent = new DeleteEvent();
+$deleteEvent->setLink($link);
+$deleteEvent->deleteEvent();
 ?>

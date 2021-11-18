@@ -60,14 +60,6 @@ class AddEvent
 
   function setEventDate($eventDate): void
   {
-    $this->setEventTimeZoneOffset($_POST['timezoneOffset']);
-
-    if(isset($_POST['allDay'])) {
-      $eventDate = $eventDate;
-    } else {
-      $eventDate = date('Y-m-d', strtotime($eventDate . " " . $this->getEventTime() + $this->getEventTimeZoneOffset()));
-    }
-
     $this->eventDate = $eventDate;
   }
 
@@ -78,14 +70,6 @@ class AddEvent
 
   function setEventTime($eventTime): void
   {
-    $this->setEventTimeZoneOffset($_POST['timezoneOffset']);
-
-    if(isset($_POST['allDay'])) {
-      $eventTime = NULL;
-    } else {
-      $eventTime = date('H:i:s', strtotime($eventTime) + $this->getEventTimeZoneOffset());
-    }
-
     $this->eventTime = $eventTime;
   }
 
@@ -96,12 +80,6 @@ class AddEvent
 
   function setEndEventDate($endEventDate): void
   {
-    if(!isset($_POST['endEventDateExist'])) {
-      $endEventDate = NULL;
-    } else {
-      $endEventDate = $_POST['endEventDate'];
-    }
-
     $this->endEventDate = $endEventDate;
   }
 
@@ -155,7 +133,7 @@ class AddEvent
     $this->eventYouTubeLink = $eventYouTubeLink;
   }
 
-  function getEventYouTubeLink(): string
+  function getEventYouTubeLink()
   {
     return $this->eventYouTubeLink;
   }
@@ -175,7 +153,7 @@ class AddEvent
     $this->eventImageDescription = $eventImageDescription;
   }
 
-  function getEventImageDescription(): string
+  function getEventImageDescription()
   {
     return $this->eventImageDescription;
   }
@@ -239,7 +217,7 @@ class AddEvent
     $this->eventImage = $eventImage;
   }
 
-  function getEventImage(): string
+  function getEventImage()
   {
     return $this->eventImage;
   }
@@ -282,7 +260,7 @@ class AddEvent
     $this->eventMediaPortrait = $eventMediaPortrait;
   }
 
-  function getEventMediaPortrait(): int
+  function getEventMediaPortrait()
   {
     return $this->eventMediaPortrait;
   }
@@ -343,23 +321,6 @@ class AddEvent
     return $eventImage;
   }
 
-  function formatEventDate(): string
-  {
-    if(isset($_POST['allDay'])) {
-      $eventTime = NULL;
-      $eventDate = $this->getEventDate();
-    } else {
-      $eventTime = date('H:i:s', strtotime($this->getEventTime()) + $this->getEventTimeZoneOffset());
-      $eventDate = date('Y-m-d', strtotime($this->getEventDate() . " " . $this->getEventTime()) + $this->getEventTimeZoneOffset());
-    }
-
-    if(!isset($_POST['endEventDateExist'])) {
-      $endEventDate = NULL;
-    } else {
-      $endEventDate = $_POST['endEventDate'];
-    }
-  }
-
   function createEvent(): void
   {
     $sql = $this->getLink()->prepare("INSERT INTO timeline (MemoryType, DateCreated, DateModified, EventDate, EventTime, EndEventDate, EventTimeZone, EventTimeZoneOffset, EventTitle, EventDescription, EventMedia, EventMediaPortrait, EventMediaDescription, EventYouTubeLink, hide)
@@ -397,55 +358,49 @@ $link = $config->connectToServer();
 $addEvent = new AddEvent();
 $addEvent->setLink($link);
 $addEvent->setMemory($_POST['memory']);
-$addEvent->setEventDate($_POST['eventDate']);
-$addEvent->setEventTime($_POST['eventTime']);
-$addEvent->setEndEventDate($_POST['endEventDate']);
 $addEvent->setEventTimezone($_POST['timezone']);
 $addEvent->setEventTimezoneOffset($_POST['timezoneOffset']);
+
+if(isset($_POST['allDay'])) {
+  $eventTime = NULL;
+  $eventDate = $_POST['eventDate'];
+} else {
+  $eventTime = date('H:i:s', strtotime($_POST['eventTime']) + $addEvent->getEventTimeZoneOffset());
+  $eventDate = date('Y-m-d', strtotime($_POST['eventDate'] . " " . $_POST['eventTime']) + $addEvent->getEventTimeZoneOffset());
+}
+$addEvent->setEventDate($eventDate);
+$addEvent->setEventTime($eventTime);
+
+if(!isset($_POST['endEventDateExist'])) {
+  $endEventDate = NULL;
+} else {
+  $endEventDate = $_POST['endEventDate'];
+}
+$addEvent->setEndEventDate($endEventDate);
+
 $addEvent->setEventTitle($_POST['eventTitle']);
 $addEvent->setEventDescription($_POST['eventDescription']);
-$addEvent->setEventImageDescription($_POST['eventImageDescription']);
-$addEvent->setEventYouTubeLink($_POST['eventYouTubeLink']);
-$addEvent->setHidden($_POST['hidden']);
-$addEvent->createEvent();
 
-  // $memory = $_POST['memory'];
-  //
-  // if(isset($_POST['allDay'])) {
-  //   $eventTime = NULL;
-  //   $eventDate = $_POST['eventDate'];
-  // } else {
-  //   $eventTime = date('H:i:s', strtotime($_POST['eventTime']) + intval($_POST['timezoneOffset']));
-  //   $eventDate = date('Y-m-d', strtotime($_POST['eventDate'] . " " . $_POST['eventTime']) + intval($_POST['timezoneOffset']));
-  // }
-  //
-  // if(!isset($_POST['endEventDateExist'])) {
-  //   $endEventDate = NULL;
-  // } else {
-  //   $endEventDate = $_POST['endEventDate'];
-  // }
-  //
-  // $eventTimeZone = $_POST['timezone'];
-  // $eventTimeZoneOffset = $_POST['timezoneOffset'];
-  //
-  // $eventTitle = $_POST['eventTitle'];
-  // $eventDescription = $_POST['eventDescription'];
-  //
-  // if(empty($_POST['eventImageDescription'])) {
-  //   $eventImageDescription = NULL;
-  // } else {
-  //   $eventImageDescription = $_POST['eventImageDescription'];
-  // }
-  //
-  // if(empty($_POST['eventYouTubeLink'])) {
-  //   $eventYouTubeLink = NULL;
-  // } else {
-  //   $eventYouTubeLink = $_POST['eventYouTubeLink'];
-  // }
-  //
-  // if(empty($_POST['hidden'])) {
-  //   $hidden = 0;
-  // } else {
-  //   $hidden = $_POST['hidden'];
-  // }
+if(empty($_POST['eventImageDescription'])) {
+  $eventImageDescription = NULL;
+} else {
+  $eventImageDescription = $_POST['eventImageDescription'];
+}
+$addEvent->setEventImageDescription($eventImageDescription);
+
+if(empty($_POST['eventYouTubeLink'])) {
+  $eventYouTubeLink = NULL;
+} else {
+  $eventYouTubeLink = $_POST['eventYouTubeLink'];
+}
+$addEvent->setEventYouTubeLink($eventYouTubeLink);
+
+if(empty($_POST['hidden'])) {
+  $hidden = 0;
+} else {
+  $hidden = $_POST['hidden'];
+}
+$addEvent->setHidden($hidden);
+
+$addEvent->createEvent();
 ?>
