@@ -462,7 +462,7 @@ class Timeline extends Base
               else if($hide == 1) {
                 $body .= '<li><a class="hide" href="unhideEvent.php?id=' . $id . '&year=' . $this->getYear() . '&month=' . $this->getMonth() . '&day=' . $this->getDay() . '">Unhide</a></li>';
               }
-              $body .= '<li><a class="delete" href="confirmation.php?id=' . $id . '">Delete</a></li>
+              $body .= '<li><a class="delete" href="confirmation.php?id=' . $id . '&year=' . $this->getYear() . '&month=' . $this->getMonth() . '&day=' . $this->getDay() . '">Delete</a></li>
               </ul>';
             }
 

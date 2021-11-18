@@ -11,6 +11,9 @@ class EventConfirmation extends Base
   private $isAdmin;
   private $college_id;
   private $link;
+  private $year;
+  private $month;
+  private $day;
 
   function __construct()
   {
@@ -45,6 +48,36 @@ class EventConfirmation extends Base
     return $this->link;
   }
 
+  function setYear($year): void
+  {
+    $this->year = $year;
+  }
+
+  function getYear(): int
+  {
+    return intval($this->year);
+  }
+
+  function setMonth($month): void
+  {
+    $this->month = $month;
+  }
+
+  function getMonth(): int
+  {
+    return intval($this->month);
+  }
+
+  function setDay($day): void
+  {
+    $this->day = $day;
+  }
+
+  function getDay(): int
+  {
+    return intval($this->day);
+  }
+
   function main(): string
   {
     $sql = $this->getLink()->prepare("SELECT EventTitle FROM timeline WHERE TimelineId=?");
@@ -63,7 +96,7 @@ class EventConfirmation extends Base
     $body = '<h2>Are you sure you want to delete the event named "' . $eventTitle . '"?</h2>
 
     <div class="row actionButtons">
-      <a class="keep" href="index.php">No</a>
+      <a class="keep" href="index.php?year=' . $this->getYear() . '&month=' . $this->getMonth() . '&day=' . $this->getDay() . '">No</a>
       <a class="delete" href="deleteEvent.php?id=' . $id . '">Yes</a>
     </div>';
 
@@ -76,6 +109,9 @@ $link = $config->connectToServer();
 
 $eventConfirmation = new EventConfirmation();
 $eventConfirmation->setLink($link);
+$eventConfirmation->setYear($_GET['year']);
+$eventConfirmation->setMonth($_GET['month']);
+$eventConfirmation->setDay($_GET['day']);
 
 $eventConfirmation->setTitle("Ephraim Becker - Timeline - Delete?");
 $eventConfirmation->setLocalStyleSheet("css/style.css");
