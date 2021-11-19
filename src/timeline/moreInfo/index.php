@@ -67,21 +67,20 @@ class MoreInfo extends Base
 
   function selectEventQuery(): void
   {
-    $sql = "SELECT *, IFNULL(DATE_FORMAT(concat(EventDate, ' ', EventTime) - INTERVAL EventTimeZoneOffset SECOND, '%Y-%m-%d'), EventDate) AS 'LocalDate', IFNULL(TIME_FORMAT(concat(EventDate, ' ', EventTime) - INTERVAL EventTimeZoneOffset SECOND, '%H:%i:%s'), NULL) AS 'LocalTime' FROM timeline WHERE";
+    $sql = "SELECT *, IFNULL(DATE_FORMAT(concat(EventDate, ' ', EventTime) - INTERVAL EventTimeZoneOffset SECOND, '%Y-%m-%d'), EventDate) AS 'LocalDate', IFNULL(TIME_FORMAT(concat(EventDate, ' ', EventTime) - INTERVAL EventTimeZoneOffset SECOND, '%H:%i:%s'), NULL) AS 'LocalTime' FROM timeline WHERE TimelineId=?";
 
-    if($this->getIsAdmin()) {
-      $sql .= " hide=0 AND";
+    if(!$this->getIsAdmin()) {
+      $sql .= " AND hide=0";
     }
-    $sql .= " TimelineId=?";
 
     $this->setQuery($sql);
   }
 
   function selectThoughtsQuery(): void
   {
-    $sql = "SELECT * FROM thoughts WHERE TimelineId=? AND hide=0";
+    $sql = "SELECT * FROM thoughts WHERE TimelineId=?";
 
-    if($this->getIsAdmin()) {
+    if(!$this->getIsAdmin()) {
       $sql .= " AND hide=0";
     }
 
