@@ -233,8 +233,12 @@ class MoreInfo extends Base
       $dateModified = $row['DateModified'];
       $thought = $row['Thought'];
 
-      $body .= '<div class="thought">
-          <h2 class="date"><time datetime="' . date('Y-m-d H:i:s', strtotime($date) - intval($offset)) . '">' . date('m/d/Y h:i A', strtotime($date) - intval($offset)) . '</time></h2>
+      $body .= '<div class="thought';
+
+      if($hide == 1) {
+        $body .= ' hidden-memory';
+      }
+      $body .= '"><h2 class="date"><time datetime="' . date('Y-m-d H:i:s', strtotime($date) - intval($offset)) . '">' . date('m/d/Y h:i A', strtotime($date) - intval($offset)) . '</time></h2>
           <p>' . $thought . '</p>';
           if($this->getIsAdmin()) {
             $body .= '<ul class="row actionButtons">
