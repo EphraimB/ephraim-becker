@@ -1,37 +1,93 @@
 <?php
-  session_start();
+declare(strict_types=1);
 
-  require_once($_SERVER['DOCUMENT_ROOT'] . '/environment.php');
+session_start();
 
-  global $link;
+require_once($_SERVER['DOCUMENT_ROOT'] . '/environment.php');
 
-  if(!isset($_SESSION['username'])) {
-    header("location: ../");
+class UnhideThought
+{
+  private $isAdmin;
+  private $link;
+  private $id;
+
+  function __construct()
+  {
+    $this->setIsAdmin();
+
+    if(!$this->getIsAdmin()) {
+      header("location: ../");
+    }
   }
 
-  $sql = $link->prepare("UPDATE thoughts SET hide = 0 WHERE ThoughtId=?");
-  $sql->bind_param("i", $id);
-
-  $id = $_GET['id'];
-
-  $sql->execute();
-
-  $sql->close();
-
-  $sqlTwo = $link->prepare("SELECT TimelineId FROM thoughts WHERE ThoughtId=? LIMIT 1");
-
-  $sqlTwo->bind_param("i", $id);
-
-  $sqlTwo->execute();
-
-  $sqlTwoResult = $sqlTwo->get_result();
-
-  while($row = mysqli_fetch_array($sqlTwoResult)) {
-    $timelineId = $row['TimelineId'];
+  function setIsAdmin(): void
+  {
+    if(isset($_SESSION['username'])) {
+      $this->isAdmin = true;
+    } else {
+      $this->isAdmin = false;
+    }
   }
 
-  $sqlTwo->close();
-  $link->close();
+  function getIsAdmin(): bool
+  {
+    return $this->isAdmin;
+  }
 
-  header("location: index.php?id=". $timelineId);
+  function setLink($link)
+  {
+    $this->link = $link;
+  }
+
+  function getLink()
+  {
+    return $this->link;
+  }
+
+  function setId($id): void
+  {
+    $this->id = $id;
+  }
+
+  function getId(): int
+  {
+    return intval($this->id);
+  }
+
+  function unhideThought(): void
+  {
+    $sql = $this->getLink()->prepare("UPDATE thoughts SET hide = 0 WHERE ThoughtId=?");
+    $sql->bind_param("i", $id);
+
+    $id = $this->getId();
+
+    $sql->execute();
+
+    $sql->close();
+
+    $sqlTwo = $this->getLink()->prepare("SELECT TimelineId FROM thoughts WHERE ThoughtId=? LIMIT 1");
+
+    $sqlTwo->bind_param("i", $id);
+
+    $sqlTwo->execute();
+
+    $sqlTwoResult = $sqlTwo->get_result();
+
+    while($row = mysqli_fetch_array($sqlTwoResult)) {
+      $timelineId = $row['TimelineId'];
+    }
+
+    $sqlTwo->close();
+    $this->getLink()->close();
+
+    header("location: index.php?id=" . $timelineId);
+  }
+}
+$config = new Config();
+$link = $config->connectToServer();
+
+$unhideThought = new UnhideThought();
+$unhideThought->setLink($link);
+$unhideThought->setId($_GET['id']);
+$unhideThought->unhideThought();
 ?>
