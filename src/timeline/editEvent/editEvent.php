@@ -381,7 +381,11 @@ class EditEvent
     $sql->close();
     $this->getLink()->close();
 
-    header("location: ../index.php?year=" . $this->getYear() . "&month=" . $this->getMonth() . "&day=" . $this->getDay());
+    if($this->getYear() == 0) {
+      header("location: ../moreInfo/index.php?id=" . $this->getId());
+    } else {
+      header("location: ../index.php?year=" . $this->getYear() . "&month=" . $this->getMonth() . "&day=" . $this->getDay());
+    }
   }
 }
 $config = new Config();
