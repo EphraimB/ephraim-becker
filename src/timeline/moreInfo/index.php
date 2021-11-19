@@ -227,6 +227,7 @@ class MoreInfo extends Base
     $sqlResult = $this->fetchData();
 
     while($row = mysqli_fetch_array($sqlResult)) {
+      $hide = $row['hide'];
       $thoughtId = $row['ThoughtId'];
       $date = $row['DateCreated'];
       $dateModified = $row['DateModified'];
@@ -242,7 +243,6 @@ class MoreInfo extends Base
               if($hide == 0) {
                 $body .= '<li><a class="hide" href="hideThought.php?id=' . $thoughtId . '">Hide</a></li>';
               }
-
               else if($hide == 1) {
                 $body .= '<li><a class="hide" href="unhideThought.php?id=' . $thoughtId . '">Unhide</a></li>';
               }
@@ -256,7 +256,7 @@ class MoreInfo extends Base
      if($this->getIsAdmin()) {
        $body .= '<br />
        <br />
-       <form action="addThought.php?id=' . $this->getId() . '" method="post">
+       <form action="addThought.php" method="post">
          <textarea name="thought" rows="6" cols="45" required></textarea>
          <input type="hidden" name="id" value="' . $this->getId() . '" />
 
