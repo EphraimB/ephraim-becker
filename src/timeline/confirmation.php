@@ -14,6 +14,7 @@ class EventConfirmation extends Base
   private $year;
   private $month;
   private $day;
+  private $id;
 
   function __construct()
   {
@@ -46,6 +47,16 @@ class EventConfirmation extends Base
   function getLink()
   {
     return $this->link;
+  }
+
+  function setId($id): void
+  {
+    $this->id = $id;
+  }
+
+  function getId(): int
+  {
+    return intval($this->id);
   }
 
   function setYear($year): void
@@ -83,7 +94,7 @@ class EventConfirmation extends Base
     $sql = $this->getLink()->prepare("SELECT EventTitle FROM timeline WHERE TimelineId=?");
     $sql->bind_param("i", $id);
 
-    $id = $_GET['id'];
+    $id = $this->getId();
 
     $sql->execute();
 
@@ -95,9 +106,13 @@ class EventConfirmation extends Base
 
     $body = '<h2>Are you sure you want to delete the event named "' . $eventTitle . '"?</h2>
 
-    <div class="row actionButtons">
-      <a class="keep" href="index.php?year=' . $this->getYear() . '&month=' . $this->getMonth() . '&day=' . $this->getDay() . '">No</a>
-      <a class="delete" href="deleteEvent.php?id=' . $id . '">Yes</a>
+    <div class="row actionButtons">';
+      if($this->getYear() == 0) {
+        $body .= '<a class="keep" href="moreInfo/index.php?id=' . $this->getId() . '">No</a>';
+      } else {
+        $body .= '<a class="keep" href="index.php?year=' . $this->getYear() . '&month=' . $this->getMonth() . '&day=' . $this->getDay() . '">No</a>';
+      }
+      $body .= '<a class="delete" href="deleteEvent.php?id=' . $this->getId() . '">Yes</a>
     </div>';
 
     return $body;
@@ -109,6 +124,7 @@ $link = $config->connectToServer();
 
 $eventConfirmation = new EventConfirmation();
 $eventConfirmation->setLink($link);
+$eventConfirmation->setId($_GET['id']);
 $eventConfirmation->setYear($_GET['year']);
 $eventConfirmation->setMonth($_GET['month']);
 $eventConfirmation->setDay($_GET['day']);

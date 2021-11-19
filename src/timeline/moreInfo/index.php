@@ -194,17 +194,17 @@ class MoreInfo extends Base
 
         if($this->getIsAdmin()) {
           $body .= '<ul class="row actionButtons">
-            <li><a class="edit" href="editEvent/index.php?id=' . $this->getId() . '">Edit</a></li>';
+            <li><a class="edit" href="../editEvent/index.php?id=' . $this->getId() . '&year=0&month=0&day=0">Edit</a></li>';
 
             if($hide == 0) {
-              $body .= '<li><a class="hide" href="hideEvent.php?id=' . $this->getId() . '">Hide</a></li>';
+              $body .= '<li><a class="hide" href="../hideEvent.php?id=' . $this->getId() . '&year=0&month=0&day=0">Hide</a></li>';
             }
 
             else if($hide == 1) {
-              $body .= '<li><a class="hide" href="unhideEvent.php?id=' . $this->getId() . '">Unhide</a></li>';
+              $body .= '<li><a class="hide" href="../unhideEvent.php?id=' . $this->getId() . '&year=0&month=0&day=0">Unhide</a></li>';
             }
 
-            $body .= '<li><a class="delete" href="confirmation.php?id=' . $this->getId() . '">Delete</a></li>
+            $body .= '<li><a class="delete" href="../confirmation.php?id=' . $this->getId() . '&year=0&month=0&day=0">Delete</a></li>
           </ul>';
         }
 

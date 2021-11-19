@@ -9,6 +9,7 @@ class DeleteEvent
 {
   private $link;
   private $isAdmin;
+  private $id;
 
   function __construct()
   {
@@ -43,12 +44,22 @@ class DeleteEvent
     return $this->isAdmin;
   }
 
+  function setId($id): void
+  {
+    $this->id = $id;
+  }
+
+  function getId(): int
+  {
+    return intval($this->id);
+  }
+
   function deleteEvent(): void
   {
     $sql = $this->getLink()->prepare("DELETE FROM timeline WHERE TimelineId=?");
     $sql->bind_param("i", $id);
 
-    $id = $_GET['id'];
+    $id = $this->getId();
 
     $sql->execute();
 
@@ -63,5 +74,6 @@ $link = $config->connectToServer();
 
 $deleteEvent = new DeleteEvent();
 $deleteEvent->setLink($link);
+$deleteEvent->setId($_GET['id']);
 $deleteEvent->deleteEvent();
 ?>

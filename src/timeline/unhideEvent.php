@@ -12,6 +12,7 @@ class UnhideEvent
   private $day;
   private $link;
   private $isAdmin;
+  private $id;
 
   function __construct()
   {
@@ -44,6 +45,16 @@ class UnhideEvent
   function getIsAdmin(): bool
   {
     return $this->isAdmin;
+  }
+
+  function setId($id): void
+  {
+    $this->id = $id;
+  }
+
+  function getId(): int
+  {
+    return intval($this->id);
   }
 
   function setYear($year): void
@@ -81,14 +92,18 @@ class UnhideEvent
     $sql = $this->getLink()->prepare("UPDATE timeline SET hide = 0 WHERE TimelineId=?");
     $sql->bind_param("i", $id);
 
-    $id = $_GET['id'];
+    $id = $this->getId();
 
     $sql->execute();
 
     $sql->close();
     $this->getLink()->close();
 
-    header("location: index.php?year=" . $this->getYear() . "&month=" . $this->getMonth() . "&day=" . $this->getDay());
+    if($this->getYear() == 0) {
+      header("location: moreInfo/index.php?id=" . $this->getId());
+    } else {
+      header("location: index.php?year=" . $this->getYear() . "&month=" . $this->getMonth() . "&day=" . $this->getDay());
+    }
   }
 }
 
@@ -97,6 +112,7 @@ $link = $config->connectToServer();
 
 $unhideEvent = new UnhideEvent();
 $unhideEvent->setLink($link);
+$unhideEvent->setId($_GET['id']);
 $unhideEvent->setYear($_GET['year']);
 $unhideEvent->setMonth($_GET['month']);
 $unhideEvent->setDay($_GET['day']);
