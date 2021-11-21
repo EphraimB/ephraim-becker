@@ -1,38 +1,90 @@
 <?php
-  session_start();
+declare(strict_types=1);
 
-  require_once($_SERVER['DOCUMENT_ROOT'] . '/environment.php');
+session_start();
 
-  global $link;
+require_once($_SERVER['DOCUMENT_ROOT'] . '/environment.php');
 
+class DeleteThought
+{
+  private $link;
+  private $isAdmin;
+  private $id;
 
-  if(!isset($_SESSION['username'])) {
-    header("location: ../");
-  }
-  
-  $sqlTwo = $link->prepare("SELECT TimelineId FROM thoughts WHERE ThoughtId=? LIMIT 1");
+  function __construct()
+  {
+    $this->setIsAdmin();
 
-  $sqlTwo->bind_param("i", $id);
-
-  $id = $_GET['id'];
-
-  $sqlTwo->execute();
-
-  $sqlTwoResult = $sqlTwo->get_result();
-
-  while($row = mysqli_fetch_array($sqlTwoResult)) {
-    $timelineId = $row['TimelineId'];
+    if(!$this->getIsAdmin()) {
+      header("location: ../");
+    }
   }
 
-  $sqlTwo->close();
+  function setLink($link)
+  {
+    $this->link = $link;
+  }
 
-  $sql = $link->prepare("DELETE FROM thoughts WHERE ThoughtId=?");
-  $sql->bind_param("i", $id);
+  function getLink()
+  {
+    return $this->link;
+  }
 
-  $sql->execute();
+  function setIsAdmin(): void
+  {
+    if(isset($_SESSION['username'])) {
+      $this->isAdmin = true;
+    } else {
+      $this->isAdmin = false;
+    }
+  }
 
-  $sql->close();
-  $link->close();
+  function getIsAdmin(): bool
+  {
+    return $this->isAdmin;
+  }
 
-  header("location: index.php?id=". $timelineId);
+  function setId($id): void
+  {
+    $this->id = $id;
+  }
+
+  function getId(): int
+  {
+    return intval($this->id);
+  }
+
+  function deleteThought(): void
+  {
+    $sql = $this->getLink()->prepare("SELECT TimelineId FROM thoughts WHERE ThoughtId=? LIMIT 1");
+
+    $sql->bind_param("i", $id);
+
+    $id = $this->getId();
+
+    $sql->execute();
+
+    $sqlResult = $sql->get_result();
+
+    while($row = mysqli_fetch_array($sqlResult)) {
+      $timelineId = $row['TimelineId'];
+    }
+
+    $sql->close();
+
+    $sqlTwo = $this->getLink()->prepare("DELETE FROM thoughts WHERE ThoughtId=?");
+    $sqlTwo->bind_param("i", $id);
+
+    $sqlTwo->execute();
+
+    header("location: index.php?id=". $timelineId);
+  }
+}
+$config = new Config();
+$link = $config->connectToServer();
+
+$deleteThought = new DeleteThought();
+$deleteThought->setLink($link);
+$deleteThought->setId($_GET['id']);
+$deleteThought->deleteThought();
 ?>
