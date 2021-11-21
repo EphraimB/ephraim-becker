@@ -1,65 +1,121 @@
 <?php
-  session_start();
+declare(strict_types=1);
 
-  require_once($_SERVER['DOCUMENT_ROOT'] . '/environment.php');
+session_start();
 
-  global $link;
+require($_SERVER['DOCUMENT_ROOT'] . "/base.php");
+require_once($_SERVER['DOCUMENT_ROOT'] . '/environment.php');
 
-  if(!isset($_SESSION['username'])) {
-    header("location: ../");
+class EditThoughtForm extends Base
+{
+  private $isAdmin;
+  private $link;
+  private $id;
+
+  function __construct()
+  {
+    $this->setIsAdmin();
+
+    if(!$this->getIsAdmin()) {
+      header("location: ../");
+    }
   }
 
-  $title = "Ephraim Becker - Timeline - Edit Thought";
-  $header = "Timeline - Edit Thought";
-  $localStyleSheet = '<link rel="stylesheet" href="css/style.css" />';
-  $localScript = '<script src="js/script.js"></script>';
+  function setIsAdmin(): void
+  {
+    if(isset($_SESSION['username'])) {
+      $this->isAdmin = true;
+    } else {
+      $this->isAdmin = false;
+    }
+  }
 
-  $body = '<form action="editThought.php" method="post">
-        <div class="row">';
+  function getIsAdmin(): bool
+  {
+    return $this->isAdmin;
+  }
 
-          $sql = $link->prepare("SELECT * FROM thoughts WHERE ThoughtId=?");
-          $sql->bind_param("i", $id);
+  function setLink($link): void
+  {
+    $this->link = $link;
+  }
 
-          $id = $_GET['id'];
+  function getLink()
+  {
+    return $this->link;
+  }
 
-          $sql->execute();
+  function setId($id): void
+  {
+    $this->id = $id;
+  }
 
-          $sqlResult = $sql->get_result();
+  function getId(): int
+  {
+    return intval($this->id);
+  }
 
-          while($row = mysqli_fetch_array($sqlResult)){
-            $hide = $row['hide'];
-            $thoughtId = $row['ThoughtId'];
-            $thought = $row['Thought'];
-          }
+  function main(): string
+  {
+    $body = '<form action="editThought.php" method="post">
+          <div class="row">';
 
-    $body .= '<div>
-          <label for="eventDescription">Thought:</label>
+            $sql = $this->getLink()->prepare("SELECT * FROM thoughts WHERE ThoughtId=?");
+            $sql->bind_param("i", $id);
+
+            $id = $this->getId();
+
+            $sql->execute();
+
+            $sqlResult = $sql->get_result();
+
+            while($row = mysqli_fetch_array($sqlResult)){
+              $hide = $row['hide'];
+              $thoughtId = $row['ThoughtId'];
+              $thought = $row['Thought'];
+            }
+
+      $body .= '<div>
+            <label for="eventDescription">Thought:</label>
+            <br />
+            <textarea id="thought" name="thought" rows="6" cols="45" required>' . $thought . '</textarea>
+          </div>
           <br />
-          <textarea id="thought" name="thought" rows="6" cols="45" required>' . $thought . '</textarea>
-        </div>
-        <br />
-        <div>
-          <h3>Event memory type:</h3>
-          <div class="row">
-            <div class="hidden-memory remembered-memory">
-              <input type="checkbox" id="hidden" name="hidden" value="1"';
-              if($hide == 1) {
-                $body .= "checked";
-              }
-              $body .= ' />
-              <label for="hidden">Hidden thought</label>
+          <div>
+            <h3>Event memory type:</h3>
+            <div class="row">
+              <div class="hidden-memory remembered-memory">
+                <input type="checkbox" id="hidden" name="hidden" value="1"';
+                if($hide == 1) {
+                  $body .= "checked";
+                }
+                $body .= ' />
+                <label for="hidden">Hidden thought</label>
+              </div>
             </div>
           </div>
-        </div>
-        <input type="hidden" name="id" value="' . $thoughtId . '" />
-        <br />
-        <input type="submit" id="submit" value="Edit thought" />
-        <br />
-      </form>';
+          <input type="hidden" name="id" value="' . $thoughtId . '" />
+          <br />
+          <input type="submit" id="submit" value="Edit thought" />
+          <br />
+        </form>';
 
-  $sql->close();
-  $link->close();
+    return $body;
+  }
+}
+$config = new Config();
+$link = $config->connectToServer();
 
-  $url = $_SERVER['REQUEST_URI'];
-  require($_SERVER['DOCUMENT_ROOT'] . "/base.php");
- ?>
+$editThoughtForm = new EditThoughtForm();
+$editThoughtForm->setLink($link);
+$editThoughtForm->setId($_GET['id']);
+
+$editThoughtForm->setLocalStyleSheet("css/style.css");
+$editThoughtForm->setLocalScript("js/script.js");
+$editThoughtForm->setTitle("Ephraim Becker - Timeline - Edit Thought");
+$editThoughtForm->setHeader("Timeline - Edit Thought");
+$editThoughtForm->setUrl($_SERVER['REQUEST_URI']);
+$editThoughtForm->setBody($editThoughtForm->main());
+
+$editThoughtForm->html();
+?>
