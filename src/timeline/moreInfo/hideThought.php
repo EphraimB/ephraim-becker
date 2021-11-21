@@ -51,7 +51,7 @@ class HideThought
 
   function getId(): int
   {
-    return intval($this->id);
+    return $this->id;
   }
 
   function hideThought(): void
@@ -88,6 +88,6 @@ $link = $config->connectToServer();
 
 $hideThought = new HideThought();
 $hideThought->setLink($link);
-$hideThought->setId($_GET['id']);
+$hideThought->setId(intval($_GET['id']));
 $hideThought->hideThought();
 ?>

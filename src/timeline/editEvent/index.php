@@ -56,7 +56,7 @@ class EditEventForm extends Base
 
   function getYear(): int
   {
-    return intval($this->year);
+    return $this->year;
   }
 
   function setMonth($month): void
@@ -66,7 +66,7 @@ class EditEventForm extends Base
 
   function getMonth(): int
   {
-    return intval($this->month);
+    return $this->month;
   }
 
   function setDay($day): void
@@ -76,7 +76,7 @@ class EditEventForm extends Base
 
   function getDay(): int
   {
-    return intval($this->day);
+    return $this->day;
   }
 
   function setId($id): void
@@ -86,7 +86,7 @@ class EditEventForm extends Base
 
   function getId(): int
   {
-    return intval($this->id);
+    return $this->id;
   }
 
   function getQuery(): string
@@ -262,10 +262,10 @@ $link = $config->connectToServer();
 
 $editEventForm = new EditEventForm();
 $editEventForm->setLink($link);
-$editEventForm->setYear($_GET['year']);
-$editEventForm->setMonth($_GET['month']);
-$editEventForm->setDay($_GET['day']);
-$editEventForm->setId($_GET['id']);
+$editEventForm->setYear(intval($_GET['year']));
+$editEventForm->setMonth(intval($_GET['month']));
+$editEventForm->setDay(intval($_GET['day']));
+$editEventForm->setId(intval($_GET['id']));
 $editEventForm->setQuery("SELECT *, IFNULL(DATE_FORMAT(concat(EventDate, ' ', EventTime) - INTERVAL EventTimeZoneOffset SECOND, '%Y-%m-%d'), EventDate) AS 'LocalDate', IFNULL(TIME_FORMAT(concat(EventDate, ' ', EventTime) - INTERVAL EventTimeZoneOffset SECOND, '%H:%i:%s'), NULL) AS 'LocalTime' FROM timeline WHERE TimelineId=?");
 
 $editEventForm->setLocalStyleSheet("css/style.css");

@@ -62,7 +62,7 @@ class MoreInfo extends Base
 
   function getId(): int
   {
-    return intval($this->id);
+    return $this->id;
   }
 
   function selectEventQuery(): void
@@ -285,7 +285,7 @@ $link = $config->connectToServer();
 
 $moreInfo = new MoreInfo();
 $moreInfo->setLink($link);
-$moreInfo->setId($_GET['id']);
+$moreInfo->setId(intval($_GET['id']));
 $moreInfo->setIsAdmin();
 $moreInfo->setTitle("Ephraim Becker - Timeline - More info");
 $moreInfo->setLocalStyleSheet('../css/style.css');

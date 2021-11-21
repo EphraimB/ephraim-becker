@@ -53,7 +53,7 @@ class EditThought
 
   function getId(): int
   {
-    return intval($this->id);
+    return $this->id;
   }
 
   function setThought($thought): void
@@ -111,7 +111,7 @@ $link = $config->connectToServer();
 
 $editThought = new EditThought();
 $editThought->setLink($link);
-$editThought->setId($_POST['id']);
+$editThought->setId(intval($_POST['id']));
 $editThought->setThought($_POST['thought']);
 
 if(empty($_POST['hidden'])) {

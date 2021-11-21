@@ -54,7 +54,7 @@ class UnhideEvent
 
   function getId(): int
   {
-    return intval($this->id);
+    return $this->id;
   }
 
   function setYear($year): void
@@ -64,7 +64,7 @@ class UnhideEvent
 
   function getYear(): int
   {
-    return intval($this->year);
+    return $this->year;
   }
 
   function setMonth($month): void
@@ -74,7 +74,7 @@ class UnhideEvent
 
   function getMonth(): int
   {
-    return intval($this->month);
+    return $this->month;
   }
 
   function setDay($day): void
@@ -84,7 +84,7 @@ class UnhideEvent
 
   function getDay(): int
   {
-    return intval($this->day);
+    return $this->day;
   }
 
   function unhideEvent(): void
@@ -112,9 +112,9 @@ $link = $config->connectToServer();
 
 $unhideEvent = new UnhideEvent();
 $unhideEvent->setLink($link);
-$unhideEvent->setId($_GET['id']);
-$unhideEvent->setYear($_GET['year']);
-$unhideEvent->setMonth($_GET['month']);
-$unhideEvent->setDay($_GET['day']);
+$unhideEvent->setId(intval($_GET['id']));
+$unhideEvent->setYear(intval($_GET['year']));
+$unhideEvent->setMonth(intval($_GET['month']));
+$unhideEvent->setDay(intval($_GET['day']));
 $unhideEvent->unhideEvent();
 ?>

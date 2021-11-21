@@ -52,7 +52,7 @@ class EditThoughtForm extends Base
 
   function getId(): int
   {
-    return intval($this->id);
+    return $this->id;
   }
 
   function main(): string
@@ -108,7 +108,7 @@ $link = $config->connectToServer();
 
 $editThoughtForm = new EditThoughtForm();
 $editThoughtForm->setLink($link);
-$editThoughtForm->setId($_GET['id']);
+$editThoughtForm->setId(intval($_GET['id']));
 
 $editThoughtForm->setLocalStyleSheet("css/style.css");
 $editThoughtForm->setLocalScript("js/script.js");

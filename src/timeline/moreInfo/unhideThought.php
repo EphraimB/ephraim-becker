@@ -51,7 +51,7 @@ class UnhideThought
 
   function getId(): int
   {
-    return intval($this->id);
+    return $this->id;
   }
 
   function unhideThought(): void
@@ -88,6 +88,6 @@ $link = $config->connectToServer();
 
 $unhideThought = new UnhideThought();
 $unhideThought->setLink($link);
-$unhideThought->setId($_GET['id']);
+$unhideThought->setId(intval($_GET['id']));
 $unhideThought->unhideThought();
 ?>

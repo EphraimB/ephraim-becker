@@ -54,7 +54,7 @@ class HideEvent
 
   function getId(): int
   {
-    return intval($this->id);
+    return $this->id;
   }
 
   function setYear($year): void
@@ -64,7 +64,7 @@ class HideEvent
 
   function getYear(): int
   {
-    return intval($this->year);
+    return $this->year;
   }
 
   function setMonth($month): void
@@ -74,7 +74,7 @@ class HideEvent
 
   function getMonth(): int
   {
-    return intval($this->month);
+    return $this->month;
   }
 
   function setDay($day): void
@@ -84,7 +84,7 @@ class HideEvent
 
   function getDay(): int
   {
-    return intval($this->day);
+    return $this->day;
   }
 
   function hideEvent(): void
@@ -112,9 +112,9 @@ $link = $config->connectToServer();
 
 $hideEvent = new HideEvent();
 $hideEvent->setLink($link);
-$hideEvent->setId($_GET['id']);
-$hideEvent->setYear($_GET['year']);
-$hideEvent->setMonth($_GET['month']);
-$hideEvent->setDay($_GET['day']);
+$hideEvent->setId(intval($_GET['id']));
+$hideEvent->setYear(intval($_GET['year']));
+$hideEvent->setMonth(intval($_GET['month']));
+$hideEvent->setDay(intval($_GET['day']));
 $hideEvent->hideEvent();
 ?>

@@ -56,7 +56,7 @@ class EventConfirmation extends Base
 
   function getId(): int
   {
-    return intval($this->id);
+    return $this->id;
   }
 
   function setYear($year): void
@@ -66,7 +66,7 @@ class EventConfirmation extends Base
 
   function getYear(): int
   {
-    return intval($this->year);
+    return $this->year;
   }
 
   function setMonth($month): void
@@ -76,7 +76,7 @@ class EventConfirmation extends Base
 
   function getMonth(): int
   {
-    return intval($this->month);
+    return $this->month;
   }
 
   function setDay($day): void
@@ -86,7 +86,7 @@ class EventConfirmation extends Base
 
   function getDay(): int
   {
-    return intval($this->day);
+    return $this->day;
   }
 
   function main(): string
@@ -124,10 +124,10 @@ $link = $config->connectToServer();
 
 $eventConfirmation = new EventConfirmation();
 $eventConfirmation->setLink($link);
-$eventConfirmation->setId($_GET['id']);
-$eventConfirmation->setYear($_GET['year']);
-$eventConfirmation->setMonth($_GET['month']);
-$eventConfirmation->setDay($_GET['day']);
+$eventConfirmation->setId(intval($_GET['id']));
+$eventConfirmation->setYear(intval($_GET['year']));
+$eventConfirmation->setMonth(intval($_GET['month']));
+$eventConfirmation->setDay(intval($_GET['day']));
 
 $eventConfirmation->setTitle("Ephraim Becker - Timeline - Delete?");
 $eventConfirmation->setLocalStyleSheet("css/style.css");

@@ -51,7 +51,7 @@ class DeleteEvent
 
   function getId(): int
   {
-    return intval($this->id);
+    return $this->id;
   }
 
   function deleteEvent(): void
@@ -74,6 +74,6 @@ $link = $config->connectToServer();
 
 $deleteEvent = new DeleteEvent();
 $deleteEvent->setLink($link);
-$deleteEvent->setId($_GET['id']);
+$deleteEvent->setId(intval($_GET['id']));
 $deleteEvent->deleteEvent();
 ?>

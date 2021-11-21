@@ -105,7 +105,7 @@ class AddEvent
 
   function getEventTimeZoneOffset(): int
   {
-    return intval($this->eventTimeZoneOffset);
+    return $this->eventTimeZoneOffset;
   }
 
   function setEventTitle($eventTitle): void
@@ -145,7 +145,7 @@ class AddEvent
 
   function getHidden(): int
   {
-    return intval($this->hidden);
+    return $this->hidden;
   }
 
   function setEventImageDescription($eventImageDescription): void
@@ -175,7 +175,7 @@ class AddEvent
 
   function getMemory(): int
   {
-    return intval($this->memory);
+    return $this->memory;
   }
 
   function setImageWidth($width): void
@@ -334,9 +334,9 @@ $link = $config->connectToServer();
 
 $addEvent = new AddEvent();
 $addEvent->setLink($link);
-$addEvent->setMemory($_POST['memory']);
+$addEvent->setMemory(intval($_POST['memory']));
 $addEvent->setEventTimezone($_POST['timezone']);
-$addEvent->setEventTimezoneOffset($_POST['timezoneOffset']);
+$addEvent->setEventTimezoneOffset(intval($_POST['timezoneOffset']));
 
 if(isset($_POST['allDay'])) {
   $eventTime = NULL;
@@ -377,7 +377,7 @@ if(empty($_POST['hidden'])) {
 } else {
   $hidden = $_POST['hidden'];
 }
-$addEvent->setHidden($hidden);
+$addEvent->setHidden(intval($hidden));
 
 $addEvent->createEvent();
 ?>

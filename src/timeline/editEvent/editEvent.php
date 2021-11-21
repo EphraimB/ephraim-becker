@@ -69,7 +69,7 @@ class EditEvent
 
   function getYear(): int
   {
-    return intval($this->year);
+    return $this->year;
   }
 
   function setMonth($month): void
@@ -79,7 +79,7 @@ class EditEvent
 
   function getMonth(): int
   {
-    return intval($this->month);
+    return $this->month;
   }
 
   function setDay($day): void
@@ -89,7 +89,7 @@ class EditEvent
 
   function getDay(): int
   {
-    return intval($this->day);
+    return $this->day;
   }
 
   function setId($id): void
@@ -99,7 +99,7 @@ class EditEvent
 
   function getId(): int
   {
-    return intval($this->id);
+    return $this->id;
   }
 
   function setEventDate($eventDate): void
@@ -149,7 +149,7 @@ class EditEvent
 
   function getEventTimeZoneOffset(): int
   {
-    return intval($this->eventTimeZoneOffset);
+    return $this->eventTimeZoneOffset;
   }
 
   function setEventTitle($eventTitle): void
@@ -189,7 +189,7 @@ class EditEvent
 
   function getHidden(): int
   {
-    return intval($this->hidden);
+    return $this->hidden;
   }
 
   function setEventImageDescription($eventImageDescription): void
@@ -219,7 +219,7 @@ class EditEvent
 
   function getMemory(): int
   {
-    return intval($this->memory);
+    return $this->memory;
   }
 
   function setImageWidth($width): void
@@ -229,7 +229,7 @@ class EditEvent
 
   function getImageWidth(): int
   {
-    return intval($this->imageWidth);
+    return $this->imageWidth;
   }
 
   function setImageHeight($height): void
@@ -239,24 +239,11 @@ class EditEvent
 
   function getImageHeight(): int
   {
-    return intval($this->imageHeight);
+    return $this->imageHeight;
   }
 
-  function setEventMediaPortrait(): void
+  function setEventMediaPortrait($eventMediaPortrait): void
   {
-    if(isset($exif["Orientation"])) {
-      if($exif["Orientation"] == 6) {
-          $width = $this->getImageHeight();
-          $height = $this->getImageWidth();
-      }
-    }
-
-    if($this->getImageWidth() > $this->getImageHeight()) {
-      $eventMediaPortrait = 0;
-    } else {
-      $eventMediaPortrait = 1;
-    }
-
     $this->eventMediaPortrait = $eventMediaPortrait;
   }
 
@@ -297,10 +284,19 @@ class EditEvent
 
       if(isset($exif["Orientation"])) {
         if($exif["Orientation"] == 6) {
-            // photo needs to be rotated
-            $image = imagerotate($image , -90, 0 );
+          $image = imagerotate($image , -90, 0 );
+          $width = $this->getImageHeight();
+          $height = $this->getImageWidth();
         }
       }
+
+      if($this->getImageWidth() > $this->getImageHeight()) {
+        $eventMediaPortrait = 0;
+      } else {
+        $eventMediaPortrait = 1;
+      }
+
+      $this->setEventMediaPortrait($eventMediaPortrait);
 
       if($this->getEventMediaPortrait() == 0) {
         $new_width = 200;
@@ -345,7 +341,7 @@ class EditEvent
       while($row = mysqli_fetch_array($sqlTwoResult)) {
         $eventImage = $row['EventMedia'];
         $this->setEventImageDescription($row['EventMediaDescription']);
-        $this->setEventMediaPortrait($row['EventMediaPortrait']);
+        $this->setEventMediaPortrait(intval($row['EventMediaPortrait']));
       }
     }
 
@@ -393,13 +389,13 @@ $link = $config->connectToServer();
 
 $editEvent = new EditEvent();
 $editEvent->setLink($link);
-$editEvent->setId($_POST['id']);
-$editEvent->setYear($_POST['year']);
-$editEvent->setMonth($_POST['month']);
-$editEvent->setDay($_POST['day']);
-$editEvent->setMemory($_POST['memory']);
+$editEvent->setId(intval($_POST['id']));
+$editEvent->setYear(intval($_POST['year']));
+$editEvent->setMonth(intval($_POST['month']));
+$editEvent->setDay(intval($_POST['day']));
+$editEvent->setMemory(intval($_POST['memory']));
 $editEvent->setEventTimezone($_POST['timezone']);
-$editEvent->setEventTimezoneOffset($_POST['timezoneOffset']);
+$editEvent->setEventTimezoneOffset(intval($_POST['timezoneOffset']));
 
 if(isset($_POST['allDay'])) {
   $eventTime = NULL;
@@ -440,7 +436,7 @@ if(empty($_POST['hidden'])) {
 } else {
   $hidden = $_POST['hidden'];
 }
-$editEvent->setHidden($hidden);
+$editEvent->setHidden(intval($hidden));
 
 $editEvent->removeEvent();
 ?>

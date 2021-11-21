@@ -52,7 +52,7 @@ class AddThought
 
   function getId(): int
   {
-    return intval($this->id);
+    return $this->id;
   }
 
   function setThought($thought): void
@@ -88,7 +88,7 @@ $link = $config->connectToServer();
 
 $addThought = new AddThought();
 $addThought->setLink($link);
-$addThought->setId($_POST['id']);
+$addThought->setId(intval($_POST['id']));
 $addThought->setThought($_POST['thought']);
 $addThought->addThought();
 ?>

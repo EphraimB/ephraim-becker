@@ -23,7 +23,7 @@ class Index extends Base
     $this->age = intval($age->format("%y"));
   }
 
-  function getAge():int
+  function getAge(): int
   {
     return $this->age;
   }

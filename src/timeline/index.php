@@ -59,13 +59,9 @@ class Timeline extends Base
     return $this->year;
   }
 
-  function setYear(): void
+  function setYear($year): void
   {
-    if(isset($_GET['year'])) {
-      $this->year = intval($_GET['year']);
-    } else {
-      $this->year = 0;
-    }
+    $this->year = $year;
   }
 
   function getMonth(): int
@@ -73,13 +69,9 @@ class Timeline extends Base
     return $this->month;
   }
 
-  function setMonth(): void
+  function setMonth($month): void
   {
-    if(isset($_GET['month'])) {
-      $this->month = intval($_GET['month']);
-    } else {
-      $this->month = 0;
-    }
+    $this->month = $month;
   }
 
   function getDay(): int
@@ -87,13 +79,9 @@ class Timeline extends Base
     return $this->day;
   }
 
-  function setDay(): void
+  function setDay($day): void
   {
-    if(isset($_GET['day'])) {
-      $this->day = intval($_GET['day']);
-    } else {
-      $this->day = 0;
-    }
+    $this->day = $day;
   }
 
   function selectQuery(): void
@@ -615,9 +603,28 @@ $link = $config->connectToServer();
 $timeline = new Timeline();
 $timeline->setLink($link);
 $timeline->setIsAdmin();
-$timeline->setYear();
-$timeline->setMonth();
-$timeline->setDay();
+
+if(isset($_GET['year'])) {
+  $year = intval($_GET['year']);
+} else {
+  $year = 0;
+}
+$timeline->setYear($year);
+
+if(isset($_GET['month'])) {
+  $month = intval($_GET['month']);
+} else {
+  $month = 0;
+}
+$timeline->setMonth($month);
+
+if(isset($_GET['day'])) {
+  $day = intval($_GET['day']);
+} else {
+  $day = 0;
+}
+$timeline->setDay($day);
+
 $timeline->selectQuery();
 $timeline->setTitle("Ephraim Becker - Timeline");
 $timeline->setLocalStyleSheet('css/style.css');

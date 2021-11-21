@@ -9,7 +9,6 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/environment.php');
 class ThoughtConfirmation extends Base
 {
   private $isAdmin;
-  private $college_id;
   private $link;
   private $id;
 
@@ -53,7 +52,7 @@ class ThoughtConfirmation extends Base
 
   function getId(): int
   {
-    return intval($this->id);
+    return $this->id;
   }
 
   function main(): string
@@ -87,7 +86,7 @@ $link = $config->connectToServer();
 
 $thoughtConfirmation = new ThoughtConfirmation();
 $thoughtConfirmation->setLink($link);
-$thoughtConfirmation->setId($_GET['id']);
+$thoughtConfirmation->setId(intval($_GET['id']));
 
 $thoughtConfirmation->setTitle("Ephraim Becker - Timeline - Delete thought?");
 $thoughtConfirmation->setLocalStyleSheet("../css/style.css");

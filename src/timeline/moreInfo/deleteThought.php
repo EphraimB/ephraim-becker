@@ -51,7 +51,7 @@ class DeleteThought
 
   function getId(): int
   {
-    return intval($this->id);
+    return $this->id;
   }
 
   function deleteThought(): void
@@ -77,7 +77,7 @@ class DeleteThought
 
     $sqlTwo->execute();
 
-    header("location: index.php?id=". $timelineId);
+    header("location: index.php?id=" . $timelineId);
   }
 }
 $config = new Config();
@@ -85,6 +85,6 @@ $link = $config->connectToServer();
 
 $deleteThought = new DeleteThought();
 $deleteThought->setLink($link);
-$deleteThought->setId($_GET['id']);
+$deleteThought->setId(intval($_GET['id']));
 $deleteThought->deleteThought();
 ?>
