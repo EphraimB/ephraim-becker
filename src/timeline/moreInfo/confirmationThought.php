@@ -1,42 +1,100 @@
 <?php
-  session_start();
+declare(strict_types=1);
 
-  require_once($_SERVER['DOCUMENT_ROOT'] . '/environment.php');
+session_start();
 
-  global $link;
+require($_SERVER['DOCUMENT_ROOT'] . "/base.php");
+require_once($_SERVER['DOCUMENT_ROOT'] . '/environment.php');
 
-  if(!isset($_SESSION['username'])) {
-    header("location: ../");
+class ThoughtConfirmation extends Base
+{
+  private $isAdmin;
+  private $college_id;
+  private $link;
+  private $id;
+
+  function __construct()
+  {
+    $this->setIsAdmin();
+
+    if(!$this->getIsAdmin()) {
+      header("location: ../");
+    }
   }
 
-  $id = $_GET['id'];
-
-  $title = "Ephraim Becker - Timeline - Delete thought?";
-  $localStyleSheet = '<link rel="stylesheet" href="../css/style.css" />';
-  $header = "Timeline - Delete thought?";
-
-  $body = '<h2>Are you sure you want to delete this thought"?</h2>';
-
-  $sqlTwo = $link->prepare("SELECT TimelineId FROM thoughts WHERE ThoughtId=? LIMIT 1");
-
-  $sqlTwo->bind_param("i", $id);
-
-  $sqlTwo->execute();
-
-  $sqlTwoResult = $sqlTwo->get_result();
-
-  while($row = mysqli_fetch_array($sqlTwoResult)) {
-    $timelineId = $row['TimelineId'];
+  function setIsAdmin(): void
+  {
+    if(isset($_SESSION['username'])) {
+      $this->isAdmin = true;
+    } else {
+      $this->isAdmin = false;
+    }
   }
 
-  $sqlTwo->close();
-  $link->close();
+  function getIsAdmin(): bool
+  {
+    return $this->isAdmin;
+  }
 
-  $body .= '<div class="row actionButtons">
-        <a class="keep" href="index.php?id=' . $timelineId . '">No</a>
-        <a class="delete" href="deleteThought.php?id=' . $id . '">Yes</a>
-      </div>';
+  function setLink($link)
+  {
+    $this->link = $link;
+  }
 
-  $url = $_SERVER['REQUEST_URI'];
-  require($_SERVER['DOCUMENT_ROOT'] . "/base.php");
+  function getLink()
+  {
+    return $this->link;
+  }
+
+  function setId($id): void
+  {
+    $this->id = $id;
+  }
+
+  function getId(): int
+  {
+    return intval($this->id);
+  }
+
+  function main(): string
+  {
+    $body = '<h2>Are you sure you want to delete this thought"?</h2>';
+
+    $sql = $this->getLink()->prepare("SELECT TimelineId FROM thoughts WHERE ThoughtId=? LIMIT 1");
+
+    $sql->bind_param("i", $id);
+
+    $id = $this->getId();
+
+    $sql->execute();
+
+    $sqlResult = $sql->get_result();
+
+    while($row = mysqli_fetch_array($sqlResult)) {
+      $timelineId = $row['TimelineId'];
+    }
+
+    $body .= '<div class="row actionButtons">
+          <a class="keep" href="index.php?id=' . $timelineId . '">No</a>
+          <a class="delete" href="deleteThought.php?id=' . $this->getId() . '">Yes</a>
+        </div>';
+
+    return $body;
+  }
+}
+$config = new Config();
+$link = $config->connectToServer();
+
+$thoughtConfirmation = new ThoughtConfirmation();
+$thoughtConfirmation->setLink($link);
+$thoughtConfirmation->setId($_GET['id']);
+
+$thoughtConfirmation->setTitle("Ephraim Becker - Timeline - Delete thought?");
+$thoughtConfirmation->setLocalStyleSheet("../css/style.css");
+$thoughtConfirmation->setLocalScript(NULL);
+$thoughtConfirmation->setHeader("Timeline - Delete thought?");
+$thoughtConfirmation->setUrl($_SERVER['REQUEST_URI']);
+$thoughtConfirmation->setBody($thoughtConfirmation->main());
+
+$thoughtConfirmation->html();
 ?>
