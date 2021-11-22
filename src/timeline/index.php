@@ -378,7 +378,13 @@ class Timeline extends Base
       $eventMediaPortrait = $row['EventMediaPortrait'];
       $eventMediaDescription = $row['EventMediaDescription'];
 
-      $sqlThoughts = $this->getLink()->prepare("SELECT COUNT(*) AS NumberOfThoughts FROM thoughts WHERE TimelineId=?");
+      $sqlThoughtsRaw = "SELECT COUNT(*) AS NumberOfThoughts FROM thoughts WHERE TimelineId=?";
+
+      if(!$this->getIsAdmin()) {
+        $sqlThoughtsRaw .= " AND hide=0";
+      }
+      
+      $sqlThoughts = $this->getLink()->prepare($sqlThoughtsRaw);
       $sqlThoughts->bind_param("i", $id);
 
       $sqlThoughts->execute();
