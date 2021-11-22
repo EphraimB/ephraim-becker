@@ -115,6 +115,11 @@
   background-color: rgb(250, 250, 210);
 }
 
+.thoughtButton[disabled=disabled] {
+  background-color: lightblue;
+  cursor: not-allowed;
+}
+
 h2 {
   font-weight: bold;
 }

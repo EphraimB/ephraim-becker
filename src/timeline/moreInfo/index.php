@@ -217,12 +217,6 @@ class MoreInfo extends Base
   {
     $body = '';
 
-    if(isset($_GET['offset'])) {
-      $offset = $_GET['offset'];
-    } else {
-      $offset = NULL;
-    }
-
     $this->selectThoughtsQuery();
     $sqlResult = $this->fetchData();
 
@@ -231,6 +225,8 @@ class MoreInfo extends Base
       $thoughtId = $row['ThoughtId'];
       $date = $row['DateCreated'];
       $dateModified = $row['DateModified'];
+      $timezone = $row['timezone'];
+      $timezoneOffset = $row['timezoneOffset'];
       $thought = $row['Thought'];
 
       $body .= '<div class="thought';
@@ -238,7 +234,7 @@ class MoreInfo extends Base
       if($hide == 1) {
         $body .= ' hidden-memory';
       }
-      $body .= '"><h2 class="date"><time datetime="' . date('Y-m-d H:i:s', strtotime($date) - intval($offset)) . '">' . date('m/d/Y h:i A', strtotime($date) - intval($offset)) . '</time></h2>
+      $body .= '"><h2 class="date"><time datetime="' . date('Y-m-d H:i:s', strtotime($date) - intval($timezoneOffset)) . '">' . date('m/d/Y h:i A', strtotime($date) - intval($timezoneOffset)) . ' ' . $timezone . '</time></h2>
           <p>' . $thought . '</p>';
           if($this->getIsAdmin()) {
             $body .= '<ul class="row actionButtons">
@@ -263,8 +259,10 @@ class MoreInfo extends Base
        <form action="addThought.php" method="post">
          <textarea name="thought" rows="6" cols="45" required></textarea>
          <input type="hidden" name="id" value="' . $this->getId() . '" />
+         <input type="hidden" id="timezone" name="timezone" />
+         <input type="hidden" id="timezoneOffset" name="timezoneOffset" />
 
-         <input class="thoughtButton" type="submit" value="Add thought" />
+         <input class="thoughtButton" id="thoughtButton" type="submit" value="Add thought" disabled="disabled" />
        </form>';
      }
 

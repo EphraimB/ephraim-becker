@@ -10,6 +10,8 @@ class AddThought
   private $isAdmin;
   private $link;
   private $id;
+  private $timezone;
+  private $timezoneOffset;
   private $thought;
 
   function __construct()
@@ -55,6 +57,26 @@ class AddThought
     return $this->id;
   }
 
+  function setTimezone($timezone): void
+  {
+    $this->timezone = $timezone;
+  }
+
+  function getTimezone(): string
+  {
+    return $this->timezone;
+  }
+
+  function setTimezoneOffset($timezoneOffset): void
+  {
+    $this->timezoneOffset = $timezoneOffset;
+  }
+
+  function getTimezoneOffset(): int
+  {
+    return $this->timezoneOffset;
+  }
+
   function setThought($thought): void
   {
     $this->thought = $thought;
@@ -67,12 +89,14 @@ class AddThought
 
   function addThought(): void
   {
-    $sql = $this->getLink()->prepare("INSERT INTO thoughts (TimelineId, DateCreated, DateModified, Thought)
-    VALUES (?, ?, ?, ?)");
-    $sql->bind_param("isss", $id, $now, $now, $thought);
+    $sql = $this->getLink()->prepare("INSERT INTO thoughts (TimelineId, DateCreated, DateModified, timezone, timezoneOffset, Thought)
+    VALUES (?, ?, ?, ?, ?, ?)");
+    $sql->bind_param("isssis", $id, $now, $now, $timezone, $timezoneOffset, $thought);
 
     $id = $this->getId();
     $now = date("Y-m-d H:i:s");
+    $timezone = $this->getTimezone();
+    $timezoneOffset = $this->getTimezoneOffset();
     $thought = $this->getThought();
 
     $sql->execute();
@@ -89,6 +113,8 @@ $link = $config->connectToServer();
 $addThought = new AddThought();
 $addThought->setLink($link);
 $addThought->setId(intval($_POST['id']));
+$addThought->setTimezone($_POST['timezone']);
+$addThought->setTimezoneOffset(intval($_POST['timezoneOffset']));
 $addThought->setThought($_POST['thought']);
 $addThought->addThought();
 ?>

@@ -1,13 +1,10 @@
-var offsetInfo = new Date().getTimezoneOffset() * 60
-url = new URL(window.location.href);
-
-var newUrl = new URL(window.location);
-newUrl.searchParams.set('offset', offsetInfo);
-window.history.pushState({}, '', newUrl);
+var thoughtButton = document.getElementById("thoughtButton");
+var timezone = document.getElementById("timezone");
+var timezoneOffset = document.getElementById("timezoneOffset");
 
 window.onload = function() {
-  if(!window.location.hash) {
-    window.location = window.location + '#loaded';
-    window.location.reload();
-  }
+  timezone.value = new Date().toLocaleTimeString('en-us',{timeZoneName:'short'}).split(' ')[2];
+  timezoneOffset.value = new Date().getTimezoneOffset()*60;
+
+  thoughtButton.disabled = false;
 }
