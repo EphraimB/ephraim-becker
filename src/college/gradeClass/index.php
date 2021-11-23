@@ -8,10 +8,15 @@ require($_SERVER['DOCUMENT_ROOT'] . "/base.php");
 class GradeClassForm extends Base
 {
   private $isAdmin;
+  private $id;
 
   function __construct()
   {
+    $this->setIsAdmin();
 
+    if(!$this->getIsAdmin()) {
+      header("location: ../");
+    }
   }
 
   function setIsAdmin(): void
@@ -26,6 +31,16 @@ class GradeClassForm extends Base
   function getIsAdmin(): bool
   {
     return $this->isAdmin;
+  }
+
+  function setId($id): void
+  {
+    $this->id = $id;
+  }
+
+  function getId(): int
+  {
+    return $this->id;
   }
 
   function main(): string
@@ -48,7 +63,7 @@ class GradeClassForm extends Base
                   <option value="W">W</option>
                 </select>
               </div>
-              <input type="hidden" name="id" id="id" value="' . $_GET['id'] . '" />
+              <input type="hidden" name="id" id="id" value="' . $this->getId() . '" />
               <br />
               <input type="submit" id="submit" value="Grade class" />
               <br />
@@ -59,7 +74,7 @@ class GradeClassForm extends Base
 }
 
 $gradeClassForm = new GradeClassForm();
-$gradeClassForm->setIsAdmin();
+$gradeClassForm->setId(intval($_GET['id']));
 $gradeClassForm->setLocalStyleSheet("css/style.css");
 $gradeClassForm->setLocalScript(NULL);
 $gradeClassForm->setTitle("Ephraim Becker - Grade class");

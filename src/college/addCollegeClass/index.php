@@ -34,7 +34,7 @@ class AddCollegeClassForm extends Base
 
   function main(): string
   {
-    $html = '<form action="addCollegeClass.php" method="post" enctype="multipart/form-data">
+    $html = '<form action="addCollegeClass.php" method="post">
             <div>
               <label for="semester">College semester:</label>
               <select name="semester" id="semester">
@@ -83,7 +83,6 @@ class AddCollegeClassForm extends Base
 }
 
 $addCollegeClassForm = new AddCollegeClassForm();
-$addCollegeClassForm->setIsAdmin();
 $addCollegeClassForm->setLocalStyleSheet("css/style.css");
 $addCollegeClassForm->setLocalScript(NULL);
 $addCollegeClassForm->setTitle("Ephraim Becker - Add college class");

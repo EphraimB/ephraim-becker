@@ -13,7 +13,11 @@ class RemoveClass
 
   function __construct()
   {
+    $this->setIsAdmin();
 
+    if(!$this->getIsAdmin()) {
+      header("location: index.php");
+    }
   }
 
   function setIsAdmin(): void
@@ -40,14 +44,14 @@ class RemoveClass
     return $this->link;
   }
 
-  function setCollegeId(): void
+  function setCollegeId($id): void
   {
-    $this->college_id = $_GET['id'];
+    $this->college_id = $id;
   }
 
   function getCollegeId(): int
   {
-    return intval($this->college_id);
+    return $this->college_id;
   }
 
   function removeClass(): void
@@ -84,13 +88,8 @@ $link = $config->connectToServer();
 
 $removeClass = new RemoveClass();
 $removeClass->setLink($link);
-$removeClass->setIsAdmin();
 
-if(!$removeClass->getIsAdmin()) {
-  header("location: index.php");
-}
-
-$removeClass->setCollegeId();
+$removeClass->setCollegeId(intval($_GET['id']));
 
 $removeClass->removeClass();
 ?>

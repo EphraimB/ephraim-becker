@@ -9,6 +9,7 @@ require($_SERVER['DOCUMENT_ROOT'] . "/base.php");
 class EditCollegeClassForm extends Base
 {
   private $isAdmin;
+  private $id;
 
   function __construct()
   {
@@ -43,12 +44,22 @@ class EditCollegeClassForm extends Base
     return $this->link;
   }
 
+  function setCollegeId($id): void
+  {
+    $this->id = $id;
+  }
+
+  function getCollegeId(): int
+  {
+    return $this->id;
+  }
+
   function main(): string
   {
     $sql = $this->getLink()->prepare("SELECT * FROM college WHERE college_id = ?");
     $sql->bind_param("i", $collegeId);
 
-    $collegeId = $_GET['id'];
+    $collegeId = $this->getCollegeId();
 
     $sql->execute();
 
@@ -164,6 +175,8 @@ $link = $config->connectToServer();
 
 $editCollegeClassForm = new EditCollegeClassForm();
 $editCollegeClassForm->setLink($link);
+$editCollegeClassForm->setCollegeId(intval($_GET['id']));
+
 $editCollegeClassForm->setLocalStyleSheet("css/style.css");
 $editCollegeClassForm->setLocalScript(NULL);
 $editCollegeClassForm->setTitle("Ephraim Becker - Edit college class");

@@ -14,7 +14,11 @@ class GradeClass
 
   function __construct()
   {
+    $this->setIsAdmin();
 
+    if(!$this->getIsAdmin()) {
+      header("location: ../");
+    }
   }
 
   function setIsAdmin(): void
@@ -51,14 +55,14 @@ class GradeClass
     return $this->grade;
   }
 
-  function setCourseId(): void
+  function setCourseId($id): void
   {
-    $this->course_id = $_POST['id'];
+    $this->course_id = $id;
   }
 
   function getCourseId(): int
   {
-    return intval($this->course_id);
+    return $this->course_id;
   }
 
   function gradeClass(): void
@@ -80,13 +84,8 @@ $link = $config->connectToServer();
 
 $gradeClass = new GradeClass();
 $gradeClass->setLink($link);
-$gradeClass->setIsAdmin();
 
-if(!$gradeClass->getIsAdmin()) {
-  header("location: ../");
-}
-
-$gradeClass->setCourseId();
+$gradeClass->setCourseId(intval($_POST['id']));
 $gradeClass->setGrade($_POST['grade']);
 
 $gradeClass->gradeClass();

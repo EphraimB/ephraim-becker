@@ -57,21 +57,14 @@ class College extends Base
     return $this->query;
   }
 
-  function getTotalCredits(): string
+  function setTotalCredits($totalCredits): void
   {
-    return $this->totalCredits;
+    $this->totalCredits = $totalCredits;
   }
 
-  function setTotalCredits(): void
+  function getTotalCredits(): int
   {
-    $sql = "SELECT SUM(credits) AS 'totalCredits' FROM college JOIN course ON college.course_id = course.course_id JOIN semester ON college.semester_id = semester.semester_id WHERE grade < 'F'";
-    $sqlResult = mysqli_query($this->getLink(), $sql);
-
-    while($row = mysqli_fetch_array($sqlResult)) {
-      $totalCredits = $row['totalCredits'];
-    }
-
-    $this->totalCredits = $totalCredits;
+    return $this->totalCredits;
   }
 
   function setDegree($degree): void
@@ -185,6 +178,14 @@ class College extends Base
 
   function main(): string
   {
+    $sql = "SELECT SUM(credits) AS 'totalCredits' FROM college JOIN course ON college.course_id = course.course_id JOIN semester ON college.semester_id = semester.semester_id WHERE grade < 'F'";
+    $sqlResult = mysqli_query($this->getLink(), $sql);
+
+    while($row = mysqli_fetch_array($sqlResult)) {
+      $totalCredits = $row['totalCredits'];
+    }
+    $this->setTotalCredits(intval($totalCredits));
+
     $html = '<table>';
     $html .= $this->addCollegeInformation();
     $html .= $this->generateCollegeInformation();
@@ -250,7 +251,6 @@ $link = $config->connectToServer();
 $college = new College();
 $college->setLink($link);
 $college->setIsAdmin();
-$college->setTotalCredits();
 $college->setCollegeName("Landers College for men");
 $college->setDegree("BS");
 $college->setMajor("Computer Science");

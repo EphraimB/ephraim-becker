@@ -12,7 +12,11 @@ class Confirmation extends Base
 
   function __construct()
   {
+    $this->setIsAdmin();
 
+    if(!$this->getIsAdmin()) {
+      header("location: index.php");
+    }
   }
 
   function setIsAdmin(): void
@@ -29,14 +33,14 @@ class Confirmation extends Base
     return $this->isAdmin;
   }
 
-  function setCollegeId(): void
+  function setCollegeId($id): void
   {
-    $this->college_id = $_GET['id'];
+    $this->college_id = $id;
   }
 
   function getCollegeId(): int
   {
-    return intval($this->college_id);
+    return $this->college_id;
   }
 
   function main(): string
@@ -53,13 +57,8 @@ class Confirmation extends Base
 }
 
 $confirmation = new Confirmation();
-$confirmation->setIsAdmin();
 
-if(!$confirmation->getIsAdmin()) {
-  header("location: index.php");
-}
-
-$confirmation->setCollegeId();
+$confirmation->setCollegeId(intval($_GET['id']));
 
 $confirmation->setTitle("Ephraim Becker - College - Confirmation");
 $confirmation->setLocalStyleSheet("css/style.css");

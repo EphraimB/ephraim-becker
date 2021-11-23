@@ -9,10 +9,15 @@ class AddClass
 {
   private $isAdmin;
   private $link;
+  private $semesterId;
 
   function __construct()
   {
+    $this->setIsAdmin();
 
+    if(!$this->getIsAdmin()) {
+      header("location: ../");
+    }
   }
 
   function setIsAdmin(): void
@@ -39,6 +44,16 @@ class AddClass
     return $this->link;
   }
 
+  function setSemesterId($semesterId): void
+  {
+    $this->semesterId = $semesterId;
+  }
+
+  function getSemesterId(): int
+  {
+    return $this->semesterId;
+  }
+
   function addClass(): void
   {
     $sql = $this->getLink()->prepare("INSERT INTO course (courseCodeName, CourseName, courseType, credits) VALUES (?, ?, ?, ?)");
@@ -57,7 +72,7 @@ class AddClass
     $sqlTwo->bind_param("ii", $courseId, $semesterId);
 
     $courseId = $last_id;
-    $semesterId = $_POST['semester'];
+    $semesterId = $this->getSemesterId();
 
     $sqlTwo->execute();
 
@@ -70,11 +85,7 @@ $link = $config->connectToServer();
 
 $addClass = new AddClass();
 $addClass->setLink($link);
-$addClass->setIsAdmin();
-
-if(!$addClass->getIsAdmin()) {
-  header("location: ../");
-}
+$addClass->setSemesterId(intval($_POST['semester']));
 
 $addClass->addClass();
 ?>
