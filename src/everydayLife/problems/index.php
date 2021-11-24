@@ -114,37 +114,6 @@ class Problems extends Base
       </tr>
     </table>';
 
-    // $body = '
-    // <table>
-    //   <tr>
-    //     <th>Fake neurotypical friends</th>
-    //     <th>Real friends on the autism spectrum</th>
-    //   </tr>
-    //   <tr>
-    //     <td>Right when he meets you he\'ll say "Best Friend!" and barely talks to you</td>
-    //     <td>Friendship takes time and builds up by helping each other out</td>
-    //   </tr>
-    //   <tr>
-    //     <td>Will tell you that you\'re perfect</td>
-    //     <td>No one is perfect and will both point out problems to relate to each other</td>
-    //   </tr>
-    //   <tr>
-    //     <td>Will call you every day annoyingly</td>
-    //     <td>Will give you space since he will understand you from needing space himself</td>
-    //   </tr>
-    //   <tr>
-    //     <td>Won\'t tell you when you\'re doing something wrong</td>
-    //     <td>Will tell you when you\'re doing something wrong in a friendly way and help you work on it</td>
-    //   </tr>
-    //   <tr>
-    //     <td>Wouldn\'t do anything about it if a parent refuses to do something his friend would want</td>
-    //     <td>Would plead and try to convince the parent to do that thing his friend wants showing that he cares</td>
-    //   </tr>
-    //   <tr>
-    //     <td colspan="2">And more...</td>
-    //   </tr>
-    // </table>';
-
     return $body;
   }
 
