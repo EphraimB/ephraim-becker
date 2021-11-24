@@ -99,7 +99,7 @@ class Problems extends Base
 
         if($this->getIsAdmin()) {
           $body .= '
-          <td class="row actionButtons">
+          <td class="actionButtons">
             <a class="edit" href="editDemographicRow/index.php?id=' . $id . '">Edit</a>
             <a class="delete" href="confirmationDemographicRow.php?id=' . $id . '">Delete</a>
           </td>';
@@ -189,6 +189,7 @@ class Problems extends Base
     $body = $this->problemsSummary();
     $body .= $this->addDemographicCompareRow();
     $body .= $this->demographicComparison();
+    $body .= '<br />';
     $body .= $this->comfortZone();
 
     return $body;
