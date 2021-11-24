@@ -55,6 +55,21 @@ class Problems extends Base
       return $html;
   }
 
+  function addComfortZone(): string
+  {
+    if($this->getIsAdmin()) {
+      $html = '<div class="row">
+            <ul class="subNav">
+              <li><a style="text-decoration: none;" href="addComfortZone/">+</a></li>
+            </ul>
+          </div>';
+      } else {
+        $html = '';
+      }
+
+    return $html;
+  }
+
   function problemsSummary(): string
   {
     $body = '<p>My biggest problem I have is a hard time making and keeping friends. I want friends only on the autism spectrum so that they would be real friends and can relate to each other. There\'s a difference between the fake friends I had in Darchei and friends on the autism spectrum. It\'s so frustrating trying to make friends alone and even if I make friends, keeping them is another hard thing in itself. I ruined a lot of chances on making friends in Camp Kaylie due to looking at other people\'s medications and acting very immature. What I did immature was upgrading other people\'s phones without permission and doing pranks on people. I no longer do that anymore.</p>
@@ -159,6 +174,7 @@ class Problems extends Base
     $body .= $this->addDemographicCompareRow();
     $body .= $this->demographicComparison();
     $body .= '<br />';
+    $body .= $this->addComfortZone();
     $body .= $this->comfortZone();
 
     return $body;
