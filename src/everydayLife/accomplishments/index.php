@@ -24,13 +24,6 @@ class Accomplishments extends Base
             </a>
           </div>
           <div style="background-color: green;" class="card">
-            <a href="../../../college/">
-              <h2>College</h2>
-              <p>I\'m in middle of college</p>
-              <p>Click to view</p>
-            </a>
-          </div>
-          <div style="background-color: green;" class="card">
             <a href="gamingSetup/">
               <h2>I built my own computer</h2>
               <p>I built my own gaming computer with a semi-fancy setup</p>
