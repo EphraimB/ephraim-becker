@@ -5,7 +5,7 @@ session_start();
 
 require($_SERVER['DOCUMENT_ROOT'] . "/base.php");
 
-class AddComfortZone extends Base
+class AddComfortZoneForm extends Base
 {
   private $isAdmin;
 
@@ -55,13 +55,13 @@ class AddComfortZone extends Base
       return $body;
   }
 }
-$addComfortZone = new AddComfortZone();
-$addComfortZone->setLocalStyleSheet("css/style.css");
-$addComfortZone->setLocalScript(NULL);
-$addComfortZone->setTitle("Ephraim Becker - Everyday Life - Problems - Add comfort zone");
-$addComfortZone->setHeader("Everyday Life - Problems - Add comfort zone");
-$addComfortZone->setUrl($_SERVER['REQUEST_URI']);
-$addComfortZone->setBody($addComfortZone->main());
+$addComfortZoneForm = new AddComfortZoneForm();
+$addComfortZoneForm->setLocalStyleSheet("css/style.css");
+$addComfortZoneForm->setLocalScript(NULL);
+$addComfortZoneForm->setTitle("Ephraim Becker - Everyday Life - Problems - Add comfort zone");
+$addComfortZoneForm->setHeader("Everyday Life - Problems - Add comfort zone");
+$addComfortZoneForm->setUrl($_SERVER['REQUEST_URI']);
+$addComfortZoneForm->setBody($addComfortZoneForm->main());
 
-$addComfortZone->html();
+$addComfortZoneForm->html();
 ?>
