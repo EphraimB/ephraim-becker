@@ -73,7 +73,7 @@ class Goals extends Base
       $body .= '</tr>';
 
       while($row = mysqli_fetch_array($sqlResult)) {
-        $goalId = $row['GoalId'];
+        $id = $row['GoalId'];
         $goal = $row['Goal'];
         $how = $row['How'];
 
