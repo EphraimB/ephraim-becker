@@ -114,19 +114,45 @@ class Goals extends Base
 
   function goalLog(): string
   {
+    $sql = "SELECT * FROM GoalLog JOIN goals ON GoalLog.GoalId = goals.GoalId";
+    $sqlResult = mysqli_query($this->getLink(), $sql);
+
     $body = '<h2>Goal log</h2>
     <table>
       <tr>
         <th>Date</th>
-        <th>Goal worked on</th>
-        <th>Log</th>
-      </tr>
-      <tr>
-        <td></td>
-        <td></td>
-        <td></td>
-      </tr>
-    </table>';
+        <th>Goal working on</th>
+        <th>Log</th>';
+
+        if($this->getIsAdmin()) {
+          $body .= '<th>Actions</th>';
+        }
+
+      $body .= '</tr>';
+
+      while($row = mysqli_fetch_array($sqlResult)) {
+        $id = $row['GoalLogId'];
+        $goal = $row['Goal'];
+        $log = $row['Log'];
+        $dateCreated = $row['DateCreated'];
+
+        $body .= '
+        <tr>
+          <td>' . $dateCreated . '</td>
+          <td>' . $goal . '</td>
+          <td>' . $log . '</td>';
+
+          if($this->getIsAdmin()) {
+            $body .= '
+              <td class="actionButtons">
+                <a class="edit" href="editGoalLog/index.php?id=' . $id . '">Edit</a>
+                <a class="delete" href="confirmationGoalLog.php?id=' . $id . '">Delete</a>
+              </td>';
+          }
+          $body .= '</tr>';
+        }
+
+        $body .= '</table>';
 
     return $body;
   }
