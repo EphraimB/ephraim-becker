@@ -43,15 +43,15 @@ class AddToGamingSetupForm extends Base
             </div>
             <br />
             <div>
-              <label for="originalModel">Model:</label>
+              <label for="model">Model:</label>
               <br />
-              <input type="text" id="originalModel" name="originalModel" required />
+              <input type="text" id="model" name="model" required />
             </div>
             <br />
             <div>
-              <label for="originalModelPrice">Price:</label>
+              <label for="price">Price:</label>
               <br />
-              $<input type="number" step="0.01" id="originalModelPrice" name="originalModelPrice" required />
+              $<input type="number" step="0.01" id="price" name="price" required />
             </div>
           </div>
           <br />

@@ -10,8 +10,8 @@ class AddToGamingSetup
   private $isAdmin;
   private $link;
   private $component;
-  private $originalModel;
-  private $originalModelPrice;
+  private $model;
+  private $price;
 
   function __construct()
   {
@@ -56,34 +56,34 @@ class AddToGamingSetup
     return $this->component;
   }
 
-  function setOriginalModel($originalModel): void
+  function setModel($model): void
   {
-    $this->originalModel = $originalModel;
+    $this->model = $model;
   }
 
-  function getOriginalModel(): string
+  function getModel(): string
   {
-    return $this->originalModel;
+    return $this->model;
   }
 
-  function setOriginalModelPrice($originalModelPrice): void
+  function setPrice($price): void
   {
-    $this->originalModelPrice = $originalModelPrice;
+    $this->price = $price;
   }
 
-  function getOriginalModelPrice(): float
+  function getPrice(): float
   {
-    return $this->originalModelPrice;
+    return $this->price;
   }
 
   function addToGamingSetup(): void
   {
-    $sql = $this->getLink()->prepare("INSERT INTO GamingSetup (Component, OriginalModel, OriginalModelPrice, DateCreated, DateModified) VALUES (?, ?, ?, ?, ?)");
-    $sql->bind_param('ssdss', $component, $originalModel, $originalModelPrice, $dateNow, $dateNow);
+    $sql = $this->getLink()->prepare("INSERT INTO GamingSetup (Component, Model, Price, DateCreated, DateModified) VALUES (?, ?, ?, ?, ?)");
+    $sql->bind_param('ssdss', $component, $model, $price, $dateNow, $dateNow);
 
     $component = $this->getComponent();
-    $originalModel = $this->getOriginalModel();
-    $originalModelPrice = $this->getOriginalModelPrice();
+    $model = $this->getModel();
+    $price = $this->getPrice();
 
     $dateNow = date("Y-m-d H:i:s");
 
@@ -99,8 +99,8 @@ $link = $config->connectToServer();
 $addToGamingSetup = new AddToGamingSetup();
 $addToGamingSetup->setLink($link);
 $addToGamingSetup->setComponent($_POST['component']);
-$addToGamingSetup->setOriginalModel($_POST['originalModel']);
-$addToGamingSetup->setOriginalModelPrice(floatval($_POST['originalModelPrice']));
+$addToGamingSetup->setModel($_POST['model']);
+$addToGamingSetup->setPrice(floatval($_POST['price']));
 
 $addToGamingSetup->addToGamingSetup();
 ?>

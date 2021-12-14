@@ -75,10 +75,8 @@ class GamingSetup extends Base
     <table>
       <tr>
         <th>Component</th>
-        <th>Original model</th>
-        <th>Current model</th>
-        <th>Original model price</th>
-        <th>Current model price</th>';
+        <th>Model</th>
+        <th>Price</th>';
 
         if($this->getIsAdmin()) {
           $body .= '<th>Actions</th>';
@@ -89,18 +87,14 @@ class GamingSetup extends Base
       while($row = mysqli_fetch_array($sqlResult)) {
         $id = $row['GamingSetupId'];
         $component = $row['Component'];
-        $originalModel = $row['OriginalModel'];
-        $currentModel = $row['CurrentModel'];
-        $originalModelPrice = $row['OriginalModelPrice'];
-        $currentModelPrice = $row['CurrentModelPrice'];
+        $model = $row['Model'];
+        $price = $row['Price'];
 
         $body .= '
         <tr>
           <td>' . $component . '</td>
-          <td>' . $originalModel . '</td>
-          <td>' . $currentModel . '</td>
-          <td>$' . $originalModelPrice . '</td>
-          <td>$' . $currentModelPrice . '</td>
+          <td>' . $model . '</td>
+          <td>$' . $price . '</td>
         ';
 
       if($this->getIsAdmin()) {
