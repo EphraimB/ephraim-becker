@@ -51,3 +51,12 @@
 .edit:hover {
   background-color: lightyellow;
 }
+
+.keep {
+  background-color: green;
+  color: white;
+}
+
+.keep:hover {
+  background-color: lightgreen;
+}
