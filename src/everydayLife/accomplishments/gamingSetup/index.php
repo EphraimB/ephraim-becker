@@ -71,6 +71,13 @@ class GamingSetup extends Base
     $sql = "SELECT * FROM GamingSetup";
     $sqlResult = mysqli_query($this->getLink(), $sql);
 
+    $sqlTwo = "SELECT SUM(Price) AS TotalPrice FROM GamingSetup";
+    $sqlTwoResult = mysqli_query($this->getLink(), $sqlTwo);
+
+    while($rowTwo = mysqli_fetch_array($sqlTwoResult)) {
+      $totalPrice = $rowTwo['TotalPrice'];
+    }
+
     $body = '
     <table>
       <tr>
@@ -107,6 +114,10 @@ class GamingSetup extends Base
 
       $body .= '</tr>';
     }
+
+    $body .= '<tr>
+       <td colspan="3"><span style="font-weight: bold;">Total:</span> $' . $totalPrice . '</td>
+     </tr>';
 
     $body .= '</table>';
 
