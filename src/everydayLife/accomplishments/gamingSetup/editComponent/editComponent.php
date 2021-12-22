@@ -89,7 +89,7 @@ class EditComponent
 
   function editComponent(): void
   {
-    $sql = $this->getLink()->prepare("UPDATE GamingSetup SET Component = ?, Model = ?, Price = ?, dateModified = ? WHERE GamingSetupId = ?");
+    $sql = $this->getLink()->prepare("UPDATE GamingSetup SET Component = ?, Model = ?, Price = ?, DateModified = ? WHERE GamingSetupId = ?");
     $sql->bind_param('ssdsi', $component, $model, $price, $dateNow, $id);
 
     $component = $this->getComponent();
