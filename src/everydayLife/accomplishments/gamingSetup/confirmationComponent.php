@@ -45,7 +45,7 @@ class ComponentConfirmation extends Base
 
   function main(): string
   {
-    $body = '<h2>Are you sure you want to delete this comfort zone?</h2>
+    $body = '<h2>Are you sure you want to delete this component?</h2>
         <div class="row actionButtons">
           <a class="keep" href="index.php">No</a>
           <a class="delete" href="deleteComponent.php?id=' . $this->getId() . '">Yes</a>
