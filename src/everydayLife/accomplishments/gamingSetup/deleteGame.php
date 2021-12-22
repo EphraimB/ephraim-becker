@@ -5,7 +5,7 @@ session_start();
 
 require_once($_SERVER['DOCUMENT_ROOT'] . '/environment.php');
 
-class DeleteComponent
+class DeleteGame
 {
   private $link;
   private $isAdmin;
@@ -54,9 +54,9 @@ class DeleteComponent
     return $this->id;
   }
 
-  function deleteComponent(): void
+  function deleteGame(): void
   {
-    $sql = $this->getLink()->prepare("DELETE FROM GamingSetup WHERE GamingSetupId=?");
+    $sql = $this->getLink()->prepare("DELETE FROM ComputerGames WHERE ComputerGamesId=?");
     $sql->bind_param("i", $id);
 
     $id = $this->getId();
@@ -72,8 +72,8 @@ class DeleteComponent
 $config = new Config();
 $link = $config->connectToServer();
 
-$deleteComponent = new DeleteComponent();
-$deleteComponent->setLink($link);
-$deleteComponent->setId(intval($_GET['id']));
-$deleteComponent->deleteComponent();
+$deleteGame = new DeleteGame();
+$deleteGame->setLink($link);
+$deleteGame->setId(intval($_GET['id']));
+$deleteGame->deleteGame();
 ?>
