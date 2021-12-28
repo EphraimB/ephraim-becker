@@ -1,0 +1,24 @@
+.grid-container {
+  display: grid;
+  grid-template-columns: auto auto;
+  padding: 10px;
+}
+
+input[type=submit] {
+  background-color: blue;
+  color: white;
+  border: 0;
+  padding: 16px 32px;
+  width: 100%;
+  cursor: pointer;
+}
+
+input[type=submit]:hover {
+  background-color: lightblue;
+}
+
+@media screen and (max-width: 800px) {
+  .grid-container {
+    grid-template-columns: 2fr;
+  }
+}

@@ -1,0 +1,62 @@
+.row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.subNav {
+  overflow: hidden;
+  position: relative;
+  height: 25%;
+  list-style-type: none;
+}
+
+.subNav li {
+  float: left;
+}
+
+.subNav a {
+  text-decoration: none;
+  display: block;
+  padding: 14px 16px;
+  background-color: green;
+  color: white;
+}
+
+.subNav a:hover {
+  background-color: lightgreen;
+}
+
+.actionButtons a {
+  text-decoration: none;
+  display: block;
+  padding: 14px 16px;
+}
+
+.delete {
+  background-color: red;
+  color: white;
+}
+
+.delete:hover {
+  background-color: Crimson;
+}
+
+.edit {
+  background-color: yellow;
+  color: black;
+}
+
+.edit:hover {
+  background-color: lightyellow;
+}
+
+.keep {
+  background-color: green;
+  color: white;
+}
+
+.keep:hover {
+  background-color: lightgreen;
+}
