@@ -1,5 +1,5 @@
 FROM php:8.0-apache
-COPY ./src/ /var/www/html/
+COPY ./ /var/www/html/
 
 RUN apt-get update -y && apt-get install -y libpng-dev libjpeg-dev
 

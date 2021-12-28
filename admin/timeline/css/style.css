@@ -1,0 +1,179 @@
+.remembered-memory {
+  background-color: lightgrey;
+  color: black;
+}
+
+.diary-memory {
+  background-color: green;
+  color: white;
+}
+
+a {
+  background-color: white;
+  color: blue;
+}
+
+.more-info-link {
+  text-decoration: none;
+  color: inherit;
+  background-color: inherit;
+}
+
+.more-info-link img {
+  background-color: inherit;
+}
+
+.hidden-memory {
+  opacity: 0.5;
+}
+
+.subNav, .actionButtons {
+  overflow: hidden;
+  position: relative;
+  height: 25%;
+  list-style-type: none;
+}
+
+.subNav li, .actionButtons a {
+  float: left;
+}
+
+.subNav a {
+  text-decoration: none;
+  display: block;
+  padding: 14px 16px;
+  background-color: green;
+  color: white;
+}
+
+.subNav a:hover {
+  background-color: lightgreen;
+}
+
+.actionButtons a {
+  text-decoration: none;
+  display: block;
+  padding: 14px 16px;
+}
+
+.edit {
+  background-color: yellow;
+  color: black;
+}
+
+.edit:hover {
+  background-color: lightyellow;
+}
+
+.hide {
+  background-color: white;
+  color: black;
+}
+
+.hide:hover {
+  background-color: grey;
+}
+
+.delete {
+  background-color: red;
+  color: white;
+}
+
+.delete:hover {
+  background-color: Crimson;
+}
+
+.keep {
+  background-color: green;
+  color: white;
+}
+
+.keep:hover {
+  background-color: lightgreen;
+}
+
+.thought {
+  background-color: rgb(255, 215, 0);
+  color: black;
+}
+
+.thoughtButton {
+  background-color: rgb(255, 215, 0);
+  color: black;
+  border: 0;
+  width: 100%;
+  padding: 16px 32px;
+  cursor: pointer;
+}
+
+.thoughtButton:hover {
+  background-color: rgb(250, 250, 210);
+}
+
+.card {
+  margin: 10px;
+  padding: 10px;
+}
+
+.card a {
+  text-decoration: none;
+  color: white;
+}
+
+.album-cover {
+  background-color: lightgrey;
+  color: black;
+  cursor: pointer;
+}
+
+.event {
+  cursor: pointer;
+}
+
+#grid-container {
+  display: grid;
+  grid-template-columns: 4fr;
+  padding: 10px;
+}
+
+.number-of-thoughts {
+  border-radius: 25px;
+  background-color: red;
+  color: white;
+  width: 10px;
+  height: 10px;
+  padding: 10px;
+  position: absolute;
+  top: 5px;
+  right: 5px;
+}
+
+.row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.navButton {
+  background-color: lightgrey;
+  color: black;
+  width: 50px;
+  height: 50px;
+  border-radius: 25px;
+  cursor: pointer;
+}
+
+@media screen and (min-width: 1024px) {
+  ol {
+    text-align: left;
+  }
+
+  .subNav a {
+    padding: 25px;
+  }
+
+  #grid-container {
+    grid-template-columns: auto auto auto;
+  }
+}
