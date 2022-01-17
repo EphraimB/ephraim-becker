@@ -94,6 +94,9 @@ class Base
       <head>
         <meta charset="utf-8">
         <title>' . $this->getTitle() . '</title>
+        <script src="' . $this->getDocumentRoot() . '/js/wheelnav.min.js"></script>
+        <script src="' . $this->getDocumentRoot() . '/js/raphael.min.js"></script>
+        <script src="' . $this->getDocumentRoot() . '/js/raphael.icons.min.js"></script>
         <link rel="stylesheet" href="' . $this->getDocumentRoot() . '/css/style.css" />';
 
         if($this->getLocalStyleSheet() != NULL) {
@@ -114,32 +117,45 @@ class Base
   function nav(): string
   {
     $html = '
-      <nav>
-        <ul>
-          <li id="first"><img src="' . $this->getDocumentRoot() . '/img/ephraim-becker.jpg" alt="Photo of Ephraim Becker" width="70px" height="70px" /></li>
-          <li id="hamburger-icon"><a href="javascript:;" onclick="toggleNavMenu()">&#9776;</a></li>
-          <div id="links">
-            <li><a href="' . $this->getDocumentRoot() . '/index.php">Home</a></li>
-            <li><a href="' . $this->getDocumentRoot() . '/timeline/">Timeline</a></li>
-            <div id="dropdown">
-              <li><a href="javascript:;" onclick="toggleNavSubmenu()">Daily Life &emsp; &#x25BC;</a></li>
-              <div id="dropdown-content">
-                <li><a href="' . $this->getDocumentRoot() . '/everydayLife/">Everyday Life</a></li>
-                <li><a href="' . $this->getDocumentRoot() . '/college/">College Life</a></li>
-              </div>
-            </div>
-            <li><a href="' . $this->getDocumentRoot() . '/projects/">Projects</a></li>
-            <li><a href="' . $this->getDocumentRoot() . '/resources/">Resources</a></li>
-            <li><a href="' . $this->getDocumentRoot() . '/about/">About</a></li>';
+        <nav id="divWheel" data-wheelnav data-wheelnav-titlewidth="50" data-wheelnav-titleheight="50">
+          <div data-wheelnav-navitemtext="home"><a href="' . $this->getDocumentRoot() . '/index.php">Home</a></div>
+          <div data-wheelnav-navitemtext="1""></div>
+          <div data-wheelnav-navitemtext="2"><a href="#navitem"></a></div>
+          <div data-wheelnav-navitemimg="../wheelnav_favicon.png"></div>
+        </nav>
 
-            if(isset($_SESSION['username'])) {
-              $html .= '<li><a href="' . $this->getDocumentRoot() . '/adminLogout.php?fromUrl=' . $this->getUrl() . '">Logout</a></li>';
-            } else {
-              $html .= '<li><a href="' . $this->getDocumentRoot() . '/adminLogin/index.php?fromUrl=' . $this->getUrl() . '">Login</a></li>';
-            }
-          $html .= '</div>
-        </ul>
-      </nav>';
+      <script>
+      var wheel = new wheelnav("divWheel");
+      wheel.createWheel();
+      </script>';
+
+    // $html .= '
+    //   <nav>
+    //     <ul>
+    //       <li id="first"><img src="' . $this->getDocumentRoot() . '/img/ephraim-becker.jpg" alt="Photo of Ephraim Becker" width="70px" height="70px" /></li>
+    //       <li id="hamburger-icon"><a href="javascript:;" onclick="toggleNavMenu()">&#9776;</a></li>
+    //       <div id="links">
+    //         <li><a href="' . $this->getDocumentRoot() . '/index.php">Home</a></li>
+    //         <li><a href="' . $this->getDocumentRoot() . '/timeline/">Timeline</a></li>
+    //         <div id="dropdown">
+    //           <li><a href="javascript:;" onclick="toggleNavSubmenu()">Daily Life &emsp; &#x25BC;</a></li>
+    //           <div id="dropdown-content">
+    //             <li><a href="' . $this->getDocumentRoot() . '/everydayLife/">Everyday Life</a></li>
+    //             <li><a href="' . $this->getDocumentRoot() . '/college/">College Life</a></li>
+    //           </div>
+    //         </div>
+    //         <li><a href="' . $this->getDocumentRoot() . '/projects/">Projects</a></li>
+    //         <li><a href="' . $this->getDocumentRoot() . '/resources/">Resources</a></li>
+    //         <li><a href="' . $this->getDocumentRoot() . '/about/">About</a></li>';
+    //
+    //         if(isset($_SESSION['username'])) {
+    //           $html .= '<li><a href="' . $this->getDocumentRoot() . '/adminLogout.php?fromUrl=' . $this->getUrl() . '">Logout</a></li>';
+    //         } else {
+    //           $html .= '<li><a href="' . $this->getDocumentRoot() . '/adminLogin/index.php?fromUrl=' . $this->getUrl() . '">Login</a></li>';
+    //         }
+    //       $html .= '</div>
+    //     </ul>
+    //   </nav>';
 
       return $html;
     }
@@ -178,7 +194,8 @@ class Base
 
     function scripts(): string
     {
-      $html = '<script src="' . $this->getDocumentRoot() . '/js/script.js"></script>';
+      // $html = '<script src="' . $this->getDocumentRoot() . '/js/script.js"></script>';
+      $html = '';
 
       if($this->getLocalScript() != NULL) {
         $html .= '<script src="' . $this->getLocalScript() . '"></script>';

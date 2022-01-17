@@ -3,11 +3,11 @@ html {
   text-align: center;
 }
 
-.focus {
+/* .focus {
   font-weight: bold;
-}
+} */
 
-#first {
+/* #first {
     display: none;
   }
 
@@ -20,7 +20,7 @@ html {
 
 #hamburger-icon a {
   text-align: center;
-}
+} */
 
 #profileCard {
   padding: 18px;
@@ -30,7 +30,7 @@ html {
   margin-top: 100px;
 }
 
-nav ul {
+/* nav ul {
   overflow: hidden;
   position: relative;
   height: 25%;
@@ -71,7 +71,7 @@ nav ul a:hover {
 #dropdown-content li a:hover {
   background-color: rgb(0, 0, 255);
   color: rgb(255, 255, 255);
-}
+} */
 
 table {
   margin-left: auto;
@@ -111,7 +111,7 @@ footer p {
     max-width: 900px;
   }
 
-  nav {
+  /* nav {
     overflow: hidden;
   }
 
@@ -148,7 +148,7 @@ footer p {
 
   #hamburger-icon {
     display: none;
-  }
+  } */
 
   div iframe {
     width: 560px;
