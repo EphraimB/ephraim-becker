@@ -41,3 +41,14 @@
 // }
 //
 // highlightNavItem();
+
+var piemenu = new wheelnav("piemenu");
+piemenu.wheelRadius = piemenu.wheelRadius * 0.83;
+piemenu.spreaderEnable = true;
+piemenu.spreaderInTitle = "imgsrc:/img/ephraim-becker-round-list.png";
+piemenu.spreaderOutTitle = "imgsrc:/img/ephraim-becker-round.png";
+piemenu.spreaderOutTitleHeight = 125;
+piemenu.spreaderInTitleHeight = 125;
+piemenu.spreaderRadius = 0;
+piemenu.createWheel();
+piemenu.setTooltips(["Home","Timeline","Daily Life","checked","star"]);

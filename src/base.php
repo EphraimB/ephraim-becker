@@ -121,30 +121,16 @@ class Base
     <nav>
         <div id="piemenu" data-wheelnav
  data-wheelnav-slicepath="DonutSlice"
- data-wheelnav-rotateoff
  data-wheelnav-navangle="270"
  data-wheelnav-titleheight="45"
  data-wheelnav-cssmode
  data-wheelnav-init>
           <div data-wheelnav-navitemicon="home"><a href="' . $this->getDocumentRoot() . '/index.php">Home</a></div>
           <div data-wheelnav-navitemtext="Timeline"><a href="' . $this->getDocumentRoot() . '/timeline/">Timeline</a></div>
-          <div data-wheelnav-navitemtext="2"><a href="#navitem"></a></div>
+          <div data-wheelnav-navitemtext="Daily Life"><a href="#navitem"></a></div>
           <div data-wheelnav-navitemimg="../wheelnav_favicon.png"></div>
       </div>
-    </nav>
-
-      <script>
-        var piemenu = new wheelnav("piemenu");
-        piemenu.wheelRadius = piemenu.wheelRadius * 0.83;
-        piemenu.spreaderEnable = true;
-        piemenu.spreaderInTitle = "imgsrc:/img/ephraim-becker-round-list.png";
-        piemenu.spreaderOutTitle = "imgsrc:/img/ephraim-becker-round.png";
-        piemenu.spreaderOutTitleHeight = 125;
-        piemenu.spreaderInTitleHeight = 125;
-        piemenu.spreaderRadius = 0;
-        piemenu.createWheel();
-        piemenu.setTooltips(["home","timeline","checkbox","checked","star"]);
-      </script>';
+    </nav>';
 
     // $html .= '
     //   <nav>
@@ -211,8 +197,7 @@ class Base
 
     function scripts(): string
     {
-      // $html = '<script src="' . $this->getDocumentRoot() . '/js/script.js"></script>';
-      $html = '';
+      $html = '<script src="' . $this->getDocumentRoot() . '/js/script.js"></script>';
 
       if($this->getLocalScript() != NULL) {
         $html .= '<script src="' . $this->getLocalScript() . '"></script>';
