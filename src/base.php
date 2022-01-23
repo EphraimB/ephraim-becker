@@ -94,10 +94,10 @@ class Base
       <head>
         <meta charset="utf-8">
         <title>' . $this->getTitle() . '</title>
-        <script src="' . $this->getDocumentRoot() . 'wheelnav-master/js/required/raphael.min.js"></script>
-        <script src="' . $this->getDocumentRoot() . 'wheelnav-master/js/required/raphael.icons.min.js"></script>
-        <script src="' . $this->getDocumentRoot() . 'wheelnav-master/js/dist/wheelnav.min.js"></script>
-        <link rel="stylesheet" href="' . $this->getDocumentRoot() . 'wheelnav-master/css/index.css" />
+        <script src="' . $this->getDocumentRoot() . '/wheelnav-master/js/required/raphael.min.js"></script>
+        <script src="' . $this->getDocumentRoot() . '/wheelnav-master/js/required/raphael.icons.min.js"></script>
+        <script src="' . $this->getDocumentRoot() . '/wheelnav-master/js/dist/wheelnav.min.js"></script>
+        <link rel="stylesheet" href="' . $this->getDocumentRoot() . '/wheelnav-master/css/index.css" />
         <link rel="stylesheet" href="' . $this->getDocumentRoot() . '/css/style.css" />';
 
         if($this->getLocalStyleSheet() != NULL) {
@@ -118,13 +118,28 @@ class Base
   function nav(): string
   {
     $html = '
-        <nav id="divWheel" data-wheelnav data-wheelnav-colors="#E34C26,#F06529" data-wheelnav-slicepath="DonutSlice" data-wheelnav-navangle="30"
-data-wheelnav-init>
+    <nav>
+        <div id="piemenu" data-wheelnav
+ data-wheelnav-slicepath="DonutSlice"
+ data-wheelnav-rotateoff
+ data-wheelnav-navangle="270"
+ data-wheelnav-titleheight="45"
+ data-wheelnav-cssmode
+ data-wheelnav-init>
           <div data-wheelnav-navitemicon="home"><a href="/index.php">Home</a></div>
-          <div data-wheelnav-navitemtext="1""></div>
+          <div data-wheelnav-navitemtext="1"></div>
           <div data-wheelnav-navitemtext="2"><a href="#navitem"></a></div>
           <div data-wheelnav-navitemimg="../wheelnav_favicon.png"></div>
-      </nav>';
+      </div>
+    </nav>
+
+      <script>
+        var piemenu = new wheelnav("piemenu");
+        piemenu.clockwise = false;
+        piemenu.wheelRadius = piemenu.wheelRadius * 0.83;
+        piemenu.createWheel();
+        piemenu.setTooltips(["check","image","checkbox","checked","star"]);
+      </script>';
 
     // $html .= '
     //   <nav>

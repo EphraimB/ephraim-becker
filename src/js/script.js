@@ -41,5 +41,3 @@
 // }
 //
 // highlightNavItem();
-
-wheel = new wheelnav('wheelDiv');
