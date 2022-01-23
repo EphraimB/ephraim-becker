@@ -126,8 +126,8 @@ class Base
  data-wheelnav-titleheight="45"
  data-wheelnav-cssmode
  data-wheelnav-init>
-          <div data-wheelnav-navitemicon="home"><a href="/index.php">Home</a></div>
-          <div data-wheelnav-navitemtext="1"></div>
+          <div data-wheelnav-navitemicon="home"><a href="' . $this->getDocumentRoot() . '/index.php">Home</a></div>
+          <div data-wheelnav-navitemtext="Timeline"><a href="' . $this->getDocumentRoot() . '/timeline/">Timeline</a></div>
           <div data-wheelnav-navitemtext="2"><a href="#navitem"></a></div>
           <div data-wheelnav-navitemimg="../wheelnav_favicon.png"></div>
       </div>
@@ -135,10 +135,15 @@ class Base
 
       <script>
         var piemenu = new wheelnav("piemenu");
-        piemenu.clockwise = false;
         piemenu.wheelRadius = piemenu.wheelRadius * 0.83;
+        piemenu.spreaderEnable = true;
+        piemenu.spreaderInTitle = "imgsrc:/img/ephraim-becker-round-list.png";
+        piemenu.spreaderOutTitle = "imgsrc:/img/ephraim-becker-round.png";
+        piemenu.spreaderOutTitleHeight = 125;
+        piemenu.spreaderInTitleHeight = 125;
+        piemenu.spreaderRadius = 0;
         piemenu.createWheel();
-        piemenu.setTooltips(["check","image","checkbox","checked","star"]);
+        piemenu.setTooltips(["home","timeline","checkbox","checked","star"]);
       </script>';
 
     // $html .= '
