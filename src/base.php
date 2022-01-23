@@ -94,9 +94,10 @@ class Base
       <head>
         <meta charset="utf-8">
         <title>' . $this->getTitle() . '</title>
-        <script src="' . $this->getDocumentRoot() . '/js/wheelnav.min.js"></script>
-        <script src="' . $this->getDocumentRoot() . '/js/raphael.min.js"></script>
-        <script src="' . $this->getDocumentRoot() . '/js/raphael.icons.min.js"></script>
+        <script src="' . $this->getDocumentRoot() . 'wheelnav-master/js/required/raphael.min.js"></script>
+        <script src="' . $this->getDocumentRoot() . 'wheelnav-master/js/required/raphael.icons.min.js"></script>
+        <script src="' . $this->getDocumentRoot() . 'wheelnav-master/js/dist/wheelnav.min.js"></script>
+        <link rel="stylesheet" href="' . $this->getDocumentRoot() . 'wheelnav-master/css/index.css" />
         <link rel="stylesheet" href="' . $this->getDocumentRoot() . '/css/style.css" />';
 
         if($this->getLocalStyleSheet() != NULL) {
@@ -117,17 +118,13 @@ class Base
   function nav(): string
   {
     $html = '
-        <nav id="divWheel" data-wheelnav data-wheelnav-titlewidth="50" data-wheelnav-titleheight="50">
-          <div data-wheelnav-navitemtext="home"><a href="' . $this->getDocumentRoot() . '/index.php">Home</a></div>
+        <nav id="divWheel" data-wheelnav data-wheelnav-colors="#E34C26,#F06529" data-wheelnav-slicepath="DonutSlice" data-wheelnav-navangle="30"
+data-wheelnav-init>
+          <div data-wheelnav-navitemicon="home"><a href="/index.php">Home</a></div>
           <div data-wheelnav-navitemtext="1""></div>
           <div data-wheelnav-navitemtext="2"><a href="#navitem"></a></div>
           <div data-wheelnav-navitemimg="../wheelnav_favicon.png"></div>
-        </nav>
-
-      <script>
-      var wheel = new wheelnav("divWheel");
-      wheel.createWheel();
-      </script>';
+      </nav>';
 
     // $html .= '
     //   <nav>
