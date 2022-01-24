@@ -120,17 +120,26 @@ class Base
     $html = '
     <nav>
         <div id="piemenu" data-wheelnav
- data-wheelnav-slicepath="DonutSlice"
- data-wheelnav-navangle="270"
- data-wheelnav-titleheight="45"
- data-wheelnav-cssmode
- data-wheelnav-init>
+         data-wheelnav-slicepath="DonutSlice"
+         data-wheelnav-navangle="270"
+         data-wheelnav-titleheight="45"
+         data-wheelnav-cssmode
+         data-wheelnav-init>
           <div data-wheelnav-navitemicon="home"><a href="' . $this->getDocumentRoot() . '/index.php">Home</a></div>
           <div data-wheelnav-navitemicon="calendar2"><a href="' . $this->getDocumentRoot() . '/timeline/">Timeline</a></div>
           <div data-wheelnav-navitemtext="Daily Life"><a href="javascript:;"></a></div>
           <div data-wheelnav-navitemtext="Projects"><a href="' . $this->getDocumentRoot() . '/projects/">Projects</a></div>
           <div data-wheelnav-navitemtext="Resources"><a href="' . $this->getDocumentRoot() . '/resources/">Resources</a></div>
           <div data-wheelnav-navitemtext="About"><a href="' . $this->getDocumentRoot() . '/about/">About</a></div>
+      </div>
+      <div id="piesubmenu" data-wheelnav
+        data-wheelnav-slicepath="DonutSlice"
+        data-wheelnav-navangle="240"
+        data-wheelnav-titleheight="200"
+        data-wheelnav-cssmode
+        data-wheelnav-init>
+        <div data-wheelnav-navitemicon="Everyday Life"><a href="' . $this->getDocumentRoot() . '/everydayLife/">Everyday Life</a></div>
+        <div data-wheelnav-navitemicon="College Life"><a href="' . $this->getDocumentRoot() . '/college/">College Life</a></div>
       </div>
     </nav>';
 
