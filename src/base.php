@@ -191,7 +191,7 @@ class Base
     function footer(): string
     {
       $html = '<footer>
-        <p>&copy; 2021 Ephraim Becker</p>
+        <p>&copy; 2022 Ephraim Becker</p>
       </footer>';
 
       return $html;
