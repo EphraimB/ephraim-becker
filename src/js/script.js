@@ -28,6 +28,8 @@ function highlightNavItem() {
   for(var i = 0; i < links.children.length; i++) {
     if(window.location.pathname == "/") {
       return 0;
+    } else if(window.location.pathname == "/everydayLife/" || window.location.pathname == "/college/") {
+      return 2;
     } else if(links.children[i].children[0].pathname == window.location.pathname.match(new RegExp("^" + links.children[i].children[0].pathname,"g"))) {
       console.log(links.children[i].children[0].pathname);
       console.log(window.location.pathname.match(new RegExp("^" + links.children[i].children[0].pathname,"g")));
@@ -90,6 +92,7 @@ piemenu.createWheel();
 piesubmenu.createWheel();
 
 piemenu.navigateWheel(highlighttedNav);
+piesubmenu.navigateWheel(highlighttedSubNav);
 
 piemenu.setTooltips(["Home", "Timeline", "Daily Life", "Projects", "Resources", "About", "Login/Logout"]);
 piesubmenu.setTooltips(["Everyday Life", "College Life"]);
