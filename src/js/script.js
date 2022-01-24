@@ -31,10 +31,9 @@ function highlightNavItem() {
     } else if(links.children[i].children[0].pathname == window.location.pathname.match(new RegExp("^" + links.children[i].children[0].pathname,"g"))) {
       console.log(links.children[i].children[0].pathname);
       console.log(window.location.pathname.match(new RegExp("^" + links.children[i].children[0].pathname,"g")));
+      console.log(i);
+      
       return i;
-    }
-    if(i == 3 || i == 4) {
-      return 2;
     }
   }
 
