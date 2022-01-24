@@ -92,6 +92,7 @@ piesubmenu.createWheel();
 piemenu.navigateWheel(highlighttedNav);
 
 piemenu.setTooltips(["Home", "Timeline", "Daily Life", "Projects", "Resources", "About", "Login/Logout"]);
+piesubmenu.setTooltips(["Everyday Life", "College Life"]);
 
 piesubmenu.navItems[0].navItem.hide();
 piesubmenu.navItems[1].navItem.hide();

@@ -144,8 +144,8 @@ class Base
         data-wheelnav-titleheight="200"
         data-wheelnav-cssmode
         data-wheelnav-init>
-        <div data-wheelnav-navitemicon="Everyday Life"><a href="' . $this->getDocumentRoot() . '/everydayLife/">Everyday Life</a></div>
-        <div data-wheelnav-navitemicon="College Life"><a href="' . $this->getDocumentRoot() . '/college/">College Life</a></div>
+        <div data-wheelnav-navitemtext="Everyday Life"><a href="' . $this->getDocumentRoot() . '/everydayLife/">Everyday Life</a></div>
+        <div data-wheelnav-navitemtext="College Life"><a href="' . $this->getDocumentRoot() . '/college/">College Life</a></div>
       </div>
     </nav>';
 

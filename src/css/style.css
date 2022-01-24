@@ -42,6 +42,14 @@ html {
 [class|=wheelnav-piemenu-title-selected] { fill: #fff; stroke: none; }
 [class|=wheelnav-piemenu-title-hover] { fill: #222; stroke: none; cursor: pointer; }
 
+[class|=wheelnav-piesubmenu-slice-basic] { fill: #497F4C; stroke: none; }
+[class|=wheelnav-piesubmenu-slice-selected] { fill: #497F4C; stroke: none; }
+[class|=wheelnav-piesubmenu-slice-hover] { fill: #497F4C;  stroke: none; fill-opacity: 0.77; cursor: pointer; }
+
+[class|=wheelnav-piesubmenu-title-basic] { fill: #333; stroke: none; }
+[class|=wheelnav-piesubmenu-title-selected] { fill: #fff; stroke: none; }
+[class|=wheelnav-piesubmenu-title-hover] { fill: #222; stroke: none; cursor: pointer; }
+
 /* nav ul {
   overflow: hidden;
   position: relative;
