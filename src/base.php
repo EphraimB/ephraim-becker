@@ -188,15 +188,6 @@ class Base
       return $html;
     }
 
-    function footer(): string
-    {
-      $html = '<footer>
-        <p>&copy; 2022 Ephraim Becker</p>
-      </footer>';
-
-      return $html;
-    }
-
     function scripts(): string
     {
       $html = '<script src="' . $this->getDocumentRoot() . '/js/script.js"></script>';
@@ -217,7 +208,6 @@ class Base
       $html .= $this->nav();
       $html .= $this->header();
       $html .= $this->main();
-      $html .= $this->footer();
       $html .= $this->scripts();
       $html .= '
         </body>
