@@ -126,7 +126,7 @@ class Base
  data-wheelnav-cssmode
  data-wheelnav-init>
           <div data-wheelnav-navitemicon="home"><a href="' . $this->getDocumentRoot() . '/index.php">Home</a></div>
-          <div data-wheelnav-navitemtext="Timeline"><a href="' . $this->getDocumentRoot() . '/timeline/">Timeline</a></div>
+          <div data-wheelnav-navitemicon="calendar2"><a href="' . $this->getDocumentRoot() . '/timeline/">Timeline</a></div>
           <div data-wheelnav-navitemtext="Daily Life"><a href="#navitem"></a></div>
           <div data-wheelnav-navitemimg="../wheelnav_favicon.png"></div>
       </div>
