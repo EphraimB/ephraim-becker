@@ -127,14 +127,14 @@ class Base
          data-wheelnav-init>
           <div data-wheelnav-navitemicon="home"><a href="' . $this->getDocumentRoot() . '/index.php">Home</a></div>
           <div data-wheelnav-navitemicon="calendar2"><a href="' . $this->getDocumentRoot() . '/timeline/">Timeline</a></div>
-          <div data-wheelnav-navitemtext="Daily Life"><a href="javascript:;"></a></div>
-          <div data-wheelnav-navitemtext="Projects"><a href="' . $this->getDocumentRoot() . '/projects/">Projects</a></div>
-          <div data-wheelnav-navitemtext="Resources"><a href="' . $this->getDocumentRoot() . '/resources/">Resources</a></div>
-          <div data-wheelnav-navitemtext="About"><a href="' . $this->getDocumentRoot() . '/about/">About</a></div>';
+          <div data-wheelnav-navitemicon="tshirt"><a href="javascript:;"></a></div>
+          <div data-wheelnav-navitemicon="magnet"><a href="' . $this->getDocumentRoot() . '/projects/">Projects</a></div>
+          <div data-wheelnav-navitemicon="edit"><a href="' . $this->getDocumentRoot() . '/resources/">Resources</a></div>
+          <div data-wheelnav-navitemicon="i"><a href="' . $this->getDocumentRoot() . '/about/">About</a></div>';
           if(isset($_SESSION['username'])) {
-            $html .= '<div data-wheelnav-navitemtext="Logout"><a href="' . $this->getDocumentRoot() . '/adminLogout.php?fromUrl=' . $this->getUrl() . '">Logout</a></div>';
+            $html .= '<div data-wheelnav-navitemicon="user"><a href="' . $this->getDocumentRoot() . '/adminLogout.php?fromUrl=' . $this->getUrl() . '">Logout</a></div>';
           } else {
-            $html .= '<div data-wheelnav-navitemtext="Login"><a href="' . $this->getDocumentRoot() . '/adminLogin/index.php?fromUrl=' . $this->getUrl() . '">Login</a></div>';
+            $html .= '<div data-wheelnav-navitemicon="key"><a href="' . $this->getDocumentRoot() . '/adminLogin/index.php?fromUrl=' . $this->getUrl() . '">Login</a></div>';
           }
 
       $html .= '</div>
