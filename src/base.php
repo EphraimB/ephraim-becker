@@ -149,34 +149,6 @@ class Base
       </div>
     </nav>';
 
-    // $html .= '
-    //   <nav>
-    //     <ul>
-    //       <li id="first"><img src="' . $this->getDocumentRoot() . '/img/ephraim-becker.jpg" alt="Photo of Ephraim Becker" width="70px" height="70px" /></li>
-    //       <li id="hamburger-icon"><a href="javascript:;" onclick="toggleNavMenu()">&#9776;</a></li>
-    //       <div id="links">
-    //         <li><a href="' . $this->getDocumentRoot() . '/index.php">Home</a></li>
-    //         <li><a href="' . $this->getDocumentRoot() . '/timeline/">Timeline</a></li>
-    //         <div id="dropdown">
-    //           <li><a href="javascript:;" onclick="toggleNavSubmenu()">Daily Life &emsp; &#x25BC;</a></li>
-    //           <div id="dropdown-content">
-    //             <li><a href="' . $this->getDocumentRoot() . '/everydayLife/">Everyday Life</a></li>
-    //             <li><a href="' . $this->getDocumentRoot() . '/college/">College Life</a></li>
-    //           </div>
-    //         </div>
-    //         <li><a href="' . $this->getDocumentRoot() . '/projects/">Projects</a></li>
-    //         <li><a href="' . $this->getDocumentRoot() . '/resources/">Resources</a></li>
-    //         <li><a href="' . $this->getDocumentRoot() . '/about/">About</a></li>';
-    //
-    //         if(isset($_SESSION['username'])) {
-    //           $html .= '<li><a href="' . $this->getDocumentRoot() . '/adminLogout.php?fromUrl=' . $this->getUrl() . '">Logout</a></li>';
-    //         } else {
-    //           $html .= '<li><a href="' . $this->getDocumentRoot() . '/adminLogin/index.php?fromUrl=' . $this->getUrl() . '">Login</a></li>';
-    //         }
-    //       $html .= '</div>
-    //     </ul>
-    //   </nav>';
-
       return $html;
     }
 
