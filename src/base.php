@@ -141,7 +141,7 @@ class Base
       <div id="piesubmenu" data-wheelnav
       data-wheelnav-colors="#497F4C"
         data-wheelnav-slicepath="DonutSlice"
-        data-wheelnav-navangle="240"
+        data-wheelnav-navangle="270"
         data-wheelnav-titleheight="50"
         data-wheelnav-init>
         <div data-wheelnav-navitemimg="/img/nav-icons/life/sentiment_dissatisfied_black_24dp.svg"><a href="' . $this->getDocumentRoot() . '/everydayLife/">Everyday Life</a></div>
