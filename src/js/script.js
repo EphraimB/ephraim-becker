@@ -79,7 +79,6 @@ piemenu.slicePathFunction = slicePath().DonutSlice;
 piemenu.slicePathCustom = slicePath().DonutSliceCustomization();
 piemenu.maxPercent = 1.0;
 
-piemenu.colors = ['#ADD8E6'];
 piemenu.titleSelectedAttr = { color: '#FFF' };
 
 piemenu.slicePathCustom.minRadiusPercent = 0.3;
@@ -91,7 +90,6 @@ piesubmenu.slicePathFunction = slicePath().DonutSlice;
 piesubmenu.slicePathCustom = slicePath().DonutSliceCustomization();
 piesubmenu.maxPercent = 1.0;
 
-piesubmenu.colors = ['#497F4C'];
 piesubmenu.titleSelectedAttr = { fill: '#FFF', 'stroke-width': 4 };
 
 piesubmenu.slicePathCustom.minRadiusPercent = 0.6;

@@ -120,6 +120,7 @@ class Base
     $html = '
     <nav>
         <div id="piemenu" data-wheelnav
+        data-wheelnav-colors="#ADD8E6"
          data-wheelnav-slicepath="DonutSlice"
          data-wheelnav-navangle="270"
          data-wheelnav-titleheight="45"
@@ -138,6 +139,7 @@ class Base
 
       $html .= '</div>
       <div id="piesubmenu" data-wheelnav
+      data-wheelnav-colors="#497F4C"
         data-wheelnav-slicepath="DonutSlice"
         data-wheelnav-navangle="240"
         data-wheelnav-titleheight="200"
