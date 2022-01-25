@@ -80,7 +80,7 @@ piemenu.slicePathCustom = slicePath().DonutSliceCustomization();
 piemenu.maxPercent = 1.0;
 
 piemenu.colors = ['#ADD8E6'];
-piemenu.titleSelectedAttr = { fill: '#FFF', 'stroke-width': 4 };
+piemenu.titleSelectedAttr = { color: '#FFF' };
 
 piemenu.slicePathCustom.minRadiusPercent = 0.3;
 piemenu.slicePathCustom.maxRadiusPercent = 0.6;

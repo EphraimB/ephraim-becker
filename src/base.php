@@ -126,7 +126,7 @@ class Base
          data-wheelnav-init>
           <div data-wheelnav-navitemimg="/img/nav-icons/home_black_24dp.svg"><a href="' . $this->getDocumentRoot() . '/index.php">Home</a></div>
           <div data-wheelnav-navitemimg="/img/nav-icons/timeline_black_24dp.svg"><a href="' . $this->getDocumentRoot() . '/timeline/">Timeline</a></div>
-          <div data-wheelnav-navitemimg="/img/nav-icons/sentiment_dissatisfied_black_24dp.svg"><a href="javascript:;"></a></div>
+          <div data-wheelnav-navitemimg="/img/nav-icons/life/sentiment_dissatisfied_black_24dp.svg"><a href="javascript:;"></a></div>
           <div data-wheelnav-navitemimg="/img/nav-icons/code_black_24dp.svg"><a href="' . $this->getDocumentRoot() . '/projects/">Projects</a></div>
           <div data-wheelnav-navitemimg="/img/nav-icons/link_black_24dp.svg"><a href="' . $this->getDocumentRoot() . '/resources/">Resources</a></div>
           <div data-wheelnav-navitemimg="/img/nav-icons/info_black_24dp.svg"><a href="' . $this->getDocumentRoot() . '/about/">About</a></div>';
@@ -142,8 +142,8 @@ class Base
         data-wheelnav-navangle="240"
         data-wheelnav-titleheight="200"
         data-wheelnav-init>
-        <div data-wheelnav-navitemimg="/img/nav-icons/sentiment_dissatisfied_black_24dp.svg"><a href="' . $this->getDocumentRoot() . '/everydayLife/">Everyday Life</a></div>
-        <div data-wheelnav-navitemimg="/img/nav-icons/school_black_24dp.svg"><a href="' . $this->getDocumentRoot() . '/college/">College Life</a></div>
+        <div data-wheelnav-navitemimg="/img/nav-icons/life/sentiment_dissatisfied_black_24dp.svg"><a href="' . $this->getDocumentRoot() . '/everydayLife/">Everyday Life</a></div>
+        <div data-wheelnav-navitemimg="/img/nav-icons/school/school_black_24dp.svg"><a href="' . $this->getDocumentRoot() . '/college/">College Life</a></div>
       </div>
     </nav>';
 
