@@ -127,7 +127,7 @@ class Base
          data-wheelnav-init>
           <div data-wheelnav-navitemicon="imgsrc:/img/nav-icons/home_black_24dp.svg"><a href="' . $this->getDocumentRoot() . '/index.php">Home</a></div>
           <div data-wheelnav-navitemicon="imgsrc:/img/nav-icons/timeline_black_24dp.svg"><a href="' . $this->getDocumentRoot() . '/timeline/">Timeline</a></div>
-          <div data-wheelnav-navitemicon="imgsrc:/img/nav-icons/life/sentiment_dissatisfied_black_24dp.svg"><a href="javascript:;"></a></div>
+          <div data-wheelnav-navitemicon="imgsrc:/img/nav-icons/sentiment_dissatisfied_black_24dp.svg"><a href="javascript:;"></a></div>
           <div data-wheelnav-navitemicon="imgsrc:/img/nav-icons/code_black_24dp.svg"><a href="' . $this->getDocumentRoot() . '/projects/">Projects</a></div>
           <div data-wheelnav-navitemicon="imgsrc:/img/nav-icons/link_black_24dp.svg"><a href="' . $this->getDocumentRoot() . '/resources/">Resources</a></div>
           <div data-wheelnav-navitemicon="imgsrc:/img/nav-icons/info_black_24dp.svg"><a href="' . $this->getDocumentRoot() . '/about/">About</a></div>';
