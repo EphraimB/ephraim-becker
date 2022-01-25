@@ -22,10 +22,9 @@
 // //
 // // }
 
-var links = document.getElementById("piemenu");
-var linkssub = document.getElementById("piesubmenu");
-
 function highlightNavItem() {
+  var links = document.getElementById("piemenu");
+
   for(var i = 0; i < links.children.length; i++) {
     if(window.location.pathname == "/") {
       return 0;
@@ -44,12 +43,14 @@ function highlightNavItem() {
 }
 
 function highlightSubNavItem() {
-  for(var i = 0; i < linkssub.children.length; i++) {
+  var links = document.getElementById("piesubmenu");
+
+  for(var i = 0; i < links.children.length; i++) {
     if(window.location.pathname == "/") {
       return 0;
-    } else if(linkssub.children[i].children[0].pathname == window.location.pathname.match(new RegExp("^" + links.children[i].children[0].pathname,"g"))) {
-      console.log(linkssub.children[i].children[0].pathname);
-      console.log(window.location.pathname.match(new RegExp("^" + linkssub.children[i].children[0].pathname,"g")));
+    } else if(links.children[i].children[0].pathname == window.location.pathname.match(new RegExp("^" + links.children[i].children[0].pathname,"g"))) {
+      console.log(links.children[i].children[0].pathname);
+      console.log(window.location.pathname.match(new RegExp("^" + links.children[i].children[0].pathname,"g")));
       console.log(i);
 
       return i;
@@ -89,6 +90,10 @@ piemenu.sliceInitPathCustom = piemenu.slicePathCustom;
 piesubmenu.slicePathFunction = slicePath().DonutSlice;
 piesubmenu.slicePathCustom = slicePath().DonutSliceCustomization();
 piesubmenu.maxPercent = 1.0;
+
+piesubmenu.colors = ['#497F4C'];
+piesubmenu.titleSelectedAttr = { fill: '#FFF', 'stroke-width': 4 };
+
 piesubmenu.slicePathCustom.minRadiusPercent = 0.6;
 piesubmenu.slicePathCustom.maxRadiusPercent = 0.9;
 piesubmenu.sliceSelectedPathCustom = piesubmenu.slicePathCustom;
