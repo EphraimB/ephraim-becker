@@ -155,6 +155,7 @@ class GamingSetup extends Base
     <table style="margin-top: 10px;">
       <tr>
         <th>Game</th>
+        <th>Platform</th>
         <th>Price</th>';
 
       if($this->getIsAdmin()) {
