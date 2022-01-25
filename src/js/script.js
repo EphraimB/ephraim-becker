@@ -22,9 +22,10 @@
 // //
 // // }
 
-function highlightNavItem() {
-  var links = document.getElementById("piemenu");
+var links = document.getElementById("piemenu");
+var linkssub = document.getElementById("piesubmenu");
 
+function highlightNavItem() {
   for(var i = 0; i < links.children.length; i++) {
     if(window.location.pathname == "/") {
       return 0;
@@ -43,14 +44,12 @@ function highlightNavItem() {
 }
 
 function highlightSubNavItem() {
-  var links = document.getElementById("piesubmenu");
-
-  for(var i = 0; i < links.children.length; i++) {
+  for(var i = 0; i < linkssub.children.length; i++) {
     if(window.location.pathname == "/") {
       return 0;
-    } else if(links.children[i].children[0].pathname == window.location.pathname.match(new RegExp("^" + links.children[i].children[0].pathname,"g"))) {
-      console.log(links.children[i].children[0].pathname);
-      console.log(window.location.pathname.match(new RegExp("^" + links.children[i].children[0].pathname,"g")));
+    } else if(linkssub.children[i].children[0].pathname == window.location.pathname.match(new RegExp("^" + links.children[i].children[0].pathname,"g"))) {
+      console.log(linkssub.children[i].children[0].pathname);
+      console.log(window.location.pathname.match(new RegExp("^" + linkssub.children[i].children[0].pathname,"g")));
       console.log(i);
 
       return i;
@@ -77,12 +76,19 @@ piemenu.spreaderRadius = 0;
 //Customize slicePaths for proper size
 piemenu.slicePathFunction = slicePath().DonutSlice;
 piemenu.slicePathCustom = slicePath().DonutSliceCustomization();
+piemenu.maxPercent = 1.0;
+
+piemenu.colors = ['#ADD8E6'];
+piemenu.titleSelectedAttr = { fill: '#FFF' };
+
 piemenu.slicePathCustom.minRadiusPercent = 0.3;
 piemenu.slicePathCustom.maxRadiusPercent = 0.6;
 piemenu.sliceSelectedPathCustom = piemenu.slicePathCustom;
 piemenu.sliceInitPathCustom = piemenu.slicePathCustom;
+
 piesubmenu.slicePathFunction = slicePath().DonutSlice;
 piesubmenu.slicePathCustom = slicePath().DonutSliceCustomization();
+piesubmenu.maxPercent = 1.0;
 piesubmenu.slicePathCustom.minRadiusPercent = 0.6;
 piesubmenu.slicePathCustom.maxRadiusPercent = 0.9;
 piesubmenu.sliceSelectedPathCustom = piesubmenu.slicePathCustom;
