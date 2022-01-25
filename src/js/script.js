@@ -93,7 +93,13 @@ piesubmenu.sliceSelectedPathCustom = piesubmenu.slicePathCustom;
 piesubmenu.sliceInitPathCustom = piesubmenu.slicePathCustom;
 piemenu.createWheel();
 
+piemenu.sliceSelectedAttr = { stroke: '#111111', 'stroke-width': 4 };
+piemenu.refreshWheel()
+
 piesubmenu.createWheel();
+
+piesubmenu.sliceSelectedAttr = { stroke: '#111111', 'stroke-width': 4 };
+piesubmenu.refreshWheel()
 
 piemenu.navigateWheel(highlighttedNav);
 piesubmenu.navigateWheel(highlighttedSubNav);
