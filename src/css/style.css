@@ -18,6 +18,7 @@ html {
 
 #piesubmenu > svg { width: 0%; height: 0%; }
 #piesubmenu { height: 0px; width: 0px; margin: auto; }
+@media (max-width: 0px) { #piesubmenu { height: 0px; width: 0px; } }
 
 table {
   margin-left: auto;
