@@ -331,7 +331,7 @@ class Timeline extends Base
     $html = '<div class="card album-cover" id="album-cover-' . $year . '">';
 
     if($this->getIsAdmin()) {
-      $html .= '<a class="edit-background-image" href="changeBackground.php"><img src="/img/icons/edit_black_24dp.svg" width="25" height="25" /></a>';
+      $html .= '<a class="edit-background-image" href="changeBackground/"><img src="/img/icons/edit_black_24dp.svg" width="25" height="25" /></a>';
     }
 
     $html .= '<a href="./index.php?year=' . $year . '&month=0&day=0">';
