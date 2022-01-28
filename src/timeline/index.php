@@ -329,6 +329,11 @@ class Timeline extends Base
   function yearView($sqlResult, $year): string
   {
     $html = '<div class="card album-cover" id="album-cover-' . $year . '">';
+
+    if($this->getIsAdmin()) {
+      $html .= '<a class="edit-background-image" href="changeBackground.php"><img src="/img/icons/edit_black_24dp.svg" width="25" height="25" /></a>';
+    }
+
     $html .= '<a href="./index.php?year=' . $year . '&month=0&day=0">';
     $html .= '<h3>' . $year . '</h3>';
     $html .= '<p>All the events in ' . $year . ' when I was ' . ($year-1996) . ' years old</p>';
@@ -383,7 +388,7 @@ class Timeline extends Base
       if(!$this->getIsAdmin()) {
         $sqlThoughtsRaw .= " AND hide=0";
       }
-      
+
       $sqlThoughts = $this->getLink()->prepare($sqlThoughtsRaw);
       $sqlThoughts->bind_param("i", $id);
 
