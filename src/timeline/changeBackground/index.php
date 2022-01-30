@@ -8,6 +8,7 @@ require($_SERVER['DOCUMENT_ROOT'] . "/base.php");
 class ChangeBackgroundImageForm extends Base
 {
   private $isAdmin;
+  private $id;
 
   function __construct()
   {
@@ -16,6 +17,16 @@ class ChangeBackgroundImageForm extends Base
     if(!$this->getIsAdmin()) {
       header("location: ../");
     }
+  }
+
+  function getId(): int
+  {
+    return $this->id;
+  }
+
+  function setId($id): void
+  {
+    $this->id = $id;
   }
 
   function setIsAdmin(): void
@@ -40,11 +51,18 @@ class ChangeBackgroundImageForm extends Base
         <div>
           <label for="backgroundImage">Background image:</label>
           <br />
-          <input id="backgroundImage" name="backgroundImage" type="file" />
+          <input type="file" id="backgroundImage" name="backgroundImage" />
+        </div>
+        <br />
+        <div>
+          <label for="imageDescription">Background image description:</label>
+          <br />
+          <input type="text" id="imageDescription" name="imageDescription" />
         </div>
         <br />
       </div>
       <br />
+      <input type="hidden" name="id" value="' . $this->getId() . '" />
       <input type="submit" id="submit" value="Change background image" />
       <br />
     </form>';
@@ -54,6 +72,8 @@ class ChangeBackgroundImageForm extends Base
 }
 
 $changeBackgroundImageForm = new ChangeBackgroundImageForm();
+$changeBackgroundImageForm->setId(intval($_GET['id']));
+
 $changeBackgroundImageForm->setLocalStyleSheet("css/style.css");
 $changeBackgroundImageForm->setLocalScript(NULL);
 $changeBackgroundImageForm->setTitle("Ephraim Becker - Timeline - Change background image");
