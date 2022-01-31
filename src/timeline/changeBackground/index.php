@@ -47,7 +47,7 @@ class ChangeBackgroundImageForm extends Base
   {
     $html = '
     <form action="changeBackgroundImage.php" method="post" enctype="multipart/form-data">
-      <div class="row">
+      <div>
         <div>
           <label for="backgroundImage">Background image:</label>
           <br />
