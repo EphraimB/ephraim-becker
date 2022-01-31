@@ -329,15 +329,16 @@ class Timeline extends Base
   function yearView($sqlResult, $year): string
   {
     $html = '<div class="card album-cover" id="album-cover-' . $year . '">';
+      $html .= '<div class="transbox">';
+        if($this->getIsAdmin()) {
+          $html .= '<a class="edit-background-image" href="changeBackground/index.php?id=' . $year . '"><img src="/img/icons/edit_black_24dp.svg" width="25" height="25" /></a>';
+        }
 
-    if($this->getIsAdmin()) {
-      $html .= '<a class="edit-background-image" href="changeBackground/index.php?id=' . $year . '"><img src="/img/icons/edit_black_24dp.svg" width="25" height="25" /></a>';
-    }
-
-    $html .= '<a href="./index.php?year=' . $year . '&month=0&day=0">';
-    $html .= '<h3>' . $year . '</h3>';
-    $html .= '<p>All the events in ' . $year . ' when I was ' . ($year-1996) . ' years old</p>';
-    $html .= '</a>';
+        $html .= '<a href="./index.php?year=' . $year . '&month=0&day=0">';
+        $html .= '<h3>' . $year . '</h3>';
+        $html .= '<p>All the events in ' . $year . ' when I was ' . ($year-1996) . ' years old</p>';
+        $html .= '</a>';
+      $html .= '</div>';
     $html .= '</div>';
 
     return $html;
@@ -586,6 +587,42 @@ class Timeline extends Base
         $eventMedia = $row['EventMedia'];
         $eventMediaPortrait = $row['EventMediaPortrait'];
         $eventMediaDescription = $row['EventMediaDescription'];
+
+        $sqlTwo = $this->getLink()->prepare("SELECT * FROM backgroundImage WHERE YEAR=?");
+        $sqlTwo->bind_param("i", $year);
+
+        $sqlTwo->execute();
+
+        $sqlTwoResult = $sqlTwo->get_result();
+
+        while($rowTwo = mysqli_fetch_array($sqlTwoResult)) {
+          $backgroundImage = $rowTwo['backgroundImage'];
+          $imageDescription = $rowTwo['ImageDescription'];
+
+          $html .= '
+            <style>
+              #album-cover-' . $year . ' {
+                position: relative;
+              }
+
+              #album-cover-' . $year . ':before {
+                content: "";
+                display: block;
+                background-image: url("/img/eventYear/' . $backgroundImage . '");
+                opacity: 0.5;
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: 100%;
+              }
+
+              #album-cover-' . $year . ' .transbox {
+                position: relative;
+              }
+            </style>
+          ';
+          }
 
         if($this->getYear() == 0) {
           $html .= $this->yearView($sqlResult, $year);
