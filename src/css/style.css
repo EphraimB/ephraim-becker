@@ -3,6 +3,12 @@ html {
   text-align: center;
 }
 
+.edit-background-image {
+  display: inline-block;
+  margin-left: 85%;
+  background-color: inherit;
+}
+
 #profileCard {
   padding: 18px;
   background-color: lightgrey;
