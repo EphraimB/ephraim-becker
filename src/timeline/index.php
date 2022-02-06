@@ -609,6 +609,7 @@ class Timeline extends Base
                 content: "";
                 display: block;
                 background-image: url("/img/eventYear/' . $backgroundImage . '");
+                background-position: center;
                 opacity: 0.5;
                 position: absolute;
                 left: 0;
