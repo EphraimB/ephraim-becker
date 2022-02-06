@@ -1,27 +1,3 @@
-// // function toggleNavMenu() {
-// //   var x = document.getElementById("links");
-// //   if (x.style.display === "block") {
-// //     x.style.display = "none";
-// //   } else {
-// //     x.style.display = "block";
-// //   }
-// // }
-// //
-// // function toggleNavSubmenu() {
-// //   var x = document.getElementById("dropdown-content");
-// //   if (x.style.display === "block") {
-// //     x.style.display = "none";
-// //   } else {
-// //     x.style.display = "block";
-// //   }
-// // }
-// //
-// // document.addEventListener('touchstart', onTouchStart, {passive: true});
-// //
-// // function onTouchStart() {
-// //
-// // }
-
 function highlightNavItem() {
   var links = document.getElementById("piemenu");
 
@@ -65,8 +41,8 @@ var highlighttedSubNav = highlightSubNavItem();
 
 var piemenu = new wheelnav("piemenu", null, 600, 600);
 var piesubmenu = new wheelnav('piesubmenu', piemenu.raphael);
+var pieadminsubmenu = new wheelnav('pieadminmenu', piemenu.raphael);
 
-// piemenu.wheelRadius = piemenu.wheelRadius * 0.83;
 piemenu.spreaderEnable = true;
 piemenu.spreaderInTitle = "imgsrc:/img/ephraim-becker-round-list.png";
 piemenu.spreaderOutTitle = "imgsrc:/img/ephraim-becker-round.png";
@@ -84,6 +60,7 @@ piemenu.slicePathCustom.maxRadiusPercent = 0.6;
 piemenu.sliceSelectedPathCustom = piemenu.slicePathCustom;
 piemenu.sliceInitPathCustom = piemenu.slicePathCustom;
 
+pieadminsubmenu.maxPercent = 1.0;
 piesubmenu.slicePathFunction = slicePath().DonutSlice;
 piesubmenu.slicePathCustom = slicePath().DonutSliceCustomization();
 piesubmenu.maxPercent = 1.0;
@@ -101,11 +78,38 @@ piesubmenu.createWheel();
 piesubmenu.sliceSelectedAttr = { stroke: '#111111', 'stroke-width': 4 };
 piesubmenu.refreshWheel()
 
+pieadminsubmenu.slicePathFunction = slicePath().DonutSlice;
+pieadminsubmenu.slicePathCustom = slicePath().DonutSliceCustomization();
+pieadminsubmenu.maxPercent = 1.0;
+
+pieadminsubmenu.slicePathCustom.minRadiusPercent = 0.6;
+pieadminsubmenu.slicePathCustom.maxRadiusPercent = 0.9;
+pieadminsubmenu.sliceSelectedPathCustom = pieadminsubmenu.slicePathCustom;
+pieadminsubmenu.sliceInitPathCustom = pieadminsubmenu.slicePathCustom;
+pieadminsubmenu.createWheel();
+
 piemenu.navigateWheel(highlighttedNav);
 piesubmenu.navigateWheel(highlighttedSubNav);
 
 piemenu.setTooltips(["Home", "Timeline", "Daily Life", "Projects", "Resources", "About", "Login/Logout"]);
 piesubmenu.setTooltips(["Everyday Life", "College Life"]);
+pieadminsubmenu.setTooltips(["Budgeting"]);
+
+pieadminsubmenu.navItems[0].navItem.hide();
+
+if(isAdmin) {
+  //Add function to each main menu for show/hide sub menus
+  var meSelected = true;
+  piemenu.navItems[6].navigateFunction = function() {
+    if (meSelected) {
+      pieadminsubmenu.navItems[0].navItem.show();
+    }
+    else {
+      pieadminsubmenu.navItems[0].navItem.hide();
+    }
+    meSelected = !meSelected;
+  }
+}
 
 piesubmenu.navItems[0].navItem.hide();
 piesubmenu.navItems[1].navItem.hide();
