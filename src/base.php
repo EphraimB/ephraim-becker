@@ -155,7 +155,7 @@ class Base
        data-wheelnav-navangle="270"
        data-wheelnav-titleheight="45"
        data-wheelnav-init>
-        <div data-wheelnav-navitemicon="imgsrc:/img/nav-icons/paid_white_24dp.svg"><a href="' . $this->getDocumentRoot() . '/admin/budgeting/">Budgeting</a></div>
+        <div data-wheelnav-navitemicon="imgsrc:/img/nav-icons/paid_white_24dp.svg"><a href="' . $this->getDocumentRoot() . '/budgeting/">Budgeting</a></div>
       </div>';
 
     if(isset($_SESSION['username'])) {
