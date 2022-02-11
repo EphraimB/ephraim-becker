@@ -51,7 +51,7 @@ class Expenses extends Base
 
     if(mysqli_num_rows($sqlResult) > 0) {
       while($row = mysqli_fetch_array($sqlResult)){
-        $currentBalance = $row['currentBalance'];
+        $currentBalance = floatval($row['currentBalance']);
       }
     }
 
@@ -125,8 +125,8 @@ class Expenses extends Base
 
           $html .= '</div>
             <ul class="row actionButtons">
-              <li><a class="edit" href="editExpense/index.php?id=<?php echo $id ?>">Edit Expense</a></li>
-              <li><a class="delete" href="confirmation.php?id=<?php echo $id ?>">Delete Expense</a></li>
+              <li><a class="edit" href="editExpense/index.php?id=' . $id . '">Edit Expense</a></li>
+              <li><a class="delete" href="confirmation.php?id=' . $id . '">Delete Expense</a></li>
             </ul>
           </div>';
         }
