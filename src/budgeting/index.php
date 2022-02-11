@@ -140,10 +140,10 @@ $link = $config->connectToServer();
 
 $budgeting = new Budgeting();
 $budgeting->setLink($link);
-$budgeting->setTitle("Ephraim Becker - Admin - Budgeting");
+$budgeting->setTitle("Ephraim Becker - Budgeting");
 $budgeting->setLocalStyleSheet('css/style.css');
 $budgeting->setLocalScript(NULL);
-$budgeting->setHeader('Admin - Budgeting');
+$budgeting->setHeader('Budgeting');
 $budgeting->setUrl($_SERVER['REQUEST_URI']);
 $budgeting->setBody($budgeting->main());
 
