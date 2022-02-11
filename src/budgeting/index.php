@@ -44,7 +44,7 @@ class Budgeting extends Base
     return $this->link;
   }
 
-  function currentBalance(): string
+  function displayCurrentBalance(): string
   {
     $sql = "SELECT (SELECT SUM(DepositAmount) from deposits) - (SELECT SUM(WithdrawalAmount) FROM withdrawals) AS currentBalance";
     $sqlResult = mysqli_query($this->getLink(), $sql);
@@ -64,9 +64,73 @@ class Budgeting extends Base
     return $html;
   }
 
+  function displayActionButtons(): string
+  {
+    $html = '
+    <div class="grid-container">
+        <div style="background-color: green;" class="card">
+          <a href="deposit/">
+            <h2>Deposit</h2>
+            <p>Click to make a deposit</p>
+          </a>
+        </div>
+        <div style="background-color: yellow; color: black;" class="card">
+          <a style="color: black;" href="withdrawal/">
+            <h2>Withdrawal</h2>
+            <p>Click to make a withdrawal</p>
+          </a>
+        </div>
+        <div style="background-color: red;" class="card">
+          <a href="expenses/">
+            <h2>Expenses</h2>
+            <p>Click to add an expense</p>
+          </a>
+        </div>
+      </div>';
+
+    return $html;
+  }
+
+  function displayExpensesTable(): string
+  {
+    $html = '
+    <table>
+        <tr>
+          <th>Date</th>
+          <th>Title</th>
+          <th>Description</th>
+          <th>Amount</th>
+        </tr>';
+
+    $sqlTwo = "SELECT * FROM expenses WHERE ExpenseEndDate > CURRENT_DATE() OR ISNULL(ExpenseEndDate)";
+    $sqlTwoResult = mysqli_query($this->getLink(), $sqlTwo);
+
+    while($row = mysqli_fetch_array($sqlTwoResult)) {
+      $expenseTitle = $row['ExpenseTitle'];
+      $expensePrice = $row['ExpensePrice'];
+      $expenseBeginDate = $row['ExpenseBeginDate'];
+      $timezone = $row['timezone'];
+      $timezoneOffset = $row['timezoneOffset'];
+      $expenseEndDate = $row['ExpenseEndDate'];
+      $frequencyOfExpense = $row['FrequencyOfExpense'];
+    }
+
+    $html .= '<tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td>$</td>
+        </tr>
+      </table>';
+
+    return $html;
+  }
+
   function main(): string
   {
-    $html = $this->currentBalance();
+    $html = $this->displayCurrentBalance();
+    $html .= $this->displayActionButtons();
+    $html .= $this->displayExpensesTable();
 
     return $html;
   }
