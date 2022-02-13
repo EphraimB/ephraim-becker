@@ -131,7 +131,7 @@ class Expenses extends Base
           </div>';
         }
     } else {
-      $html .= '<p>No expenses!</p>';
+      $html = '<p>No expenses!</p>';
     }
 
     return $html;

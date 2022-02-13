@@ -4,9 +4,8 @@ declare(strict_types=1);
 session_start();
 
 require_once($_SERVER['DOCUMENT_ROOT'] . '/environment.php');
-require($_SERVER['DOCUMENT_ROOT'] . "/base.php");
 
-class EditExpense extends Base
+class EditExpense
 {
   private $isAdmin;
   private $link;
