@@ -1,0 +1,26 @@
+.row {
+  display: flex;
+  justify-content: center;
+}
+
+.row div {
+  padding: 10px;
+}
+
+input[type=submit] {
+  background-color: blue;
+  color: white;
+  padding: 16px 32px;
+  border: none;
+  width: 100%;
+  cursor: pointer;
+}
+
+input[type=submit]:hover {
+  background-color: lightblue;
+}
+
+input[type=submit][disabled=disabled] {
+  background-color: lightblue;
+  cursor: not-allowed;
+}
