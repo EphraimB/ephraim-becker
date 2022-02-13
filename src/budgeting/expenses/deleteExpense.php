@@ -65,7 +65,7 @@ class DeleteExpense
 
     $sql->close();
 
-    header("location: ../");
+    header("location: index.php");
   }
 }
 $config = new Config();
