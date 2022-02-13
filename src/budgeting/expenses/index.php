@@ -83,11 +83,13 @@ class Expenses extends Base
 
   function showExpensesTable($transactions): string
   {
-    $sqlTwo = "SELECT *, DATE_FORMAT(ExpenseBeginDate - INTERVAL timezoneOffset SECOND, '%m/%d/%Y %h:%i:%s %p') AS began, IFNULL(DATE_FORMAT(ExpenseEndDate - INTERVAL timezoneOffset SECOND, '%m/%d/%Y %h:%i:%s %p'), NULL) AS end FROM expenses";
-    $sqlTwoResult = mysqli_query($this->getLink(), $sqlTwo);
+    $html = '';
 
-      if($transactions > 0) {
-        while($row = mysqli_fetch_array($sqlTwoResult)){
+    if($transactions > 0) {
+      $sqlTwo = "SELECT *, DATE_FORMAT(ExpenseBeginDate - INTERVAL timezoneOffset SECOND, '%m/%d/%Y %h:%i:%s %p') AS began, IFNULL(DATE_FORMAT(ExpenseEndDate - INTERVAL timezoneOffset SECOND, '%m/%d/%Y %h:%i:%s %p'), NULL) AS end FROM expenses";
+      $sqlTwoResult = mysqli_query($this->getLink(), $sqlTwo);
+
+        while($row = mysqli_fetch_array($sqlTwoResult)) {
           $id = $row['ExpenseId'];
           $title = $row['ExpenseTitle'];
           $price = $row['ExpensePrice'];
@@ -95,7 +97,7 @@ class Expenses extends Base
           $end = $row['end'];
           $frequency = $row['FrequencyOfExpense'];
 
-          $html = '
+          $html .= '
           <div class="list">
             <div class="row">
               <p style="font-weight: bold;">' . $title . '&nbsp;</p>
@@ -130,8 +132,10 @@ class Expenses extends Base
             </ul>
           </div>';
         }
-    } else {
-      $html = '<p>No expenses!</p>';
+    }
+
+    if($html == '') {
+      $html .= '<p>No expenses!</p>';
     }
 
     return $html;
