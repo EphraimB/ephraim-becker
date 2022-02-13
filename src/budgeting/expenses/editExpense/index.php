@@ -194,7 +194,7 @@ $editExpenseForm = new EditExpenseForm();
 $editExpenseForm->setLink($link);
 $editExpenseForm->setTitle("Ephraim Becker - Budgeting - Edit expense form");
 $editExpenseForm->setLocalStyleSheet('css/style.css');
-$editExpenseForm->setLocalScript(NULL);
+$editExpenseForm->setLocalScript('js/script.js');
 $editExpenseForm->setHeader('Budgeting - Edit expense form');
 $editExpenseForm->setUrl($_SERVER['REQUEST_URI']);
 $editExpenseForm->setId(intval($_GET['id']));
