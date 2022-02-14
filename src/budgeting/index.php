@@ -85,8 +85,14 @@ class Budgeting extends Base
             <h2>Expenses</h2>
             <p>Click to add an expense</p>
           </a>
-        </div>
-      </div>';
+      </div>
+      <div style="background-color: green;" class="card">
+        <a href="paycheck/">
+          <h2>Paycheck</h2>
+          <p>Click to add/change paycheck information</p>
+        </a>
+      </div>
+    </div>';
 
     return $html;
   }
