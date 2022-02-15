@@ -70,25 +70,25 @@ class Budgeting extends Base
     <div class="grid-container">
         <div style="background-color: green;" class="card">
           <a href="deposit/">
-            <h2>Deposit</h2>
+            <h3>Deposit</h3>
             <p>Click to make a deposit</p>
           </a>
         </div>
         <div style="background-color: yellow; color: black;" class="card">
           <a style="color: black;" href="withdrawal/">
-            <h2>Withdrawal</h2>
+            <h3>Withdrawal</h3>
             <p>Click to make a withdrawal</p>
           </a>
         </div>
         <div style="background-color: red;" class="card">
           <a href="expenses/">
-            <h2>Expenses</h2>
+            <h3>Expenses</h3>
             <p>Click to add an expense</p>
           </a>
       </div>
       <div style="background-color: green;" class="card">
         <a href="paycheck/">
-          <h2>Paycheck</h2>
+          <h3>Paycheck</h3>
           <p>Click to add/change paycheck information</p>
         </a>
       </div>
