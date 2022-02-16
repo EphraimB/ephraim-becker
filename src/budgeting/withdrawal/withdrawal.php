@@ -9,6 +9,8 @@ class Withdrawal
 {
   private $isAdmin;
   private $link;
+  private $withdrawalAmount;
+  private $withdrawalDescription;
 
   function __construct()
   {
@@ -43,6 +45,26 @@ class Withdrawal
     return $this->link;
   }
 
+  function setWithdrawalAmount($withdrawalAmount): void
+  {
+    $this->withdrawalAmount = $withdrawalAmount;
+  }
+
+  function getWithdrawalAmount(): float
+  {
+    return $this->withdrawalAmount;
+  }
+
+  function setWithdrawalDescription($withdrawalDescription): void
+  {
+    $this->withdrawalDescription = $withdrawalDescription;
+  }
+
+  function getWithdrawalDescription(): string
+  {
+    return $this->withdrawalDescription;
+  }
+
   function withdrawal(): string
   {
     $sql = $this->getLink()->prepare("INSERT INTO withdrawals (DateCreated, WithdrawalAmount, WithdrawalDescription)
@@ -50,8 +72,8 @@ class Withdrawal
      $sql->bind_param('sds', $dateNow, $withdrawalAmount, $withdrawalDescription);
 
      $dateNow = date("Y-m-d H:i:s");
-     $withdrawalAmount = $_POST['withdrawalAmount'];
-     $withdrawalDescription = $_POST['withdrawalDescription'];
+     $withdrawalAmount = $this->getWithdrawalAmount();
+     $withdrawalDescription = $this->getWithdrawalDescription();
 
      $sql->execute();
 
@@ -66,4 +88,6 @@ $link = $config->connectToServer();
 
 $withdrawal = new Withdrawal();
 $withdrawal->setLink($link);
+$withdrawal->setWithdrawalAmount(floatval($_POST['withdrawalAmount']));
+$withdrawal->setWithdrawalDescription($_POST['withdrawalDescription']);
 $withdrawal->withdrawal();

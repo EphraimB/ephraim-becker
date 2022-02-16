@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Feb 10, 2022 at 05:35 PM
+-- Generation Time: Feb 15, 2022 at 04:06 PM
 -- Server version: 5.7.36-cll-lve
 -- PHP Version: 7.3.32
 
@@ -318,7 +318,12 @@ INSERT INTO `timeline` (`TimelineId`, `MemoryType`, `DateCreated`, `DateModified
 (336, 1, '2022-02-10 00:41:38', '2022-02-10 00:42:09', '2022-02-10', '00:38:00', NULL, '', 18000, 'How my psychiatrist appointment was', 'My psychiatrist blamed all my anxiety problems on my nutrition. She said that sugar and American cheese is poison. No more:\r\n<ul>\r\n<li>American cheese</li>\r\n<li>Cereal</li>\r\n<li>Potatoes</li>\r\n<li>Gluten</li>\r\n</ul>\r\nand other stuff', NULL, 0, NULL, NULL, 0),
 (337, 1, '2022-02-10 18:54:00', '2022-02-10 18:54:00', '2022-02-10', '18:50:00', NULL, 'EST', 18000, 'How my doctorâ€™s appointment was', 'I walked to the doctorâ€™s office today and the doctor did my blood work and signed the reduced-fare metrocard form. I then walked to Seasons Express and bought a soup and walked back home.', 'soup-lunch.jpg', NULL, 'Soup lunch', NULL, 0),
 (338, 1, '2022-02-10 21:30:55', '2022-02-10 21:30:55', '2022-02-10', '21:28:00', NULL, 'EST', 18000, 'Iâ€™m getting new glasses', 'Iâ€™m getting new glasses. I got an eye test and my prescription went up a little which isnâ€™t bad for 5 years. The glasses color matches my iPhone.', 'new-glasses.jpg', NULL, 'New glasses', NULL, 0),
-(339, 1, '2022-02-10 23:10:19', '2022-02-10 23:10:19', '2022-02-10', '23:07:00', NULL, 'EST', 18000, 'What Iâ€™m having for supper', 'Iâ€™m having whole wheat macaroni & cheese but my mother is picking my father up from the train so Iâ€™m a little impatient so Iâ€™m making a whole wheat grilled cheese with mozzarella cheese of course.', 'what-iâ€™m-having-for-supper.jpg', NULL, 'What Iâ€™m having for supper', NULL, 0);
+(339, 1, '2022-02-10 23:10:19', '2022-02-10 23:10:19', '2022-02-10', '23:07:00', NULL, 'EST', 18000, 'What Iâ€™m having for supper', 'Iâ€™m having whole wheat macaroni & cheese but my mother is picking my father up from the train so Iâ€™m a little impatient so Iâ€™m making a whole wheat grilled cheese with mozzarella cheese of course.', 'what-iâ€™m-having-for-supper.jpg', NULL, 'What Iâ€™m having for supper', NULL, 0),
+(340, 1, '2022-02-11 15:07:50', '2022-02-11 15:07:50', '2022-02-11', '15:03:00', NULL, 'EST', 18000, 'How my day is going so far', 'I did ×©×—×¨×™×ª at Beth Sholom this morning at the 8:15AM ×ž× ×™×Ÿ. Two people told me that thereâ€™s a group of Yachad people that do ×ª×¤×™×œ×” there on ×©×‘×ª so Iâ€™m going to try it out this ×©×‘×ª. After ×©×—×¨×™×ª, I went to CVS Pharmacy to ask about my medications and they told me that Medicaid is rejecting my medications so I have to call Medicaid up to ask whatâ€™s going on. I walked back home.', NULL, NULL, NULL, NULL, 0),
+(341, 1, '2022-02-13 00:34:26', '2022-02-13 00:37:43', '2022-02-13', '00:20:00', NULL, '', 18000, 'How my ×©×‘×ª was', 'I did Friday night ×ª×¤×™×œ×” at Beth Sholom where the ×©×œ×™×— ×¦×™×‘×•×¨ sung Carlebach. I did ×ª×¤×™×œ×” ×©×‘×ª morning again at Beth Sholom. I didnâ€™t see a Yachad group at Beth Sholom but I saw Ohel residence people there with a counselor. There was a ×§×™×“×•×© following ×ª×¤×™×œ×” with cholent, potato kugel, and other stuff. I did ×ª×¤×™×œ×ª ×ž× ×—×” at the White Shul and the person that I had paranoia on that he was watching my every move was there. I told someone who knows my parents about it and told me that Iâ€™m just paranoid. After much convincing, he spoke to him and he told him that he doesnâ€™t know who he is. I then got the Rabbi involved and spoke to him when I was there and he told him and me that he doesnâ€™t have any idea who I am and that Iâ€™m not on his radar. I then mentioned Camp Chaverim and he said that he only brought his children there. I then said to him about what happened a few years ago about me saying to him that â€œI wanted to commit suicideâ€œ and him responding that â€œI shouldnâ€™t get my blood all over himâ€ and he told me that he doesnâ€™t have any clue what Iâ€™m talking about. The Rabbi got him to shake my hand. I was still a little suspicious of him during ×©×¢×•×“×” ×©×œ×™×©×™×ª and while pacing around and him getting up, I had an expression of fear in me and he said to me â€œOk! Ok! Good Shabbos!â€. ×ž×¢×¨×™×‘ followed ×©×¢×•×“×” ×©×œ×™×©×™×ª with ×”×‘×“×œ×” before ×¢×œ×™× ×•. Iâ€™m now home and ×©×‘×ª is over and I forgot to ask him to explain to me about his strange appearance in Beth Sholom when I came for the first time and why he left after speaking to a few people instead of staying for ×©×—×¨×™×ª.', NULL, 0, NULL, NULL, 0),
+(342, 1, '2022-02-14 17:08:24', '2022-02-14 17:08:24', '2022-02-14', '17:07:00', NULL, 'EST', 18000, 'I successfully applied for a reduced fare metrocard', 'I successfully applied for a reduced fare metrocard. I walked to the office which is right near my work. They read my form and took my picture and it will take 2 to 8 weeks to process it and Iâ€™ll get it in the mail.', NULL, NULL, NULL, NULL, 0),
+(343, 1, '2022-02-14 17:39:49', '2022-02-14 17:39:49', '2022-02-14', '17:38:00', NULL, 'EST', 18000, 'How my lunch was', 'I had split pea soup for lunch from Gourmet Glatt so that I can improve my mental health.', 'spilt-pea-soup-lunch.jpg', NULL, 'Spilt pea soup lunch', NULL, 0),
+(344, 1, '2022-02-15 15:31:24', '2022-02-15 15:31:24', '2022-02-15', '15:30:00', NULL, 'EST', 18000, 'I just thought of a very good idea about how to make a living', 'I just thought of this idea now of starting an\r\nautism advocacy Virtual Reality app where you get\r\nto meet other autistic people and they explain to\r\nyou how autism affects their life. I\'ll make it that\r\nyou\'ll get to really know them. I\'ll then monetize it\r\nand make a living that way.', NULL, NULL, NULL, NULL, 0);
 
 --
 -- Indexes for dumped tables
@@ -338,7 +343,7 @@ ALTER TABLE `timeline`
 -- AUTO_INCREMENT for table `timeline`
 --
 ALTER TABLE `timeline`
-  MODIFY `TimelineId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=340;
+  MODIFY `TimelineId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=345;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

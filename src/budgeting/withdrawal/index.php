@@ -51,7 +51,7 @@ class WithdrawalForm extends Base
 
     if(mysqli_num_rows($sqlResult) > 0) {
       while($row = mysqli_fetch_array($sqlResult)){
-        $currentBalance = $row['currentBalance'];
+        $currentBalance = floatval($row['currentBalance']);
       }
     }
 

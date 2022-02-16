@@ -6,7 +6,7 @@ session_start();
 require_once($_SERVER['DOCUMENT_ROOT'] . '/environment.php');
 require($_SERVER['DOCUMENT_ROOT'] . "/base.php");
 
-class PaycheckInfo extends Base
+class ChangePaycheckInfoForm extends Base
 {
   private $isAdmin;
   private $link;
@@ -16,7 +16,7 @@ class PaycheckInfo extends Base
     $this->setIsAdmin();
 
     if(!$this->getIsAdmin()) {
-      header("location: ../../");
+      header("location: ../../../");
     }
   }
 
@@ -64,7 +64,7 @@ class PaycheckInfo extends Base
     return $html;
   }
 
-  function showPaycheckInfo(): string
+  function displayPaycheckInfoForm(): string
   {
     $totalHours = 0;
     $totalDaysPerWeek = 0;
@@ -77,28 +77,30 @@ class PaycheckInfo extends Base
       while($row = mysqli_fetch_array($sqlResult)) {
         $totalHours += intval($row['totalHours']);
         $totalDaysPerWeek += intval($row['totalDaysPerWeek']);
-        $totalPayPerHour += intval($row['totalPayPerHour']);
+        $totalPayPerHour += floatval($row['totalPayPerHour']);
       }
     }
 
     $html = '
-      <p>I\'m working ' . $totalHours . ' hours for ' . $totalDaysPerWeek . ' days per week and get paid $' . $totalPayPerHour . ' an hour.</p>
+      <form action="changePaycheckInfo.php" method="post">
+        <div>
+          <label for="hoursWorked">Amount of hours currently working per day:</label>
+          <input type="number" name="hoursWorked" value="' . $totalHours . '" />
+        </div>
+        <br />
+        <div>
+          <label for="daysPerWeek">Amount of days currently working per week:</label>
+          <input type="number" name="daysPerWeek" value="' . $totalDaysPerWeek . '" />
+        </div>
+        <br />
+        <div>
+          <label for="payPerHour">Amount of pay per hour: $</label>
+          <input type="number" name="payPerHour" value="' . $totalPayPerHour . '" />
+        </div>
+        <br />
+        <input type="submit" />
+      </form>
     ';
-
-    return $html;
-  }
-
-  function displayActionButtons(): string
-  {
-    $html = '
-    <div class="grid-container">
-      <div style="background-color: yellow;" class="card">
-        <a style="color: black;" href="changePaycheckInfo/">
-          <h3>Change paycheck info</h3>
-          <p>Click to change paycheck information</p>
-        </a>
-      </div>
-    </div>';
 
     return $html;
   }
@@ -106,8 +108,7 @@ class PaycheckInfo extends Base
   function main(): string
   {
     $html = $this->displayCurrentBalance();
-    $html .= $this->showPaycheckInfo();
-    $html .= $this->displayActionButtons();
+    $html .= $this->displayPaycheckInfoForm();
 
     return $html;
   }
@@ -115,13 +116,13 @@ class PaycheckInfo extends Base
 $config = new Config();
 $link = $config->connectToServer();
 
-$paycheckInfo = new PaycheckInfo();
-$paycheckInfo->setLink($link);
-$paycheckInfo->setTitle("Ephraim Becker - Budgeting - Paycheck info");
-$paycheckInfo->setLocalStyleSheet('css/style.css');
-$paycheckInfo->setLocalScript(NULL);
-$paycheckInfo->setHeader('Budgeting - Paycheck info');
-$paycheckInfo->setUrl($_SERVER['REQUEST_URI']);
-$paycheckInfo->setBody($paycheckInfo->main());
+$changePaycheckInfoForm = new ChangePaycheckInfoForm();
+$changePaycheckInfoForm->setLink($link);
+$changePaycheckInfoForm->setTitle("Ephraim Becker - Budgeting - Change paycheck info form");
+$changePaycheckInfoForm->setLocalStyleSheet('css/style.css');
+$changePaycheckInfoForm->setLocalScript(NULL);
+$changePaycheckInfoForm->setHeader('Budgeting - Change paycheck info form');
+$changePaycheckInfoForm->setUrl($_SERVER['REQUEST_URI']);
+$changePaycheckInfoForm->setBody($changePaycheckInfoForm->main());
 
-$paycheckInfo->html();
+$changePaycheckInfoForm->html();
