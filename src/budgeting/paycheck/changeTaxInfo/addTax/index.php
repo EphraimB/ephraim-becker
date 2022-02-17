@@ -79,7 +79,7 @@ class AddTaxForm extends Base
       </div>
       <br />
 
-      <input type="submit" />
+      <input type="submit" value="Add tax" />
     </form>';
 
     return $html;
