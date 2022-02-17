@@ -92,6 +92,12 @@ class Budgeting extends Base
           <p>Click to add/change paycheck information</p>
         </a>
       </div>
+      <div style="background-color: red;" class="card">
+        <a href="moneyOwed/">
+          <h3>Money owed</h3>
+          <p>Click to add money owed</p>
+        </a>
+      </div>
     </div>';
 
     return $html;
