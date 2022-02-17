@@ -98,6 +98,12 @@ class PaycheckInfo extends Base
           <p>Click to change paycheck information</p>
         </a>
       </div>
+      <div style="background-color: yellow;" class="card">
+        <a style="color: black;" href="changeTaxInfo/">
+          <h3>Change tax info</h3>
+          <p>Click to change tax information</p>
+        </a>
+      </div>
     </div>';
 
     return $html;
