@@ -105,7 +105,7 @@ class EditTaxForm extends Base
         <input type="number" min="0" step="any" id="taxAmount" name="taxAmount" value="' . $price . '" />
       </div>
       <br />
-
+      <input type="hidden" name="id" value="' . $this->getId() . '" />
       <input type="submit" value="Edit tax" />
     </form>';
 
