@@ -55,7 +55,7 @@ class Confirmation extends Base
     return $this->id;
   }
 
-  function showConformation(): string
+  function showConfirmation(): string
   {
     $sql = $this->getLink()->prepare("SELECT * FROM expenses WHERE ExpenseId=?");
     $sql->bind_param("i", $id);
@@ -91,6 +91,6 @@ $confirmation->setLocalStyleSheet('css/style.css');
 $confirmation->setLocalScript(NULL);
 $confirmation->setHeader('Budgeting - Expenses - Delete?');
 $confirmation->setUrl($_SERVER['REQUEST_URI']);
-$confirmation->setBody($confirmation->showConformation());
+$confirmation->setBody($confirmation->showConfirmation());
 
 $confirmation->html();
