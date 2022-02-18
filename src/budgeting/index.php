@@ -44,7 +44,7 @@ class Budgeting extends Base
     return $this->link;
   }
 
-  function displayCurrentBalance(): string
+  function displayCurrentBalance(): array
   {
     $sql = "SELECT (SELECT SUM(DepositAmount) from deposits) - (SELECT SUM(WithdrawalAmount) FROM withdrawals) AS currentBalance";
     $sqlResult = mysqli_query($this->getLink(), $sql);
@@ -61,7 +61,7 @@ class Budgeting extends Base
 
     $html = '<h2>Current balance: $' . $currentBalance . '</h2>';
 
-    return $html;
+    return array($currentBalance, $html);
   }
 
   function displayActionButtons(): string
@@ -103,46 +103,52 @@ class Budgeting extends Base
     return $html;
   }
 
-  function displayExpensesTable(): string
+  function displayExpensesTable($currentBalance): string
   {
     $html = '
     <table>
         <tr>
           <th>Date</th>
           <th>Title</th>
-          <th>Description</th>
           <th>Amount</th>
         </tr>';
 
-    $sqlTwo = "SELECT * FROM expenses WHERE ExpenseEndDate > CURRENT_DATE() OR ISNULL(ExpenseEndDate)";
+    $sqlTwo = "SELECT *, Year(ExpenseBeginDate) AS ExpenseBeginYear, Month(ExpenseBeginDate) AS ExpenseBeginMonth, Day(ExpenseBeginDate) AS ExpenseBeginDay FROM expenses WHERE ExpenseEndDate > CURRENT_DATE() OR ISNULL(ExpenseEndDate)";
     $sqlTwoResult = mysqli_query($this->getLink(), $sqlTwo);
+
+    // SELECT SUM(hoursWorked) AS totalHours, SUM(daysPerWeek) AS totalDaysPerWeek, SUM(payPerHour) AS totalPayPerHour FROM payroll JOIN payroll SUM(hoursWorked) AS totalHours, SUM(daysPerWeek) AS totalDaysPerWeek, SUM(payPerHour) AS totalPayPerHour, SUM(payPerHour) * SUM(hoursWorked) * SUM(daysPerWeek) * 2.167 AS totalPay FROM payroll
 
     while($row = mysqli_fetch_array($sqlTwoResult)) {
       $expenseTitle = $row['ExpenseTitle'];
       $expensePrice = $row['ExpensePrice'];
       $expenseBeginDate = $row['ExpenseBeginDate'];
+      $expenseBeginYear = $row['ExpenseBeginYear'];
+      $expenseBeginMonth = $row['ExpenseBeginMonth'];
+      $expenseBeginDay = $row['ExpenseBeginDay'];
       $timezone = $row['timezone'];
       $timezoneOffset = $row['timezoneOffset'];
       $expenseEndDate = $row['ExpenseEndDate'];
       $frequencyOfExpense = $row['FrequencyOfExpense'];
+
+      $html .= '<tr>
+            <td>' . $expenseBeginMonth . '/' . $expenseBeginDay . '/' . $expenseBeginYear . '</td>
+            <td>' . $expenseTitle . '</td>
+            <td>$' . $currentBalance - $expensePrice . '</td>
+          </tr>';
     }
 
-    $html .= '<tr>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td>$</td>
-        </tr>
-      </table>';
+    $html .= '</table>';
 
     return $html;
   }
 
   function main(): string
   {
-    $html = $this->displayCurrentBalance();
+    $currentBalance = $this->displayCurrentBalance()[0];
+    $html = $this->displayCurrentBalance()[1];
     $html .= $this->displayActionButtons();
-    $html .= $this->displayExpensesTable();
+    $html .= '<br />';
+    $html .= $this->displayExpensesTable($currentBalance);
 
     return $html;
   }
