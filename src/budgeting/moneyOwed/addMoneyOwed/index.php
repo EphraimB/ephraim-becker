@@ -80,7 +80,7 @@ class AddMoneyOwedForm extends Base
         <br />
         <div>
           <label for="amount">Amount I\'m borrowing: $</label>
-          <input type="number" name="amount" />
+          <input type="number" step="any" name="amount" />
         </div>
         <br />
         <input type="submit" value="Add money owed" />
