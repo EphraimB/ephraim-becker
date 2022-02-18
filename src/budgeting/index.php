@@ -116,7 +116,7 @@ class Budgeting extends Base
     $sqlTwo = "SELECT *, Year(ExpenseBeginDate) AS ExpenseBeginYear, Month(ExpenseBeginDate) AS ExpenseBeginMonth, Day(ExpenseBeginDate) AS ExpenseBeginDay FROM expenses WHERE ExpenseEndDate > CURRENT_DATE() OR ISNULL(ExpenseEndDate)";
     $sqlTwoResult = mysqli_query($this->getLink(), $sqlTwo);
 
-    // SELECT SUM(hoursWorked) AS totalHours, SUM(daysPerWeek) AS totalDaysPerWeek, SUM(payPerHour) AS totalPayPerHour FROM payroll JOIN payroll SUM(hoursWorked) AS totalHours, SUM(daysPerWeek) AS totalDaysPerWeek, SUM(payPerHour) AS totalPayPerHour, SUM(payPerHour) * SUM(hoursWorked) * SUM(daysPerWeek) * 2.167 AS totalPay FROM payroll
+    // SELECT SUM(payPerHour) * SUM(hoursWorked) * SUM(daysPerWeek) * 2.167 AS amount FROM payroll UNION SELECT *, ExpensePrice AS amount, Year(ExpenseBeginDate) AS ExpenseBeginYear, Month(ExpenseBeginDate) AS ExpenseBeginMonth, Day(ExpenseBeginDate) AS ExpenseBeginDay FROM expenses WHERE ExpenseEndDate > CURRENT_DATE() OR ISNULL(ExpenseEndDate)
 
     while($row = mysqli_fetch_array($sqlTwoResult)) {
       $expenseTitle = $row['ExpenseTitle'];
