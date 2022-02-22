@@ -6,10 +6,11 @@ session_start();
 require_once($_SERVER['DOCUMENT_ROOT'] . '/environment.php');
 require($_SERVER['DOCUMENT_ROOT'] . "/base.php");
 
-class AddPaycheckDateForm extends Base
+class EditPaycheckDateForm extends Base
 {
   private $isAdmin;
   private $link;
+  private $id;
 
   function __construct()
   {
@@ -44,6 +45,16 @@ class AddPaycheckDateForm extends Base
     return $this->link;
   }
 
+  function setId($id): void
+  {
+    $this->id = $id;
+  }
+
+  function getId(): int
+  {
+    return $this->id;
+  }
+
   function displayCurrentBalance(): string
   {
     $sql = "SELECT (SELECT SUM(DepositAmount) from deposits) - (SELECT SUM(WithdrawalAmount) FROM withdrawals) AS currentBalance";
@@ -64,7 +75,7 @@ class AddPaycheckDateForm extends Base
     return $html;
   }
 
-  function addPaycheckDateForm(): string
+  function changePaycheckDateForm(): string
   {
     $totalHours = 0;
     $totalDaysPerWeek = 0;
@@ -81,14 +92,28 @@ class AddPaycheckDateForm extends Base
       }
     }
 
+    $sqlTwo = $this->getLink()->prepare("SELECT * FROM payrollDates WHERE payrollDates_id=?");
+    $sqlTwo->bind_param('i', $id);
+
+    $id = $this->getId();
+
+    $sqlTwo->execute();
+
+    $sqlTwoResult = $sqlTwo->get_result();
+
+    while($rowTwo = mysqli_fetch_array($sqlTwoResult)) {
+      $payrollDate = date("Y-m-d", strtotime($rowTwo['PayrollDate'])) . '\T' . date("H:i:s", strtotime($rowTwo['PayrollDate']));
+    }
+
     $html = '
-      <form action="addPaycheckDate.php" method="post">
+      <form action="editPaycheckDate.php" method="post">
         <div>
           <label for="hoursWorked">Paycheck date:</label>
-          <input type="datetime-local" name="paycheckDate" />
+          <input type="datetime-local" name="paycheckDate" value="' . date($payrollDate) . '" />
         </div>
         <br />
-        <input type="submit" value="Add paycheck date" />
+        <input type="hidden" name="id" value="' . $this->getId() . '" />
+        <input type="submit" value="Change paycheck date" />
       </form>
     ';
 
@@ -98,7 +123,7 @@ class AddPaycheckDateForm extends Base
   function main(): string
   {
     $html = $this->displayCurrentBalance();
-    $html .= $this->addPaycheckDateForm();
+    $html .= $this->changePaycheckDateForm();
 
     return $html;
   }
@@ -106,13 +131,14 @@ class AddPaycheckDateForm extends Base
 $config = new Config();
 $link = $config->connectToServer();
 
-$addPaycheckDateForm = new AddPaycheckDateForm();
-$addPaycheckDateForm->setLink($link);
-$addPaycheckDateForm->setTitle("Ephraim Becker - Budgeting - Add paycheck date form");
-$addPaycheckDateForm->setLocalStyleSheet('css/style.css');
-$addPaycheckDateForm->setLocalScript(NULL);
-$addPaycheckDateForm->setHeader('Budgeting - Add paycheck date form');
-$addPaycheckDateForm->setUrl($_SERVER['REQUEST_URI']);
-$addPaycheckDateForm->setBody($addPaycheckDateForm->main());
+$editPaycheckDateForm = new EditPaycheckDateForm();
+$editPaycheckDateForm->setLink($link);
+$editPaycheckDateForm->setId(intval($_GET['id']));
+$editPaycheckDateForm->setTitle("Ephraim Becker - Budgeting - Change paycheck date form");
+$editPaycheckDateForm->setLocalStyleSheet('css/style.css');
+$editPaycheckDateForm->setLocalScript(NULL);
+$editPaycheckDateForm->setHeader('Budgeting - Change paycheck date form');
+$editPaycheckDateForm->setUrl($_SERVER['REQUEST_URI']);
+$editPaycheckDateForm->setBody($editPaycheckDateForm->main());
 
-$addPaycheckDateForm->html();
+$editPaycheckDateForm->html();

@@ -114,11 +114,11 @@ class PaycheckDatesInfo extends Base
       $html .= '
       <div class="list">
         <div class="row">
-          <p>' . $payrollDate . '&nbsp;</p>';
+          <p>Paycheck: ' . $payrollDate . '</p>';
 
           $html .= '</div>
             <ul class="row actionButtons">
-              <li><a class="edit" href="editPayrollDate/index.php?id=' . $id . '">Edit payroll date</a></li>
+              <li><a class="edit" href="editPaycheckDate/index.php?id=' . $id . '">Edit payroll date</a></li>
               <li><a class="delete" href="confirmation.php?id=' . $id . '">Delete payroll date</a></li>
             </ul>
           </div>';
