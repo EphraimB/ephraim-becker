@@ -46,7 +46,7 @@ class Index extends Base
     </p>
     <p>
       <span style="font-weight: bold;">Religion: </span>
-      <span>Modern Orthodox Jewish (My parents are ultra-orthodox Jewish)</span>
+      <span>Conservadox Jewish (My parents are ultra-orthodox Jewish)</span>
     </p>
     <p>
       <span style="font-weight: bold;">Interests: </span>
