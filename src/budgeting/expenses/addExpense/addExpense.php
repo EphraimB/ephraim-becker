@@ -105,7 +105,7 @@ class AddExpense
     $this->endDate = $endDate;
   }
 
-  function getEndDate(): string
+  function getEndDate()
   {
     return $this->endDate;
   }
@@ -164,6 +164,8 @@ $addExpense->setTimezoneOffset(intval($_POST['timezoneOffset']));
 
 if(isset($_POST['endDateExists'])) {
   $addExpense->setEndDate($_POST['endDate']);
+} else {
+  $addExpense->setEndDate(NULL);
 }
 
 $addExpense->setFrequency(intval($_POST['frequency']));

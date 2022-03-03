@@ -130,6 +130,17 @@ class Budgeting extends Base
       $expenseEndDate = $row['ExpenseEndDate'];
       $frequencyOfExpense = $row['FrequencyOfExpense'];
 
+      $currentMonth = date('m');
+      $currentDay = date('d');
+
+      if($currentMonth > $expenseBeginMonth) {
+        $expenseBeginMonth = $currentMonth;
+      }
+
+      if($expenseBeginDay < $currentDay) {
+        $expenseBeginMonth++;
+      }
+
       $html .= '<tr>
             <td>' . $expenseBeginMonth . '/' . $expenseBeginDay . '/' . $expenseBeginYear . '</td>
             <td>' . $expenseTitle . '</td>

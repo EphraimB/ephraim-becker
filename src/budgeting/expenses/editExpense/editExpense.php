@@ -116,7 +116,7 @@ class EditExpense
     $this->endDate = $endDate;
   }
 
-  function getEndDate(): string
+  function getEndDate()
   {
     return $this->endDate;
   }
@@ -174,7 +174,13 @@ $editExpense->setExpenseTitle($_POST['expenseTitle']);
 $editExpense->setStartDate($_POST['startDate']);
 $editExpense->setTimezone($_POST['timezone']);
 $editExpense->setTimezoneOffset(intval($_POST['timezoneOffset']));
-$editExpense->setEndDate($_POST['endDate']);
+
+if(isset($_POST['endDateExist'])) {
+  $editExpense->setEndDate($_POST['endDate']);
+} else {
+  $editExpense->setEndDate(NULL);
+}
+
 $editExpense->setFrequency(intval($_POST['frequency']));
 
 $editExpense->editExpense();
