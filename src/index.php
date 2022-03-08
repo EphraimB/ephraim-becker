@@ -42,7 +42,7 @@ class Index extends Base
     </p>
     <p>
       <span style="font-weight: bold;">Birthdate: </span>
-      <span itemprop="birthDate"><time datetime="1996-07-19T12:21">July 19, 1996 @ 12:21PM</time></span>
+      <span itemprop="birthDate"><time datetime="1996-07-19T12:21">July 19, 1996 @ 12:28PM</time></span>
     </p>
     <p>
       <span style="font-weight: bold;">Religion: </span>

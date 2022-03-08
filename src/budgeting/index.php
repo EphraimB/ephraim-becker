@@ -113,38 +113,39 @@ class Budgeting extends Base
           <th>Amount</th>
         </tr>';
 
-    $sqlTwo = "SELECT *, Year(ExpenseBeginDate) AS ExpenseBeginYear, Month(ExpenseBeginDate) AS ExpenseBeginMonth, Day(ExpenseBeginDate) AS ExpenseBeginDay FROM expenses WHERE ExpenseEndDate > CURRENT_DATE() OR ISNULL(ExpenseEndDate)";
+    $sqlTwo = "SELECT 'Paycheck' AS title, SUM(payPerHour) * SUM(hoursWorked) * SUM(daysPerWeek) * 2.167 AS amount, YEAR(CURDATE()) AS beginYear, MONTH(CURDATE()) AS beginMonth, 15 AS beginDay, 0 AS frequency, 0 AS type FROM payroll UNION SELECT ExpenseTitle AS title, ExpensePrice AS amount, Year(ExpenseBeginDate) AS beginYear, Month(ExpenseBeginDate) AS beginMonth, Day(ExpenseBeginDate) AS beginDay, FrequencyOfExpense AS frequency, 1 AS type FROM expenses WHERE ExpenseEndDate > CURRENT_DATE() OR ISNULL(ExpenseEndDate)";
     $sqlTwoResult = mysqli_query($this->getLink(), $sqlTwo);
 
-    // SELECT SUM(payPerHour) * SUM(hoursWorked) * SUM(daysPerWeek) * 2.167 AS amount FROM payroll UNION SELECT *, ExpensePrice AS amount, Year(ExpenseBeginDate) AS ExpenseBeginYear, Month(ExpenseBeginDate) AS ExpenseBeginMonth, Day(ExpenseBeginDate) AS ExpenseBeginDay FROM expenses WHERE ExpenseEndDate > CURRENT_DATE() OR ISNULL(ExpenseEndDate)
-
     while($row = mysqli_fetch_array($sqlTwoResult)) {
-      $expenseTitle = $row['ExpenseTitle'];
-      $expensePrice = $row['ExpensePrice'];
-      $expenseBeginDate = $row['ExpenseBeginDate'];
-      $expenseBeginYear = $row['ExpenseBeginYear'];
-      $expenseBeginMonth = $row['ExpenseBeginMonth'];
-      $expenseBeginDay = $row['ExpenseBeginDay'];
-      $timezone = $row['timezone'];
-      $timezoneOffset = $row['timezoneOffset'];
-      $expenseEndDate = $row['ExpenseEndDate'];
-      $frequencyOfExpense = $row['FrequencyOfExpense'];
+      $title = $row['title'];
+      $amount = $row['amount'];
+      $beginYear = $row['beginYear'];
+      $beginMonth = $row['beginMonth'];
+      $beginDay = $row['beginDay'];
+      $frequency = $row['frequency'];
+      $type = $row['type'];
 
       $currentMonth = date('m');
       $currentDay = date('d');
 
-      if($currentMonth > $expenseBeginMonth) {
-        $expenseBeginMonth = $currentMonth;
+      if($currentMonth > $beginMonth) {
+        $beginMonth = $currentMonth;
       }
 
-      if($expenseBeginDay < $currentDay) {
-        $expenseBeginMonth++;
+      if($beginDay < $currentDay) {
+        $beginMonth++;
+      }
+
+      if($type == 0) {
+        $result = $currentBalance + $amount;
+      } else if($type == 1) {
+        $result = $currentBalance - $amount;
       }
 
       $html .= '<tr>
-            <td>' . $expenseBeginMonth . '/' . $expenseBeginDay . '/' . $expenseBeginYear . '</td>
-            <td>' . $expenseTitle . '</td>
-            <td>$' . $currentBalance - $expensePrice . '</td>
+            <td>' . $beginMonth . '/' . $beginDay . '/' . $beginYear . '</td>
+            <td>' . $title . '</td>
+            <td>$' . $result . '</td>
           </tr>';
     }
 
