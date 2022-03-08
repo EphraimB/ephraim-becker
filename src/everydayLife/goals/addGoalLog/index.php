@@ -71,8 +71,10 @@ class AddGoalLogForm extends Base
               <textarea id="log" name="log" rows="6" cols="45" required></textarea>
             </div>
           </div>
+          <input type="hidden" name="timezoneOffset" id="timezoneOffset" value="" />
+          <input type="hidden" name="timezone" id="timezone" value="" />
           <br />
-          <input type="submit" id="submit" value="Add to goal log" />
+          <input type="submit" id="submit" value="Add to goal log" disabled="disabled" />
           <br />
         </form>';
 
@@ -86,7 +88,7 @@ $addGoalLogForm = new AddGoalLogForm();
 $addGoalLogForm->setLink($link);
 
 $addGoalLogForm->setLocalStyleSheet("css/style.css");
-$addGoalLogForm->setLocalScript(NULL);
+$addGoalLogForm->setLocalScript("js/script.js");
 $addGoalLogForm->setTitle("Ephraim Becker - Everyday Life - Goals - Add goal log");
 $addGoalLogForm->setHeader("Add to goal log");
 $addGoalLogForm->setUrl($_SERVER['REQUEST_URI']);
