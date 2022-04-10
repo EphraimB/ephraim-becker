@@ -12,6 +12,7 @@ class EditTax
   private $id;
   private $taxTitle;
   private $taxAmount;
+  private $fixed;
 
   function __construct()
   {
@@ -76,10 +77,20 @@ class EditTax
     return $this->taxAmount;
   }
 
+  function setFixed($fixed): void
+  {
+    $this->fixed = $fixed;
+  }
+
+  function getFixed(): int
+  {
+    return $this->fixed;
+  }
+
   function editTax(): void
   {
-    $sql = $this->getLink()->prepare("UPDATE payrollTaxes SET DateModified=?, taxTitle=?, taxAmount=? WHERE payrollTax_id=?");
-    $sql->bind_param('ssdi', $dateNow, $taxTitle, $taxAmount, $id);
+    $sql = $this->getLink()->prepare("UPDATE payrollTaxes SET DateModified=?, taxTitle=?, taxAmount=?, fixed=? WHERE payrollTax_id=?");
+    $sql->bind_param('ssdii', $dateNow, $taxTitle, $taxAmount, $fixed, $id);
 
     $id = $this->getId();
 
@@ -87,6 +98,7 @@ class EditTax
 
     $taxTitle = $this->getTaxTitle();
     $taxAmount = $this->getTaxAmount();
+    $fixed = $this->getFixed();
 
     $sql->execute();
 
@@ -103,5 +115,12 @@ $editTax->setLink($link);
 $editTax->setId(intval($_POST['id']));
 $editTax->setTaxTitle($_POST['taxTitle']);
 $editTax->setTaxAmount(floatval($_POST['taxAmount']));
+
+if(empty($_POST['fixed'])) {
+  $fixed = 0;
+} else {
+  $fixed = 1;
+}
+$editTax->setFixed(intval($fixed));
 
 $editTax->editTax();

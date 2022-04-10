@@ -51,7 +51,7 @@ class Budgeting extends Base
 
     if(mysqli_num_rows($sqlResult) > 0) {
       while($row = mysqli_fetch_array($sqlResult)){
-        $currentBalance = floatval($row['currentBalance']);
+        $currentBalance = number_format(round(floatval($row['currentBalance']), 2), 2);
       }
     }
 
@@ -145,7 +145,7 @@ class Budgeting extends Base
       $html .= '<tr>
             <td>' . $beginMonth . '/' . $beginDay . '/' . $beginYear . '</td>
             <td>' . $title . '</td>
-            <td>$' . $result . '</td>
+            <td>$' . number_format(round($result, 2), 2) . '</td>
           </tr>';
     }
 

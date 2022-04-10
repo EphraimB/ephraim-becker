@@ -78,7 +78,11 @@ class AddTaxForm extends Base
         <input type="number" min="0" step="any" id="taxAmount" name="taxAmount" />
       </div>
       <br />
-
+      <div class="row">
+        <label for="fixedAmount">Fixed:</label>
+        <input type="checkbox" name="fixed" />
+      </div>
+      <br />
       <input type="submit" value="Add tax" />
     </form>';
 

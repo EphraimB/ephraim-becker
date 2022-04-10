@@ -89,6 +89,7 @@ class EditTaxForm extends Base
     while($row = mysqli_fetch_array($sqlTwoResult)){
       $title = $row['taxTitle'];
       $price = $row['taxAmount'];
+      $fixed = $row['fixed'];
     }
 
     $sqlTwo->close();
@@ -103,6 +104,16 @@ class EditTaxForm extends Base
       <div class="row">
         <label for="taxAmount">Enter balance of tax amount (xxx.xxxxx): $</label>
         <input type="number" min="0" step="any" id="taxAmount" name="taxAmount" value="' . $price . '" />
+      </div>
+      <br />
+      <div class="row">
+        <label for="fixedAmount">Fixed:</label>
+        <input type="checkbox" name="fixed" ';
+
+        if($fixed == 1) {
+          $html .= 'checked';
+        }
+        $html .= ' />
       </div>
       <br />
       <input type="hidden" name="id" value="' . $this->getId() . '" />
