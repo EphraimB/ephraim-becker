@@ -158,7 +158,7 @@ class Budgeting extends Base
         $beginMonth++;
       }
 
-      for($i = $currentMonth; $i <= $currentMonth; $i++) {
+      for($i = $beginMonth; $i <= $beginMonth; $i++) {
         $balance = $this->calculateAmount($amount, $type, $index, $currentBalance, $budget);
         $index++;
 
@@ -173,7 +173,7 @@ class Budgeting extends Base
       }
     }
 
-    var_dump($budget);
+    // var_dump($budget);
 
     for($j = 0; $j < count($budget); $j++) {
       $html .= '<tr>
