@@ -103,8 +103,30 @@ class Budgeting extends Base
     return $html;
   }
 
+  function calculateAmount($amount, $type, $index, $currentBalance, $budget): float
+  {
+    if($type == 0) {
+      if($index == 0) {
+        $result = $currentBalance + $amount;
+      } else {
+        $result = $budget[$index - 1] + $amount;
+      }
+    } else if($type == 1) {
+      if($index == 0) {
+        $result = $currentBalance - $amount;
+      } else {
+        $result = $budget[$index - 1]["amount"] - $amount;
+      }
+    }
+
+    return $result;
+  }
+
   function displayExpensesTable($currentBalance): string
   {
+    $index = 0;
+    $budget = array();
+
     $html = '
     <table>
         <tr>
@@ -118,12 +140,12 @@ class Budgeting extends Base
 
     while($row = mysqli_fetch_array($sqlTwoResult)) {
       $title = $row['title'];
-      $amount = $row['amount'];
+      $amount = floatval($row['amount']);
       $beginYear = $row['beginYear'];
       $beginMonth = $row['beginMonth'];
       $beginDay = $row['beginDay'];
       $frequency = $row['frequency'];
-      $type = $row['type'];
+      $type = intval($row['type']);
 
       $currentMonth = date('m');
       $currentDay = date('d');
@@ -136,17 +158,29 @@ class Budgeting extends Base
         $beginMonth++;
       }
 
-      if($type == 0) {
-        $result = $currentBalance + $amount;
-      } else if($type == 1) {
-        $result = $currentBalance - $amount;
-      }
+      for($i = $currentMonth; $i <= $currentMonth; $i++) {
+        $balance = $this->calculateAmount($amount, $type, $index, $currentBalance, $budget);
+        $index++;
 
+        array_push($budget, array(
+          "year" => $beginYear,
+          "month" => $i,
+          "day" => $beginDay,
+          "title" => $title,
+          "amount" => $balance,
+          "type" => $type
+        ));
+      }
+    }
+
+    var_dump($budget);
+
+    for($j = 0; $j < count($budget); $j++) {
       $html .= '<tr>
-            <td>' . $beginMonth . '/' . $beginDay . '/' . $beginYear . '</td>
-            <td>' . $title . '</td>
-            <td>$' . number_format(round($result, 2), 2) . '</td>
-          </tr>';
+          <td>' . $budget[$j]["month"] . '/' . $budget[$j]["day"] . '/' . $budget[$j]["year"] . '</td>
+          <td>' . $budget[$j]["title"] . '</td>
+          <td>$' . number_format(round($budget[$j]["amount"], 2), 2) . '</td>
+      </tr>';
     }
 
     $html .= '</table>';
