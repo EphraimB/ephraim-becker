@@ -135,7 +135,7 @@ class Budgeting extends Base
           <th>Amount</th>
         </tr>';
 
-    $sqlTwo = "SELECT 'Paycheck' AS title, SUM(payPerHour) * SUM(hoursWorked) * SUM(daysPerWeek) * 2.167 AS amount, YEAR(CURDATE()) AS beginYear, MONTH(CURDATE()) AS beginMonth, 15 AS beginDay, 0 AS frequency, 0 AS type FROM payroll UNION SELECT ExpenseTitle AS title, ExpensePrice AS amount, Year(ExpenseBeginDate) AS beginYear, Month(ExpenseBeginDate) AS beginMonth, Day(ExpenseBeginDate) AS beginDay, FrequencyOfExpense AS frequency, 1 AS type FROM expenses WHERE ExpenseEndDate > CURRENT_DATE() OR ISNULL(ExpenseEndDate)";
+    $sqlTwo = "SELECT 'Paycheck' AS title, SUM(payPerHour) * SUM(hoursWorked) * SUM(daysPerWeek) * 2.167 - (SELECT SUM(taxAmount) FROM payrollTaxes WHERE fixed = 1) - (SELECT SUM(taxAmount) * (SELECT SUM(payPerHour) * SUM(hoursWorked) * SUM(daysPerWeek) * 2.167 FROM payroll) FROM payrollTaxes WHERE fixed = 0) AS amount, YEAR(CURDATE()) AS beginYear, MONTH(CURDATE()) AS beginMonth, 15 AS beginDay, 0 AS frequency, 0 AS type FROM payroll UNION SELECT ExpenseTitle AS title, ExpensePrice AS amount, Year(ExpenseBeginDate) AS beginYear, Month(ExpenseBeginDate) AS beginMonth, Day(ExpenseBeginDate) AS beginDay, FrequencyOfExpense AS frequency, 1 AS type FROM expenses WHERE ExpenseEndDate > CURRENT_DATE() OR ISNULL(ExpenseEndDate)";
     $sqlTwoResult = mysqli_query($this->getLink(), $sqlTwo);
 
     while($row = mysqli_fetch_array($sqlTwoResult)) {
