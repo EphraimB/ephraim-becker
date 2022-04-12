@@ -94,11 +94,25 @@ class MoneyOwed extends Base
         $recipient = $row['MoneyOwedRecipient'];
         $for = $row['MoneyOwedFor'];
         $amount = $row['MoneyOwedAmount'];
+        $planAmount = $row['planAmount'];
+        $frequency = $row['frequency'];
 
         $html .= '
         <div class="list">
           <div class="row">
-            <p style="font-weight: bold;">You owe $' . $amount . ' to ' . $recipient . ' for ' . $for . '</p>
+            <p style="font-weight: bold;">You owe $' . $amount . ' to ' . $recipient . ' for ' . $for . ' and will be paying it back $' . $planAmount . ' per ';
+
+            if($frequency == 0) {
+              $html .= 'year';
+            } else if($frequency == 1) {
+              $html .= 'month';
+            } else if($frequency == 2) {
+              $html .= 'week';
+            } else if($frequency == 3) {
+              $html .= 'day';
+            }
+
+            $html .= '</p>
 
           </div>
           <ul class="row actionButtons">

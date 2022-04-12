@@ -90,6 +90,8 @@ class EditMoneyOwedForm extends Base
       $recipient = $row['MoneyOwedRecipient'];
       $for = $row['MoneyOwedFor'];
       $amount = $row['MoneyOwedAmount'];
+      $planAmount = $row['planAmount'];
+      $frequency = $row['frequency'];
     }
 
     $html = '
@@ -107,6 +109,44 @@ class EditMoneyOwedForm extends Base
       <div>
         <label for="amount">Amount I\'m borrowing: $</label>
         <input type="number" step="any" name="amount" value="' . $amount . '" />
+      </div>
+      <br />
+      <div>
+        <label for="planAmount">Plan: $</label>
+        <input type="number" step="any" name="planAmount" value="' . $planAmount . '" />
+      </div>
+      <p>Per</p>
+      <div>
+        <select name="frequency" id="frequency">
+          <option value="0" ';
+
+          if($frequency == 0) {
+            $html .= 'selected';
+          }
+
+        $html .= '>Yearly</option>
+          <option value="1" ';
+
+          if($frequency == 1) {
+            $html .= 'selected';
+          }
+
+          $html .= '>Monthly</option>
+          <option value="2" ';
+
+          if($frequency == 2) {
+            $html .= 'selected';
+          }
+
+          $html .= '>Weekly</option>
+          <option value="3" ';
+
+          if($frequency == 3) {
+            $html .= 'selected';
+          }
+
+          $html .= '>Daily</option>
+        </select>
       </div>
       <br />
       <input type="hidden" name="id" value="' . $this->getId() . '" />

@@ -13,6 +13,8 @@ class EditMoneyOwed
   private $recipient;
   private $for;
   private $amount;
+  private $planAmount;
+  private $frequency;
 
   function __construct()
   {
@@ -87,10 +89,30 @@ class EditMoneyOwed
     return $this->amount;
   }
 
+  function setPlanAmount($planAmount): void
+  {
+    $this->planAmount = $planAmount;
+  }
+
+  function getPlanAmount(): float
+  {
+    return $this->planAmount;
+  }
+
+  function setFrequency($frequency): void
+  {
+    $this->frequency = $frequency;
+  }
+
+  function getFrequency(): int
+  {
+    return $this->frequency;
+  }
+
   function editMoneyOwed(): void
   {
-    $sql = $this->getLink()->prepare("UPDATE moneyOwed SET DateModified=?, MoneyOwedRecipient=?, MoneyOwedFor=?, MoneyOwedAmount=? WHERE moneyOwed_id=?");
-    $sql->bind_param('sssdi', $dateNow, $recipient, $for, $amount, $id);
+    $sql = $this->getLink()->prepare("UPDATE moneyOwed SET DateModified=?, MoneyOwedRecipient=?, MoneyOwedFor=?, MoneyOwedAmount=?, planAmount=?, frequency=? WHERE moneyOwed_id=?");
+    $sql->bind_param('sssddii', $dateNow, $recipient, $for, $amount, $planAmount, $frequency, $id);
 
     $id = $this->getId();
 
@@ -98,6 +120,8 @@ class EditMoneyOwed
     $recipient = $this->getRecipient();
     $for = $this->getFor();
     $amount = $this->getAmount();
+    $planAmount = $this->getPlanAmount();
+    $frequency = $this->getFrequency();
 
     $sql->execute();
 
@@ -115,5 +139,6 @@ $editMoneyOwed->setId(intval($_POST['id']));
 $editMoneyOwed->setRecipient($_POST['recipient']);
 $editMoneyOwed->setFor($_POST['for']);
 $editMoneyOwed->setAmount(floatval($_POST['amount']));
-
+$editMoneyOwed->setPlanAmount(floatval($_POST['planAmount']));
+$editMoneyOwed->setFrequency(intval($_POST['frequency']));
 $editMoneyOwed->editMoneyOwed();

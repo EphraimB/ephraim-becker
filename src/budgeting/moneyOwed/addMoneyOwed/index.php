@@ -83,6 +83,20 @@ class AddMoneyOwedForm extends Base
           <input type="number" step="any" name="amount" />
         </div>
         <br />
+        <div>
+          <label for="planAmount">Plan: $</label>
+          <input type="number" step="any" name="planAmount" />
+        </div>
+        <p>Per</p>
+        <div>
+          <select name="frequency" id="frequency">
+            <option value="0">Yearly</option>
+            <option value="1">Monthly</option>
+            <option value="2">Weekly</option>
+            <option value="3">Daily</option>
+          </select>
+        </div>
+        <br />
         <input type="submit" value="Add money owed" />
       </form>
     ';
