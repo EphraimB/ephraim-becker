@@ -92,6 +92,8 @@ class EditMoneyOwedForm extends Base
       $amount = $row['MoneyOwedAmount'];
       $planAmount = $row['planAmount'];
       $frequency = $row['frequency'];
+      $timezoneOffset = $row['timezoneOffset'];
+      $date = date("Y-m-d", strtotime($row['date'])) . 'T' . date("H:i:s", strtotime($row['date']) - intval($timezoneOffset));
     }
 
     $html = '
@@ -149,8 +151,15 @@ class EditMoneyOwedForm extends Base
         </select>
       </div>
       <br />
+      <div>
+        <label for="date">Payback plan start date: </label>
+        <input type="datetime-local" name="date" id="date" value="' . $date . '" />
+      </div>
+      <br />
+      <input type="hidden" name="timezone" id="timezone" />
+      <input type="hidden" name="timezoneOffset" id="timezoneOffset" />
       <input type="hidden" name="id" value="' . $this->getId() . '" />
-      <input type="submit" value="Edit money owed" />
+      <input type="submit" id="submitButton" value="Edit money owed" disabled="disabled" />
     </form>';
 
     return $html;
@@ -172,7 +181,7 @@ $editMoneyOwedForm->setLink($link);
 $editMoneyOwedForm->setId(intval($_GET['id']));
 $editMoneyOwedForm->setTitle("Ephraim Becker - Budgeting - Edit money owed form");
 $editMoneyOwedForm->setLocalStyleSheet('css/style.css');
-$editMoneyOwedForm->setLocalScript(NULL);
+$editMoneyOwedForm->setLocalScript('js/script.js');
 $editMoneyOwedForm->setHeader('Budgeting - Edit money owed form');
 $editMoneyOwedForm->setUrl($_SERVER['REQUEST_URI']);
 $editMoneyOwedForm->setBody($editMoneyOwedForm->main());

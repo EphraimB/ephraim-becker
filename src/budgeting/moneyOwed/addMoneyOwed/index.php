@@ -97,6 +97,13 @@ class AddMoneyOwedForm extends Base
           </select>
         </div>
         <br />
+        <div>
+        <label for="date">Payback plan start date: </label>
+          <input type="datetime-local" name="date" id="date" />
+        </div>
+        <br />
+        <input type="hidden" name="timezone" id="timezone" />
+        <input type="hidden" name="timezoneOffset" id="timezoneOffset" />
         <input type="submit" value="Add money owed" />
       </form>
     ';
@@ -119,7 +126,7 @@ $addMoneyOwedForm = new AddMoneyOwedForm();
 $addMoneyOwedForm->setLink($link);
 $addMoneyOwedForm->setTitle("Ephraim Becker - Budgeting - Add money owed form");
 $addMoneyOwedForm->setLocalStyleSheet('css/style.css');
-$addMoneyOwedForm->setLocalScript(NULL);
+$addMoneyOwedForm->setLocalScript('js/script.js');
 $addMoneyOwedForm->setHeader('Budgeting - Add money owed form');
 $addMoneyOwedForm->setUrl($_SERVER['REQUEST_URI']);
 $addMoneyOwedForm->setBody($addMoneyOwedForm->main());

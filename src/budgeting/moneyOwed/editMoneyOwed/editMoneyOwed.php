@@ -15,6 +15,9 @@ class EditMoneyOwed
   private $amount;
   private $planAmount;
   private $frequency;
+  private $date;
+  private $timezone;
+  private $timezoneOffset;
 
   function __construct()
   {
@@ -109,10 +112,39 @@ class EditMoneyOwed
     return $this->frequency;
   }
 
+  function setDate($date): void
+  {
+    $this->date = $date;
+  }
+
+  function getDate(): String
+  {
+    return $this->date;
+  }
+
+  function setTimezone($timezone): void {
+    $this->timezone = $timezone;
+  }
+
+  function getTimezone(): String
+  {
+    return $this->timezone;
+  }
+
+  function setTimezoneOffset($timezoneOffset): void
+  {
+    $this->timezoneOffset = $timezoneOffset;
+  }
+
+  function getTimezoneOffset(): int
+  {
+    return $this->timezoneOffset;
+  }
+
   function editMoneyOwed(): void
   {
-    $sql = $this->getLink()->prepare("UPDATE moneyOwed SET DateModified=?, MoneyOwedRecipient=?, MoneyOwedFor=?, MoneyOwedAmount=?, planAmount=?, frequency=? WHERE moneyOwed_id=?");
-    $sql->bind_param('sssddii', $dateNow, $recipient, $for, $amount, $planAmount, $frequency, $id);
+    $sql = $this->getLink()->prepare("UPDATE moneyOwed SET DateModified=?, MoneyOwedRecipient=?, MoneyOwedFor=?, MoneyOwedAmount=?, planAmount=?, frequency=?, date=?, timezone=?, timezoneOffset=? WHERE moneyOwed_id=?");
+    $sql->bind_param('sssddissii', $dateNow, $recipient, $for, $amount, $planAmount, $frequency, $date, $timezone, $timezoneOffset, $id);
 
     $id = $this->getId();
 
@@ -122,6 +154,10 @@ class EditMoneyOwed
     $amount = $this->getAmount();
     $planAmount = $this->getPlanAmount();
     $frequency = $this->getFrequency();
+    $timezone = $this->getTimezone();
+    $timezoneOffset = $this->getTimezoneOffset();
+
+    $date = date('Y-m-d H:i:s', strtotime($this->getDate()) + $timezoneOffset);
 
     $sql->execute();
 
@@ -141,4 +177,7 @@ $editMoneyOwed->setFor($_POST['for']);
 $editMoneyOwed->setAmount(floatval($_POST['amount']));
 $editMoneyOwed->setPlanAmount(floatval($_POST['planAmount']));
 $editMoneyOwed->setFrequency(intval($_POST['frequency']));
+$editMoneyOwed->setDate($_POST['date']);
+$editMoneyOwed->setTimezone($_POST['timezone']);
+$editMoneyOwed->setTimezoneOffset(intval($_POST['timezoneOffset']));
 $editMoneyOwed->editMoneyOwed();
