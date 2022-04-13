@@ -109,7 +109,7 @@ class Budgeting extends Base
       if($index == 0) {
         $result = $currentBalance + $amount;
       } else {
-        $result = $budget[$index - 1] + $amount;
+        $result = $budget[$index - 1]["amount"] + $amount;
       }
     } else if($type == 1) {
       if($index == 0) {
@@ -135,7 +135,7 @@ class Budgeting extends Base
           <th>Amount</th>
         </tr>';
 
-    $sqlTwo = "SELECT 'Paycheck' AS title, SUM(payPerHour) * SUM(hoursWorked) * SUM(daysPerWeek) * 2.167 - (SELECT SUM(taxAmount) FROM payrollTaxes WHERE fixed = 1) - (SELECT SUM(taxAmount) * (SELECT SUM(payPerHour) * SUM(hoursWorked) * SUM(daysPerWeek) * 2.167 FROM payroll) FROM payrollTaxes WHERE fixed = 0) AS amount, YEAR(CURDATE()) AS beginYear, MONTH(CURDATE()) AS beginMonth, 15 AS beginDay, 0 AS frequency, 0 AS type FROM payroll UNION SELECT ExpenseTitle AS title, ExpensePrice AS amount, Year(ExpenseBeginDate) AS beginYear, Month(ExpenseBeginDate) AS beginMonth, Day(ExpenseBeginDate) AS beginDay, FrequencyOfExpense AS frequency, 1 AS type FROM expenses WHERE ExpenseEndDate > CURRENT_DATE() OR ISNULL(ExpenseEndDate)";
+    $sqlTwo = "SELECT 'Paycheck' AS title, SUM(payPerHour) * SUM(hoursWorked) * SUM(daysPerWeek) * 2.167 - (SELECT SUM(taxAmount) FROM payrollTaxes WHERE fixed = 1) - (SELECT SUM(taxAmount) * (SELECT SUM(payPerHour) * SUM(hoursWorked) * SUM(daysPerWeek) * 2.167 FROM payroll) FROM payrollTaxes WHERE fixed = 0) AS amount, YEAR(CURDATE()) AS beginYear, IF(15 > DAY(CURDATE()), MONTH(CURDATE()), MONTH(DATE_ADD(CURDATE(), INTERVAL 1 MONTH))) AS beginMonth, 15 AS beginDay, 0 AS frequency, 0 AS type FROM payroll UNION SELECT ExpenseTitle AS title, ExpensePrice AS amount, Year(ExpenseBeginDate) AS beginYear, IF(DAY(CURDATE()) > DAY(ExpenseBeginDate), MONTH(DATE_ADD(CURDATE(), INTERVAL 1 MONTH)), MONTH(CURDATE())) AS beginMonth, Day(ExpenseBeginDate) AS beginDay, FrequencyOfExpense AS frequency, 1 AS type FROM expenses WHERE ExpenseEndDate > CURRENT_DATE() OR ISNULL(ExpenseEndDate) UNION SELECT concat(MoneyOwedFor, ' payback to ', MoneyOwedRecipient) AS title, planAmount AS amount, YEAR(date) AS beginYear, IF(DAY(CURDATE()) > DAY(date), MONTH(DATE_ADD(CURDATE(), INTERVAL 1 MONTH)), MONTH(CURDATE())) AS beginMonth, DAY(date) AS beginDay, frequency AS frequency, 1 AS type FROM moneyOwed ORDER BY beginYear, beginMonth, beginDay";
     $sqlTwoResult = mysqli_query($this->getLink(), $sqlTwo);
 
     while($row = mysqli_fetch_array($sqlTwoResult)) {
@@ -149,14 +149,6 @@ class Budgeting extends Base
 
       $currentMonth = date('m');
       $currentDay = date('d');
-
-      if($currentMonth > $beginMonth) {
-        $beginMonth = $currentMonth;
-      }
-
-      if($beginDay < $currentDay) {
-        $beginMonth++;
-      }
 
       for($i = $beginMonth; $i <= $beginMonth; $i++) {
         $balance = $this->calculateAmount($amount, $type, $index, $currentBalance, $budget);
