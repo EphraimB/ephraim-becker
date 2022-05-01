@@ -3,6 +3,11 @@ html {
   text-align: center;
 }
 
+body {
+  background-image: linear-gradient(to right, rgba(255,255,255, 0.5) 0 100%), url("../img/hairBackground.jpg");
+  height: 100%;
+}
+
 .edit-background-image {
   display: inline-block;
   margin-left: 85%;
