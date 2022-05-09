@@ -81,6 +81,18 @@ class Expenses extends Base
     return $html;
   }
 
+  function showMealPlanButton(): String
+  {
+    $html = '
+    <div class="row">
+        <ul class="subNav">
+          <li><a style="text-decoration: none;" href="addMealPlan/">Add meal plan</a></li>
+        </ul>
+      </div>';
+
+    return $html;
+  }
+
   function showExpensesTable($transactions): string
   {
     $html = '';
@@ -147,6 +159,7 @@ class Expenses extends Base
     $currentBalance = $this->getCurrentBalance()[1];
     $html = $this->displayCurrentBalance($currentBalance);
     $html .= '<br />';
+    $html .= $this->showMealPlanButton();
     $html .= $this->addExpenseButton();
     $html .= $this->showExpensesTable($transactions);
 
