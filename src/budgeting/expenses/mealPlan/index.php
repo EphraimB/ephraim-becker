@@ -125,7 +125,7 @@ class MealPlan extends Base
                 $html .= '<div class="foodItem" onclick="showActionButtons(this)">
                   <a class="edit" href="editFood/index.php?id=' . $mealPlan[$j]['id'] . '">Edit</a>
                   ' . $mealPlan[$j]["mealItem"] . ' - $' . $mealPlan[$j]["mealPrice"] . '
-                  <a class="delete" href="confirmationFood/index.php?id=' . $mealPlan[$j]['id'] . '">Delete</a>
+                  <a class="delete" href="confirmationFood.php?id=' . $mealPlan[$j]['id'] . '">Delete</a>
                 </div>';
               }
             }
@@ -138,7 +138,7 @@ class MealPlan extends Base
                 $html .= '<div class="foodItem" onclick="showActionButtons(this)">
                   <a class="edit" href="editFood/index.php?id=' . $mealPlan[$j]['id'] . '">Edit</a>
                   ' . $mealPlan[$j]["mealItem"] . ' - $' . $mealPlan[$j]["mealPrice"] . '
-                  <a class="delete" href="confirmationFood/index.php?id=' . $mealPlan[$j]['id'] . '">Delete</a>
+                  <a class="delete" href="confirmationFood.php?id=' . $mealPlan[$j]['id'] . '">Delete</a>
                 </div>';
               }
             }
@@ -151,7 +151,7 @@ class MealPlan extends Base
                 $html .= '<div class="foodItem" onclick="showActionButtons(this)">
                   <a class="edit" href="editFood/index.php?id=' . $mealPlan[$j]['id'] . '">Edit</a>
                   ' . $mealPlan[$j]["mealItem"] . ' - $' . $mealPlan[$j]["mealPrice"] . '
-                  <a class="delete" href="confirmationFood/index.php?id=' . $mealPlan[$j]['id'] . '">Delete</a>
+                  <a class="delete" href="confirmationFood.php?id=' . $mealPlan[$j]['id'] . '">Delete</a>
                 </div>';
               }
             }
