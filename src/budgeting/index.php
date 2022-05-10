@@ -135,7 +135,19 @@ class Budgeting extends Base
           <th>Amount</th>
         </tr>';
 
-    $sqlTwo = "SELECT 'Paycheck' AS title, (SELECT SUM(payPerHour) * SUM(hoursWorked) * SUM(daysPerWeek) * 2.167 - (SELECT SUM(taxAmount) FROM payrollTaxes WHERE fixed = 1) - (SELECT SUM(taxAmount) * (SELECT SUM(payPerHour) * SUM(hoursWorked) * SUM(daysPerWeek) * 2.167 FROM payroll) FROM payrollTaxes WHERE fixed = 0) FROM payroll) AS amount, YEAR(CURDATE()) AS beginYear, IF(MONTH(CURDATE()) >= MONTH(CURDATE()), IF(15 > DAY(CURDATE()), MONTH(CURDATE()), MONTH(DATE_ADD(CURDATE(), INTERVAL 1 MONTH))), CURDATE()) AS beginMonth, DAY(PayrollDate) AS beginDay, 0 AS frequency, 0 AS type FROM payrollDates UNION SELECT ExpenseTitle AS title, ExpensePrice AS amount, Year(ExpenseBeginDate) AS beginYear, IF(MONTH(CURDATE()) >= MONTH(ExpenseBeginDate), IF(DAY(CURDATE()) > DAY(ExpenseBeginDate), MONTH(DATE_ADD(CURDATE(), INTERVAL 1 MONTH)), MONTH(CURDATE())), MONTH(ExpenseBeginDate)) AS beginMonth, Day(ExpenseBeginDate) AS beginDay, FrequencyOfExpense AS frequency, 1 AS type FROM expenses WHERE ExpenseEndDate > CURRENT_DATE() OR ISNULL(ExpenseEndDate) UNION SELECT concat(MoneyOwedFor, ' payback to ', MoneyOwedRecipient) AS title, planAmount AS amount, YEAR(date) AS beginYear, IF(MONTH(CURDATE()) >= MONTH(date), IF(DAY(CURDATE()) > DAY(date), MONTH(DATE_ADD(CURDATE(), INTERVAL 1 MONTH)), MONTH(CURDATE())), MONTH(date)) AS beginMonth, DAY(date) AS beginDay, frequency AS frequency, 1 AS type FROM moneyOwed ORDER BY beginYear, beginMonth, beginDay";
+    $sqlTwo = "SELECT 'Paycheck' AS title, (SELECT SUM(payPerHour) * SUM(hoursWorked) * SUM(daysPerWeek) * 2.167 - (SELECT SUM(taxAmount) FROM payrollTaxes WHERE fixed = 1) - (SELECT SUM(taxAmount) * (SELECT SUM(payPerHour) * SUM(hoursWorked) * SUM(daysPerWeek) * 2.167 FROM payroll) FROM payrollTaxes WHERE fixed = 0) FROM payroll) AS amount, YEAR(CURDATE()) AS beginYear, IF(MONTH(CURDATE()) >= MONTH(CURDATE()), IF(15 > DAY(CURDATE()), MONTH(CURDATE()), MONTH(DATE_ADD(CURDATE(), INTERVAL 1 MONTH))), CURDATE()) AS beginMonth, DAY(PayrollDate) AS beginDay, 0 AS frequency, 0 AS type FROM payrollDates UNION SELECT ExpenseTitle AS title, ExpensePrice AS amount, Year(ExpenseBeginDate) AS beginYear, IF(MONTH(CURDATE()) >= MONTH(ExpenseBeginDate), IF(DAY(CURDATE()) > DAY(ExpenseBeginDate), MONTH(DATE_ADD(CURDATE(), INTERVAL 1 MONTH)), MONTH(CURDATE())), MONTH(ExpenseBeginDate)) AS beginMonth, Day(ExpenseBeginDate) AS beginDay, FrequencyOfExpense AS frequency, 1 AS type FROM expenses WHERE ExpenseEndDate > CURRENT_DATE() OR ISNULL(ExpenseEndDate) UNION SELECT concat(MoneyOwedFor, ' payback to ', MoneyOwedRecipient) AS title, planAmount AS amount, YEAR(date) AS beginYear, IF(MONTH(CURDATE()) >= MONTH(date), IF(DAY(CURDATE()) > DAY(date), MONTH(DATE_ADD(CURDATE(), INTERVAL 1 MONTH)), MONTH(CURDATE())), MONTH(date)) AS beginMonth, DAY(date) AS beginDay, frequency AS frequency, 1 AS type FROM moneyOwed UNION SELECT 'Food expenses' AS title, (SELECT SUM(MealPrice) FROM MealPlan GROUP BY MealDayId LIMIT 1) AS amount, (SELECT
+  YEAR(CASE WHEN WEEKDAY(CURDATE()) + 1 >= MealDayId
+       THEN (CURDATE() + INTERVAL (6 - WEEKDAY(CURDATE())) DAY) + INTERVAL MealDayId DAY
+       ELSE (CURDATE() + INTERVAL (0 - WEEKDAY(CURDATE())) DAY) + INTERVAL (MealDayId-1) DAY
+  END)) AS beginYear, (SELECT
+  MONTH(CASE WHEN WEEKDAY(CURDATE()) + 1 >= MealDayId
+       THEN (CURDATE() + INTERVAL (6 - WEEKDAY(CURDATE())) DAY) + INTERVAL MealDayId DAY
+       ELSE (CURDATE() + INTERVAL (0 - WEEKDAY(CURDATE())) DAY) + INTERVAL (MealDayId-1) DAY
+  END)) AS beginMonth, (SELECT
+  DAY(CASE WHEN WEEKDAY(CURDATE()) + 1 >= MealDayId
+       THEN (CURDATE() + INTERVAL (6 - WEEKDAY(CURDATE())) DAY) + INTERVAL MealDayId DAY
+       ELSE (CURDATE() + INTERVAL (0 - WEEKDAY(CURDATE())) DAY) + INTERVAL (MealDayId-1) DAY
+  END)) AS beginDay, 3 AS frequency, 1 AS type FROM MealPlan ORDER BY beginYear, beginMonth, beginDay";
     $sqlTwoResult = mysqli_query($this->getLink(), $sqlTwo);
 
     while($row = mysqli_fetch_array($sqlTwoResult)) {
