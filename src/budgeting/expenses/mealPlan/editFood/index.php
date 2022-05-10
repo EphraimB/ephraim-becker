@@ -108,13 +108,48 @@ class EditFoodForm extends Base
         <p>Day</p>
         <div>
           <select name="mealDayId" id="day">
-            <option value="0">Sunday</option>
-            <option value="1">Monday</option>
-            <option value="2">Tuesday</option>
-            <option value="3">Wednesday</option>
-            <option value="4">Thursday</option>
-            <option value="5">Friday</option>
-            <option value="6">Shabbat</option>
+            <option value="0"';
+
+            if($mealDayId == 0) {
+              $html .= ' selected';
+            }
+            $html .= '>Sunday</option>
+            <option value="1"';
+
+            if($mealDayId == 1) {
+              $html .= ' selected';
+            }
+            $html .= '>Monday</option>
+            <option value="2"';
+
+            if($mealDayId == 2) {
+              $html .= ' selected';
+            }
+            $html .= '>Tuesday</option>
+            <option value="3"';
+
+            if($mealDayId == 3) {
+              $html .= ' selected';
+            }
+            $html .= '>Wednesday</option>
+            <option value="4"';
+
+            if($mealDayId == 4) {
+              $html .= ' selected';
+            }
+            $html .= '>Thursday</option>
+            <option value="5"';
+
+            if($mealDayId == 5) {
+              $html .= ' selected';
+            }
+            $html .= '>Friday</option>
+            <option value="6"';
+
+            if($mealDayId == 6) {
+              $html .= ' selected';
+            }
+            $html .= '>Shabbat</option>
           </select>
         </div>
         <br />
