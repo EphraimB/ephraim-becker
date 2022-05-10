@@ -92,6 +92,7 @@ class MealPlan extends Base
         <th>Breakfast</th>
         <th>Lunch</th>
         <th>Supper</th>
+        <th>Actions</th>
       </tr>';
 
       while($row = mysqli_fetch_array($sqlTwoResult)) {
@@ -125,6 +126,11 @@ class MealPlan extends Base
               } else {
                 $html .= '<td></td>';
               }
+
+              $html .= '<td class="actionButtons">
+                <a class="edit" href="editDay/index.php?mealDayId=' . $i . '">Edit</a>
+                <a class="delete" href="confirmationDay/index.php?mealDayId=' . $i . '">Delete</a>
+              </td>';
 
             $html .= '</tr>';
         }
