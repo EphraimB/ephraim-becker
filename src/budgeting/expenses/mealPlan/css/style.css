@@ -13,7 +13,7 @@
   margin-bottom: 10px;
 }
 
-.subNav, .actionButtons {
+.subNav {
   overflow: hidden;
   position: relative;
   height: 25%;
@@ -27,15 +27,12 @@
   color: white;
 }
 
-.actionButtons a {
-  text-decoration: none;
-  display: block;
-  padding: 14px 16px;
-}
-
 .edit {
   background-color: yellow;
   color: black;
+  text-decoration: none;
+  display: block;
+  padding: 14px 16px;
 }
 
 .edit:hover {
@@ -48,6 +45,9 @@
 .delete {
   background-color: red;
   color: white;
+  text-decoration: none;
+  display: block;
+  padding: 14px 16px;
 }
 
 .delete:hover {
@@ -61,4 +61,28 @@
 
 .keep:hover {
   background-color: lightgreen;
+}
+
+.foodItem {
+  background-color: white;
+  color: black;
+  padding: 2px;
+  margin: 3px;
+}
+
+.foodItem:hover {
+  background-color: lightgrey;
+  cursor: pointer;
+}
+
+#meal-plan-table {
+  width: 100%;
+}
+
+#meal-plan-table .fixed-width {
+  width: calc(100%/3);
+}
+
+.hide-action-buttons {
+  display: none;
 }

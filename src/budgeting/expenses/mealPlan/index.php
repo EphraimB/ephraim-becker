@@ -89,13 +89,12 @@ class MealPlan extends Base
       $sqlTwo = "SELECT * FROM MealPlan";
       $sqlTwoResult = mysqli_query($this->getLink(), $sqlTwo);
 
-      $html = '<table>
+      $html = '<table id="meal-plan-table">
       <tr>
         <th></th>
         <th>Breakfast</th>
         <th>Lunch</th>
         <th>Supper</th>
-        <th>Actions</th>
       </tr>';
 
       while($row = mysqli_fetch_array($sqlTwoResult)) {
@@ -120,37 +119,44 @@ class MealPlan extends Base
         $html .= '
           <tr>
             <td>' . $days[$i] . '</td>
-            <td>';
+            <td class="fixed-width">';
             for($j = 0; $j < count($mealPlan); $j++) {
               if($i == $mealPlan[$j]["mealDayId"] && $mealPlan[$j]["mealId"] == 0) {
-                $html .= '<p>' . $mealPlan[$j]["mealItem"] . ' - $' . $mealPlan[$j]["mealPrice"] . '</p>';
+                $html .= '<div class="foodItem" onclick="showActionButtons(this)">
+                  <a class="edit" href="editDay/index.php?mealPlanId=' . $mealPlan[$j]['id'] . '">Edit</a>
+                  ' . $mealPlan[$j]["mealItem"] . ' - $' . $mealPlan[$j]["mealPrice"] . '
+                  <a class="delete" href="confirmationDay/index.php?mealPlanId=' . $mealPlan[$j]['id'] . '">Delete</a>
+                </div>';
               }
             }
 
             $html .= '</td>
-            <td>';
+            <td class="fixed-width">';
 
             for($j = 0; $j < count($mealPlan); $j++) {
               if($i == $mealPlan[$j]["mealDayId"] && $mealPlan[$j]["mealId"] == 1) {
-                $html .= '<p>' . $mealPlan[$j]["mealItem"] . ' - $' . $mealPlan[$j]["mealPrice"] . '</p>';
+                $html .= '<div class="foodItem" onclick="showActionButtons(this)">
+                  <a class="edit" href="editDay/index.php?mealPlanId=' . $mealPlan[$j]['id'] . '">Edit</a>
+                  ' . $mealPlan[$j]["mealItem"] . ' - $' . $mealPlan[$j]["mealPrice"] . '
+                  <a class="delete" href="confirmationDay/index.php?mealPlanId=' . $mealPlan[$j]['id'] . '">Delete</a>
+                </div>';
               }
             }
 
             $html .= '</td>
-            <td>';
+            <td class="fixed-width">';
 
             for($j = 0; $j < count($mealPlan); $j++) {
               if($i == $mealPlan[$j]["mealDayId"] && $mealPlan[$j]["mealId"] == 2) {
-                $html .= '<p>' . $mealPlan[$j]["mealItem"] . ' - $' . $mealPlan[$j]["mealPrice"] . '</p>';
+                $html .= '<div class="foodItem" onclick="showActionButtons(this)">
+                  <a class="edit" href="editDay/index.php?mealPlanId=' . $mealPlan[$j]['id'] . '">Edit</a>
+                  ' . $mealPlan[$j]["mealItem"] . ' - $' . $mealPlan[$j]["mealPrice"] . '
+                  <a class="delete" href="confirmationDay/index.php?mealPlanId=' . $mealPlan[$j]['id'] . '">Delete</a>
+                </div>';
               }
             }
 
             $html .= '</td>';
-
-            $html .= '<td class="actionButtons">
-              <a class="edit" href="editDay/index.php?mealDayId=' . $i . '">Edit</a>
-              <a class="delete" href="confirmationDay/index.php?mealDayId=' . $i . '">Delete</a>
-            </td>';
 
           $html .= '</tr>';
     }
@@ -179,7 +185,7 @@ $mealPlan = new MealPlan();
 $mealPlan->setLink($link);
 $mealPlan->setTitle("Ephraim Becker - Budgeting - Expenses - Meal plan");
 $mealPlan->setLocalStyleSheet('css/style.css');
-$mealPlan->setLocalScript(NULL);
+$mealPlan->setLocalScript('js/script.js');
 $mealPlan->setHeader('Budgeting - Expenses - Meal plan');
 $mealPlan->setUrl($_SERVER['REQUEST_URI']);
 $mealPlan->setBody($mealPlan->main());
