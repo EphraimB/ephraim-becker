@@ -83,6 +83,9 @@ class MealPlan extends Base
 
   function showMealPlanTable($transactions): string
   {
+      $index = 0;
+      $mealPlan = array();
+
       $sqlTwo = "SELECT * FROM MealPlan";
       $sqlTwoResult = mysqli_query($this->getLink(), $sqlTwo);
 
@@ -101,39 +104,55 @@ class MealPlan extends Base
         $mealItem = $row['MealItem'];
         $mealPrice = $row['MealPrice'];
         $mealDayId = $row['MealDayId'];
-        $mealDate = $row['MealDayId'];
 
         $days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Shabbat'];
 
-        for($i = 0; $i < count($days); $i++) {
-          $html .= '
-            <tr>
-              <td>' . $days[$i] . '</td>';
-              if($i == $mealDayId && $mealId == 0) {
-                $html .= '<td>' . $mealItem . ' - $' . $mealPrice . '</td>';
-              } else {
-                $html .= '<td></td>';
+        array_push($mealPlan, array(
+          "id" => $id,
+          "mealId" => $mealId,
+          "mealItem" => $mealItem,
+          "mealPrice" => $mealPrice,
+          "mealDayId" => $mealDayId
+        ));
+    }
+
+    for($i = 0; $i < count($days); $i++) {
+        $html .= '
+          <tr>
+            <td>' . $days[$i] . '</td>
+            <td>';
+            for($j = 0; $j < count($mealPlan); $j++) {
+              if($i == $mealPlan[$j]["mealDayId"] && $mealPlan[$j]["mealId"] == 0) {
+                $html .= '<p>' . $mealPlan[$j]["mealItem"] . ' - $' . $mealPlan[$j]["mealPrice"] . '</p>';
               }
+            }
 
-              if($i == $mealDayId && $mealId == 1) {
-                $html .= '<td>' . $mealItem . ' - $' . $mealPrice . '</td>';
-              } else {
-                $html .= '<td></td>';
+            $html .= '</td>
+            <td>';
+
+            for($j = 0; $j < count($mealPlan); $j++) {
+              if($i == $mealPlan[$j]["mealDayId"] && $mealPlan[$j]["mealId"] == 1) {
+                $html .= '<p>' . $mealPlan[$j]["mealItem"] . ' - $' . $mealPlan[$j]["mealPrice"] . '</p>';
               }
+            }
 
-              if($i == $mealDayId && $mealId == 2) {
-                $html .= '<td>' . $mealItem . ' - $' . $mealPrice . '</td>';
-              } else {
-                $html .= '<td></td>';
+            $html .= '</td>
+            <td>';
+
+            for($j = 0; $j < count($mealPlan); $j++) {
+              if($i == $mealPlan[$j]["mealDayId"] && $mealPlan[$j]["mealId"] == 2) {
+                $html .= '<p>' . $mealPlan[$j]["mealItem"] . ' - $' . $mealPlan[$j]["mealPrice"] . '</p>';
               }
+            }
 
-              $html .= '<td class="actionButtons">
-                <a class="edit" href="editDay/index.php?mealDayId=' . $i . '">Edit</a>
-                <a class="delete" href="confirmationDay/index.php?mealDayId=' . $i . '">Delete</a>
-              </td>';
+            $html .= '</td>';
 
-            $html .= '</tr>';
-        }
+            $html .= '<td class="actionButtons">
+              <a class="edit" href="editDay/index.php?mealDayId=' . $i . '">Edit</a>
+              <a class="delete" href="confirmationDay/index.php?mealDayId=' . $i . '">Delete</a>
+            </td>';
+
+          $html .= '</tr>';
     }
 
     $html .= '</table>';
