@@ -86,7 +86,7 @@ class Expenses extends Base
     $html = '
     <div class="row">
         <ul class="subNav">
-          <li><a style="text-decoration: none;" href="addMealPlan/">Add meal plan</a></li>
+          <li><a style="text-decoration: none;" href="mealPlan/">Meal plan</a></li>
         </ul>
       </div>';
 
