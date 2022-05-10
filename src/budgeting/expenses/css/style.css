@@ -33,6 +33,28 @@
   padding: 14px 16px;
 }
 
+.planButtons {
+  display: flex;
+  justify-content: center;
+}
+
+.planButtons li {
+  list-style-type: none;
+  margin: 3px;
+}
+
+.planButtons li a {
+  text-decoration: none;
+  background-color: green;
+  color: white;
+  padding: 14px 16px;
+  display: block;
+}
+
+.planButtons li a:hover {
+  background-color: lightgreen;
+}
+
 .edit {
   background-color: yellow;
   color: black;

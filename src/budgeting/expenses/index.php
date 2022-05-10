@@ -81,14 +81,13 @@ class Expenses extends Base
     return $html;
   }
 
-  function showMealPlanButton(): String
+  function showPlanButtons(): string
   {
     $html = '
-    <div class="row">
-        <ul class="subNav">
-          <li><a style="text-decoration: none;" href="mealPlan/">Meal plan</a></li>
-        </ul>
-      </div>';
+        <ul class="planButtons">
+          <li><a href="mealPlan/">Meal plan</a></li>
+          <li><a href="commutePlan/">Commute plan</a></li>
+        </ul>';
 
     return $html;
   }
@@ -159,7 +158,7 @@ class Expenses extends Base
     $currentBalance = $this->getCurrentBalance()[1];
     $html = $this->displayCurrentBalance($currentBalance);
     $html .= '<br />';
-    $html .= $this->showMealPlanButton();
+    $html .= $this->showPlanButtons();
     $html .= $this->addExpenseButton();
     $html .= $this->showExpensesTable($transactions);
 
