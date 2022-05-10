@@ -123,9 +123,9 @@ class MealPlan extends Base
             for($j = 0; $j < count($mealPlan); $j++) {
               if($i == $mealPlan[$j]["mealDayId"] && $mealPlan[$j]["mealId"] == 0) {
                 $html .= '<div class="foodItem" onclick="showActionButtons(this)">
-                  <a class="edit" href="editDay/index.php?mealPlanId=' . $mealPlan[$j]['id'] . '">Edit</a>
+                  <a class="edit" href="editFood/index.php?id=' . $mealPlan[$j]['id'] . '">Edit</a>
                   ' . $mealPlan[$j]["mealItem"] . ' - $' . $mealPlan[$j]["mealPrice"] . '
-                  <a class="delete" href="confirmationDay/index.php?mealPlanId=' . $mealPlan[$j]['id'] . '">Delete</a>
+                  <a class="delete" href="confirmationFood/index.php?id=' . $mealPlan[$j]['id'] . '">Delete</a>
                 </div>';
               }
             }
@@ -136,9 +136,9 @@ class MealPlan extends Base
             for($j = 0; $j < count($mealPlan); $j++) {
               if($i == $mealPlan[$j]["mealDayId"] && $mealPlan[$j]["mealId"] == 1) {
                 $html .= '<div class="foodItem" onclick="showActionButtons(this)">
-                  <a class="edit" href="editDay/index.php?mealPlanId=' . $mealPlan[$j]['id'] . '">Edit</a>
+                  <a class="edit" href="editFood/index.php?id=' . $mealPlan[$j]['id'] . '">Edit</a>
                   ' . $mealPlan[$j]["mealItem"] . ' - $' . $mealPlan[$j]["mealPrice"] . '
-                  <a class="delete" href="confirmationDay/index.php?mealPlanId=' . $mealPlan[$j]['id'] . '">Delete</a>
+                  <a class="delete" href="confirmationFood/index.php?id=' . $mealPlan[$j]['id'] . '">Delete</a>
                 </div>';
               }
             }
@@ -149,9 +149,9 @@ class MealPlan extends Base
             for($j = 0; $j < count($mealPlan); $j++) {
               if($i == $mealPlan[$j]["mealDayId"] && $mealPlan[$j]["mealId"] == 2) {
                 $html .= '<div class="foodItem" onclick="showActionButtons(this)">
-                  <a class="edit" href="editDay/index.php?mealPlanId=' . $mealPlan[$j]['id'] . '">Edit</a>
+                  <a class="edit" href="editFood/index.php?id=' . $mealPlan[$j]['id'] . '">Edit</a>
                   ' . $mealPlan[$j]["mealItem"] . ' - $' . $mealPlan[$j]["mealPrice"] . '
-                  <a class="delete" href="confirmationDay/index.php?mealPlanId=' . $mealPlan[$j]['id'] . '">Delete</a>
+                  <a class="delete" href="confirmationFood/index.php?id=' . $mealPlan[$j]['id'] . '">Delete</a>
                 </div>';
               }
             }
