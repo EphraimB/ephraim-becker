@@ -83,56 +83,54 @@ class MealPlan extends Base
 
   function showMealPlanTable($transactions): string
   {
-    $html = '';
-
-    if($transactions > 0) {
       $sqlTwo = "SELECT * FROM MealPlan";
       $sqlTwoResult = mysqli_query($this->getLink(), $sqlTwo);
 
-        while($row = mysqli_fetch_array($sqlTwoResult)) {
-          $id = $row['MealPlanId'];
-          $mealId = $row['MealId'];
-          $mealItem = $row['MealItem'];
-          $mealPrice = $row['MealPrice'];
-          $mealDate = $row['MealDate'];
+      $html = '<table>
+      <tr>
+        <th></th>
+        <th>Breakfast</th>
+        <th>Lunch</th>
+        <th>Supper</th>
+      </tr>';
 
+      while($row = mysqli_fetch_array($sqlTwoResult)) {
+        $id = $row['MealPlanId'];
+        $mealId = $row['MealId'];
+        $mealItem = $row['MealItem'];
+        $mealPrice = $row['MealPrice'];
+        $mealDayId = $row['MealDayId'];
+        $mealDate = $row['MealDayId'];
+
+        $days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Shabbat'];
+
+        for($i = 0; $i < count($days); $i++) {
           $html .= '
-          <div class="list">
-            <div class="row">
-              <p style="font-weight: bold;">' . $mealItem . '&nbsp;</p>
-              <br />
-              <p>$' . $mealPrice . '&nbsp;</p>';
-
-              if(!is_null($end)) {
-                $html .= '<p>-' . $end . '&nbsp;</p>';
+            <tr>
+              <td>' . $days[$i] . '</td>';
+              if($i == $mealDayId && $mealId == 0) {
+                $html .= '<td>' . $mealItem . ' - $' . $mealPrice . '</td>';
+              } else {
+                $html .= '<td></td>';
               }
 
-              switch ($mealId) {
-                case 0:
-                  $html .= '<p>Breakfast</p>';
-                  break;
-                case 1:
-                  $html .= '<p>Lunch</p>';
-                  break;
-                case 2:
-                  $html .= '<p>Supper</p>';
-                  break;
-                default:
-                  $html .= '<p></p>';
-                }
+              if($i == $mealDayId && $mealId == 1) {
+                $html .= '<td>' . $mealItem . ' - $' . $mealPrice . '</td>';
+              } else {
+                $html .= '<td></td>';
+              }
 
-          $html .= '</div>
-            <ul class="row actionButtons">
-              <li><a class="edit" href="editFood/index.php?id=' . $id . '">Edit Food</a></li>
-              <li><a class="delete" href="confirmation.php?id=' . $id . '">Delete Food</a></li>
-            </ul>
-          </div>';
+              if($i == $mealDayId && $mealId == 2) {
+                $html .= '<td>' . $mealItem . ' - $' . $mealPrice . '</td>';
+              } else {
+                $html .= '<td></td>';
+              }
+
+            $html .= '</tr>';
         }
     }
 
-    if($html == '') {
-      $html .= '<p>No meal plans :(</p>';
-    }
+    $html .= '</table>';
 
     return $html;
   }
