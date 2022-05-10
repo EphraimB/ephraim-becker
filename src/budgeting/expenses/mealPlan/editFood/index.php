@@ -94,7 +94,7 @@ class EditFoodForm extends Base
     }
 
     $html = '
-      <form action="addFood.php" method="post">
+      <form action="editFood.php" method="post">
         <div>
           <label for="food">Food:</label>
           <input type="text" name="mealItem" value="' . $mealItem . '" />
@@ -142,7 +142,8 @@ class EditFoodForm extends Base
           </select>
         </div>
         <br />
-        <input type="submit" value="Add food" />
+        <input type="hidden" value="' . $_GET['id'] . '" name="id">
+        <input type="submit" value="Edit food" />
       </form>
     ';
 
