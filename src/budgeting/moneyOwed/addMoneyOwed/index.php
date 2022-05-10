@@ -104,7 +104,7 @@ class AddMoneyOwedForm extends Base
         <br />
         <input type="hidden" name="timezone" id="timezone" />
         <input type="hidden" name="timezoneOffset" id="timezoneOffset" />
-        <input type="submit" value="Add money owed" />
+        <input type="submit" id="submitButton" value="Add money owed" disabled="disabled" />
       </form>
     ';
 
