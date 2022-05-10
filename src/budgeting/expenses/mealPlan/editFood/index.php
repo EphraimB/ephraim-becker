@@ -124,19 +124,19 @@ class EditFoodForm extends Base
             <option value="0"';
 
             if($mealId == 0) {
-              $html .= ' checked';
+              $html .= ' selected';
             }
             $html .= '>Breakfast</option>
             <option value="1"';
 
             if($mealId == 1) {
-              $html .= ' checked';
+              $html .= ' selected';
             }
             $html .= '>Lunch</option>
             <option value="2"';
 
             if($mealId == 2) {
-              $html .= ' checked';
+              $html .= ' selected';
             }
             $html .= '>Supper</option>
           </select>
