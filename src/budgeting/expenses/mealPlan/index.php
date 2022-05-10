@@ -83,6 +83,7 @@ class MealPlan extends Base
 
   function showMealPlanTable($transactions): string
   {
+      $days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Shabbat'];
       $index = 0;
       $mealPlan = array();
 
@@ -103,8 +104,6 @@ class MealPlan extends Base
         $mealItem = $row['MealItem'];
         $mealPrice = $row['MealPrice'];
         $mealDayId = $row['MealDayId'];
-
-        $days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Shabbat'];
 
         array_push($mealPlan, array(
           "id" => $id,
