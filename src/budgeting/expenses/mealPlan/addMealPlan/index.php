@@ -70,12 +70,12 @@ class AddFoodForm extends Base
       <form action="addFood.php" method="post">
         <div>
           <label for="food">Food:</label>
-          <input type="text" name="food" />
+          <input type="text" name="mealItem" />
         </div>
         <br />
         <div>
           <label for="foodPrice">Food price:</label>
-          $<input type="number" step="any" name="foodPrice" />
+          $<input type="number" step="any" name="mealPrice" />
         </div>
         <br />
         <p>Day</p>
