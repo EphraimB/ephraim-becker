@@ -136,8 +136,36 @@ class CommutePlan extends Base
         $commuteDayId = $row['CommuteDayId'];
         $commutePeriodId = $row['CommutePeriodId'];
         $peakId = $row['PeakId'];
-        $zoneOfTransportation = $row['zoneOfTransportation'];
+        $zoneOfTransportation = intval($row['ZoneOfTransportation']);
         $price = $row['Price'];
+        $transportationMode = '';
+
+        switch($zoneOfTransportation) {
+          case 0:
+            $transportationMode = 'NYC Subway';
+            break;
+          case 1:
+            $transportationMode = 'LIRR Zone 1 to/from Zone 1';
+            break;
+          case 2:
+            $transportationMode = 'LIRR Grand Central to/from Riverdale area';
+            break;
+          case 3:
+            $transportationMode = 'LIRR Zone 3 to/from Zone 1';
+            break;
+          case 4:
+            $transportationMode = 'LIRR Zone 4 to/from Zone 1';
+            break;
+          case 5:
+            $transportationMode = 'LIRR Grand Central to/from White Plains area';
+            break;
+          case 4:
+            $transportationMode = 'LIRR Zone 7 to/from Zone 1';
+            break;
+          default:
+            $transportationMode = '';
+        }
+
 
         array_push($commutePlan, array(
           "id" => $id,
@@ -145,6 +173,7 @@ class CommutePlan extends Base
           "commutePeriodId" => $commutePeriodId,
           "peakId" => $peakId,
           "zoneOfTransportation" => $zoneOfTransportation,
+          "transportationMode" => $transportationMode,
           "price" => $price
         ));
       }
@@ -156,9 +185,9 @@ class CommutePlan extends Base
               <td class="fixed-width">';
               for($j = 0; $j < count($commutePlan); $j++) {
                 if($i == $commutePlan[$j]["commuteDayId"] && $commutePlan[$j]["commutePeriodId"] == 0) {
-                  $html .= '<div class="foodItem" onclick="showActionButtons(this)">
+                  $html .= '<div class="commuteItem" onclick="showActionButtons(this)">
                     <a class="edit" href="editCommute/index.php?id=' . $commutePlan[$j]['id'] . '">Edit</a>
-                    Zone' . $commutePlan[$j]["zoneOfTransportation"] . ' - $' . $commutePlan[$j]["price"] . '
+                    ' . $commutePlan[$j]["transportationMode"] . ' - $' . $commutePlan[$j]["price"] . '
                     <a class="delete" href="confirmationCommute.php?id=' . $commutePlan[$j]['id'] . '">Delete</a>
                   </div>';
             }
@@ -169,9 +198,9 @@ class CommutePlan extends Base
 
           for($j = 0; $j < count($commutePlan); $j++) {
             if($i == $commutePlan[$j]["commuteDayId"] && $commutePlan[$j]["commutePeriodId"] == 1) {
-              $html .= '<div class="foodItem" onclick="showActionButtons(this)">
+              $html .= '<div class="commuteItem" onclick="showActionButtons(this)">
                 <a class="edit" href="editCommute/index.php?id=' . $commutePlan[$j]['id'] . '">Edit</a>
-                  Zone' . $commutePlan[$j]["zoneOfTransportation"] . ' - $' . $commutePlan[$j]["price"] . '
+                ' . $commutePlan[$j]["transportationMode"] . ' - $' . $commutePlan[$j]["price"] . '
                 <a class="delete" href="confirmationCommute.php?id=' . $commutePlan[$j]['id'] . '">Delete</a>
               </div>';
             }
@@ -182,11 +211,11 @@ class CommutePlan extends Base
 
         for($j = 0; $j < count($commutePlan); $j++) {
           if($i == $commutePlan[$j]["commuteDayId"] && $commutePlan[$j]["commutePeriodId"] == 2) {
-            $html .= '<div class="foodItem" onclick="showActionButtons(this)">
-            <a class="edit" href="editCommute/index.php?id=' . $commutePlan[$j]['id'] . '">Edit</a>
-            Zone' . $commutePlan[$j]["zoneOfTransportation"] . ' - $' . $commutePlan[$j]["price"] . '
-            <a class="delete" href="confirmationCommute.php?id=' . $commutePlan[$j]['id'] . '">Delete</a>
-          </div>';
+            $html .= '<div class="commuteItem" onclick="showActionButtons(this)">
+              <a class="edit" href="editCommute/index.php?id=' . $commutePlan[$j]['id'] . '">Edit</a>
+              ' . $commutePlan[$j]["transportationMode"] . ' - $' . $commutePlan[$j]["price"] . '
+              <a class="delete" href="confirmationCommute.php?id=' . $commutePlan[$j]['id'] . '">Delete</a>
+            </div>';
         }
       }
 

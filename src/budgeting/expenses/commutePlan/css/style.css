@@ -66,14 +66,14 @@
   background-color: lightgreen;
 }
 
-.foodItem {
+.commuteItem {
   background-color: white;
   color: black;
   padding: 2px;
   margin: 3px;
 }
 
-.foodItem:hover {
+.commuteItem:hover {
   background-color: lightgrey;
   cursor: pointer;
 }
