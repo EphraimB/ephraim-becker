@@ -1,0 +1,91 @@
+.row {
+  display: flex;
+  justify-content: center;
+}
+
+.row div {
+  padding: 10px;
+}
+
+.list {
+  background-color: lightgrey;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.subNav {
+  overflow: hidden;
+  position: relative;
+  height: 25%;
+  list-style-type: none;
+}
+.subNav a {
+  text-decoration: none;
+  display: block;
+  padding: 14px 16px;
+  background-color: green;
+  color: white;
+}
+
+.edit {
+  background-color: yellow;
+  color: black;
+  text-decoration: none;
+  display: block;
+  padding: 14px 16px;
+}
+
+.edit:hover {
+  background-color: lightyellow;
+}
+.hide:hover {
+  background-color: grey;
+}
+
+.delete {
+  background-color: red;
+  color: white;
+  text-decoration: none;
+  display: block;
+  padding: 14px 16px;
+}
+
+.delete:hover {
+  background-color: Crimson;
+}
+
+.keep {
+  background-color: green;
+  color: white;
+  text-decoration: none;
+  display: block;
+  padding: 14px 16px;
+}
+
+.keep:hover {
+  background-color: lightgreen;
+}
+
+.foodItem {
+  background-color: white;
+  color: black;
+  padding: 2px;
+  margin: 3px;
+}
+
+.foodItem:hover {
+  background-color: lightgrey;
+  cursor: pointer;
+}
+
+#meal-plan-table {
+  width: 100%;
+}
+
+#meal-plan-table .fixed-width {
+  width: calc(100%/3);
+}
+
+.hide-action-buttons {
+  display: none;
+}

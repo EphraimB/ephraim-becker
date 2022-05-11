@@ -69,20 +69,53 @@ class CommutePlan extends Base
     return $html;
   }
 
-  function addMealPlanButton(): string
+  function addCommuteButton(): string
   {
     $html = '
     <div class="row">
         <ul class="subNav">
-          <li><a style="text-decoration: none;" href="addMealPlan/">+</a></li>
+          <li><a style="text-decoration: none;" href="addCommute/">+</a></li>
         </ul>
       </div>';
 
     return $html;
   }
 
+  // function fetchLIRRData(): string
+  // {
+  //   $url = " https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/lirr%2Fgtfs-lirr";
+  //
+  //   // $data = [
+  //   //
+  //   // ];
+  //
+  //   $curl = curl_init($url);
+  //
+  //   // 1. Set the CURLOPT_RETURNTRANSFER option to true
+  //   curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+  //   // 2. Set the CURLOPT_POST option to true for POST request
+  //   curl_setopt($curl, CURLOPT_POST, true);
+  //   // 3. Set the request data as JSON using json_encode function
+  //   // curl_setopt($curl, CURLOPT_POSTFIELDS,  json_encode($data));
+  //   // 4. Set custom headers for RapidAPI Auth and Content-Type header
+  //   curl_setopt($curl, CURLOPT_HTTPHEADER, [
+  //     'X-RapidAPI-Host: https://api-endpoint.mta.info',
+  //     'X-RapidAPI-Key: yRw2Up22em4ygQmhAvbww3wIOZTQ0dQtFDge1U89',
+  //     'Content-Type: application/json'
+  //   ]);
+  //
+  //   // Execute cURL request with all previous settings
+  //   $response = curl_exec($curl);
+  //
+  //   // Close cURL session
+  //   curl_close($curl);
+  //
+  //   return $response . PHP_EOL;
+  // }
+
   function showCommute($transactions): string
   {
+      $html = '';
       $days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Shabbat'];
       $index = 0;
       $commutePlan = array();
@@ -90,12 +123,78 @@ class CommutePlan extends Base
       $sqlTwo = "SELECT * FROM CommutePlan";
       $sqlTwoResult = mysqli_query($this->getLink(), $sqlTwo);
 
+      $html = '<table id="commute-plan-table">
+      <tr>
+        <th></th>
+        <th>Morning</th>
+        <th>Afternoon</th>
+        <th>Evening</th>
+      </tr>';
+
       while($row = mysqli_fetch_array($sqlTwoResult)) {
         $id = $row['CommutePlanId'];
         $commuteDayId = $row['CommuteDayId'];
         $commutePeriodId = $row['CommutePeriodId'];
+        $peakId = $row['PeakId'];
         $zoneOfTransportation = $row['zoneOfTransportation'];
         $price = $row['Price'];
+
+        array_push($commutePlan, array(
+          "id" => $id,
+          "commuteDayId" => $commuteDayId,
+          "commutePeriodId" => $commutePeriodId,
+          "peakId" => $peakId,
+          "zoneOfTransportation" => $zoneOfTransportation,
+          "price" => $price
+        ));
+      }
+
+      for($i = 0; $i < count($days); $i++) {
+          $html .= '
+            <tr>
+              <td>' . $days[$i] . '</td>
+              <td class="fixed-width">';
+              for($j = 0; $j < count($commutePlan); $j++) {
+                if($i == $commutePlan[$j]["commuteDayId"] && $commutePlan[$j]["commutePeriodId"] == 0) {
+                  $html .= '<div class="foodItem" onclick="showActionButtons(this)">
+                    <a class="edit" href="editCommute/index.php?id=' . $commutePlan[$j]['id'] . '">Edit</a>
+                    Zone' . $commutePlan[$j]["zoneOfTransportation"] . ' - $' . $commutePlan[$j]["price"] . '
+                    <a class="delete" href="confirmationCommute.php?id=' . $commutePlan[$j]['id'] . '">Delete</a>
+                  </div>';
+            }
+          }
+
+          $html .= '</td>
+          <td class="fixed-width">';
+
+          for($j = 0; $j < count($commutePlan); $j++) {
+            if($i == $commutePlan[$j]["commuteDayId"] && $commutePlan[$j]["commutePeriodId"] == 1) {
+              $html .= '<div class="foodItem" onclick="showActionButtons(this)">
+                <a class="edit" href="editCommute/index.php?id=' . $commutePlan[$j]['id'] . '">Edit</a>
+                  Zone' . $commutePlan[$j]["zoneOfTransportation"] . ' - $' . $commutePlan[$j]["price"] . '
+                <a class="delete" href="confirmationCommute.php?id=' . $commutePlan[$j]['id'] . '">Delete</a>
+              </div>';
+            }
+          }
+
+        $html .= '</td>
+        <td class="fixed-width">';
+
+        for($j = 0; $j < count($commutePlan); $j++) {
+          if($i == $commutePlan[$j]["commuteDayId"] && $commutePlan[$j]["commutePeriodId"] == 2) {
+            $html .= '<div class="foodItem" onclick="showActionButtons(this)">
+            <a class="edit" href="editCommute/index.php?id=' . $commutePlan[$j]['id'] . '">Edit</a>
+            Zone' . $commutePlan[$j]["zoneOfTransportation"] . ' - $' . $commutePlan[$j]["price"] . '
+            <a class="delete" href="confirmationCommute.php?id=' . $commutePlan[$j]['id'] . '">Delete</a>
+          </div>';
+        }
+      }
+
+      $html .= '</td>';
+      $html .= '</tr>';
+    }
+
+    $html .= '</table>';
 
     return $html;
   }
@@ -106,8 +205,9 @@ class CommutePlan extends Base
     $currentBalance = $this->getCurrentBalance()[1];
     $html = $this->displayCurrentBalance($currentBalance);
     $html .= '<br />';
-    $html .= $this->addMealPlanButton();
-    $html .= $this->showMealPlanTable($transactions);
+    // $html .= $this->fetchLIRRData();
+    $html .= $this->addCommuteButton();
+    $html .= $this->showCommute($transactions);
 
     return $html;
   }
