@@ -10,6 +10,7 @@ class EditCommuteForm extends Base
 {
   private $isAdmin;
   private $link;
+  private $id;
 
   function __construct()
   {
@@ -44,6 +45,16 @@ class EditCommuteForm extends Base
     return $this->link;
   }
 
+  function setId($id): void
+  {
+    $this->id = $id;
+  }
+
+  function getId(): int
+  {
+    return $this->id;
+  }
+
   function displayCurrentBalance(): string
   {
     $sql = "SELECT (SELECT SUM(DepositAmount) from deposits) - (SELECT SUM(WithdrawalAmount) FROM withdrawals) AS currentBalance";
@@ -64,8 +75,24 @@ class EditCommuteForm extends Base
     return $html;
   }
 
-  function editFoodForm(): string
+  function editCommuteForm(): string
   {
+    $sqlTwo = $this->getLink()->prepare("SELECT * FROM CommutePlan WHERE CommutePlanId=?");
+    $sqlTwo->bind_param("i", $id);
+
+    $id = $this->getId();
+
+    $sqlTwo->execute();
+
+    $sqlTwoResult = $sqlTwo->get_result();
+
+    while($row = mysqli_fetch_array($sqlTwoResult)){
+      $commuteDayId = $row['CommuteDayId'];
+      $commutePeriodId = $row['CommutePeriodId'];
+      $peakId = $row['PeakId'];
+      $zoneOfTransportation = $row['ZoneOfTransportation'];
+    }
+
     $html = '
       <form action="editCommute.php" method="post">
         <p>Zone</p>
@@ -83,27 +110,83 @@ class EditCommuteForm extends Base
         <br />
         <div>
           <label for"peakId">Peak</label>
-          <input type="checkbox" id="peakId" name="peakId" value="1">
+          <input type="checkbox" id="peakId" name="peakId" value="1"';
+
+          if($peakId == 1) {
+            $html .= ' checked';
+          }
+
+          $html .= '>
         </div>
         <p>Day</p>
         <div>
-          <select name="commuteDayId" id="day">
-            <option value="0">Sunday</option>
-            <option value="1">Monday</option>
-            <option value="2">Tuesday</option>
-            <option value="3">Wednesday</option>
-            <option value="4">Thursday</option>
-            <option value="5">Friday</option>
-            <option value="6">Shabbat</option>
+          <select name="mealDayId" id="day">
+            <option value="0"';
+
+            if($commuteDayId == 0) {
+              $html .= ' selected';
+            }
+            $html .= '>Sunday</option>
+            <option value="1"';
+
+            if($commuteDayId == 1) {
+              $html .= ' selected';
+            }
+            $html .= '>Monday</option>
+            <option value="2"';
+
+            if($commuteDayId == 2) {
+              $html .= ' selected';
+            }
+            $html .= '>Tuesday</option>
+            <option value="3"';
+
+            if($commuteDayId == 3) {
+              $html .= ' selected';
+            }
+            $html .= '>Wednesday</option>
+            <option value="4"';
+
+            if($commuteDayId == 4) {
+              $html .= ' selected';
+            }
+            $html .= '>Thursday</option>
+            <option value="5"';
+
+            if($commuteDayId == 5) {
+              $html .= ' selected';
+            }
+            $html .= '>Friday</option>
+            <option value="6"';
+
+            if($commuteDayId == 6) {
+              $html .= ' selected';
+            }
+            $html .= '>Shabbat</option>
           </select>
         </div>
         <br />
         <p>Commute period</p>
         <div>
           <select name="commutePeriodId" id="commutePeriod">
-            <option value="0">Morning</option>
-            <option value="1">Afternoon</option>
-            <option value="2">Evening</option>
+            <option value="0"';
+
+            if($commutePeriodId == 0) {
+              $html .= ' checked';
+            }
+            $html .= '>Morning</option>
+            <option value="1"';
+
+            if($commutePeriodId == 1) {
+              $html .= ' checked';
+            }
+            $html .= '>Afternoon</option>
+            <option value="2"';
+
+            if($commutePeriodId == 2) {
+              $html .= ' checked';
+            }
+            $html .= '>Evening</option>
           </select>
         </div>
         <br />
@@ -118,7 +201,7 @@ class EditCommuteForm extends Base
   function main(): string
   {
     $html = $this->displayCurrentBalance();
-    $html .= $this->addFoodForm();
+    $html .= $this->editCommuteForm();
 
     return $html;
   }
@@ -133,6 +216,7 @@ $editCommuteForm->setLocalStyleSheet('css/style.css');
 $editCommuteForm->setLocalScript('js/script.js');
 $editCommuteForm->setHeader('Budgeting - Edit commute form');
 $editCommuteForm->setUrl($_SERVER['REQUEST_URI']);
+$editCommuteForm->setId(intval($_GET['id']));
 $editCommuteForm->setBody($editCommuteForm->main());
 
 $editCommuteForm->html();
