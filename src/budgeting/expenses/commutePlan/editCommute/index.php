@@ -98,13 +98,40 @@ class EditCommuteForm extends Base
         <p>Zone</p>
         <div>
           <select name="zoneId" id="zoneId">
-            <option value="0">NYC Subway</option>
-            <option value="1">Zone 1 LIRR</option>
-            <option value="2">Riverdale area - Metro North</option>
-            <option value="3">Zone 3 LIRR</option>
-            <option value="4">Zone 4 LIRR</option>
-            <option value="5">White Plains area - Metro North</option>
-            <option value="7">Zone 7 LIRR</option>
+            <option value="0"';
+
+            if($zoneOfTransportation == 0) {
+              $html .= ' selected';
+            }
+            $html .= '>NYC Subway</option>
+            <option value="1"';
+
+            if($zoneOfTransportation == 1) {
+              $html .= ' selected';
+            }
+            $html .= '>Zone 1 LIRR</option>
+            <option value="2"';
+
+            if($zoneOfTransportation) {
+              $html .= ' selected';
+            }
+            $html .= '>Riverdale area - Metro North</option>
+            <option value="3"';
+
+            if($zoneOfTransportation) {
+              $html .= ' selected';
+            }
+            $html .= '>Zone 3 LIRR</option>
+            <option value="4"';
+
+            if($zoneOfTransportation) {
+              $html .= ' selected';
+            }
+            $html .= '>Zone 4 LIRR</option>
+            <option value="5"';
+            $html .= '>White Plains area - Metro North</option>
+            <option value="7"';
+            $html .= '>Zone 7 LIRR</option>
           </select>
         </div>
         <br />
@@ -162,7 +189,7 @@ class EditCommuteForm extends Base
             if($commuteDayId == 6) {
               $html .= ' selected';
             }
-            $html .= '>Shabbat</option>
+            $html .= '>Saturday</option>
           </select>
         </div>
         <br />
