@@ -100,7 +100,7 @@ class AddCommute
 
   function addCommute(): string
   {
-    $sql = $this->getLink()->prepare("INSERT INTO CommutePlan (CommuteDayId, CommutePeriodId, PeakId, zoneOfTransportation, Price, DateCreated, DateModified)
+    $sql = $this->getLink()->prepare("INSERT INTO CommutePlan (CommuteDayId, CommutePeriodId, PeakId, ZoneOfTransportation, Price, DateCreated, DateModified)
      VALUES (?, ?, ?, ?, ?, ?, ?)");
      $sql->bind_param('iiiidss', $commuteDayId, $commutePeriodId, $peakId, $zoneOfTransportation, $price, $dateNow, $dateNow);
 

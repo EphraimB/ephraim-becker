@@ -147,7 +147,7 @@ class EditCommuteForm extends Base
         </div>
         <p>Day</p>
         <div>
-          <select name="mealDayId" id="day">
+          <select name="commuteDayId" id="day">
             <option value="0"';
 
             if($commuteDayId == 0) {
@@ -199,25 +199,26 @@ class EditCommuteForm extends Base
             <option value="0"';
 
             if($commutePeriodId == 0) {
-              $html .= ' checked';
+              $html .= ' selected';
             }
             $html .= '>Morning</option>
             <option value="1"';
 
             if($commutePeriodId == 1) {
-              $html .= ' checked';
+              $html .= ' selected';
             }
             $html .= '>Afternoon</option>
             <option value="2"';
 
             if($commutePeriodId == 2) {
-              $html .= ' checked';
+              $html .= ' selected';
             }
             $html .= '>Evening</option>
           </select>
         </div>
         <br />
         <input type="hidden" name="price" id="price" />
+        <input type="hidden" name="id" value="' . $this->getId() . '" />
         <input type="submit" value="Edit commute" />
       </form>
     ';
