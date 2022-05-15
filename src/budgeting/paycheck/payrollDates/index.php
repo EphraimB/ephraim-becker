@@ -110,23 +110,31 @@ class PaycheckDatesInfo extends Base
     while($row = mysqli_fetch_array($sqlTwoResult)) {
       $id = $row['payrollDates_id'];
       $payrollDate = $row['PayrollDate'];
+    }
 
       $html .= '
-      <div class="list">
-        <div class="row">
-          <p>Paycheck: ' . $payrollDate . '</p>';
+      <div id="payrollCalendarGridContainer">';
+        for($i = 1; $i < 32; $i++) {
+          $html .= '<div class="payrollCalendarGrid"><a href="togglePayrollDay.php?day=' . $i . '">' . $i . '</a></div>';
+        }
+      $html .= '</div>';
 
-          $html .= '</div>
-            <ul class="row actionButtons">
-              <li><a class="edit" href="editPaycheckDate/index.php?id=' . $id . '">Edit payroll date</a></li>
-              <li><a class="delete" href="confirmation.php?id=' . $id . '">Delete payroll date</a></li>
-            </ul>
-          </div>';
-      }
-
-    if($html == '') {
-      $html .= '<p>No payroll dates</p>';
-    }
+    //   $html .= '
+    //   <div class="list">
+    //     <div class="row">
+    //       <p>Paycheck: ' . $payrollDate . '</p>';
+    //
+    //       $html .= '</div>
+    //         <ul class="row actionButtons">
+    //           <li><a class="edit" href="editPaycheckDate/index.php?id=' . $id . '">Edit payroll date</a></li>
+    //           <li><a class="delete" href="confirmation.php?id=' . $id . '">Delete payroll date</a></li>
+    //         </ul>
+    //       </div>';
+      // }
+    //
+    // if($html == '') {
+    //   $html .= '<p>No payroll dates</p>';
+    // }
 
     return $html;
   }

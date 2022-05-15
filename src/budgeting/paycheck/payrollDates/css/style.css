@@ -62,3 +62,34 @@
 .keep:hover {
   background-color: lightgreen;
 }
+
+#payrollCalendarGridContainer {
+  display: grid;
+  grid-template-columns: auto auto auto auto;
+  padding: 10px;
+}
+
+.payrollCalendarGrid {
+  background-color: white;
+  border: 1px solid black;
+  padding: 20px;
+  font-size: 30px;
+  text-align: center;
+}
+
+.payrollCalendarGrid:hover {
+  background-color: lightgrey;
+}
+
+.payrollCalendarGrid a {
+  display: block;
+  width: 100%;
+  text-decoration: none;
+  color: black;
+}
+
+@media screen and (min-width: 1024px) {
+  #payrollCalendarGridContainer {
+    grid-template-columns: auto auto auto auto auto auto auto;
+  }
+}
