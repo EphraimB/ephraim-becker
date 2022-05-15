@@ -102,6 +102,9 @@ class PaycheckDatesInfo extends Base
 
   function showPaycheckDates(): string
   {
+    $index = 0;
+    $paycheckDates = array();
+
     $html = '';
 
     $sqlTwo = "SELECT * FROM payrollDates";
@@ -110,20 +113,28 @@ class PaycheckDatesInfo extends Base
     while($row = mysqli_fetch_array($sqlTwoResult)) {
       $id = $row['payrollDates_id'];
       $payrollDay = $row['PayrollDay'];
+
+      array_push($paycheckDates, array(
+        "id" => intval($id),
+        "payrollDay" => intval($payrollDay)
+      ));
     }
 
-      $html .= '
-      <div id="payrollCalendarGridContainer">';
+    $html .= '<div id="payrollCalendarGridContainer">';
 
-      for($i = 1; $i < 32; $i++) {
-        if($i == intval($payrollDay)) {
+    for($i = 1; $i < 32; $i++) {
+      for($j = 0; $j < count($paycheckDates); $j++) {
+        if($i == $paycheckDates[$j]["payrollDay"]) {
           $html .= '<div class="payrollCalendarGridSelected"><a href="deletePayrollDay.php?id=' . $i . '">' . $i . '</a></div>';
-        } else {
-          $html .= '<div class="payrollCalendarGrid"><a href="addPayrollDay.php?day=' . $i . '">' . $i . '</a></div>';
+
+          continue 2;
         }
       }
 
-      $html .= '</div>';
+      $html .= '<div class="payrollCalendarGrid"><a href="addPayrollDay.php?day=' . $i . '">' . $i . '</a></div>';
+    }
+
+    $html .= '</div>';
 
     return $html;
   }
