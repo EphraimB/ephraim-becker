@@ -125,7 +125,7 @@ class PaycheckDatesInfo extends Base
     for($i = 1; $i < 32; $i++) {
       for($j = 0; $j < count($paycheckDates); $j++) {
         if($i == $paycheckDates[$j]["payrollDay"]) {
-          $html .= '<div class="payrollCalendarGridSelected"><a href="deletePayrollDay.php?id=' . $i . '">' . $i . '</a></div>';
+          $html .= '<div class="payrollCalendarGridSelected"><a href="deletePayrollDay.php?id=' . $paycheckDates[$j]["id"] . '">' . $i . '</a></div>';
 
           continue 2;
         }
