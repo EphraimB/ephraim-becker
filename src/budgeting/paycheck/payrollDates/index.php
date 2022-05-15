@@ -51,7 +51,7 @@ class PaycheckDatesInfo extends Base
 
     if(mysqli_num_rows($sqlResult) > 0) {
       while($row = mysqli_fetch_array($sqlResult)){
-        $currentBalance = floatval($row['currentBalance']);
+        $currentBalance = number_format(round(floatval($row['currentBalance']), 2), 2);
       }
     }
 
@@ -88,24 +88,12 @@ class PaycheckDatesInfo extends Base
     return $html;
   }
 
-  function addPaycheckDateButton(): string
-  {
-    $html = '
-    <div class="row">
-        <ul class="subNav">
-          <li><a style="text-decoration: none;" href="addPaycheckDate/">+</a></li>
-        </ul>
-      </div>';
-
-    return $html;
-  }
-
   function showPaycheckDates(): string
   {
     $index = 0;
     $paycheckDates = array();
 
-    $html = '';
+    $html = '<h3>Toggle paycheck dates</h3>';
 
     $sqlTwo = "SELECT * FROM payrollDates";
     $sqlTwoResult = mysqli_query($this->getLink(), $sqlTwo);
@@ -143,7 +131,6 @@ class PaycheckDatesInfo extends Base
   {
     $html = $this->displayCurrentBalance();
     $html .= $this->showPaycheckInfo();
-    $html .= $this->addPaycheckDateButton();
     $html .= '<br />';
     $html .= $this->showPaycheckDates();
 
