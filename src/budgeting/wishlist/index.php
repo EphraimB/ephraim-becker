@@ -105,7 +105,7 @@ class Wishlist extends Base
               <p>' . $dateFormat . '&nbsp;</p>
             </div>
             <ul class="row actionButtons">
-              <li><a class="edit" href="editWantToBuy/index.php?id=' . $id . '">Edit item</a></li>
+              <li><a class="edit" href="editItem/index.php?id=' . $id . '">Edit item</a></li>
               <li><a class="delete" href="confirmation.php?id=' . $id . '">Delete item</a></li>
             </ul>
           </div>';
