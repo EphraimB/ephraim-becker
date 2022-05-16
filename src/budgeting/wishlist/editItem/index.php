@@ -116,7 +116,7 @@ class EditItemForm extends Base
         $<input type="number" min="0" step="any" id="price" name="price" value="' . $price . '" required />
       </div>
       <br />
-
+      <input type="hidden" name="id" value="' . $this->getId() . '" />
       <input type="submit" id="submit" value="Edit item" />
     </form>';
 
