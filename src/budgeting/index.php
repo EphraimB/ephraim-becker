@@ -98,10 +98,10 @@ class Budgeting extends Base
           <p>Click to add money owed</p>
         </a>
       </div>
-      <div style="background-color: green;" class="card">
-        <a href="wantToBuy/">
-          <h3>Want to buy</h3>
-          <p>Click to set a goal on when you can buy what you want</p>
+      <div style="background-color: gold;" class="card">
+        <a style="color: black;" href="wishlist/">
+          <h3>Wishlist</h3>
+          <p>Click to set a goal on when you can buy what I want from my wishlist</p>
         </a>
       </div>
     </div>';
