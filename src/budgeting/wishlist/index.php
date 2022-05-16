@@ -86,7 +86,7 @@ class Wishlist extends Base
     $html = '';
 
     if($transactions > 0) {
-      $sqlTwo = "SELECT *, DATE_FORMAT(Date - INTERVAL TimezoneOffset SECOND, '%m/%d/%Y %h:%i:%s %p') AS DateFormat FROM WantToBuy";
+      $sqlTwo = "SELECT * FROM WantToBuy";
       $sqlTwoResult = mysqli_query($this->getLink(), $sqlTwo);
 
         while($row = mysqli_fetch_array($sqlTwoResult)) {
@@ -94,7 +94,6 @@ class Wishlist extends Base
           $item = $row['Item'];
           $link = $row['Link'];
           $price = $row['Price'];
-          $dateFormat = $row['DateFormat'];
 
           $html .= '
           <div class="list">
@@ -102,7 +101,6 @@ class Wishlist extends Base
               <p style="font-weight: bold;">' . $item . '&nbsp;</p>
               <br />
               <p>$' . $price . '&nbsp;</p>
-              <p>' . $dateFormat . '&nbsp;</p>
             </div>
             <ul class="row actionButtons">
               <li><a class="edit" href="editItem/index.php?id=' . $id . '">Edit item</a></li>
