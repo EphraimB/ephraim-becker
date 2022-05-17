@@ -128,6 +128,32 @@ class Budgeting extends Base
     return $result;
   }
 
+  /* SELECT 'Paycheck' AS title, (SELECT SUM(payPerHour) * SUM(hoursWorked) * SUM(daysPerWeek) * 2.167 - (SELECT SUM(taxAmount) FROM payrollTaxes WHERE fixed = 1) - (SELECT SUM(taxAmount) * (SELECT SUM(payPerHour) * SUM(hoursWorked) * SUM(daysPerWeek) * 2.167 FROM payroll) FROM payrollTaxes WHERE fixed = 0) FROM payroll) AS amount, YEAR(CURDATE()) AS beginYear, IF(MONTH(CURDATE()) >= MONTH(CURDATE()), IF(PayrollDay > DAY(CURDATE()), MONTH(CURDATE()), MONTH(DATE_ADD(CURDATE(), INTERVAL 1 MONTH))), CURDATE()) AS beginMonth, IF(PayrollDay = 31, DAY(LAST_DAY(concat(YEAR(CURDATE()), '-', IF(MONTH(CURDATE()) >= MONTH(CURDATE()), IF(PayrollDay > DAY(CURDATE()), MONTH(CURDATE()), MONTH(DATE_ADD(CURDATE(), INTERVAL 1 MONTH))), CURDATE()), '-', 01))), PayrollDay) AS beginDay, 0 AS frequency, 0 AS type FROM payrollDates UNION SELECT ExpenseTitle AS title, ExpensePrice AS amount, Year(ExpenseBeginDate) AS beginYear, IF(MONTH(CURDATE()) >= MONTH(ExpenseBeginDate), IF(DAY(CURDATE()) > DAY(ExpenseBeginDate), MONTH(DATE_ADD(CURDATE(), INTERVAL 1 MONTH)), MONTH(CURDATE())), MONTH(ExpenseBeginDate)) AS beginMonth, Day(ExpenseBeginDate) AS beginDay, FrequencyOfExpense AS frequency, 1 AS type FROM expenses WHERE ExpenseEndDate > CURRENT_DATE() OR ISNULL(ExpenseEndDate) UNION SELECT concat(MoneyOwedFor, ' payback to ', MoneyOwedRecipient) AS title, planAmount AS amount, YEAR(date) AS beginYear, IF(MONTH(CURDATE()) >= MONTH(date), IF(DAY(CURDATE()) > DAY(date), MONTH(DATE_ADD(CURDATE(), INTERVAL 1 MONTH)), MONTH(CURDATE())), MONTH(date)) AS beginMonth, DAY(date) AS beginDay, frequency AS frequency, 1 AS type FROM moneyOwed UNION SELECT 'Food expenses' AS title, SUM(MealPrice) AS amount, (SELECT
+  YEAR(CASE WHEN WEEKDAY(CURDATE()) + 1 >= MealDayId
+       THEN (CURDATE() + INTERVAL (6 - WEEKDAY(CURDATE())) DAY) + INTERVAL MealDayId DAY
+       ELSE (CURDATE() + INTERVAL (0 - WEEKDAY(CURDATE())) DAY) + INTERVAL (MealDayId-1) DAY
+  END)) AS beginYear, (SELECT
+  MONTH(CASE WHEN WEEKDAY(CURDATE()) + 1 >= MealDayId
+       THEN (CURDATE() + INTERVAL (6 - WEEKDAY(CURDATE())) DAY) + INTERVAL MealDayId DAY
+       ELSE (CURDATE() + INTERVAL (0 - WEEKDAY(CURDATE())) DAY) + INTERVAL (MealDayId-1) DAY
+  END)) AS beginMonth, (SELECT
+  DAY(CASE WHEN WEEKDAY(CURDATE()) + 1 >= MealDayId
+       THEN (CURDATE() + INTERVAL (6 - WEEKDAY(CURDATE())) DAY) + INTERVAL MealDayId DAY
+       ELSE (CURDATE() + INTERVAL (0 - WEEKDAY(CURDATE())) DAY) + INTERVAL (MealDayId-1) DAY
+  END)) AS beginDay, 1 AS frequency, 1 AS type FROM MealPlan GROUP BY MealDayId UNION SELECT 'Commute expenses' AS title, SUM(Price) AS amount, (SELECT
+  YEAR(CASE WHEN WEEKDAY(CURDATE()) + 1 >= CommuteDayId
+       THEN (CURDATE() + INTERVAL (6 - WEEKDAY(CURDATE())) DAY) + INTERVAL CommuteDayId DAY
+       ELSE (CURDATE() + INTERVAL (0 - WEEKDAY(CURDATE())) DAY) + INTERVAL (CommuteDayId-1) DAY
+  END)) AS beginYear, (SELECT
+  MONTH(CASE WHEN WEEKDAY(CURDATE()) + 1 >= CommuteDayId
+       THEN (CURDATE() + INTERVAL (6 - WEEKDAY(CURDATE())) DAY) + INTERVAL CommuteDayId DAY
+       ELSE (CURDATE() + INTERVAL (0 - WEEKDAY(CURDATE())) DAY) + INTERVAL (CommuteDayId-1) DAY
+  END)) AS beginMonth, (SELECT
+  DAY(CASE WHEN WEEKDAY(CURDATE()) + 1 >= CommuteDayId
+       THEN (CURDATE() + INTERVAL (6 - WEEKDAY(CURDATE())) DAY) + INTERVAL CommuteDayId DAY
+       ELSE (CURDATE() + INTERVAL (0 - WEEKDAY(CURDATE())) DAY) + INTERVAL (CommuteDayId-1) DAY
+  END)) AS beginDay, 1 AS frequency, 1 AS type FROM CommutePlan GROUP BY CommuteDayId ORDER BY beginYear, beginMonth, beginDay */
+  
   function paycheckQuery(): string
   {
     $query = "SELECT 'Paycheck' AS title, (SELECT SUM(payPerHour) * SUM(hoursWorked) * SUM(daysPerWeek) * 2.167 - (SELECT SUM(taxAmount) FROM payrollTaxes WHERE fixed = 1) - (SELECT SUM(taxAmount) * (SELECT SUM(payPerHour) * SUM(hoursWorked) * SUM(daysPerWeek) * 2.167 FROM payroll) FROM payrollTaxes WHERE fixed = 0) FROM payroll) AS amount, YEAR(CURDATE()) AS beginYear, IF(MONTH(CURDATE()) >= MONTH(CURDATE()), IF(PayrollDay > DAY(CURDATE()), MONTH(CURDATE()), MONTH(DATE_ADD(CURDATE(), INTERVAL 1 MONTH))), CURDATE()) AS beginMonth, IF(PayrollDay = 31, DAY(LAST_DAY(concat(YEAR(CURDATE()), '-', IF(MONTH(CURDATE()) >= MONTH(CURDATE()), IF(PayrollDay > DAY(CURDATE()), MONTH(CURDATE()), MONTH(DATE_ADD(CURDATE(), INTERVAL 1 MONTH))), CURDATE()), '-', 01))), PayrollDay) AS beginDay, 0 AS frequency, 0 AS type FROM payrollDates";
@@ -144,38 +170,30 @@ class Budgeting extends Base
 
   function foodExpensesQuery(): string
   {
+    $caseQuery = "CASE WHEN WEEKDAY(CURDATE()) + 1 >= MealDayId
+         THEN (CURDATE() + INTERVAL (6 - WEEKDAY(CURDATE())) DAY) + INTERVAL MealDayId DAY
+         ELSE (CURDATE() + INTERVAL (0 - WEEKDAY(CURDATE())) DAY) + INTERVAL (MealDayId-1) DAY
+    END";
+
     $query = "SELECT 'Food expenses' AS title, SUM(MealPrice) AS amount, (SELECT
-    YEAR(CASE WHEN WEEKDAY(CURDATE()) + 1 >= MealDayId
-         THEN (CURDATE() + INTERVAL (6 - WEEKDAY(CURDATE())) DAY) + INTERVAL MealDayId DAY
-         ELSE (CURDATE() + INTERVAL (0 - WEEKDAY(CURDATE())) DAY) + INTERVAL (MealDayId-1) DAY
-    END)) AS beginYear, (SELECT
-    MONTH(CASE WHEN WEEKDAY(CURDATE()) + 1 >= MealDayId
-         THEN (CURDATE() + INTERVAL (6 - WEEKDAY(CURDATE())) DAY) + INTERVAL MealDayId DAY
-         ELSE (CURDATE() + INTERVAL (0 - WEEKDAY(CURDATE())) DAY) + INTERVAL (MealDayId-1) DAY
-    END)) AS beginMonth, (SELECT
-    DAY(CASE WHEN WEEKDAY(CURDATE()) + 1 >= MealDayId
-         THEN (CURDATE() + INTERVAL (6 - WEEKDAY(CURDATE())) DAY) + INTERVAL MealDayId DAY
-         ELSE (CURDATE() + INTERVAL (0 - WEEKDAY(CURDATE())) DAY) + INTERVAL (MealDayId-1) DAY
-    END)) AS beginDay, 1 AS frequency, 1 AS type FROM MealPlan GROUP BY MealDayId";
+    YEAR(" . $caseQuery . ")) AS beginYear, (SELECT
+    MONTH(" . $caseQuery . ")) AS beginMonth, (SELECT
+    DAY(" . $caseQuery . ")) AS beginDay, 1 AS frequency, 1 AS type FROM MealPlan GROUP BY MealDayId";
 
     return $query;
   }
 
   function commuteExpensesQuery(): string
   {
+    $caseQuery = "CASE WHEN WEEKDAY(CURDATE()) + 1 >= CommuteDayId
+         THEN (CURDATE() + INTERVAL (6 - WEEKDAY(CURDATE())) DAY) + INTERVAL CommuteDayId DAY
+         ELSE (CURDATE() + INTERVAL (0 - WEEKDAY(CURDATE())) DAY) + INTERVAL (CommuteDayId-1) DAY
+    END";
+
     $query = "SELECT 'Commute expenses' AS title, SUM(Price) AS amount, (SELECT
-    YEAR(CASE WHEN WEEKDAY(CURDATE()) + 1 >= CommuteDayId
-         THEN (CURDATE() + INTERVAL (6 - WEEKDAY(CURDATE())) DAY) + INTERVAL CommuteDayId DAY
-         ELSE (CURDATE() + INTERVAL (0 - WEEKDAY(CURDATE())) DAY) + INTERVAL (CommuteDayId-1) DAY
-    END)) AS beginYear, (SELECT
-    MONTH(CASE WHEN WEEKDAY(CURDATE()) + 1 >= CommuteDayId
-         THEN (CURDATE() + INTERVAL (6 - WEEKDAY(CURDATE())) DAY) + INTERVAL CommuteDayId DAY
-         ELSE (CURDATE() + INTERVAL (0 - WEEKDAY(CURDATE())) DAY) + INTERVAL (CommuteDayId-1) DAY
-    END)) AS beginMonth, (SELECT
-    DAY(CASE WHEN WEEKDAY(CURDATE()) + 1 >= CommuteDayId
-         THEN (CURDATE() + INTERVAL (6 - WEEKDAY(CURDATE())) DAY) + INTERVAL CommuteDayId DAY
-         ELSE (CURDATE() + INTERVAL (0 - WEEKDAY(CURDATE())) DAY) + INTERVAL (CommuteDayId-1) DAY
-    END)) AS beginDay, 1 AS frequency, 1 AS type FROM CommutePlan GROUP BY CommuteDayId ";
+    YEAR(" . $caseQuery . ")) AS beginYear, (SELECT
+    MONTH(" . $caseQuery . ")) AS beginMonth, (SELECT
+    DAY(" . $caseQuery . ")) AS beginDay, 1 AS frequency, 1 AS type FROM CommutePlan GROUP BY CommuteDayId ";
 
     return $query;
   }
