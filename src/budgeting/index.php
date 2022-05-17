@@ -183,6 +183,45 @@ class Budgeting extends Base
     return $query;
   }
 
+  function getWishlist(): string
+  {
+    $query = "SELECT Item AS title, Price AS price, 3 AS frequency, 1 AS type FROM WantToBuy";
+
+    return $query;
+  }
+
+  function calculateWishlist($index, $amount, $balance, $lastIncomeYear, $lastIncomeMonth, $lastIncomeDay, $currentBalance, $budget): array
+  {
+    $wishlistInBudget = false;
+
+    $query = $this->getWishlist();
+    $queryResult = mysqli_query($this->getLink(), $query);
+
+    while($row = mysqli_fetch_array($queryResult)) {
+      $title = $row['title'];
+      $wishlistAmount = floatval($row['price']);
+      $frequency = $row['frequency'];
+      $type = intval($row['type']);
+
+      if($wishlistAmount < $balance) {
+        $balance = $this->calculateAmount($wishlistAmount, $type, $index, $currentBalance, $budget);
+        array_push($budget, array(
+          "year" => $lastIncomeYear,
+          "month" => $lastIncomeMonth,
+          "day" => $lastIncomeDay,
+          "title" => $title,
+          "amount" => number_format(round($wishlistAmount, 2), 2),
+          "balance" => $balance,
+          "type" => $type
+        ));
+
+        $wishlistInBudget = true;
+      }
+    }
+
+    return array($wishlistInBudget, $budget);
+  }
+
   function expensesTableQuery(): string
   {
     $query = $this->paycheckQuery();
@@ -217,6 +256,10 @@ class Budgeting extends Base
     $query = $this->expensesTableQuery();
     $queryResult = mysqli_query($this->getLink(), $query);
 
+    $lastIncomeYear = date('Y');
+    $lastIncomeMonth = date('m');
+    $lastIncomeDay = date('d');
+
     while($row = mysqli_fetch_array($queryResult)) {
       $title = $row['title'];
       $amount = floatval($row['amount']);
@@ -242,6 +285,15 @@ class Budgeting extends Base
           "balance" => $balance,
           "type" => $type
         ));
+
+        if($type == 0) {
+          $wishlistInBudget = $this->calculateWishlist($index, $amount, $balance, $lastIncomeYear, $lastIncomeMonth, $lastIncomeDay, $currentBalance, $budget);
+          $budget = $wishlistInBudget[1];
+
+          $lastIncomeYear = $beginYear;
+          $lastIncomeMonth = $beginMonth;
+          $lastIncomeDay = $beginDay;
+        }
       }
     }
 
