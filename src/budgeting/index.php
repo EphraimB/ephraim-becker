@@ -131,8 +131,10 @@ class Budgeting extends Base
   function paycheckQuery(): string
   {
     $grossPay = "SELECT SUM(payPerHour) * SUM(hoursWorked) * SUM(daysPerWeek) * 2.167";
+    $beginYear = "YEAR(CURDATE())";
+    $beginMonth = "IF(MONTH(CURDATE()) >= MONTH(CURDATE()), IF(PayrollDay > DAY(CURDATE()), MONTH(CURDATE()), MONTH(DATE_ADD(CURDATE(), INTERVAL 1 MONTH))), CURDATE())";
 
-    $query = "SELECT 'Paycheck' AS title, (" . $grossPay . " - (SELECT SUM(taxAmount) FROM payrollTaxes WHERE fixed = 1) - (SELECT SUM(taxAmount) * (" . $grossPay . " FROM payroll) FROM payrollTaxes WHERE fixed = 0) FROM payroll) AS amount, YEAR(CURDATE()) AS beginYear, IF(MONTH(CURDATE()) >= MONTH(CURDATE()), IF(PayrollDay > DAY(CURDATE()), MONTH(CURDATE()), MONTH(DATE_ADD(CURDATE(), INTERVAL 1 MONTH))), CURDATE()) AS beginMonth, IF(PayrollDay = 31, DAY(LAST_DAY(concat(YEAR(CURDATE()), '-', IF(MONTH(CURDATE()) >= MONTH(CURDATE()), IF(PayrollDay > DAY(CURDATE()), MONTH(CURDATE()), MONTH(DATE_ADD(CURDATE(), INTERVAL 1 MONTH))), CURDATE()), '-', 01))), PayrollDay) AS beginDay, 0 AS frequency, 0 AS type FROM payrollDates";
+    $query = "SELECT 'Paycheck' AS title, (" . $grossPay . " - (SELECT SUM(taxAmount) FROM payrollTaxes WHERE fixed = 1) - (SELECT SUM(taxAmount) * (" . $grossPay . " FROM payroll) FROM payrollTaxes WHERE fixed = 0) FROM payroll) AS amount, " . $beginYear . " AS beginYear, " . $beginMonth . " AS beginMonth, IF(PayrollDay = 31, DAY(LAST_DAY(concat(" . $beginYear . ", '-', " . $beginMonth . ", '-', 01))), PayrollDay) AS beginDay, 0 AS frequency, 0 AS type FROM payrollDates";
 
     return $query;
   }
