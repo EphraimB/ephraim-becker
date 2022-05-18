@@ -271,20 +271,18 @@ class Budgeting extends Base
       $currentMonth = date('n');
       $currentDay = date('j');
 
-      for($i = $beginMonth; $i <= $beginMonth; $i++) {
-        $balance = $this->calculateAmount($amount, $type, $index, $currentBalance, $budget);
-        $index++;
+      $balance = $this->calculateAmount($amount, $type, $index, $currentBalance, $budget);
+      $index++;
 
-        array_push($budget, array(
-          "year" => $beginYear,
-          "month" => $i,
-          "day" => $beginDay,
-          "title" => $title,
-          "amount" => number_format(round($amount, 2), 2),
-          "balance" => $balance,
-          "type" => $type
-        ));
-      }
+      array_push($budget, array(
+        "year" => $beginYear,
+        "month" => $beginMonth,
+        "day" => $beginDay,
+        "title" => $title,
+        "amount" => number_format(round($amount, 2), 2),
+        "balance" => $balance,
+        "type" => $type
+      ));
     }
 
     $lastIncomeYear = date('Y');
