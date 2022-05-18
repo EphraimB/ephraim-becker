@@ -305,8 +305,6 @@ class Budgeting extends Base
       }
     }
 
-    // var_dump($budget);
-
     for($j = 0; $j < count($budget); $j++) {
       $html .= '<tr>
           <td>' . $budget[$j]["month"] . '/' . $budget[$j]["day"] . '/' . $budget[$j]["year"] . '</td>
