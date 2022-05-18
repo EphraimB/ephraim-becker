@@ -241,27 +241,31 @@ class Budgeting extends Base
     return $query;
   }
 
-  function loopUntilSpecifiedDate($endYear, $endYonth, $endDay, $budget, $currentBalance): array
+  function loopUntilSpecifiedDate($index, $endYear, $endMonth, $endDay, $budget, $currentBalance): array
   {
-    for($i = 0; $i < 5; $i++) {
-      if($budget[$i]["day"] < $budget[4]["day"]) {
-        $balance = $this->calculateAmount($budget[$i]["amount"], $budget[$i]["type"], $i, $currentBalance, $budget);
+      // for($i = 0; $i < count($budget); $i++) {
+        // while($budget[$i]["month"] > $nextRowMonth) {
+        //   $index++;
+        // }
+        //
+        // while($budget[$i]["month"] < $nextRowMonth) {
+        //   $index--;
+        // }
 
-        array_splice($budget, $i, 0, array(array(
-          "year" => $budget[$i]["year"],
-          "month" => $budget[$i]["month"] + 1,
-          "day" => $budget[$i]["day"],
-          "title" => $budget[$i]["title"],
-          "amount" => $budget[$i]["amount"],
+        $balance = $this->calculateAmount($budget[$index]["amount"], $budget[$index]["type"], $index, $currentBalance, $budget);
+
+        array_push($budget, array(
+          "year" => $budget[$index]["year"],
+          "month" => $budget[$index]["month"] + 1,
+          "day" => $budget[$index]["day"],
+          "title" => $budget[$index]["title"],
+          "amount" => $budget[$index]["amount"],
           "balance" => $balance,
-          "type" => $budget[$i]["type"]
-        )));
-      }
+          "type" => $budget[$index]["type"]
+        ));
+      // }
 
-      $wishlistInBudget = true;
-    }
-
-    return $budget;
+      return $budget;
   }
 
   function displayExpensesTable($currentBalance): string
@@ -308,7 +312,11 @@ class Budgeting extends Base
       ));
     }
 
-    $budget = $this->loopUntilSpecifiedDate(2022, 12, 31, $budget, $currentBalance);
+    $numBudgetRows = count($budget);
+
+    for($l = 0; $l < $numBudgetRows; $l++) {
+      $budget = $this->loopUntilSpecifiedDate($l, 2022, 12, 31, $budget, $currentBalance);
+    }
 
     $lastIncomeYear = date('Y');
     $lastIncomeMonth = date('n');
