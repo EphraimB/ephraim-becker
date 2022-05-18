@@ -243,7 +243,7 @@ class Budgeting extends Base
 
   function loopUntilSpecifiedDate($index, $endYear, $endMonth, $endDay, $budget, $currentBalance): array
   {
-    $offset = count($budget) - 1;
+    $offset = count($budget);
     $month = $budget[$index]["month"] + 1;
     $nextRowMonth = $budget[$index + 1]["month"] + 1;
 
