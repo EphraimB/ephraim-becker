@@ -241,7 +241,7 @@ class Budgeting extends Base
     return $query;
   }
 
-  function loopUntilSpecifiedDate($index, $endYear, $endMonth, $endDay, $budget, $currentBalance): array
+  function loopUntilSpecifiedDate($index, $endYear, $endMonth, $endDay, $budget, $currentBalance, $monthIncrement): array
   {
     $offset = count($budget);
 
@@ -249,11 +249,11 @@ class Budgeting extends Base
 
     $date = "";
     $year = intval($budget[$index]["year"]);
-    $month = intval($budget[$index]["month"]) + 1;
+    $month = intval($budget[$index]["month"]) + $monthIncrement;
     $day = intval($budget[$index]["day"]);
     $date = $year . "-" . $month . "-" . $day;
 
-    $nextRowMonth = $budget[$index + 1]["month"] + 1;
+    $nextRowMonth = $budget[$index + 1]["month"] + $monthIncrement;
 
     if(($day == 31) || ($month == 2 && $day > 28)) {
       $date = $year . "-" . $month . "-" . 01;
@@ -269,6 +269,8 @@ class Budgeting extends Base
         $day = $day - 2;
       }
     }
+
+    // Todo: Condition to make sure that food and commute expenses are on the appropriate days
 
     // while($month > $nextRowMonth) {
     //   $offset++;
@@ -339,8 +341,10 @@ class Budgeting extends Base
 
     $numBudgetRows = count($budget);
 
-    for($l = 0; $l < $numBudgetRows; $l++) {
-      $budget = $this->loopUntilSpecifiedDate($l, 2022, 12, 31, $budget, $currentBalance);
+    for($m = 1; $m <= 3; $m++) {
+      for($l = 0; $l < $numBudgetRows; $l++) {
+        $budget = $this->loopUntilSpecifiedDate($l, 2022, 12, 31, $budget, $currentBalance, $m);
+      }
     }
 
     $lastIncomeYear = date('Y');
