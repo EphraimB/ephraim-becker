@@ -243,29 +243,31 @@ class Budgeting extends Base
 
   function loopUntilSpecifiedDate($index, $endYear, $endMonth, $endDay, $budget, $currentBalance): array
   {
-      // for($i = 0; $i < count($budget); $i++) {
-        // while($budget[$i]["month"] > $nextRowMonth) {
-        //   $index++;
-        // }
-        //
-        // while($budget[$i]["month"] < $nextRowMonth) {
-        //   $index--;
-        // }
+    $offset = count($budget) - 1;
+    $month = $budget[$index]["month"] + 1;
+    $nextRowMonth = $budget[$index + 1]["month"] + 1;
 
-        $balance = $this->calculateAmount($budget[$index]["amount"], $budget[$index]["type"], $index, $currentBalance, $budget);
+    // while($month > $nextRowMonth) {
+    //   $offset++;
+    // }
+    //
+    // while($month < $nextRowMonth) {
+    //   $offset--;
+    // }
 
-        array_push($budget, array(
-          "year" => $budget[$index]["year"],
-          "month" => $budget[$index]["month"] + 1,
-          "day" => $budget[$index]["day"],
-          "title" => $budget[$index]["title"],
-          "amount" => $budget[$index]["amount"],
-          "balance" => $balance,
-          "type" => $budget[$index]["type"]
-        ));
-      // }
+    $balance = $this->calculateAmount($budget[$index]["amount"], $budget[$index]["type"], $index, $currentBalance, $budget);
 
-      return $budget;
+    array_splice($budget, $offset, 0, array(array(
+      "year" => $budget[$index]["year"],
+      "month" => $month,
+      "day" => $budget[$index]["day"],
+      "title" => $budget[$index]["title"],
+      "amount" => $budget[$index]["amount"],
+      "balance" => $balance,
+      "type" => $budget[$index]["type"]
+    )));
+
+    return $budget;
   }
 
   function displayExpensesTable($currentBalance): string
