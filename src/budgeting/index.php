@@ -218,6 +218,8 @@ class Budgeting extends Base
 
         $wishlistInBudget = true;
       }
+
+      $index++;
     }
 
     return array($wishlistInBudget, $budget, $index);
@@ -292,7 +294,7 @@ class Budgeting extends Base
 
     for($k = 0; $k < count($budget); $k++) {
       if($budget[$k]["type"] == 0) {
-        $wishlistInBudget = $this->calculateWishlist($k, $lastIncomeIndex, $budget[$k]["amount"], $budget[$k]["balance"], $lastIncomeYear, $lastIncomeMonth, $lastIncomeDay, $currentBalance, $budget);
+        $wishlistInBudget = $this->calculateWishlist($k-1, $lastIncomeIndex, $budget[$k-1]["amount"], $budget[$k-1]["balance"], $lastIncomeYear, $lastIncomeMonth, $lastIncomeDay, $currentBalance, $budget);
         $budget = $wishlistInBudget[1];
 
         $lastIncomeYear = $beginYear;
