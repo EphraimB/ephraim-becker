@@ -190,7 +190,7 @@ class Budgeting extends Base
     return $query;
   }
 
-  function calculateWishlist($index, $amount, $balance, $lastIncomeYear, $lastIncomeMonth, $lastIncomeDay, $currentBalance, $budget): array
+  function calculateWishlist($index, $lastIncomeIndex, $amount, $balance, $lastIncomeYear, $lastIncomeMonth, $lastIncomeDay, $currentBalance, $budget): array
   {
     $wishlistInBudget = false;
 
@@ -204,8 +204,9 @@ class Budgeting extends Base
       $type = intval($row['type']);
 
       if($wishlistAmount < $balance) {
-        $balance = $this->calculateAmount($wishlistAmount, $type, $index, $currentBalance, $budget);
-        array_push($budget, array(
+        $balance = $this->calculateAmount($wishlistAmount, $type, $lastIncomeIndex, $currentBalance, $budget);
+        $index++;
+        array_splice($budget, $lastIncomeIndex, 0, array(array(
           "year" => $lastIncomeYear,
           "month" => $lastIncomeMonth,
           "day" => $lastIncomeDay,
@@ -213,13 +214,13 @@ class Budgeting extends Base
           "amount" => number_format(round($wishlistAmount, 2), 2),
           "balance" => $balance,
           "type" => $type
-        ));
+        )));
 
         $wishlistInBudget = true;
       }
     }
 
-    return array($wishlistInBudget, $budget);
+    return array($wishlistInBudget, $budget, $index);
   }
 
   function expensesTableQuery(): string
@@ -257,8 +258,9 @@ class Budgeting extends Base
     $queryResult = mysqli_query($this->getLink(), $query);
 
     $lastIncomeYear = date('Y');
-    $lastIncomeMonth = date('m');
-    $lastIncomeDay = date('d');
+    $lastIncomeMonth = date('n');
+    $lastIncomeDay = date('j');
+    $lastIncomeIndex = 0;
 
     while($row = mysqli_fetch_array($queryResult)) {
       $title = $row['title'];
@@ -269,8 +271,8 @@ class Budgeting extends Base
       $frequency = $row['frequency'];
       $type = intval($row['type']);
 
-      $currentMonth = date('m');
-      $currentDay = date('d');
+      $currentMonth = date('n');
+      $currentDay = date('j');
 
       for($i = $beginMonth; $i <= $beginMonth; $i++) {
         $balance = $this->calculateAmount($amount, $type, $index, $currentBalance, $budget);
@@ -287,12 +289,14 @@ class Budgeting extends Base
         ));
 
         if($type == 0) {
-          $wishlistInBudget = $this->calculateWishlist($index, $amount, $balance, $lastIncomeYear, $lastIncomeMonth, $lastIncomeDay, $currentBalance, $budget);
+          $wishlistInBudget = $this->calculateWishlist($index, $lastIncomeIndex, $amount, $balance, $lastIncomeYear, $lastIncomeMonth, $lastIncomeDay, $currentBalance, $budget);
           $budget = $wishlistInBudget[1];
 
           $lastIncomeYear = $beginYear;
           $lastIncomeMonth = $beginMonth;
           $lastIncomeDay = $beginDay;
+          $lastIncomeIndex = $index;
+          $index = $wishlistInBudget[2];
         }
       }
     }
