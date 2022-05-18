@@ -241,6 +241,29 @@ class Budgeting extends Base
     return $query;
   }
 
+  function loopUntilSpecifiedDate($endYear, $endYonth, $endDay, $budget, $currentBalance): array
+  {
+    for($i = 0; $i < 5; $i++) {
+      if($budget[$i]["day"] < $budget[4]["day"]) {
+        $balance = $this->calculateAmount($budget[$i]["amount"], $budget[$i]["type"], $i, $currentBalance, $budget);
+
+        array_splice($budget, $i, 0, array(array(
+          "year" => $budget[$i]["year"],
+          "month" => $budget[$i]["month"] + 1,
+          "day" => $budget[$i]["day"],
+          "title" => $budget[$i]["title"],
+          "amount" => $budget[$i]["amount"],
+          "balance" => $balance,
+          "type" => $budget[$i]["type"]
+        )));
+      }
+
+      $wishlistInBudget = true;
+    }
+
+    return $budget;
+  }
+
   function displayExpensesTable($currentBalance): string
   {
     $index = 0;
@@ -284,6 +307,8 @@ class Budgeting extends Base
         "type" => $type
       ));
     }
+
+    $budget = $this->loopUntilSpecifiedDate(2022, 12, 31, $budget, $currentBalance);
 
     $lastIncomeYear = date('Y');
     $lastIncomeMonth = date('n');
