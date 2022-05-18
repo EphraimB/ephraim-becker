@@ -257,11 +257,6 @@ class Budgeting extends Base
     $query = $this->expensesTableQuery();
     $queryResult = mysqli_query($this->getLink(), $query);
 
-    $lastIncomeYear = date('Y');
-    $lastIncomeMonth = date('n');
-    $lastIncomeDay = date('j');
-    $lastIncomeIndex = 0;
-
     while($row = mysqli_fetch_array($queryResult)) {
       $title = $row['title'];
       $amount = floatval($row['amount']);
@@ -287,17 +282,24 @@ class Budgeting extends Base
           "balance" => $balance,
           "type" => $type
         ));
+      }
+    }
 
-        if($type == 0) {
-          $wishlistInBudget = $this->calculateWishlist($index, $lastIncomeIndex, $amount, $balance, $lastIncomeYear, $lastIncomeMonth, $lastIncomeDay, $currentBalance, $budget);
-          $budget = $wishlistInBudget[1];
+    $lastIncomeYear = date('Y');
+    $lastIncomeMonth = date('n');
+    $lastIncomeDay = date('j');
+    $lastIncomeIndex = 0;
 
-          $lastIncomeYear = $beginYear;
-          $lastIncomeMonth = $beginMonth;
-          $lastIncomeDay = $beginDay;
-          $lastIncomeIndex = $index;
-          $index = $wishlistInBudget[2];
-        }
+    for($k = 0; $k < count($budget); $k++) {
+      if($budget[$k]["type"] == 0) {
+        $wishlistInBudget = $this->calculateWishlist($k, $lastIncomeIndex, $budget[$k]["amount"], $budget[$k]["balance"], $lastIncomeYear, $lastIncomeMonth, $lastIncomeDay, $currentBalance, $budget);
+        $budget = $wishlistInBudget[1];
+
+        $lastIncomeYear = $beginYear;
+        $lastIncomeMonth = $beginMonth;
+        $lastIncomeDay = $beginDay;
+        $lastIncomeIndex = $k;
+        $k = $wishlistInBudget[2];
       }
     }
 
