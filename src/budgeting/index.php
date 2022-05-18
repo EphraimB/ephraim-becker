@@ -244,8 +244,18 @@ class Budgeting extends Base
   function loopUntilSpecifiedDate($index, $endYear, $endMonth, $endDay, $budget, $currentBalance): array
   {
     $offset = count($budget);
-    $month = $budget[$index]["month"] + 1;
+
+    $date = "";
+    $year = intval($budget[$index]["year"]);
+    $month = intval($budget[$index]["month"]) + 1;
+    $day = intval($budget[$index]["day"]);
+
     $nextRowMonth = $budget[$index + 1]["month"] + 1;
+
+    if(($day == 31) || ($month == 2 && $day > 28)) {
+      $date = $year . "-" . $month . "-" . 01;
+      $day = date("t", strtotime($date));
+    }
 
     // while($month > $nextRowMonth) {
     //   $offset++;
@@ -258,9 +268,9 @@ class Budgeting extends Base
     $balance = $this->calculateAmount($budget[$index]["amount"], $budget[$index]["type"], $index, $currentBalance, $budget);
 
     array_splice($budget, $offset, 0, array(array(
-      "year" => $budget[$index]["year"],
+      "year" => $year,
       "month" => $month,
-      "day" => $budget[$index]["day"],
+      "day" => $day,
       "title" => $budget[$index]["title"],
       "amount" => $budget[$index]["amount"],
       "balance" => $balance,
