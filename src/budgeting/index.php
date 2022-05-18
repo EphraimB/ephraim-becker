@@ -245,16 +245,29 @@ class Budgeting extends Base
   {
     $offset = count($budget);
 
+    $title = $budget[$index]["title"];
+
     $date = "";
     $year = intval($budget[$index]["year"]);
     $month = intval($budget[$index]["month"]) + 1;
     $day = intval($budget[$index]["day"]);
+    $date = $year . "-" . $month . "-" . $day;
 
     $nextRowMonth = $budget[$index + 1]["month"] + 1;
 
     if(($day == 31) || ($month == 2 && $day > 28)) {
       $date = $year . "-" . $month . "-" . 01;
-      $day = date("t", strtotime($date));
+      $day = intval(date("t", strtotime($date)));
+    }
+
+    if($title == "Paycheck") {
+      $date = $year . "-" . $month . "-" . $day;
+
+      if(date("w", strtotime($date)) == 6) {
+        $day--;
+      } else if(date("w", strtotime($date)) == 0) {
+        $day = $day - 2;
+      }
     }
 
     // while($month > $nextRowMonth) {
@@ -271,7 +284,7 @@ class Budgeting extends Base
       "year" => $year,
       "month" => $month,
       "day" => $day,
-      "title" => $budget[$index]["title"],
+      "title" => $title,
       "amount" => $budget[$index]["amount"],
       "balance" => $balance,
       "type" => $budget[$index]["type"]
