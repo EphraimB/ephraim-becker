@@ -153,7 +153,7 @@ class Budgeting extends Base
     return $query;
   }
 
-  function foodExpensesQuery(): string
+  function foodExpensesQuery($monthIncrement): string
   {
     $caseQuery = "CASE WHEN WEEKDAY(CURDATE()) + 1 >= MealDayId
          THEN (CURDATE() + INTERVAL (6 - WEEKDAY(CURDATE())) DAY) + INTERVAL MealDayId DAY
@@ -233,7 +233,7 @@ class Budgeting extends Base
     $query .= " UNION ";
     $query .= $this->moneyOwnedQuery();
     $query .= " UNION ";
-    $query .= $this->foodExpensesQuery();
+    $query .= $this->foodExpensesQuery(0);
     $query .= " UNION ";
     $query .= $this->commuteExpensesQuery();
     $query .= "ORDER BY beginYear, beginMonth, beginDay";
@@ -245,51 +245,69 @@ class Budgeting extends Base
   {
     $offset = count($budget);
 
-    $title = $budget[$index]["title"];
+    // If I can just loop the sql query
 
-    $date = "";
-    $year = intval($budget[$index]["year"]);
-    $month = intval($budget[$index]["month"]) + $monthIncrement;
-    $day = intval($budget[$index]["day"]);
-    $date = $year . "-" . $month . "-" . $day;
-
-    $nextRowMonth = $budget[$index + 1]["month"] + $monthIncrement;
-
-    if(($day == 31) || ($month == 2 && $day > 28)) {
-      $date = $year . "-" . $month . "-" . 01;
-      $day = intval(date("t", strtotime($date)));
-    }
-
-    if($title == "Paycheck") {
-      $date = $year . "-" . $month . "-" . $day;
-
-      if(date("w", strtotime($date)) == 6) {
-        $day--;
-      } else if(date("w", strtotime($date)) == 0) {
-        $day = $day - 2;
-      }
-    }
-
-    // Todo: Condition to make sure that food and commute expenses are on the appropriate days
-
-    // while($month > $nextRowMonth) {
-    //   $offset++;
+    // $title = $budget[$index]["title"];
+    //
+    // $amount = $budget[$index]["amount"];
+    // $type = $budget[$index]["type"];
+    // $year = intval($budget[$index]["year"]);
+    // $month = intval($budget[$index]["month"]) + $monthIncrement;
+    // $day = intval($budget[$index]["day"]);
+    // $date = $year . "-" . $month . "-" . $day;
+    //
+    // $nextRowMonth = $budget[$index + 1]["month"] + $monthIncrement;
+    //
+    // if(($day == 31) || ($month == 2 && $day > 28)) {
+    //   $date = $year . "-" . $month . "-" . 01;
+    //   $day = intval(date("t", strtotime($date)));
     // }
     //
-    // while($month < $nextRowMonth) {
-    //   $offset--;
+    // if($title == "Paycheck") {
+    //   $date = $year . "-" . $month . "-" . $day;
+    //
+    //   if(date("w", strtotime($date)) == 6) {
+    //     $day--;
+    //   } else if(date("w", strtotime($date)) == 0) {
+    //     $day = $day - 2;
+    //   }
     // }
+    //
+    // // Todo: Condition to make sure that food and commute expenses are on the appropriate days
+    // if($title == "Food expenses") {
+    //   $query = $this->foodExpensesQuery($monthIncrement);
+    //
+    //   $queryResult = mysqli_query($this->getLink(), $query);
+    //
+    //   $row = mysqli_fetch_array($queryResult);
+    //   var_dump($row);
+    //     $title = $row['title'];
+    //     $amount = floatval($row['amount']);
+    //     $year = intval($row['beginYear']);
+    //     $month = intval($row['beginMonth']);
+    //     $day = intval($row['beginDay']);
+    //     $frequency = intval($row['frequency']);
+    //     $type = intval($row['type']);
+    // }
+    //
+    // // while($month > $nextRowMonth) {
+    // //   $offset++;
+    // // }
+    // //
+    // // while($month < $nextRowMonth) {
+    // //   $offset--;
+    // // }
 
-    $balance = $this->calculateAmount($budget[$index]["amount"], $budget[$index]["type"], $index, $currentBalance, $budget);
+    $balance = $this->calculateAmount($amount, $type, $index, $currentBalance, $budget);
 
     array_splice($budget, $offset, 0, array(array(
       "year" => $year,
       "month" => $month,
       "day" => $day,
       "title" => $title,
-      "amount" => $budget[$index]["amount"],
+      "amount" => $amount,
       "balance" => $balance,
-      "type" => $budget[$index]["type"]
+      "type" => $type
     )));
 
     return $budget;
@@ -339,13 +357,13 @@ class Budgeting extends Base
       ));
     }
 
-    $numBudgetRows = count($budget);
-
-    for($m = 1; $m <= 3; $m++) {
-      for($l = 0; $l < $numBudgetRows; $l++) {
-        $budget = $this->loopUntilSpecifiedDate($l, 2022, 12, 31, $budget, $currentBalance, $m);
-      }
-    }
+    // $numBudgetRows = count($budget);
+    //
+    // for($m = 1; $m <= 3; $m++) {
+    //   for($l = 0; $l < $numBudgetRows; $l++) {
+    //     $budget = $this->loopUntilSpecifiedDate($l, 2022, 12, 31, $budget, $currentBalance, $m);
+    //   }
+    // }
 
     $lastIncomeYear = date('Y');
     $lastIncomeMonth = date('n');
