@@ -151,25 +151,26 @@ class Budgeting extends Base
 
   function moneyOwnedQuery($monthIncrement): string
   {
-    $beginMonth = "IF(MONTH(CURDATE() + INTERVAL " . $monthIncrement . " MONTH) >= MONTH(date), IF(DAY(CURDATE()) > DAY(date), MONTH(DATE_ADD(CURDATE(), INTERVAL " . $monthIncrement . "+1 MONTH)), MONTH(CURDATE() + INTERVAL " . $monthIncrement . " MONTH)), MONTH(date))";
+    $monthIncrementQuery = "+ INTERVAL " . $monthIncrement . " MONTH";
+    $beginMonth = "IF(MONTH(CURDATE() " . $monthIncrementQuery . ") >= MONTH(date), IF(DAY(CURDATE() " . $monthIncrementQuery . ") > DAY(date" . $monthIncrementQuery . "), MONTH(DATE_ADD(CURDATE(), INTERVAL " . $monthIncrement . "+1 MONTH)), MONTH(CURDATE() " . $monthIncrementQuery . ")), MONTH(date" . $monthIncrementQuery . "))";
 
     $query = "SELECT concat(MoneyOwedFor, ' payback to ', MoneyOwedRecipient) AS title, planAmount AS amount, YEAR(date) AS beginYear, " . $beginMonth . " AS beginMonth, DAY(date) AS beginDay, frequency AS frequency, 1 AS type FROM moneyOwed";
-    var_dump($query);
 
     return $query;
   }
 
-  function foodExpensesQuery(): string
+  function foodExpensesQuery($weekIncrement): string
   {
-    $caseQuery = "CASE WHEN WEEKDAY(CURDATE()) + 1 >= MealDayId
-         THEN (CURDATE() + INTERVAL (6 - WEEKDAY(CURDATE())) DAY) + INTERVAL MealDayId DAY
-         ELSE (CURDATE() + INTERVAL (0 - WEEKDAY(CURDATE())) DAY) + INTERVAL (MealDayId-1) DAY
+    $caseQuery = "CASE WHEN WEEKDAY(CURDATE() + INTERVAL " . $weekIncrement . " WEEK) + 1 >= MealDayId
+         THEN (CURDATE() + INTERVAL " . $weekIncrement . " WEEK + INTERVAL (6 - WEEKDAY(CURDATE() + INTERVAL " . $weekIncrement . " WEEK)) DAY) + INTERVAL MealDayId DAY
+         ELSE (CURDATE() + INTERVAL " . $weekIncrement . " WEEK + INTERVAL (0 - WEEKDAY(CURDATE() + INTERVAL " . $weekIncrement . " WEEK)) DAY) + INTERVAL (MealDayId-1) DAY
     END";
 
     $query = "SELECT 'Food expenses' AS title, SUM(MealPrice) AS amount, (SELECT
     YEAR(" . $caseQuery . ")) AS beginYear, (SELECT
     MONTH(" . $caseQuery . ")) AS beginMonth, (SELECT
     DAY(" . $caseQuery . ")) AS beginDay, 1 AS frequency, 1 AS type FROM MealPlan GROUP BY MealDayId";
+    var_dump($query);
 
     return $query;
   }
@@ -239,7 +240,7 @@ class Budgeting extends Base
     $query .= " UNION ";
     $query .= $this->moneyOwnedQuery($monthIncrement);
     $query .= " UNION ";
-    $query .= $this->foodExpensesQuery();
+    $query .= $this->foodExpensesQuery($monthIncrement);
     $query .= " UNION ";
     $query .= $this->commuteExpensesQuery();
     $query .= "ORDER BY beginYear, beginMonth, beginDay";
