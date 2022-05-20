@@ -136,14 +136,16 @@ class Budgeting extends Base
     $caseQuery = "CASE WEEKDAY(concat(" . $beginYear . ", '-', " . $beginMonth . ", '-', payrollDay)) WHEN 5 THEN 1 WHEN 6 THEN 2 ELSE 0 END DAY))";
 
     $query = "SELECT 'Paycheck' AS title, (" . $grossPay . " - (SELECT SUM(taxAmount) FROM payrollTaxes WHERE fixed = 1) - (SELECT SUM(taxAmount) * (" . $grossPay . " FROM payroll) FROM payrollTaxes WHERE fixed = 0) FROM payroll) AS amount, " . $beginYear . " AS beginYear, " . $beginMonth . " AS beginMonth, IF(PayrollDay = 31, DAY(date_sub(LAST_DAY(concat(" . $beginYear . ", '-', " . $beginMonth . ", '-', 1)), INTERVAL " . $caseQuery . ", DAY(date_sub(concat(" . $beginYear . ", '-', " . $beginMonth . ", '-', payrollDay), INTERVAL " . $caseQuery . ") AS beginDay, 0 AS frequency, 0 AS type FROM payrollDates";
-    var_dump($query);
 
     return $query;
   }
 
-  function expensesQuery(): string
+  function expensesQuery($monthIncrement): string
   {
-    $query = "SELECT ExpenseTitle AS title, ExpensePrice AS amount, Year(ExpenseBeginDate) AS beginYear, IF(MONTH(CURDATE()) >= MONTH(ExpenseBeginDate), IF(DAY(CURDATE()) > DAY(ExpenseBeginDate), MONTH(DATE_ADD(CURDATE(), INTERVAL 1 MONTH)), MONTH(CURDATE())), MONTH(ExpenseBeginDate)) AS beginMonth, Day(ExpenseBeginDate) AS beginDay, FrequencyOfExpense AS frequency, 1 AS type FROM expenses WHERE ExpenseEndDate > CURRENT_DATE() OR ISNULL(ExpenseEndDate)";
+    $beginMonth = "IF(MONTH(CURDATE() + INTERVAL " . $monthIncrement . " MONTH) >= MONTH(ExpenseBeginDate + INTERVAL " . $monthIncrement . " MONTH), IF(DAY(CURDATE()) > DAY(ExpenseBeginDate), MONTH(DATE_ADD(CURDATE(), INTERVAL " . $monthIncrement . "+1 MONTH)), MONTH(CURDATE() + INTERVAL " . $monthIncrement . " MONTH)), MONTH(ExpenseBeginDate + INTERVAL " . $monthIncrement . " MONTH))";
+
+    $query = "SELECT ExpenseTitle AS title, ExpensePrice AS amount, Year(ExpenseBeginDate) AS beginYear, " . $beginMonth . " AS beginMonth, Day(ExpenseBeginDate) AS beginDay, FrequencyOfExpense AS frequency, 1 AS type FROM expenses WHERE ExpenseEndDate > CURRENT_DATE() OR ISNULL(ExpenseEndDate)";
+    var_dump($query);
 
     return $query;
   }
@@ -155,7 +157,7 @@ class Budgeting extends Base
     return $query;
   }
 
-  function foodExpensesQuery($monthIncrement): string
+  function foodExpensesQuery(): string
   {
     $caseQuery = "CASE WHEN WEEKDAY(CURDATE()) + 1 >= MealDayId
          THEN (CURDATE() + INTERVAL (6 - WEEKDAY(CURDATE())) DAY) + INTERVAL MealDayId DAY
@@ -231,11 +233,11 @@ class Budgeting extends Base
   {
     $query = $this->paycheckQuery($monthIncrement);
     $query .= " UNION ";
-    $query .= $this->expensesQuery();
+    $query .= $this->expensesQuery($monthIncrement);
     $query .= " UNION ";
     $query .= $this->moneyOwnedQuery();
     $query .= " UNION ";
-    $query .= $this->foodExpensesQuery(0);
+    $query .= $this->foodExpensesQuery();
     $query .= " UNION ";
     $query .= $this->commuteExpensesQuery();
     $query .= "ORDER BY beginYear, beginMonth, beginDay";
