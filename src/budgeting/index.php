@@ -247,6 +247,21 @@ class Budgeting extends Base
     return $query;
   }
 
+  function getArray($budget) {
+    usort($budget, array($this, 'sortArrayByDate'));
+
+    return $budget;
+  }
+
+  private function sortArrayByDate($a, $b)
+  {
+    if(intval($a["month"]) == intval($b["month"])) {
+      return 0;
+    }
+
+    return (intval($a["month"])<intval($b["month"]))?-1:1;
+  }
+
   function displayExpensesTable($currentBalance): string
   {
     $index = 0;
@@ -309,6 +324,8 @@ class Budgeting extends Base
         $k = $wishlistInBudget[2];
       }
     }
+
+    $budget = $this->getArray($budget);
 
     for($j = 0; $j < count($budget); $j++) {
       $html .= '<tr>
