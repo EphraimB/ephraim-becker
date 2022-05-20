@@ -247,7 +247,7 @@ class Budgeting extends Base
     return $query;
   }
 
-  function getArray($budget) {
+  function getSortArrayByDate($budget) {
     usort($budget, array($this, 'sortArrayByDate'));
 
     return $budget;
@@ -255,11 +255,13 @@ class Budgeting extends Base
 
   private function sortArrayByDate($a, $b)
   {
-    if(intval($a["month"]) == intval($b["month"])) {
-      return 0;
-    }
+    $t1DateString = $a["year"] . '-' . $a["month"] . '-' . $a["day"];
+    $t2DateString = $b["year"] . '-' . $b["month"] . '-' . $b["day"];
 
-    return (intval($a["month"])<intval($b["month"]))?-1:1;
+    $t1 = strtotime($t1DateString);
+    $t2 = strtotime($t2DateString);
+
+    return $t1 - $t2;
   }
 
   function displayExpensesTable($currentBalance): string
@@ -325,7 +327,7 @@ class Budgeting extends Base
       }
     }
 
-    $budget = $this->getArray($budget);
+    $budget = $this->getSortArrayByDate($budget);
 
     for($j = 0; $j < count($budget); $j++) {
       $html .= '<tr>
