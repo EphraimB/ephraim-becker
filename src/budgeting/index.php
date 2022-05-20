@@ -128,11 +128,11 @@ class Budgeting extends Base
     return $result;
   }
 
-  function paycheckQuery(): string
+  function paycheckQuery($monthIncrement): string
   {
     $grossPay = "SELECT SUM(payPerHour) * SUM(hoursWorked) * SUM(daysPerWeek) * 2.167";
     $beginYear = "YEAR(CURDATE())";
-    $beginMonth = "IF(MONTH(CURDATE()) >= MONTH(CURDATE()), IF(PayrollDay > DAY(CURDATE()), MONTH(CURDATE()), MONTH(DATE_ADD(CURDATE(), INTERVAL 1 MONTH))), MONTH(CURDATE()))";
+    $beginMonth = "IF(MONTH(CURDATE()) >= MONTH(CURDATE()), IF(PayrollDay > DAY(CURDATE()), MONTH(CURDATE() + INTERVAL " . $monthIncrement . " MONTH), MONTH(DATE_ADD(CURDATE(), INTERVAL " . $monthIncrement + 1 . " MONTH))), MONTH(CURDATE() + INTERVAL " . $monthIncrement . " MONTH))";
 
     $query = "SELECT 'Paycheck' AS title, (" . $grossPay . " - (SELECT SUM(taxAmount) FROM payrollTaxes WHERE fixed = 1) - (SELECT SUM(taxAmount) * (" . $grossPay . " FROM payroll) FROM payrollTaxes WHERE fixed = 0) FROM payroll) AS amount, " . $beginYear . " AS beginYear, " . $beginMonth . " AS beginMonth, IF(PayrollDay = 31, DAY(date_sub(LAST_DAY(concat(" . $beginYear . ", '-', " . $beginMonth . ", '-', payrollDay)), INTERVAL CASE WEEKDAY(concat(" . $beginYear . ", '-', " . $beginMonth . ", '-', payrollDay)) WHEN 5 THEN 1 WHEN 6 THEN 2 ELSE 0 END DAY)), DAY(date_sub(concat(" . $beginYear . ", '-', " . $beginMonth . ", '-', payrollDay), INTERVAL CASE WEEKDAY(concat(" . $beginYear . ", '-', " . $beginMonth . ", '-', payrollDay)) WHEN 5 THEN 1 WHEN 6 THEN 2 ELSE 0 END DAY))) AS beginDay, 0 AS frequency, 0 AS type FROM payrollDates";
 
@@ -225,9 +225,9 @@ class Budgeting extends Base
     return array($wishlistInBudget, $budget, $index);
   }
 
-  function expensesTableQuery(): string
+  function expensesTableQuery($monthIncrement): string
   {
-    $query = $this->paycheckQuery();
+    $query = $this->paycheckQuery($monthIncrement);
     $query .= " UNION ";
     $query .= $this->expensesQuery();
     $query .= " UNION ";
@@ -327,34 +327,35 @@ class Budgeting extends Base
           <th>Balance</th>
         </tr>';
 
+    for($l = 0; $l < 1; $l++) {
+      $query = $this->expensesTableQuery($l);
+      $queryResult = mysqli_query($this->getLink(), $query);
 
-    $query = $this->expensesTableQuery();
-    $queryResult = mysqli_query($this->getLink(), $query);
+      while($row = mysqli_fetch_array($queryResult)) {
+        $title = $row['title'];
+        $amount = floatval($row['amount']);
+        $beginYear = $row['beginYear'];
+        $beginMonth = $row['beginMonth'];
+        $beginDay = $row['beginDay'];
+        $frequency = $row['frequency'];
+        $type = intval($row['type']);
 
-    while($row = mysqli_fetch_array($queryResult)) {
-      $title = $row['title'];
-      $amount = floatval($row['amount']);
-      $beginYear = $row['beginYear'];
-      $beginMonth = $row['beginMonth'];
-      $beginDay = $row['beginDay'];
-      $frequency = $row['frequency'];
-      $type = intval($row['type']);
+        $currentMonth = date('n');
+        $currentDay = date('j');
 
-      $currentMonth = date('n');
-      $currentDay = date('j');
+        $balance = $this->calculateAmount($amount, $type, $index, $currentBalance, $budget);
+        $index++;
 
-      $balance = $this->calculateAmount($amount, $type, $index, $currentBalance, $budget);
-      $index++;
-
-      array_push($budget, array(
-        "year" => $beginYear,
-        "month" => $beginMonth,
-        "day" => $beginDay,
-        "title" => $title,
-        "amount" => number_format(round($amount, 2), 2),
-        "balance" => $balance,
-        "type" => $type
-      ));
+        array_push($budget, array(
+          "year" => $beginYear,
+          "month" => $beginMonth,
+          "day" => $beginDay,
+          "title" => $title,
+          "amount" => number_format(round($amount, 2), 2),
+          "balance" => $balance,
+          "type" => $type
+        ));
+      }
     }
 
     // $numBudgetRows = count($budget);
