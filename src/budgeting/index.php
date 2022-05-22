@@ -294,7 +294,7 @@ class Budgeting extends Base
         $currentMonth = date('n');
         $currentDay = date('j');
 
-        $balance = $this->calculateAmount($amount, $type, $index, $currentBalance, $budget);
+        // $balance = $this->calculateAmount($amount, $type, $index, $currentBalance, $budget);
         $index++;
 
         array_push($budget, array(
@@ -303,31 +303,37 @@ class Budgeting extends Base
           "day" => $beginDay,
           "title" => $title,
           "amount" => number_format(round($amount, 2), 2),
-          "balance" => $balance,
+          "balance" => 0,
           "type" => $type
         ));
       }
     }
 
-    $lastIncomeYear = date('Y');
-    $lastIncomeMonth = date('n');
-    $lastIncomeDay = date('j');
-    $lastIncomeIndex = 0;
+    // $lastIncomeYear = date('Y');
+    // $lastIncomeMonth = date('n');
+    // $lastIncomeDay = date('j');
+    // $lastIncomeIndex = 0;
 
-    for($k = 0; $k < count($budget); $k++) {
-      if($budget[$k]["type"] == 0) {
-        $wishlistInBudget = $this->calculateWishlist($k-1, $lastIncomeIndex, $budget[$k-1]["amount"], $budget[$k-1]["balance"], $lastIncomeYear, $lastIncomeMonth, $lastIncomeDay, $currentBalance, $budget);
-        $budget = $wishlistInBudget[1];
-
-        $lastIncomeYear = $beginYear;
-        $lastIncomeMonth = $beginMonth;
-        $lastIncomeDay = $beginDay;
-        $lastIncomeIndex = $k;
-        $k = $wishlistInBudget[2];
-      }
-    }
+    // for($k = 0; $k < count($budget); $k++) {
+    //   if($budget[$k]["type"] == 0) {
+    //     $wishlistInBudget = $this->calculateWishlist($k-1, $lastIncomeIndex, $budget[$k-1]["amount"], $budget[$k-1]["balance"], $lastIncomeYear, $lastIncomeMonth, $lastIncomeDay, $currentBalance, $budget);
+    //     $budget = $wishlistInBudget[1];
+    //
+    //     $lastIncomeYear = $beginYear;
+    //     $lastIncomeMonth = $beginMonth;
+    //     $lastIncomeDay = $beginDay;
+    //     $lastIncomeIndex = $k;
+    //     $k = $wishlistInBudget[2];
+    //   }
+    // }
 
     $budget = $this->getSortArrayByDate($budget);
+
+    for($m = 0; $m < count($budget); $m++) {
+      $balance = $this->calculateAmount($budget[$m]["amount"], $budget[$m]["type"], $m, $currentBalance, $budget);
+
+      $budget[$m]["balance"] = $balance;
+    }
 
     for($j = 0; $j < count($budget); $j++) {
       $html .= '<tr>
