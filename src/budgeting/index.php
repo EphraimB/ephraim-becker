@@ -361,11 +361,6 @@ class Budgeting extends Base
 
     for($k = 0; $k < count($budget); $k++) {
       if($budget[$k]["type"] == 0) {
-        // $lastIncomeYear = $budget[$k]["year"];
-        // $lastIncomeMonth = $budget[$k]["month"];
-        // $lastIncomeDay = $budget[$k]["day"];
-        // $lastIncomeIndex = $k;
-
         $wishlistInBudget = $this->calculateWishlist($k-1, $lastIncomeIndex, $budget[$k-1]["amount"], $budget[$k-1]["balance"], $lastIncomeYear, $lastIncomeMonth, $lastIncomeDay, $currentBalance, $budget);
         $budget = $wishlistInBudget[1];
 
