@@ -211,8 +211,7 @@ class Budgeting extends Base
 
       if($wishlistAmount < $balance) {
         $balance = $this->calculateAmount($wishlistAmount, $type, $lastIncomeIndex, $currentBalance, $budget);
-        $index++;
-        array_splice($budget, $lastIncomeIndex, 0, array(array(
+        array_splice($budget, $lastIncomeIndex + 1, 0, array(array(
           "year" => $lastIncomeYear,
           "month" => $lastIncomeMonth,
           "day" => $lastIncomeDay,
@@ -221,14 +220,10 @@ class Budgeting extends Base
           "balance" => $balance,
           "type" => $type
         )));
-
-        $wishlistInBudget = true;
       }
-
-      $index++;
     }
 
-    return array($wishlistInBudget, $budget, $index);
+    return $budget;
   }
 
   function expensesTableQuery($increment): string
@@ -306,23 +301,30 @@ class Budgeting extends Base
       }
     }
 
-    // $lastIncomeYear = date('Y');
-    // $lastIncomeMonth = date('n');
-    // $lastIncomeDay = date('j');
-    // $lastIncomeIndex = 0;
+    $budget = $this->getSortArrayByDate($budget);
 
-    // for($k = 0; $k < count($budget); $k++) {
-    //   if($budget[$k]["type"] == 0) {
-    //     $wishlistInBudget = $this->calculateWishlist($k-1, $lastIncomeIndex, $budget[$k-1]["amount"], $budget[$k-1]["balance"], $lastIncomeYear, $lastIncomeMonth, $lastIncomeDay, $currentBalance, $budget);
-    //     $budget = $wishlistInBudget[1];
-    //
-    //     $lastIncomeYear = $beginYear;
-    //     $lastIncomeMonth = $beginMonth;
-    //     $lastIncomeDay = $beginDay;
-    //     $lastIncomeIndex = $k;
-    //     $k = $wishlistInBudget[2];
-    //   }
-    // }
+    for($m = 0; $m < count($budget); $m++) {
+      $balance = $this->calculateAmount($budget[$m]["amount"], $budget[$m]["type"], $m, $currentBalance, $budget);
+
+      $budget[$m]["balance"] = $balance;
+    }
+
+    $lastIncomeYear = date('Y');
+    $lastIncomeMonth = date('n');
+    $lastIncomeDay = date('j');
+    $lastIncomeIndex = 0;
+
+    for($k = 0; $k < count($budget); $k++) {
+      if($budget[$k]["type"] == 0) {
+        $wishlistInBudget = $this->calculateWishlist($k-1, $lastIncomeIndex, $budget[$k-1]["amount"], $budget[$k-1]["balance"], $lastIncomeYear, $lastIncomeMonth, $lastIncomeDay, $currentBalance, $budget);
+        $budget = $wishlistInBudget;
+
+        $lastIncomeYear = $budget[$k]["year"];
+        $lastIncomeMonth = $budget[$k]["month"];
+        $lastIncomeDay = $budget[$k]["day"];
+        $lastIncomeIndex = $k;
+      }
+    }
 
     $budget = $this->getSortArrayByDate($budget);
 
