@@ -247,7 +247,8 @@ class Budgeting extends Base
     return $query;
   }
 
-  function getSortArrayByDate($budget) {
+  function getSortArrayByDate($budget)
+  {
     usort($budget, array($this, 'sortArrayByDate'));
 
     return $budget;
@@ -266,7 +267,6 @@ class Budgeting extends Base
 
   function displayExpensesTable($currentBalance): string
   {
-    $index = 0;
     $budget = array();
 
     $html = '
@@ -293,9 +293,6 @@ class Budgeting extends Base
 
         $currentMonth = date('n');
         $currentDay = date('j');
-
-        // $balance = $this->calculateAmount($amount, $type, $index, $currentBalance, $budget);
-        $index++;
 
         array_push($budget, array(
           "year" => $beginYear,
