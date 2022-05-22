@@ -191,27 +191,26 @@ class Budgeting extends Base
 
   function getWishlist(): string
   {
-    $query = "SELECT Item AS title, Price AS price, 3 AS frequency, 1 AS type FROM WantToBuy";
+    $query = "SELECT WantToBuyId AS id, Item AS title, Price AS price, 3 AS frequency, 1 AS type FROM WantToBuy WHERE Finished = 0";
 
     return $query;
   }
 
   function calculateWishlist($index, $lastIncomeIndex, $amount, $balance, $lastIncomeYear, $lastIncomeMonth, $lastIncomeDay, $currentBalance, $budget): array
   {
-    $wishlistInBudget = false;
-
     $query = $this->getWishlist();
     $queryResult = mysqli_query($this->getLink(), $query);
 
     while($row = mysqli_fetch_array($queryResult)) {
+      $id = $row['id'];
       $title = $row['title'];
       $wishlistAmount = floatval($row['price']);
       $frequency = $row['frequency'];
       $type = intval($row['type']);
 
       if($wishlistAmount < $balance) {
-        $balance = $this->calculateAmount($wishlistAmount, $type, $lastIncomeIndex, $currentBalance, $budget);
-        array_splice($budget, $lastIncomeIndex + 1, 0, array(array(
+        $balance = $this->calculateAmount($wishlistAmount, $type, $lastIncomeIndex+1, $currentBalance, $budget);
+        array_splice($budget, $lastIncomeIndex+1, 0, array(array(
           "year" => $lastIncomeYear,
           "month" => $lastIncomeMonth,
           "day" => $lastIncomeDay,
@@ -220,10 +219,21 @@ class Budgeting extends Base
           "balance" => $balance,
           "type" => $type
         )));
+
+        $sql = $this->getLink()->prepare("UPDATE WantToBuy SET Finished=? WHERE WantToBuyId=?");
+        $sql->bind_param('ii', $flag, $id);
+
+        $flag = 1;
+
+        $sql->execute();
+
+        $index++;
       }
     }
 
-    return $budget;
+    $index++;
+
+    return array($index, $budget);
   }
 
   function expensesTableQuery($increment): string
@@ -316,13 +326,15 @@ class Budgeting extends Base
 
     for($k = 0; $k < count($budget); $k++) {
       if($budget[$k]["type"] == 0) {
-        $wishlistInBudget = $this->calculateWishlist($k-1, $lastIncomeIndex, $budget[$k-1]["amount"], $budget[$k-1]["balance"], $lastIncomeYear, $lastIncomeMonth, $lastIncomeDay, $currentBalance, $budget);
-        $budget = $wishlistInBudget;
-
         $lastIncomeYear = $budget[$k]["year"];
         $lastIncomeMonth = $budget[$k]["month"];
         $lastIncomeDay = $budget[$k]["day"];
         $lastIncomeIndex = $k;
+
+        $wishlistInBudget = $this->calculateWishlist($k-1, $lastIncomeIndex, $budget[$k-1]["amount"], $budget[$k-1]["balance"], $lastIncomeYear, $lastIncomeMonth, $lastIncomeDay, $currentBalance, $budget);
+        $budget = $wishlistInBudget[1];
+
+        $k = $wishlistInBudget[0];
       }
     }
 
@@ -333,6 +345,13 @@ class Budgeting extends Base
 
       $budget[$m]["balance"] = $balance;
     }
+
+    $sql = $this->getLink()->prepare("UPDATE WantToBuy SET Finished=?");
+    $sql->bind_param('i', $flag);
+
+    $flag = 0;
+
+    $sql->execute();
 
     for($j = 0; $j < count($budget); $j++) {
       $html .= '<tr>
