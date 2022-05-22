@@ -294,7 +294,7 @@ class Budgeting extends Base
           <th>Balance</th>
         </tr>';
 
-    for($l = 0; $l < 2; $l++) {
+    for($l = 0; $l < 3; $l++) {
       $query = $this->expensesTableQuery($l);
       $queryResult = mysqli_query($this->getLink(), $query);
 
