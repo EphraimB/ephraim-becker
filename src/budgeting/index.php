@@ -184,7 +184,7 @@ class Budgeting extends Base
     $query = "SELECT 'Commute expenses' AS title, SUM(Price) AS amount, (SELECT
     YEAR(" . $caseQuery . ")) AS beginYear, (SELECT
     MONTH(" . $caseQuery . ")) AS beginMonth, (SELECT
-    DAY(" . $caseQuery . ")) AS beginDay, 1 AS frequency, 1 AS type FROM CommutePlan GROUP BY CommuteDayId ";
+    DAY(" . $caseQuery . ")) AS beginDay, 1 AS frequency, 1 AS type FROM CommutePlan GROUP BY CommuteDayId";
 
     return $query;
   }
@@ -236,6 +236,16 @@ class Budgeting extends Base
     return array($index, $budget);
   }
 
+  function loopWeeksUntilMonths($increment): string
+  {
+    $query = $this->foodExpensesQuery($increment);
+    $query .= " UNION ";
+    $query .= $this->commuteExpensesQuery($increment);
+    $query .= " ORDER BY beginYear, beginMonth, beginDay";
+
+    return $query;
+  }
+
   function expensesTableQuery($increment): string
   {
     $query = $this->paycheckQuery($increment);
@@ -243,11 +253,11 @@ class Budgeting extends Base
     $query .= $this->expensesQuery($increment);
     $query .= " UNION ";
     $query .= $this->moneyOwnedQuery($increment);
-    $query .= " UNION ";
-    $query .= $this->foodExpensesQuery($increment);
-    $query .= " UNION ";
-    $query .= $this->commuteExpensesQuery($increment);
-    $query .= "ORDER BY beginYear, beginMonth, beginDay";
+    // $query .= " UNION ";
+    // $query .= $this->foodExpensesQuery($increment);
+    // $query .= " UNION ";
+    // $query .= $this->commuteExpensesQuery($increment);
+    $query .= " ORDER BY beginYear, beginMonth, beginDay";
 
     return $query;
   }
@@ -272,6 +282,7 @@ class Budgeting extends Base
 
   function displayExpensesTable($currentBalance): string
   {
+    $weeklyIndex = 0;
     $budget = array();
 
     $html = '
@@ -296,9 +307,6 @@ class Budgeting extends Base
         $frequency = $row['frequency'];
         $type = intval($row['type']);
 
-        $currentMonth = date('n');
-        $currentDay = date('j');
-
         array_push($budget, array(
           "year" => $beginYear,
           "month" => $beginMonth,
@@ -308,6 +316,33 @@ class Budgeting extends Base
           "balance" => 0,
           "type" => $type
         ));
+      }
+
+      for($j = 0; $j < 4; $j++) {
+        $queryTwo = $this->loopWeeksUntilMonths($weeklyIndex);
+        $queryTwoResult = mysqli_query($this->getLink(), $queryTwo);
+
+        while($rowTwo = mysqli_fetch_array($queryTwoResult)) {
+          $title = $rowTwo['title'];
+          $amount = floatval($rowTwo['amount']);
+          $beginYear = $rowTwo['beginYear'];
+          $beginMonth = $rowTwo['beginMonth'];
+          $beginDay = $rowTwo['beginDay'];
+          $frequency = $rowTwo['frequency'];
+          $type = intval($rowTwo['type']);
+
+          array_push($budget, array(
+            "year" => $beginYear,
+            "month" => $beginMonth,
+            "day" => $beginDay,
+            "title" => $title,
+            "amount" => number_format(round($amount, 2), 2),
+            "balance" => 0,
+            "type" => $type
+          ));
+        }
+
+        $weeklyIndex++;
       }
     }
 
