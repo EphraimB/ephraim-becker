@@ -168,6 +168,6 @@ if(isset($_POST['endDateExists'])) {
   $addExpense->setEndDate(NULL);
 }
 
-$addExpense->setFrequency(intval($_POST['frequency']));
+$addExpense->setFrequency(1);
 
 $addExpense->addExpense();

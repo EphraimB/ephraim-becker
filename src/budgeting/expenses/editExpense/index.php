@@ -137,40 +137,6 @@ class EditExpenseForm extends Base
         </div>
       </div>
       <br />
-      <div class="row">
-        <label for="frequency">Enter start date and time of expense: </label>
-        <select name="frequency" id="frequency" required>
-          <option value="0" ';
-
-          if($frequency == 0) {
-            $html .= 'selected';
-          }
-
-          $html .= '>Monthly</option>
-          <option value="1" ';
-
-          if($frequency == 1) {
-            $html .= 'selected';
-          }
-
-          $html .= '>Weekly</option>
-          <option value="2" ';
-
-          if($frequency == 2) {
-            $html .= 'selected';
-           }
-
-          $html .= '>Daily</option>
-          <option value="3" ';
-
-          if($frequency == 3) {
-            $html .= 'selected';
-          }
-
-          $html .= '>One-time</option>
-        </select>
-      </div>
-      <br />
 
       <input type="submit" id="submit" />
     </form>';

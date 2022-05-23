@@ -100,16 +100,6 @@ class AddExpenseForm extends Base
         </div>
       </div>
       <br />
-      <div class="row">
-        <label for="frequency">Enter start date and time of expense: </label>
-        <select name="frequency" id="frequency" required>
-          <option value="monthly">Monthly</option>
-          <option value="weekly">Weekly</option>
-          <option value="Daily">Daily</option>
-          <option value="onetime">One-time</option>
-        </select>
-      </div>
-      <br />
 
       <input type="submit" id="submit" disabled="disabled" />
     </form>';

@@ -117,39 +117,6 @@ class EditMoneyOwedForm extends Base
         <label for="planAmount">Plan: $</label>
         <input type="number" step="any" name="planAmount" value="' . $planAmount . '" />
       </div>
-      <p>Per</p>
-      <div>
-        <select name="frequency" id="frequency">
-          <option value="0" ';
-
-          if($frequency == 0) {
-            $html .= 'selected';
-          }
-
-        $html .= '>Yearly</option>
-          <option value="1" ';
-
-          if($frequency == 1) {
-            $html .= 'selected';
-          }
-
-          $html .= '>Monthly</option>
-          <option value="2" ';
-
-          if($frequency == 2) {
-            $html .= 'selected';
-          }
-
-          $html .= '>Weekly</option>
-          <option value="3" ';
-
-          if($frequency == 3) {
-            $html .= 'selected';
-          }
-
-          $html .= '>Daily</option>
-        </select>
-      </div>
       <br />
       <div>
         <label for="date">Payback plan start date: </label>

@@ -87,15 +87,6 @@ class AddMoneyOwedForm extends Base
           <label for="planAmount">Plan: $</label>
           <input type="number" step="any" name="planAmount" />
         </div>
-        <p>Per</p>
-        <div>
-          <select name="frequency" id="frequency">
-            <option value="0">Yearly</option>
-            <option value="1">Monthly</option>
-            <option value="2">Weekly</option>
-            <option value="3">Daily</option>
-          </select>
-        </div>
         <br />
         <div>
         <label for="date">Payback plan start date: </label>
@@ -105,8 +96,7 @@ class AddMoneyOwedForm extends Base
         <input type="hidden" name="timezone" id="timezone" />
         <input type="hidden" name="timezoneOffset" id="timezoneOffset" />
         <input type="submit" id="submitButton" value="Add money owed" disabled="disabled" />
-      </form>
-    ';
+      </form>';
 
     return $html;
   }

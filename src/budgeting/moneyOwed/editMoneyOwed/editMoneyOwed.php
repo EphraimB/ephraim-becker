@@ -176,7 +176,7 @@ $editMoneyOwed->setRecipient($_POST['recipient']);
 $editMoneyOwed->setFor($_POST['for']);
 $editMoneyOwed->setAmount(floatval($_POST['amount']));
 $editMoneyOwed->setPlanAmount(floatval($_POST['planAmount']));
-$editMoneyOwed->setFrequency(intval($_POST['frequency']));
+$editMoneyOwed->setFrequency(1);
 $editMoneyOwed->setDate($_POST['date']);
 $editMoneyOwed->setTimezone($_POST['timezone']);
 $editMoneyOwed->setTimezoneOffset(intval($_POST['timezoneOffset']));
