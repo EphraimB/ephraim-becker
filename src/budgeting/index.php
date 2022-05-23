@@ -389,7 +389,19 @@ class Budgeting extends Base
     $sql->execute();
 
     for($j = 0; $j < count($budget); $j++) {
-      $html .= '<tr>
+      $html .= '<tr style="color: white;';
+
+      if($budget[$j]["type"] == 0) {
+        $html .= ' background-color: green;';
+      } else if($budget[$j]["type"] == 1) {
+        $html .= ' background-color: red;';
+      }
+
+      if($budget[$j]["balance"] < 0) {
+        $html .= ' background-color: darkred;';
+      }
+
+      $html .= '">
           <td>' . $budget[$j]["month"] . '/' . $budget[$j]["day"] . '/' . $budget[$j]["year"] . '</td>
           <td>' . $budget[$j]["title"] . '</td>
           <td>$' . $budget[$j]["amount"] . '</td>
