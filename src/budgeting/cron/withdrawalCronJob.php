@@ -72,6 +72,6 @@ $link = $config->connectToServer();
 
 $withdrawalCronJob = new WithdrawalCronJob();
 $withdrawalCronJob->setLink($link);
-$withdrawalCronJob->setWithdrawalAmount(floatval($_POST['withdrawalAmount']));
-$withdrawalCronJob->setWithdrawalDescription($_POST['withdrawalDescription']);
+$withdrawalCronJob->setWithdrawalAmount(floatval($_GET['withdrawalAmount']));
+$withdrawalCronJob->setWithdrawalDescription($_GET['withdrawalDescription']);
 $withdrawalCronJob->withdrawal();

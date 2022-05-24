@@ -9,6 +9,7 @@ class EditFood
 {
   private $isAdmin;
   private $link;
+  private $cronTabManager;
   private $id;
   private $mealId;
   private $mealItem;
@@ -46,6 +47,16 @@ class EditFood
   function getLink()
   {
     return $this->link;
+  }
+
+  function setCronTabManager($cronTabManager)
+  {
+    $this->cronTabManager = $cronTabManager;
+  }
+
+  function getCronTabManager()
+  {
+    return $this->cronTabManager;
   }
 
   function setId($id): void
@@ -113,7 +124,7 @@ class EditFood
      $sql->execute();
 
      $crontab = $this->getCronTabManager();
-     $crontab->append_cronjob('0 8 * * ' . $this->getMealDayId() . ' /usr/local/bin/php -q /home/s8gphl6pjes9/public_html/budgeting/cron/addToWithdrawal.php >/dev/null 2>&1');
+     $crontab->append_cronjob('0 12 * * ' . $this->getMealDayId() . ' /usr/bin/curl -o temp.txt ephraimbecker.com/budgeting/cron/addToWithdrawal.php?withdrawalAmount=' . $mealPrice . '&withdrawalDescription=Meal%20expenses');
 
      $sql->close();
      $this->getLink()->close();
