@@ -112,6 +112,9 @@ class EditFood
 
      $sql->execute();
 
+     $crontab = $this->getCronTabManager();
+     $crontab->append_cronjob('0 8 * * ' . $this->getMealDayId() . ' /usr/local/bin/php -q /home/s8gphl6pjes9/public_html/budgeting/cron/addToWithdrawal.php >/dev/null 2>&1');
+
      $sql->close();
      $this->getLink()->close();
 
@@ -120,9 +123,11 @@ class EditFood
 }
 $config = new Config();
 $link = $config->connectToServer();
+$cronTabManager = $config->connectToCron();
 
 $editFood = new EditFood();
 $editFood->setLink($link);
+$editFood->setCronTabManager($cronTabManager);
 $editFood->setMealId(intval($_POST['mealId']));
 $editFood->setMealItem($_POST['mealItem']);
 $editFood->setMealPrice(floatval($_POST['mealPrice']));

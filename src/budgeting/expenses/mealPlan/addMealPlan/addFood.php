@@ -112,11 +112,11 @@ class AddFood
 
      $sql->execute();
 
+     $crontab = $this->getCronTabManager();
+     $crontab->append_cronjob('0 8 * * ' . $this->getMealDayId() . ' /usr/local/bin/php -q /home/s8gphl6pjes9/public_html/budgeting/cron/addToWithdrawal.php >/dev/null 2>&1');
+
      $sql->close();
      $this->getLink()->close();
-
-     $crontab = $this->getCronTabManager();
-     $crontab->append_cronjob('0 8 * * ' . $this->getMealDayId() . ' /home/s8gphl6pjes9/public_html/budgeting/cron/addToWithdrawal.php >/dev/null 2>&1');
 
      header("location: ../");
   }
