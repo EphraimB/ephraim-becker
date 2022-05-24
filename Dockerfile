@@ -12,5 +12,6 @@ RUN apt-get update && \
 RUN docker-php-ext-configure gd --enable-gd --with-jpeg
 RUN docker-php-ext-install mysqli gd exif zip
 
-COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
-RUN composer require google/apiclient:^2.0
+WORKDIR /var/www/html/
+COPY --from=composer /usr/bin/composer /usr/bin/composer
+RUN composer install
