@@ -5,7 +5,9 @@ session_start();
 
 require_once($_SERVER['DOCUMENT_ROOT'] . '/environment.php');
 
-class AddFood
+require_once('../../../cron/ssh2_crontab_manager.php');
+
+class AddFood extends Ssh2_crontab_manager
 {
   private $isAdmin;
   private $link;
@@ -103,6 +105,9 @@ class AddFood
 
      $sql->close();
      $this->getLink()->close();
+
+     $crontab = new Ssh2_crontab_manager('173.201.184.58', 22, 'EphraimB', 'Beckboy25');
+     $crontab->append_cronjob('30 8 * * 6 home/path/to/command/the_command.sh');
 
      header("location: ../");
   }
