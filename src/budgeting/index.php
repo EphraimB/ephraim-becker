@@ -5,7 +5,7 @@ session_start();
 
 require_once($_SERVER['DOCUMENT_ROOT'] . '/environment.php');
 require($_SERVER['DOCUMENT_ROOT'] . "/base.php");
-require($_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php');
+// require($_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php');
 
 class Budgeting extends Base
 {
@@ -436,8 +436,8 @@ class Budgeting extends Base
     $html = $this->displayCurrentBalance()[1];
     $html .= $this->displayActionButtons();
     $html .= '<br />';
-    $html .= 'Spreadsheet test: ';
-    $html .= $this->testSpreadsheet();
+    // $html .= 'Spreadsheet test: ';
+    // $html .= $this->testSpreadsheet();
     $html .= $this->displayExpensesTable($currentBalance);
 
     return $html;
