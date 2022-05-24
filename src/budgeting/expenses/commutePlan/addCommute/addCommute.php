@@ -9,6 +9,7 @@ class AddCommute
 {
   private $isAdmin;
   private $link;
+  private $cronTabManager;
   private $commuteDayId;
   private $commutePeriodId;
   private $peakId;
@@ -46,6 +47,16 @@ class AddCommute
   function getLink()
   {
     return $this->link;
+  }
+
+  function setCronTabManager($cronTabManager)
+  {
+    $this->cronTabManager = $cronTabManager;
+  }
+
+  function getCronTabManager()
+  {
+    return $this->cronTabManager;
   }
 
   function setCommuteDayId($commuteDayId): void
@@ -113,6 +124,9 @@ class AddCommute
 
      $sql->execute();
 
+     $crontab = $this->getCronTabManager();
+     $crontab->append_cronjob('0 12 * * ' . $commuteDayId . ' /usr/bin/curl -o temp.txt ephraimbecker.com/budgeting/cron/addToWithdrawal.php?withdrawalAmount=' . $price . '&withdrawalDescription=Commute%20expenses');
+
      $sql->close();
      $this->getLink()->close();
 
@@ -121,9 +135,11 @@ class AddCommute
 }
 $config = new Config();
 $link = $config->connectToServer();
+$cronTabManager = $config->connectToCron();
 
 $addCommute = new AddCommute();
 $addCommute->setLink($link);
+$addCommute->setCronTabManager($cronTabManager);
 $addCommute->setCommuteDayId(intval($_POST['commuteDayId']));
 $addCommute->setCommutePeriodId(intval($_POST['commutePeriodId']));
 
