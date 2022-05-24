@@ -5,12 +5,11 @@ session_start();
 
 require_once($_SERVER['DOCUMENT_ROOT'] . '/environment.php');
 
-require_once('../../../cron/ssh2_crontab_manager.php');
-
-class AddFood extends Ssh2_crontab_manager
+class AddFood
 {
   private $isAdmin;
   private $link;
+  private $cronTabManager;
   private $mealId;
   private $mealItem;
   private $mealPrice;
@@ -47,6 +46,16 @@ class AddFood extends Ssh2_crontab_manager
   function getLink()
   {
     return $this->link;
+  }
+
+  function setCronTabManager($cronTabManager)
+  {
+    $this->cronTabManager = $cronTabManager;
+  }
+
+  function getCronTabManager()
+  {
+    return $this->cronTabManager;
   }
 
   function setMealId($mealId): void
@@ -106,17 +115,19 @@ class AddFood extends Ssh2_crontab_manager
      $sql->close();
      $this->getLink()->close();
 
-     $crontab = new Ssh2_crontab_manager('173.201.184.58', 22, 'EphraimB', 'Beckboy25');
-     $crontab->append_cronjob('30 8 * * 6 home/path/to/command/the_command.sh');
+     $crontab = $this->getCronTabManager();
+     $crontab->append_cronjob('0 8 * * ' . $this->getMealDayId() . ' /home/s8gphl6pjes9/public_html/budgeting/cron/addToWithdrawal.php >/dev/null 2>&1');
 
      header("location: ../");
   }
 }
 $config = new Config();
 $link = $config->connectToServer();
+$cronTabManager = $config->connectToCron();
 
 $addFood = new AddFood();
 $addFood->setLink($link);
+$addFood->setCronTabManager($cronTabManager);
 $addFood->setMealId(intval($_POST['mealId']));
 $addFood->setMealItem($_POST['mealItem']);
 $addFood->setMealPrice(floatval($_POST['mealPrice']));
