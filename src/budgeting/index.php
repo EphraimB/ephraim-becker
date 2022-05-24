@@ -418,8 +418,10 @@ class Budgeting extends Base
   function testSpreadsheet(): string
   {
     $client = new Google\Client();
-    $client->setApplicationName("Budgeting");
-    $client->setDeveloperKey("AIzaSyDAhxOnmc4UeB2FXfEwkgayu-OQ-Jfc4uc");
+    $client->setApplicationName("Ephraim Becker");
+    $client->setDeveloperKey("AIzaSyCjsyq9rYNXbqKECpqwjpmtbexuIssx-F0");
+    $client->setClientId("509163780100-dhrhe60hiv72icofeu4fob6t0m0lges9.apps.googleusercontent.com");
+    $client->setClientSecret("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");
 
     $service = new Google_Service_Sheets($client);
     $result = $service->spreadsheets_values->get("1aQUD3MkEMHnwN069EZW9dwsW6OVicOQ89P40nKVQwhI", "A1");
