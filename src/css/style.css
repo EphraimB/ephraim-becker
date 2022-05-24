@@ -8,6 +8,11 @@ body {
   height: 100%;
 }
 
+.privacyPolicyWrapper {
+  padding: 18px;
+  background-color: lightgrey;
+}
+
 .edit-background-image {
   display: inline-block;
   margin-left: 85%;
