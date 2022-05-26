@@ -3,7 +3,9 @@ declare(strict_types=1);
 
 session_start();
 
-require_once($_SERVER['DOCUMENT_ROOT'] . '/environment.php');
+$home = getenv('HOME');
+
+require_once($home . '/config.php');
 
 class WithdrawalCronJob
 {
@@ -14,8 +16,11 @@ class WithdrawalCronJob
   function __construct()
   {
     $isCLI = (php_sapi_name() == 'cli');
+
     if(!$isCLI) {
       die("cannot run!");
+    } else {
+      parse_str(implode('&', array_slice($argv, 1)), $_GET);
     }
   }
 
@@ -63,8 +68,6 @@ class WithdrawalCronJob
 
      $sql->close();
      $this->getLink()->close();
-
-     header("location: ../");
   }
 }
 $config = new Config();

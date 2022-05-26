@@ -1,8 +1,6 @@
 <?php
 declare(strict_types=1);
 
-require_once($_SERVER['DOCUMENT_ROOT'] . '/environment.php');
-
 Class Ssh2_crontab_manager
 {
   private $connection;
