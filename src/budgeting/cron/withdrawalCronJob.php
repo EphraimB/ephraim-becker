@@ -20,7 +20,7 @@ class WithdrawalCronJob
     if(!$isCLI) {
       die("cannot run!");
     } else {
-      parse_str(implode('&', array_slice($argv, 1)), $_GET);
+      parse_str(implode('&', array_slice($_SERVER['argv'], 1)), $_GET);
     }
   }
 
@@ -54,7 +54,7 @@ class WithdrawalCronJob
     return $this->withdrawalDescription;
   }
 
-  function withdrawal(): string
+  function withdrawal()
   {
     $sql = $this->getLink()->prepare("INSERT INTO withdrawals (DateCreated, WithdrawalAmount, WithdrawalDescription)
      VALUES (?, ?, ?)");
