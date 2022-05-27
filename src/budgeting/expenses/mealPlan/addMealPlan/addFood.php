@@ -114,11 +114,31 @@ class AddFood
    return $mealHour;
   }
 
+  function addCronJobToDB($command): int
+  {
+    $sql = $this->getLink()->prepare("INSERT INTO CronJobs (Command, DateCreated, DateModified)
+     VALUES (?, ?, ?)");
+     $sql->bind_param('sss', $command, $dateNow, $dateNow);
+
+     $dateNow = date("Y-m-d H:i:s");
+
+     $sql->execute();
+
+     $sqlTwo = "SELECT LAST_INSERT_ID() AS id";
+     $sqlTwoResult = mysqli_query($this->getLink(), $sqlTwo);
+
+     while($row = mysqli_fetch_array($sqlTwoResult)) {
+       $id = intval($row['id']);
+     }
+
+     return $id;
+  }
+
   function addFood(): string
   {
-    $sql = $this->getLink()->prepare("INSERT INTO MealPlan (MealId, MealItem, MealPrice, MealDayId, DateCreated, DateModified)
-     VALUES (?, ?, ?, ?, ?, ?)");
-     $sql->bind_param('isdiss', $mealId, $mealItem, $mealPrice, $mealDayId, $dateNow, $dateNow);
+    $sql = $this->getLink()->prepare("INSERT INTO MealPlan (CronJobId, MealId, MealItem, MealPrice, MealDayId, DateCreated, DateModified)
+     VALUES (?, ?, ?, ?, ?, ?, ?)");
+     $sql->bind_param('iisdiss', $cronJobId, $mealId, $mealItem, $mealPrice, $mealDayId, $dateNow, $dateNow);
 
      $dateNow = date("Y-m-d H:i:s");
      $mealId = $this->getMealId();
@@ -126,10 +146,13 @@ class AddFood
      $mealPrice = $this->getMealPrice();
      $mealDayId = $this->getMealDayId();
 
+     $command = '0 ' . $this->getMealHour($mealId) . ' * * ' . $this->getMealDayId() . ' /usr/local/bin/php /home/s8gphl6pjes9/public_html/budgeting/cron/withdrawalCronJob.php withdrawalAmount=' . $mealPrice . ' withdrawalDescription=Meal\ Expenses';
+     $cronJobId = $this->addCronJobToDB($command);
+
      $sql->execute();
 
      $crontab = $this->getCronTabManager();
-     $crontab->append_cronjob('0 ' . $this->getMealHour($mealId) . ' * * ' . $this->getMealDayId() . ' /usr/local/bin/php /home/s8gphl6pjes9/public_html/budgeting/cron/withdrawalCronJob.php withdrawalAmount=' . $mealPrice . ' withdrawalDescription=Meal\ Expenses');
+     $crontab->append_cronjob($command);
 
      $sql->close();
      $this->getLink()->close();
