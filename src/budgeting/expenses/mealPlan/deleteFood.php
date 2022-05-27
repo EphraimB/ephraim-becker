@@ -117,7 +117,7 @@ class DeleteFood
     $this->deleteCronJobFromDB();
 
     $crontab = $this->getCronTabManager();
-    $crontab->remove_cronjob($uniqueId);
+    $crontab->remove_cronjob('/' . $uniqueId . '/');
 
     $sql = $this->getLink()->prepare("DELETE FROM MealPlan WHERE MealPlanId=?");
     $sql->bind_param("i", $id);
