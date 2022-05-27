@@ -91,7 +91,7 @@ Class Ssh2_crontab_manager
       return $this;
     }
 
-    public function remove_cronjob() {
+    public function remove_cronjob($cron_jobs=NULL) {
       if (is_null($cron_jobs)) $this->error_message("Nothing to remove!  Please specify a cron job or an array of cron jobs.");
 
        $this->write_to_file();
