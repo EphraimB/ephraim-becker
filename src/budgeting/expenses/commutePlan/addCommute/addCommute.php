@@ -109,6 +109,21 @@ class AddCommute
     return $this->price;
   }
 
+  function getCommuteHour($commutePeriodId): int
+  {
+    $commuteHour = 0;
+
+    if($commutePeriodId == 0) {
+      $commuteHour = 8;
+    } else if($commutePeriodId == 1) {
+      $commuteHour = 12;
+    } else if($commutePeriodId == 2) {
+      $commuteHour = 5;
+   }
+
+   return $commuteHour;
+  }
+
   function addCommute(): string
   {
     $sql = $this->getLink()->prepare("INSERT INTO CommutePlan (CommuteDayId, CommutePeriodId, PeakId, ZoneOfTransportation, Price, DateCreated, DateModified)
@@ -125,7 +140,7 @@ class AddCommute
      $sql->execute();
 
      $crontab = $this->getCronTabManager();
-     $crontab->append_cronjob('0 12 * * ' . $commuteDayId . '  /usr/local/bin/php /home/s8gphl6pjes9/public_html/budgeting/cron/withdrawalCronJob.php withdrawalAmount=' . $price . ' withdrawalDescription=Commute%20Expenses');
+     $crontab->append_cronjob('0 ' . $this->getCommuteHour($commutePeriodId) . ' * * ' . $commuteDayId . '  /usr/local/bin/php /home/s8gphl6pjes9/public_html/budgeting/cron/withdrawalCronJob.php withdrawalAmount=' . $price . ' withdrawalDescription=Commute\ Expenses');
 
      $sql->close();
      $this->getLink()->close();

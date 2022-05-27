@@ -98,6 +98,22 @@ class AddFood
     return $this->mealDayId;
   }
 
+  function getMealHour($mealId): int
+  {
+    $mealHour = 0;
+
+    if($mealId == 0) {
+      $mealHour = 8;
+    } else if($mealId == 1) {
+      $mealHour = 12;
+    }
+    else if($mealId == 2) {
+     $mealHour = 5;
+   }
+
+   return $mealHour;
+  }
+
   function addFood(): string
   {
     $sql = $this->getLink()->prepare("INSERT INTO MealPlan (MealId, MealItem, MealPrice, MealDayId, DateCreated, DateModified)
@@ -113,7 +129,7 @@ class AddFood
      $sql->execute();
 
      $crontab = $this->getCronTabManager();
-     $crontab->append_cronjob('0 12 * * ' . $this->getMealDayId() . ' /usr/local/bin/php /home/s8gphl6pjes9/public_html/budgeting/cron/withdrawalCronJob.php withdrawalAmount=' . $mealPrice . ' withdrawalDescription=Meal\ Expenses');
+     $crontab->append_cronjob('0 ' . $this->getMealHour($mealId) . ' * * ' . $this->getMealDayId() . ' /usr/local/bin/php /home/s8gphl6pjes9/public_html/budgeting/cron/withdrawalCronJob.php withdrawalAmount=' . $mealPrice . ' withdrawalDescription=Meal\ Expenses');
 
      $sql->close();
      $this->getLink()->close();
