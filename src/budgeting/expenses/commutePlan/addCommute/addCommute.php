@@ -124,11 +124,31 @@ class AddCommute
    return $commuteHour;
   }
 
+  function addCronJobToDB($command): int
+  {
+    $sql = $this->getLink()->prepare("INSERT INTO CronJobs (Command, DateCreated, DateModified)
+     VALUES (?, ?, ?)");
+     $sql->bind_param('sss', $command, $dateNow, $dateNow);
+
+     $dateNow = date("Y-m-d H:i:s");
+
+     $sql->execute();
+
+     $sqlTwo = "SELECT LAST_INSERT_ID() AS id";
+     $sqlTwoResult = mysqli_query($this->getLink(), $sqlTwo);
+
+     while($row = mysqli_fetch_array($sqlTwoResult)) {
+       $id = intval($row['id']);
+     }
+
+     return $id;
+  }
+
   function addCommute(): string
   {
-    $sql = $this->getLink()->prepare("INSERT INTO CommutePlan (CommuteDayId, CommutePeriodId, PeakId, ZoneOfTransportation, Price, DateCreated, DateModified)
-     VALUES (?, ?, ?, ?, ?, ?, ?)");
-     $sql->bind_param('iiiidss', $commuteDayId, $commutePeriodId, $peakId, $zoneOfTransportation, $price, $dateNow, $dateNow);
+    $sql = $this->getLink()->prepare("INSERT INTO CommutePlan (CronJobId, CommuteDayId, CommutePeriodId, PeakId, ZoneOfTransportation, Price, DateCreated, DateModified)
+     VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+     $sql->bind_param('iiiiidss', $cronJobId, $commuteDayId, $commutePeriodId, $peakId, $zoneOfTransportation, $price, $dateNow, $dateNow);
 
      $dateNow = date("Y-m-d H:i:s");
      $commuteDayId = $this->getCommuteDayId();
@@ -137,10 +157,13 @@ class AddCommute
      $zoneOfTransportation = $this->getZoneOfTransportation();
      $price = $this->getPrice();
 
+     $command = '0 ' . $this->getCommuteHour($commutePeriodId) . ' * * ' . $commuteDayId . '  /usr/local/bin/php /home/s8gphl6pjes9/public_html/budgeting/cron/withdrawalCronJob.php withdrawalAmount=' . $price . ' withdrawalDescription=Commute\ Expenses';
+     $cronJobId = $this->addCronJobToDB($command);
+
      $sql->execute();
 
      $crontab = $this->getCronTabManager();
-     $crontab->append_cronjob('0 ' . $this->getCommuteHour($commutePeriodId) . ' * * ' . $commuteDayId . '  /usr/local/bin/php /home/s8gphl6pjes9/public_html/budgeting/cron/withdrawalCronJob.php withdrawalAmount=' . $price . ' withdrawalDescription=Commute\ Expenses');
+     $crontab->append_cronjob($command);
 
      $sql->close();
      $this->getLink()->close();
