@@ -124,7 +124,7 @@ class AddCommute
    return $commuteHour;
   }
 
-  function addCronJobToDB($command): int
+  function addCronJobToDB($uniqueId, $command): int
   {
     $sql = $this->getLink()->prepare("INSERT INTO CronJobs (Command, DateCreated, DateModified)
      VALUES (?, ?, ?)");
@@ -157,8 +157,9 @@ class AddCommute
      $zoneOfTransportation = $this->getZoneOfTransportation();
      $price = $this->getPrice();
 
-     $command = '0 ' . $this->getCommuteHour($commutePeriodId) . ' * * ' . $commuteDayId . '  /usr/local/bin/php /home/s8gphl6pjes9/public_html/budgeting/cron/withdrawalCronJob.php withdrawalAmount=' . $price . ' withdrawalDescription=Commute\ Expenses id=' . uniqid();
-     $cronJobId = $this->addCronJobToDB($command);
+     $uniqueId = uniqid();
+     $command = '0 ' . $this->getCommuteHour($commutePeriodId) . ' * * ' . $commuteDayId . '  /usr/local/bin/php /home/s8gphl6pjes9/public_html/budgeting/cron/withdrawalCronJob.php withdrawalAmount=' . $price . ' withdrawalDescription=Commute\ Expenses id=' . $uniqueId();
+     $cronJobId = $this->addCronJobToDB($uniqueId, $command);
 
      $sql->execute();
 

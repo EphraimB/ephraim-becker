@@ -114,11 +114,11 @@ class AddFood
    return $mealHour;
   }
 
-  function addCronJobToDB($command): int
+  function addCronJobToDB($uniqueId, $command): int
   {
-    $sql = $this->getLink()->prepare("INSERT INTO CronJobs (Command, DateCreated, DateModified)
-     VALUES (?, ?, ?)");
-     $sql->bind_param('sss', $command, $dateNow, $dateNow);
+    $sql = $this->getLink()->prepare("INSERT INTO CronJobs (UniqueId, Command, DateCreated, DateModified)
+     VALUES (?, ?, ?, ?)");
+     $sql->bind_param('ssss', $uniqueId, $command, $dateNow, $dateNow);
 
      $dateNow = date("Y-m-d H:i:s");
 
@@ -146,8 +146,9 @@ class AddFood
      $mealPrice = $this->getMealPrice();
      $mealDayId = $this->getMealDayId();
 
-     $command = '0 ' . $this->getMealHour($mealId) . ' * * ' . $this->getMealDayId() . ' /usr/local/bin/php /home/s8gphl6pjes9/public_html/budgeting/cron/withdrawalCronJob.php withdrawalAmount=' . $mealPrice . ' withdrawalDescription=Meal\ Expenses id=' . uniqid();
-     $cronJobId = $this->addCronJobToDB($command);
+     $uniqueId = uniqid();
+     $command = '0 ' . $this->getMealHour($mealId) . ' * * ' . $this->getMealDayId() . ' /usr/local/bin/php /home/s8gphl6pjes9/public_html/budgeting/cron/withdrawalCronJob.php withdrawalAmount=' . $mealPrice . ' withdrawalDescription=Meal\ Expenses id=' . $uniqueId;
+     $cronJobId = $this->addCronJobToDB($uniqueId, $command);
 
      $sql->execute();
 

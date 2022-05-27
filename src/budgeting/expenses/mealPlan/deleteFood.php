@@ -83,9 +83,9 @@ class DeleteFood
     return $id;
   }
 
-  function getCronJobCommand($cronJobId): string
+  function getCronJobUniqueId($cronJobId): string
   {
-    $sql = $this->getLink()->prepare("SELECT command FROM CronJobs WHERE CronJobId=?");
+    $sql = $this->getLink()->prepare("SELECT UniqueId FROM CronJobs WHERE CronJobId=?");
     $sql->bind_param('i', $id);
 
     $id = $cronJobId;
@@ -95,10 +95,10 @@ class DeleteFood
     $sqlResult = $sql->get_result();
 
     while($row = mysqli_fetch_array($sqlResult)) {
-      $command = $row['command'];
+      $uniqueId = $row['UniqueId'];
     }
 
-    return $command;
+    return $uniqueId;
   }
 
   function deleteCronJobFromDB(): void
@@ -113,11 +113,11 @@ class DeleteFood
 
   function deleteFood(): void
   {
-    $command = $this->getCronJobCommand($this->getCronJobId());
+    $uniqueId = $this->getCronJobUniqueId($this->getCronJobId());
     $this->deleteCronJobFromDB();
 
     $crontab = $this->getCronTabManager();
-    $crontab->remove_cronjob($command);
+    $crontab->remove_cronjob($uniqueId);
 
     $sql = $this->getLink()->prepare("DELETE FROM MealPlan WHERE MealPlanId=?");
     $sql->bind_param("i", $id);
