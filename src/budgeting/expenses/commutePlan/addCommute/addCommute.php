@@ -157,7 +157,7 @@ class AddCommute
      $zoneOfTransportation = $this->getZoneOfTransportation();
      $price = $this->getPrice();
 
-     $command = '0 ' . $this->getCommuteHour($commutePeriodId) . ' * * ' . $commuteDayId . '  /usr/local/bin/php /home/s8gphl6pjes9/public_html/budgeting/cron/withdrawalCronJob.php withdrawalAmount=' . $price . ' withdrawalDescription=Commute\ Expenses';
+     $command = '0 ' . $this->getCommuteHour($commutePeriodId) . ' * * ' . $commuteDayId . '  /usr/local/bin/php /home/s8gphl6pjes9/public_html/budgeting/cron/withdrawalCronJob.php withdrawalAmount=' . $price . ' withdrawalDescription=Commute\ Expenses id=' . uniqid();
      $cronJobId = $this->addCronJobToDB($command);
 
      $sql->execute();

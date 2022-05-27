@@ -146,7 +146,7 @@ class AddFood
      $mealPrice = $this->getMealPrice();
      $mealDayId = $this->getMealDayId();
 
-     $command = '0 ' . $this->getMealHour($mealId) . ' * * ' . $this->getMealDayId() . ' /usr/local/bin/php /home/s8gphl6pjes9/public_html/budgeting/cron/withdrawalCronJob.php withdrawalAmount=' . $mealPrice . ' withdrawalDescription=Meal\ Expenses';
+     $command = '0 ' . $this->getMealHour($mealId) . ' * * ' . $this->getMealDayId() . ' /usr/local/bin/php /home/s8gphl6pjes9/public_html/budgeting/cron/withdrawalCronJob.php withdrawalAmount=' . $mealPrice . ' withdrawalDescription=Meal\ Expenses id=' . uniqid();
      $cronJobId = $this->addCronJobToDB($command);
 
      $sql->execute();
