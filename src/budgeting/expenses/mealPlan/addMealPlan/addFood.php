@@ -113,7 +113,7 @@ class AddFood
      $sql->execute();
 
      $crontab = $this->getCronTabManager();
-     $crontab->append_cronjob('0 12 * * ' . $this->getMealDayId() . ' /usr/local/bin/php /home/s8gphl6pjes9/public_html/budgeting/cron/withdrawalCronJob.php withdrawalAmount=' . $mealPrice . ' withdrawalDescription=Meal%20Expenses');
+     $crontab->append_cronjob('0 12 * * ' . $this->getMealDayId() . ' /usr/local/bin/php /home/s8gphl6pjes9/public_html/budgeting/cron/withdrawalCronJob.php withdrawalAmount=' . $mealPrice . ' withdrawalDescription=Meal\ Expenses');
 
      $sql->close();
      $this->getLink()->close();
