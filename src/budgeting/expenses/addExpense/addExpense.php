@@ -176,7 +176,7 @@ class AddExpense
     $frequency = $this->getFrequency();
 
     $uniqueId = uniqid();
-    $command = intval(date("i", strtotime($beginDate))) . ' ' . intval(date("H", strtotime($beginDate))) . ' ' . date("j", strtotime($beginDate)) . ' ' . date("n", strtotime($beginDate)) . ' * /usr/local/bin/php /home/s8gphl6pjes9/public_html/budgeting/cron/withdrawalCronJob.php withdrawalAmount=' . $price . ' withdrawalDescription=Expenses id=' . $uniqueId;
+    $command = intval(date("i", strtotime($beginDate))) . ' ' . intval(date("H", strtotime($beginDate))) . ' ' . date("j", strtotime($beginDate)) . ' * * /usr/local/bin/php /home/s8gphl6pjes9/public_html/budgeting/cron/withdrawalCronJob.php withdrawalAmount=' . $price . ' withdrawalDescription=Expenses id=' . $uniqueId;
     $cronJobId = $this->addCronJobToDB($uniqueId, $command);
 
     $crontab = $this->getCronTabManager();
