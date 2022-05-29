@@ -9,6 +9,7 @@ class AddMoneyOwed
 {
   private $isAdmin;
   private $link;
+  private $cronTabManager;
   private $recipient;
   private $for;
   private $amount;
@@ -49,6 +50,16 @@ class AddMoneyOwed
   function getLink()
   {
     return $this->link;
+  }
+
+  function setCronTabManager($cronTabManager)
+  {
+    $this->cronTabManager = $cronTabManager;
+  }
+
+  function getCronTabManager()
+  {
+    return $this->cronTabManager;
   }
 
   function setRecipient($recipient): void
@@ -130,11 +141,31 @@ class AddMoneyOwed
     return $this->timezoneOffset;
   }
 
+  function addCronJobToDB($uniqueId, $command): int
+  {
+    $sql = $this->getLink()->prepare("INSERT INTO CronJobs (UniqueId, Command, DateCreated, DateModified)
+     VALUES (?, ?, ?, ?)");
+     $sql->bind_param('ssss', $uniqueId, $command, $dateNow, $dateNow);
+
+     $dateNow = date("Y-m-d H:i:s");
+
+     $sql->execute();
+
+     $sqlTwo = "SELECT LAST_INSERT_ID() AS id";
+     $sqlTwoResult = mysqli_query($this->getLink(), $sqlTwo);
+
+     while($row = mysqli_fetch_array($sqlTwoResult)) {
+       $id = intval($row['id']);
+     }
+
+     return $id;
+  }
+
   function addMoneyOwed(): string
   {
-    $sql = $this->getLink()->prepare("INSERT INTO moneyOwed (DateCreated, DateModified, MoneyOwedRecipient, MoneyOwedFor, MoneyOwedAmount, planAmount, frequency, date, timezone, timezoneOffset)
-     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-     $sql->bind_param('ssssddissi', $dateNow, $dateNow, $recipient, $for, $amount, $planAmount, $frequency, $date, $timezone, $timezoneOffset);
+    $sql = $this->getLink()->prepare("INSERT INTO moneyOwed (CronJobId, DateCreated, DateModified, MoneyOwedRecipient, MoneyOwedFor, MoneyOwedAmount, planAmount, frequency, date, timezone, timezoneOffset)
+     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+     $sql->bind_param('issssddissi', $cronJobId, $dateNow, $dateNow, $recipient, $for, $amount, $planAmount, $frequency, $date, $timezone, $timezoneOffset);
 
      $dateNow = date("Y-m-d H:i:s");
      $recipient = $this->getRecipient();
@@ -147,7 +178,21 @@ class AddMoneyOwed
 
      $date = date('Y-m-d H:i:s', strtotime($this->getDate()) + $timezoneOffset);
 
+     $uniqueId = uniqid();
+     if(date("n", strtotime($date)) > date("n")) {
+       $command = intval(date("i", strtotime($date))) . ' ' . intval(date("H", strtotime($date))) . ' ' . date("j", strtotime($date)) . ' ' . date("n", strtotime($date)) . ' * /usr/local/bin/php /home/s8gphl6pjes9/public_html/budgeting/cron/withdrawalCronJobStart.php withdrawalAmount=' . $planAmount . ' withdrawalDescription=loan\ payback\ for\ ' . $for . ' id=' . $uniqueId;
+     } else {
+       $command = intval(date("i", strtotime($date))) . ' ' . intval(date("H", strtotime($date))) . ' ' . date("j", strtotime($date)) . ' * * /usr/local/bin/php /home/s8gphl6pjes9/public_html/budgeting/cron/withdrawalCronJob.php withdrawalAmount=' . $planAmount . ' withdrawalDescription=loan\ payback\ for\ ' . $for . ' id=' . $uniqueId;
+     }
+     $cronJobId = $this->addCronJobToDB($uniqueId, $command);
+
+     $crontab = $this->getCronTabManager();
+     $crontab->append_cronjob($command);
+
      $sql->execute();
+
+     $crontab = $this->getCronTabManager();
+     $crontab->append_cronjob($command);
 
      $sql->close();
      $this->getLink()->close();
@@ -157,9 +202,11 @@ class AddMoneyOwed
 }
 $config = new Config();
 $link = $config->connectToServer();
+$cronTabManager = $config->connectToCron();
 
 $addMoneyOwed = new AddMoneyOwed();
 $addMoneyOwed->setLink($link);
+$addMoneyOwed->setCronTabManager($cronTabManager);
 $addMoneyOwed->setRecipient($_POST['recipient']);
 $addMoneyOwed->setFor($_POST['for']);
 $addMoneyOwed->setAmount(floatval($_POST['amount']));

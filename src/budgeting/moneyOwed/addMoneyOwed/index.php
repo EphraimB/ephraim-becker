@@ -70,27 +70,27 @@ class AddMoneyOwedForm extends Base
       <form action="addMoneyOwed.php" method="post">
         <div>
           <label for="recipient">Recipient:</label>
-          <input type="text" name="recipient" />
+          <input type="text" name="recipient" required />
         </div>
         <br />
         <div>
           <label for="for">What I\'m borrowing for:</label>
-          <input type="text" name="for" />
+          <input type="text" name="for" required />
         </div>
         <br />
         <div>
           <label for="amount">Amount I\'m borrowing: $</label>
-          <input type="number" step="any" name="amount" />
+          <input type="number" step="any" name="amount" required />
         </div>
         <br />
         <div>
           <label for="planAmount">Plan: $</label>
-          <input type="number" step="any" name="planAmount" />
+          <input type="number" step="any" name="planAmount" required />
         </div>
         <br />
         <div>
         <label for="date">Payback plan start date: </label>
-          <input type="datetime-local" name="date" id="date" />
+          <input type="datetime-local" name="date" id="date" required />
         </div>
         <br />
         <input type="hidden" name="timezone" id="timezone" />
