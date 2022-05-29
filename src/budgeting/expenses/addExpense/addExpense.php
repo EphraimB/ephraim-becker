@@ -9,6 +9,7 @@ class AddExpense
 {
   private $isAdmin;
   private $link;
+  private $cronTabManager;
   private $price;
   private $expenseTitle;
   private $startDate;
@@ -48,6 +49,16 @@ class AddExpense
   function getLink()
   {
     return $this->link;
+  }
+
+  function setCronTabManager($cronTabManager)
+  {
+    $this->cronTabManager = $cronTabManager;
+  }
+
+  function getCronTabManager()
+  {
+    return $this->cronTabManager;
   }
 
   function setPrice($price): void
@@ -120,11 +131,31 @@ class AddExpense
     return $this->frequency;
   }
 
+  function addCronJobToDB($uniqueId, $command): int
+  {
+    $sql = $this->getLink()->prepare("INSERT INTO CronJobs (UniqueId, Command, DateCreated, DateModified)
+     VALUES (?, ?, ?, ?)");
+     $sql->bind_param('ssss', $uniqueId, $command, $dateNow, $dateNow);
+
+     $dateNow = date("Y-m-d H:i:s");
+
+     $sql->execute();
+
+     $sqlTwo = "SELECT LAST_INSERT_ID() AS id";
+     $sqlTwoResult = mysqli_query($this->getLink(), $sqlTwo);
+
+     while($row = mysqli_fetch_array($sqlTwoResult)) {
+       $id = intval($row['id']);
+     }
+
+     return $id;
+  }
+
   function addExpense(): void
   {
-    $sql = $this->getLink()->prepare("INSERT INTO expenses (DateCreated, DateModified, ExpenseTitle, ExpensePrice, ExpenseBeginDate, timezone, timezoneOffset, ExpenseEndDate, FrequencyOfExpense)
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
-    $sql->bind_param('sssdssisi', $dateNow, $dateNow, $expenseTitle, $price, $beginDate, $timezone, $timezoneOffset, $endDate, $frequency);
+    $sql = $this->getLink()->prepare("INSERT INTO expenses (CronJobId, DateCreated, DateModified, ExpenseTitle, ExpensePrice, ExpenseBeginDate, timezone, timezoneOffset, ExpenseEndDate, FrequencyOfExpense)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+    $sql->bind_param('isssdssisi', $cronJobId, $dateNow, $dateNow, $expenseTitle, $price, $beginDate, $timezone, $timezoneOffset, $endDate, $frequency);
 
     $dateNow = date("Y-m-d H:i:s");
     $price = $this->getPrice();
@@ -144,6 +175,13 @@ class AddExpense
 
     $frequency = $this->getFrequency();
 
+    $uniqueId = uniqid();
+    $command = intval(date("i", strtotime($beginDate))) . ' ' . intval(date("H", strtotime($beginDate))) . ' ' . date("j", strtotime($beginDate)) . ' ' . date("n", strtotime($beginDate)) . ' * /usr/local/bin/php /home/s8gphl6pjes9/public_html/budgeting/cron/withdrawalCronJob.php withdrawalAmount=' . $price . ' withdrawalDescription=Expenses id=' . $uniqueId;
+    $cronJobId = $this->addCronJobToDB($uniqueId, $command);
+
+    $crontab = $this->getCronTabManager();
+    $crontab->append_cronjob($command);
+
     $sql->execute();
 
     $sql->close();
@@ -153,9 +191,11 @@ class AddExpense
 }
 $config = new Config();
 $link = $config->connectToServer();
+$cronTabManager = $config->connectToCron();
 
 $addExpense = new AddExpense();
 $addExpense->setLink($link);
+$addExpense->setCronTabManager($cronTabManager);
 $addExpense->setPrice(floatval($_POST['price']));
 $addExpense->setExpenseTitle($_POST['expenseTitle']);
 $addExpense->setStartDate($_POST['startDate']);
