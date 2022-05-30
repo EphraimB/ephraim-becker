@@ -9,6 +9,7 @@ class AddPayrollDay
 {
   private $isAdmin;
   private $link;
+  private $cronTabManager;
   private $paycheckDay;
 
   function __construct()
@@ -44,6 +45,16 @@ class AddPayrollDay
     return $this->link;
   }
 
+  function setCronTabManager($cronTabManager)
+  {
+    $this->cronTabManager = $cronTabManager;
+  }
+
+  function getCronTabManager()
+  {
+    return $this->cronTabManager;
+  }
+
   function setPaycheckDay($paycheckDay): void
   {
     $this->paycheckDay = $paycheckDay;
@@ -53,6 +64,29 @@ class AddPayrollDay
   {
     return $this->paycheckDay;
   }
+
+  // function addPayrollDaysToCronJob(): string
+  // {
+  //   $index = 0;
+  //   $payrollDays = '';
+  //
+  //   $sql = "SELECT * FROM payrollDates";
+  //   $sqlResult = mysqli_query($this->getLink(), $sql);
+  //
+  //   if(mysqli_num_rows($sqlResult) > 0) {
+  //     while($row = mysqli_fetch_array($sqlResult)) {
+  //       if($index > 0) {
+  //         $payrollDays .= ',';
+  //       }
+  //
+  //       $payrollDays .= $row['PayrollDay'];
+  //
+  //       $index++;
+  //     }
+  //   }
+  //
+  //   return $payrollDays;
+  // }
 
   function addPayrollDay(): void
   {
@@ -65,6 +99,15 @@ class AddPayrollDay
 
     $sql->execute();
 
+    $payrollDays = $this->addPayrollDaysToCronJob();
+
+    // $uniqueId = 'paycheck';
+    // $command = '0 8 1 * * /usr/local/bin/php /home/s8gphl6pjes9/public_html/budgeting/cron/calculatePaycheckCronDates.php id=' . $uniqueId;
+
+    // $crontab = $this->getCronTabManager();
+    // $crontab->remove_cronjob('/id=' . $uniqueId . '/');
+    // $crontab->append_cronjob($command);
+
     $sql->close();
 
     header("location: index.php");
@@ -72,9 +115,11 @@ class AddPayrollDay
 }
 $config = new Config();
 $link = $config->connectToServer();
+$cronTabManager = $config->connectToCron();
 
 $addPayrollDay = new AddPayrollDay();
 $addPayrollDay->setLink($link);
+$addPayrollDay->setCronTabManager($cronTabManager);
 $addPayrollDay->setPaycheckDay(intval($_GET['day']));
 
 $addPayrollDay->addPayrollDay();

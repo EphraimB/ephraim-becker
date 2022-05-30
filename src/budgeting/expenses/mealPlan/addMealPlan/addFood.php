@@ -108,7 +108,7 @@ class AddFood
       $mealHour = 12;
     }
     else if($mealId == 2) {
-     $mealHour = 5;
+     $mealHour = 17;
    }
 
    return $mealHour;

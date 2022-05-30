@@ -118,7 +118,7 @@ class AddCommute
     } else if($commutePeriodId == 1) {
       $commuteHour = 12;
     } else if($commutePeriodId == 2) {
-      $commuteHour = 5;
+      $commuteHour = 17;
    }
 
    return $commuteHour;
