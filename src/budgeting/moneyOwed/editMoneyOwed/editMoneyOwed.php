@@ -9,6 +9,7 @@ class EditMoneyOwed
 {
   private $isAdmin;
   private $link;
+  private $cronTabManager;
   private $id;
   private $recipient;
   private $for;
@@ -50,6 +51,16 @@ class EditMoneyOwed
   function getLink()
   {
     return $this->link;
+  }
+
+  function setCronTabManager($cronTabManager)
+  {
+    $this->cronTabManager = $cronTabManager;
+  }
+
+  function getCronTabManager()
+  {
+    return $this->cronTabManager;
   }
 
   function setId($id): void
@@ -141,6 +152,53 @@ class EditMoneyOwed
     return $this->timezoneOffset;
   }
 
+  function getCronJobId(): int
+  {
+    $sql = $this->getLink()->prepare("SELECT CronJobId FROM moneyOwed WHERE moneyOwed_Id=?");
+    $sql->bind_param('i', $id);
+
+    $id = $this->getId();
+
+    $sql->execute();
+
+    $sqlResult = $sql->get_result();
+
+    while($row = mysqli_fetch_array($sqlResult)) {
+      $id = $row['CronJobId'];
+    }
+
+    return $id;
+  }
+
+  function getCronJobUniqueId(): string
+  {
+    $sql = $this->getLink()->prepare("SELECT UniqueId FROM CronJobs WHERE CronJobId=?");
+    $sql->bind_param('i', $id);
+
+    $id = $this->getCronJobId();
+
+    $sql->execute();
+
+    $sqlResult = $sql->get_result();
+
+    while($row = mysqli_fetch_array($sqlResult)) {
+      $uniqueId = $row['UniqueId'];
+    }
+
+    return $uniqueId;
+  }
+
+  function updateCronJobInDB($command): void
+  {
+     $sql = $this->getLink()->prepare("UPDATE CronJobs SET Command=?, DateModified=? WHERE CronJobId=?");
+     $sql->bind_param('ssi', $command, $dateNow, $cronJobId);
+
+     $dateNow = date("Y-m-d H:i:s");
+     $cronJobId = $this->getCronJobId();
+
+     $sql->execute();
+  }
+
   function editMoneyOwed(): void
   {
     $sql = $this->getLink()->prepare("UPDATE moneyOwed SET DateModified=?, MoneyOwedRecipient=?, MoneyOwedFor=?, MoneyOwedAmount=?, planAmount=?, frequency=?, date=?, timezone=?, timezoneOffset=? WHERE moneyOwed_id=?");
@@ -159,7 +217,19 @@ class EditMoneyOwed
 
     $date = date('Y-m-d H:i:s', strtotime($this->getDate()) + $timezoneOffset);
 
+    $uniqueId = $this->getCronJobUniqueId();
+    if(date("n", strtotime($date)) > date("n")) {
+      $command = intval(date("i", strtotime($date))) . ' ' . intval(date("H", strtotime($date))) . ' 1 ' . date("n", strtotime($date)) . ' * /usr/local/bin/php /home/s8gphl6pjes9/public_html/budgeting/cron/withdrawalCronJobStart.php withdrawalAmount=' . $planAmount . ' withdrawalDescription=loan\ payback\ for\ ' . $for . ' date=' . $date . ' id=' . $uniqueId;
+    } else {
+      $command = intval(date("i", strtotime($date))) . ' ' . intval(date("H", strtotime($date))) . ' ' . date("j", strtotime($date)) . ' * * /usr/local/bin/php /home/s8gphl6pjes9/public_html/budgeting/cron/withdrawalCronJob.php withdrawalAmount=' . $planAmount . ' withdrawalDescription=loan\ payback\ for\ ' . $for . ' id=' . $uniqueId;
+    }
+    $this->updateCronJobInDB($command);
+
     $sql->execute();
+
+    $crontab = $this->getCronTabManager();
+    $crontab->remove_cronjob('/' . $uniqueId . '/');
+    $crontab->append_cronjob($command);
 
     $sql->close();
 
@@ -168,9 +238,11 @@ class EditMoneyOwed
 }
 $config = new Config();
 $link = $config->connectToServer();
+$cronTabManager = $config->connectToCron();
 
 $editMoneyOwed = new EditMoneyOwed();
 $editMoneyOwed->setLink($link);
+$editMoneyOwed->setCronTabManager($cronTabManager);
 $editMoneyOwed->setId(intval($_POST['id']));
 $editMoneyOwed->setRecipient($_POST['recipient']);
 $editMoneyOwed->setFor($_POST['for']);
