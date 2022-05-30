@@ -11,8 +11,8 @@ class WithdrawalCronJobStart
 {
   private $link;
   private $cronTabManager;
-  private $withdrawalAmount;
-  private $withdrawalDescription;
+  private $cronJobUniqueId;
+  private $date;
 
   function __construct()
   {
@@ -35,6 +35,16 @@ class WithdrawalCronJobStart
     return $this->link;
   }
 
+  function setDate($date): void
+  {
+    $this->date = $date;
+  }
+
+  function getDate(): string
+  {
+    return $this->date;
+  }
+
   function setCronTabManager($cronTabManager)
   {
     $this->cronTabManager = $cronTabManager;
@@ -45,37 +55,29 @@ class WithdrawalCronJobStart
     return $this->cronTabManager;
   }
 
-  function getCronJobId(): int
+  function setCronJobUniqueId($cronJobUniqueId): void
   {
-    $sql = $this->getLink()->prepare("SELECT CronJobId FROM moneyOwed WHERE ExpenseId=?");
-    $sql->bind_param('i', $id);
-
-    $id = $this->getId();
-
-    $sql->execute();
-
-    $sqlResult = $sql->get_result();
-
-    while($row = mysqli_fetch_array($sqlResult)) {
-      $id = $row['CronJobId'];
-    }
-
-    return $id;
+    $this->cronJobUniqueId = $cronJobUniqueId;
   }
 
-  function getCronJobUniqueId($cronJobId): string
+  function getCronJobUniqueId(): int
   {
-    $sql = $this->getLink()->prepare("SELECT UniqueId FROM CronJobs WHERE CronJobId=?");
+    return $this->cronJobUniqueId;
+  }
+
+  function getCronJobId(): string
+  {
+    $sql = $this->getLink()->prepare("SELECT CronJobId FROM CronJobs WHERE CronJobId=?");
     $sql->bind_param('i', $id);
 
-    $id = $cronJobId;
+    $id = $this->getCronJobUniqueId();
 
     $sql->execute();
 
     $sqlResult = $sql->get_result();
 
     while($row = mysqli_fetch_array($sqlResult)) {
-      $uniqueId = $row['UniqueId'];
+      $cronJobId = $row['CronJobId'];
     }
 
     return $uniqueId;
@@ -113,7 +115,11 @@ class WithdrawalCronJobStart
 
   function setWithdrawalCronJob()
   {
+    $this->deleteCronJobFromDB();
 
+    $date = $this->getDate();
+
+    $command = intval(date("i", strtotime($date))) . ' ' . intval(date("H", strtotime($date))) . ' ' . date("j", strtotime($date)) . ' * * /usr/local/bin/php /home/s8gphl6pjes9/public_html/budgeting/cron/withdrawalCronJob.php withdrawalAmount=' . $_GET['withdrawalAmount'] . ' withdrawalDescription=' . $_GET['withdrawalDescription'] . ' id=' . $uniqueId;
   }
 }
 $config = new Config();
@@ -123,4 +129,6 @@ $cronTabManager = $config->connectToCron();
 $withdrawalCronJobStart = new WithdrawalCronJobStart();
 $withdrawalCronJobStart->setLink($link);
 $withdrawalCronJobStart->setCronTabManager($cronTabManager);
-$withdrawalCronJobStart->withdrawal();
+$withdrawalCronJobStart->setCronJobUniqueId(intval($_GET['id']));
+$withdrawalCronJobStart->setDate($_GET['date']);
+$withdrawalCronJobStart->setWithdrawalCronJob();
