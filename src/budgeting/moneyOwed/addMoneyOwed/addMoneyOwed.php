@@ -180,7 +180,7 @@ class AddMoneyOwed
 
      $uniqueId = uniqid();
      if(date("n", strtotime($date)) > date("n")) {
-       $command = intval(date("i", strtotime($date))) . ' ' . intval(date("H", strtotime($date))) . ' ' . date("j", strtotime($date)) . ' ' . date("n", strtotime($date)) . ' * /usr/local/bin/php /home/s8gphl6pjes9/public_html/budgeting/cron/withdrawalCronJobStart.php withdrawalAmount=' . $planAmount . ' withdrawalDescription=loan\ payback\ for\ ' . $for . ' date=' . $date . ' id=' . $uniqueId;
+       $command = intval(date("i", strtotime($date))) . ' ' . intval(date("H", strtotime($date))) . ' 1 ' . date("n", strtotime($date)) . ' * /usr/local/bin/php /home/s8gphl6pjes9/public_html/budgeting/cron/withdrawalCronJobStart.php withdrawalAmount=' . $planAmount . ' withdrawalDescription=loan\ payback\ for\ ' . $for . ' date=' . $date . ' id=' . $uniqueId;
      } else {
        $command = intval(date("i", strtotime($date))) . ' ' . intval(date("H", strtotime($date))) . ' ' . date("j", strtotime($date)) . ' * * /usr/local/bin/php /home/s8gphl6pjes9/public_html/budgeting/cron/withdrawalCronJob.php withdrawalAmount=' . $planAmount . ' withdrawalDescription=loan\ payback\ for\ ' . $for . ' id=' . $uniqueId;
      }
