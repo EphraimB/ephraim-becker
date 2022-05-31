@@ -374,32 +374,8 @@ class GenerateSpreadsheet
 
     $sql->execute();
 
-    // for($j = 0; $j < count($budget); $j++) {
-    //   $html .= '<tr style="color: white;';
-    //
-    //   if($budget[$j]["type"] == 0) {
-    //     $html .= ' background-color: green;';
-    //   } else if($budget[$j]["type"] == 1) {
-    //     $html .= ' background-color: red;';
-    //   }
-    //
-    //   if($budget[$j]["balance"] < 0) {
-    //     $html .= ' background-color: darkred;';
-    //   }
-    //
-    //   $html .= '">
-    //       <td>' . $budget[$j]["month"] . '/' . $budget[$j]["day"] . '/' . $budget[$j]["year"] . '</td>
-    //       <td>' . $budget[$j]["title"] . '</td>
-    //       <td>$' . $budget[$j]["amount"] . '</td>
-    //       <td>$' . number_format(round($budget[$j]["balance"], 2), 2) . '</td>
-    //   </tr>';
-    // }
-    //
-    // $html .= '</table>';
-
     $values = [
       [
-        // Cell values ...
         "Budget", ''
       ],
       [
@@ -414,8 +390,16 @@ class GenerateSpreadsheet
     array_push($valuesTwo, array(date("n/j/Y"), 'Now', 'N/A', $this->getCurrentBalance()));
 
     $valuesThree = array();
+    $cell = 4;
+
     for($j = 0; $j < count($budget); $j++) {
-      array_push($valuesThree, array($budget[$j]["month"] . '/' . $budget[$j]["day"] . '/' . $budget[$j]["year"], $budget[$j]["title"], $budget[$j]["amount"], $budget[$j]["balance"]));
+      if($budget[$j]['type'] == 1) {
+        array_push($valuesThree, array($budget[$j]["month"] . '/' . $budget[$j]["day"] . '/' . $budget[$j]["year"], $budget[$j]["title"], $budget[$j]["amount"], ('=D' . strval($cell)) . '-' . $budget[$j]["amount"]));
+      } else {
+        array_push($valuesThree, array($budget[$j]["month"] . '/' . $budget[$j]["day"] . '/' . $budget[$j]["year"], $budget[$j]["title"], $budget[$j]["amount"], ('=D' . strval($cell)) . '+' . $budget[$j]["amount"]));
+      }
+
+      $cell++;
     }
 
     $data = [];
