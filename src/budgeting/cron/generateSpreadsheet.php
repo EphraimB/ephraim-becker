@@ -397,30 +397,37 @@ class GenerateSpreadsheet
     //
     // $html .= '</table>';
 
-    // The A1 notation of the values to update.
-    $range = 'A1:B1';
-
     $values = [
       [
         // Cell values ...
         "Budget"
       ],
-      // Additional rows ...
     ];
+
+    $valuesTwo = array();
+
+    for($j = 0; $j < count($budget); $j++) {
+      array_push($valuesTwo, array($budget[$j]["month"] . '/' . $budget[$j]["day"] . '/' . $budget[$j]["year"], $budget[$j]["title"], $budget[$j]["amount"], $budget[$j]["balance"]));
+    }
 
     $data = [];
     $data[] = new Google_Service_Sheets_ValueRange([
-        'range' => $range,
+        'range' => 'A1',
         'values' => $values
     ]);
-    
+
+    $data[] = new Google_Service_Sheets_ValueRange([
+      'range' => 'A3',
+      'values' => $valuesTwo
+    ]);
+
     // Additional ranges to update ...
     $body = new Google_Service_Sheets_BatchUpdateValuesRequest([
-        'valueInputOption' => $valueInputOption,
+        'valueInputOption' => 2,
         'data' => $data
     ]);
 
-    $response = $service->spreadsheets_values->update($spreadsheetId, $range, $requestBody, $params);
+    $response = $service->spreadsheets_values->batchUpdate($spreadsheetId, $body);
   }
 }
 $config = new Config();
