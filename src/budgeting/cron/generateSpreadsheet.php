@@ -267,6 +267,63 @@ class GenerateSpreadsheet
     return $t1 - $t2;
   }
 
+  function styleTitle()
+  {
+    $requests = [
+    new Google_Service_Sheets_Request([
+      "mergeCells" => [
+          "range" => [
+            "sheetId" => 0,
+            "startRowIndex" => 0,
+            "endRowIndex" => 1,
+            "startColumnIndex" => 0,
+            "endColumnIndex" => 2
+          ],
+          "mergeType" => "MERGE_ALL"
+        ]
+      ])
+    ];
+
+    $batchUpdateRequest = new Google_Service_Sheets_BatchUpdateSpreadsheetRequest([
+      'requests' => $requests
+    ]);
+
+    return $batchUpdateRequest;
+  }
+
+  function styleHeaders()
+  {
+    $requests = [
+    new Google_Service_Sheets_Request([
+        'repeatCell' => [
+            'fields' => 'userEnteredFormat',
+            "range" => [
+              "sheetId" => 0,
+              'startRowIndex' => 2,
+              'endRowIndex' => 3,
+              'startColumnIndex' => 0,
+              'endColumnIndex' => 4,
+            ],
+            'cell' => [
+                'userEnteredFormat' => [
+                  "horizontalAlignment" => "CENTER",
+                  'textFormat' => [
+                    'bold' => true
+                  ]
+                ]
+            ],
+          ],
+        ])
+      ];
+
+    // add request to batchUpdate
+    $batchUpdateRequest = new Google_Service_Sheets_BatchUpdateSpreadsheetRequest([
+      'requests' => $requests
+    ]);
+
+    return $batchUpdateRequest;
+  }
+
   function generateSpreadsheet(): void
   {
     $currentBalance = $this->getCurrentBalance();
@@ -421,10 +478,16 @@ class GenerateSpreadsheet
     // Additional ranges to update ...
     $body = new Google_Service_Sheets_BatchUpdateValuesRequest([
         'valueInputOption' => 2,
-        'data' => $data
+        'data' => $data,
     ]);
 
     $response = $service->spreadsheets_values->batchUpdate($spreadsheetId, $body);
+
+    $batchUpdateRequest = $this->styleTitle();
+    $result = $service->spreadsheets->batchUpdate($spreadsheetId, $batchUpdateRequest);
+
+    $batchUpdateRequestTwo = $this->styleHeaders();
+    $result = $service->spreadsheets->batchUpdate($spreadsheetId, $batchUpdateRequestTwo);
   }
 }
 $config = new Config();
