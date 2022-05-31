@@ -303,19 +303,10 @@ class Budgeting extends Base
     return $t1 - $t2;
   }
 
-  function displayExpensesTable($currentBalance): string
+  function calculateBudget($currentBalance): array
   {
     $weeklyIndex = 0;
     $budget = array();
-
-    $html = '
-    <table>
-        <tr>
-          <th>Date</th>
-          <th>Title</th>
-          <th>Amount</th>
-          <th>Balance</th>
-        </tr>';
 
     for($l = 0; $l < 3; $l++) {
       $query = $this->expensesTableQuery($l);
@@ -410,6 +401,22 @@ class Budgeting extends Base
     $flag = 0;
 
     $sql->execute();
+
+    return $budget;
+  }
+
+  function displayExpensesTable($currentBalance): string
+  {
+    $html = '
+    <table>
+        <tr>
+          <th>Date</th>
+          <th>Title</th>
+          <th>Amount</th>
+          <th>Balance</th>
+        </tr>';
+
+    $budget = $this->calculateBudget($currentBalance);
 
     for($j = 0; $j < count($budget); $j++) {
       $html .= '<tr style="color: white;';
