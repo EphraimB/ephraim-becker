@@ -277,7 +277,7 @@ class GenerateSpreadsheet
             "startRowIndex" => 0,
             "endRowIndex" => 1,
             "startColumnIndex" => 0,
-            "endColumnIndex" => 2
+            "endColumnIndex" => 4
           ],
           "mergeType" => "MERGE_ALL"
         ]
@@ -296,7 +296,8 @@ class GenerateSpreadsheet
                 'userEnteredFormat' => [
                   "horizontalAlignment" => "CENTER",
                   'textFormat' => [
-                    'bold' => true
+                    'bold' => true,
+                    'fontSize' => 24,
                   ]
                 ]
             ],
