@@ -85,7 +85,7 @@ class CalculatePaycheckCronDates
     $paycheckInfo = $this->addPayrollToCronJob();
 
     $uniqueId = 'paycheck';
-    $command = '0 5 ' . $paycheckInfo[0] . ' * * /usr/local/bin/php /home/s8gphl6pjes9/public_html/budgeting/cron/depositCronJob.php depositAmount=' . $paycheckInfo[1] . ' depositDescription=Paycheck id=' . $uniqueId;
+    $command = '0 5 ' . $paycheckInfo[0] . ' ' . date('n') . ' * /usr/local/bin/php /home/s8gphl6pjes9/public_html/budgeting/cron/depositCronJob.php depositAmount=' . $paycheckInfo[1] . ' depositDescription=Paycheck id=' . $uniqueId;
 
     $crontab = $this->getCronTabManager();
     $crontab->remove_cronjob('/id=' . $uniqueId . '/');
