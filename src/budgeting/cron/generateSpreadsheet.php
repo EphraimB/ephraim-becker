@@ -400,14 +400,22 @@ class GenerateSpreadsheet
     $values = [
       [
         // Cell values ...
-        "Budget"
+        "Budget", ''
       ],
+      [
+
+      ],
+      [
+        'Date', 'Event', 'Amount', 'Balance'
+      ]
     ];
 
     $valuesTwo = array();
+    array_push($valuesTwo, array(date("n/j/Y"), 'Now', 'N/A', $this->getCurrentBalance()));
 
+    $valuesThree = array();
     for($j = 0; $j < count($budget); $j++) {
-      array_push($valuesTwo, array($budget[$j]["month"] . '/' . $budget[$j]["day"] . '/' . $budget[$j]["year"], $budget[$j]["title"], $budget[$j]["amount"], $budget[$j]["balance"]));
+      array_push($valuesThree, array($budget[$j]["month"] . '/' . $budget[$j]["day"] . '/' . $budget[$j]["year"], $budget[$j]["title"], $budget[$j]["amount"], $budget[$j]["balance"]));
     }
 
     $data = [];
@@ -417,8 +425,13 @@ class GenerateSpreadsheet
     ]);
 
     $data[] = new Google_Service_Sheets_ValueRange([
-      'range' => 'A3',
-      'values' => $valuesTwo
+        'range' => 'A4',
+        'values' => $valuesTwo
+    ]);
+
+    $data[] = new Google_Service_Sheets_ValueRange([
+      'range' => 'A5',
+      'values' => $valuesThree
     ]);
 
     // Additional ranges to update ...
