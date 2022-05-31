@@ -387,7 +387,7 @@ class GenerateSpreadsheet
     ];
 
     $valuesTwo = array();
-    array_push($valuesTwo, array(date("n/j/Y"), 'Now', 'N/A', $this->getCurrentBalance()));
+    array_push($valuesTwo, array(date("n/j/Y"), 'Now', 'N/A', '$' . $this->getCurrentBalance()));
 
     $valuesThree = array();
     $cell = 4;
