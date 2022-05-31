@@ -161,10 +161,6 @@ class GenerateSpreadsheet extends Budgeting
 
   function generateSpreadsheet(): void
   {
-    $currentBalance = $this->getCurrentBalance();
-    $weeklyIndex = 0;
-    $budget = array();
-
     $client = $this->getClient();
 
     $service = new Google_Service_Sheets($client);
