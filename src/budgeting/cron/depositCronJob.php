@@ -34,7 +34,7 @@ class DepositCronJob
     return $this->link;
   }
 
-  function setDepsoitAmount($depositAmount): void
+  function setDepositAmount($depositAmount): void
   {
     $this->depositAmount = $depositAmount;
   }
@@ -44,7 +44,7 @@ class DepositCronJob
     return $this->depositAmount;
   }
 
-  function setWithdrawalDescription($depositDescription): void
+  function setDepositDescription($depositDescription): void
   {
     $this->depositDescription = $depositDescription;
   }
