@@ -281,7 +281,27 @@ class GenerateSpreadsheet
           ],
           "mergeType" => "MERGE_ALL"
         ]
-      ])
+      ]),
+      new Google_Service_Sheets_Request([
+        'repeatCell' => [
+            'fields' => 'userEnteredFormat',
+            "range" => [
+              "sheetId" => 0,
+              'startRowIndex' => 0,
+              'endRowIndex' => 1,
+              'startColumnIndex' => 0,
+              'endColumnIndex' => 2,
+            ],
+            'cell' => [
+                'userEnteredFormat' => [
+                  "horizontalAlignment" => "CENTER",
+                  'textFormat' => [
+                    'bold' => true
+                  ]
+                ]
+            ],
+          ],
+        ])
     ];
 
     $batchUpdateRequest = new Google_Service_Sheets_BatchUpdateSpreadsheetRequest([
