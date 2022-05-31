@@ -3,8 +3,17 @@ declare(strict_types=1);
 
 session_start();
 
-require_once($_SERVER['DOCUMENT_ROOT'] . '/environment.php');
-require($_SERVER['DOCUMENT_ROOT'] . "/base.php");
+$isCLI = (php_sapi_name() == 'cli');
+
+if(!$isCLI) {
+  require_once($_SERVER['DOCUMENT_ROOT'] . '/environment.php');
+  require($_SERVER['DOCUMENT_ROOT'] . "/base.php");
+} else {
+  $home = getenv('HOME');
+
+  require_once($home . '/public_html/environment.php');
+  require($home . '/public_html/base.php');
+}
 
 class Budgeting extends Base
 {
@@ -62,6 +71,24 @@ class Budgeting extends Base
     $html = '<h2>Current balance: $' . $currentBalance . '</h2>';
 
     return array($currentBalance, $html);
+  }
+
+  function getCurrentBalance(): float
+  {
+    $sql = "SELECT (SELECT SUM(DepositAmount) from deposits) - (SELECT SUM(WithdrawalAmount) FROM withdrawals) AS currentBalance";
+    $sqlResult = mysqli_query($this->getLink(), $sql);
+
+    if(mysqli_num_rows($sqlResult) > 0) {
+      while($row = mysqli_fetch_array($sqlResult)){
+        $currentBalance = floatval($row['currentBalance']);;
+      }
+    }
+
+    if(is_null($currentBalance)) {
+      $currentBalance = 0.00;
+    }
+
+    return $currentBalance;
   }
 
   function displayActionButtons(): string
@@ -253,10 +280,6 @@ class Budgeting extends Base
     $query .= $this->expensesQuery($increment);
     $query .= " UNION ";
     $query .= $this->moneyOwnedQuery($increment);
-    // $query .= " UNION ";
-    // $query .= $this->foodExpensesQuery($increment);
-    // $query .= " UNION ";
-    // $query .= $this->commuteExpensesQuery($increment);
     $query .= " ORDER BY beginYear, beginMonth, beginDay";
 
     return $query;
@@ -425,16 +448,19 @@ class Budgeting extends Base
     return $html;
   }
 }
-$config = new Config();
-$link = $config->connectToServer();
 
-$budgeting = new Budgeting();
-$budgeting->setLink($link);
-$budgeting->setTitle("Ephraim Becker - Budgeting");
-$budgeting->setLocalStyleSheet('css/style.css');
-$budgeting->setLocalScript(NULL);
-$budgeting->setHeader('Budgeting');
-$budgeting->setUrl($_SERVER['REQUEST_URI']);
-$budgeting->setBody($budgeting->main());
+if(!$isCLI) {
+  $config = new Config();
+  $link = $config->connectToServer();
 
-$budgeting->html();
+  $budgeting = new Budgeting();
+  $budgeting->setLink($link);
+  $budgeting->setTitle("Ephraim Becker - Budgeting");
+  $budgeting->setLocalStyleSheet('css/style.css');
+  $budgeting->setLocalScript(NULL);
+  $budgeting->setHeader('Budgeting');
+  $budgeting->setUrl($_SERVER['REQUEST_URI']);
+  $budgeting->setBody($budgeting->main());
+
+  $budgeting->html();
+}
