@@ -209,6 +209,8 @@ class EditMoneyOwed
     $dateNow = date("Y-m-d H:i:s");
     $recipient = $this->getRecipient();
     $for = $this->getFor();
+    $forCli = addslashes($for);
+    $forCli = addcslashes($forCli, ' ');
     $amount = $this->getAmount();
     $planAmount = $this->getPlanAmount();
     $frequency = $this->getFrequency();
@@ -216,12 +218,14 @@ class EditMoneyOwed
     $timezoneOffset = $this->getTimezoneOffset();
 
     $date = date('Y-m-d H:i:s', strtotime($this->getDate()) + $timezoneOffset);
+    $dateCli = addslashes($date);
+    $dateCli = addcslashes($dateCli, ' ');
 
     $uniqueId = $this->getCronJobUniqueId();
     if(date("n", strtotime($date)) > date("n")) {
-      $command = intval(date("i", strtotime($date))) . ' ' . intval(date("H", strtotime($date))) . ' 1 ' . date("n", strtotime($date)) . ' * /usr/local/bin/php /home/s8gphl6pjes9/public_html/budgeting/cron/withdrawalCronJobStart.php withdrawalAmount=' . $planAmount . ' withdrawalDescription=loan\ payback\ for\ ' . $for . ' date=' . $date . ' id=' . $uniqueId;
+      $command = intval(date("i", strtotime($date))) . ' ' . intval(date("H", strtotime($date))) . ' 1 ' . date("n", strtotime($date)) . ' * /usr/local/bin/php /home/s8gphl6pjes9/public_html/budgeting/cron/withdrawalCronJobStart.php withdrawalAmount=' . $planAmount . ' withdrawalDescription=loan\ payback\ for\ ' . $forCli . ' date=' . $dateCli . ' id=' . $uniqueId;
     } else {
-      $command = intval(date("i", strtotime($date))) . ' ' . intval(date("H", strtotime($date))) . ' ' . date("j", strtotime($date)) . ' * * /usr/local/bin/php /home/s8gphl6pjes9/public_html/budgeting/cron/withdrawalCronJob.php withdrawalAmount=' . $planAmount . ' withdrawalDescription=loan\ payback\ for\ ' . $for . ' id=' . $uniqueId;
+      $command = intval(date("i", strtotime($date))) . ' ' . intval(date("H", strtotime($date))) . ' ' . date("j", strtotime($date)) . ' * * /usr/local/bin/php /home/s8gphl6pjes9/public_html/budgeting/cron/withdrawalCronJob.php withdrawalAmount=' . $planAmount . ' withdrawalDescription=loan\ payback\ for\ ' . $forCli . ' id=' . $uniqueId;
     }
     $this->updateCronJobInDB($command);
 

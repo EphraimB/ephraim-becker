@@ -1,13 +1,12 @@
 <?php
 declare(strict_types=1);
 
-session_start();
-
 $home = getenv('HOME');
 
 require_once($home . '/config.php');
+require($home . "/public_html/budgeting/index.php");
 
-class CalculateWishlistCronDates
+class CalculateWishlistCronDates extends Budgeting
 {
   private $link;
   private $cronTabManager;
@@ -42,111 +41,6 @@ class CalculateWishlistCronDates
   function getCronTabManager()
   {
     return $this->cronTabManager;
-  }
-
-  function getCurrentBalance(): float
-  {
-    $sql = "SELECT (SELECT SUM(DepositAmount) from deposits) - (SELECT SUM(WithdrawalAmount) FROM withdrawals) AS currentBalance";
-    $sqlResult = mysqli_query($this->getLink(), $sql);
-
-    if(mysqli_num_rows($sqlResult) > 0) {
-      while($row = mysqli_fetch_array($sqlResult)){
-        $currentBalance = floatval($row['currentBalance']);
-      }
-    }
-
-    if(is_null($currentBalance)) {
-      $currentBalance = 0.00;
-    }
-
-    return $currentBalance;
-  }
-
-  function calculateAmount($amount, $type, $index, $currentBalance, $budget): float
-  {
-    if($type == 0) {
-      if($index == 0) {
-        $result = $currentBalance + $amount;
-      } else {
-        $result = $budget[$index - 1]["balance"] + $amount;
-      }
-    } else if($type == 1) {
-      if($index == 0) {
-        $result = $currentBalance - $amount;
-      } else {
-        $result = $budget[$index - 1]["balance"] - $amount;
-      }
-    }
-
-    return $result;
-  }
-
-  function paycheckQuery($monthIncrement): string
-  {
-    $grossPay = "SELECT SUM(payPerHour) * SUM(hoursWorked) * SUM(daysPerWeek) * 2.167";
-    $beginYear = "YEAR(CURDATE())";
-    $beginMonth = "IF(PayrollDay > DAY(CURDATE()), MONTH(CURDATE() + INTERVAL " . $monthIncrement . " MONTH), MONTH(DATE_ADD(CURDATE(), INTERVAL " . $monthIncrement . "+1 MONTH)))";
-    $caseQuery = "CASE WEEKDAY(concat(" . $beginYear . ", '-', " . $beginMonth . ", '-', payrollDay)) WHEN 5 THEN 1 WHEN 6 THEN 2 ELSE 0 END DAY))";
-
-    $query = "SELECT 'Paycheck' AS title, (" . $grossPay . " - (SELECT SUM(taxAmount) FROM payrollTaxes WHERE fixed = 1) - (SELECT SUM(taxAmount) * (" . $grossPay . " FROM payroll) FROM payrollTaxes WHERE fixed = 0) FROM payroll) AS amount, " . $beginYear . " AS beginYear, " . $beginMonth . " AS beginMonth, IF(PayrollDay = 31, DAY(date_sub(LAST_DAY(concat(" . $beginYear . ", '-', " . $beginMonth . ", '-', 1)), INTERVAL " . $caseQuery . ", DAY(date_sub(concat(" . $beginYear . ", '-', " . $beginMonth . ", '-', payrollDay), INTERVAL " . $caseQuery . ") AS beginDay, 0 AS frequency, 0 AS type FROM payrollDates";
-
-    return $query;
-  }
-
-  function expensesQuery($monthIncrement): string
-  {
-    $beginMonth = "IF(MONTH(CURDATE() + INTERVAL " . $monthIncrement . " MONTH) >= MONTH(ExpenseBeginDate + INTERVAL " . $monthIncrement . " MONTH), IF(DAY(CURDATE()) > DAY(ExpenseBeginDate), MONTH(DATE_ADD(CURDATE(), INTERVAL " . $monthIncrement . "+1 MONTH)), MONTH(CURDATE() + INTERVAL " . $monthIncrement . " MONTH)), MONTH(ExpenseBeginDate + INTERVAL " . $monthIncrement . " MONTH))";
-
-    $query = "SELECT ExpenseTitle AS title, ExpensePrice AS amount, Year(ExpenseBeginDate) AS beginYear, " . $beginMonth . " AS beginMonth, Day(ExpenseBeginDate) AS beginDay, FrequencyOfExpense AS frequency, 1 AS type FROM expenses WHERE ExpenseEndDate > CURRENT_DATE() OR ISNULL(ExpenseEndDate)";
-
-    return $query;
-  }
-
-  function moneyOwnedQuery($monthIncrement): string
-  {
-    $monthIncrementQuery = "+ INTERVAL " . $monthIncrement . " MONTH";
-    $beginMonth = "IF(MONTH(CURDATE() " . $monthIncrementQuery . ") >= MONTH(date), IF(DAY(CURDATE() " . $monthIncrementQuery . ") > DAY(date" . $monthIncrementQuery . "), MONTH(DATE_ADD(CURDATE(), INTERVAL " . $monthIncrement . "+1 MONTH)), MONTH(CURDATE() " . $monthIncrementQuery . ")), MONTH(date" . $monthIncrementQuery . "))";
-
-    $query = "SELECT concat(MoneyOwedFor, ' payback to ', MoneyOwedRecipient) AS title, planAmount AS amount, YEAR(date) AS beginYear, " . $beginMonth . " AS beginMonth, DAY(date) AS beginDay, frequency AS frequency, 1 AS type FROM moneyOwed";
-
-    return $query;
-  }
-
-  function foodExpensesQuery($weekIncrement): string
-  {
-    $caseQuery = "CASE WHEN WEEKDAY(CURDATE() + INTERVAL " . $weekIncrement . " WEEK) + 1 >= MealDayId
-         THEN (CURDATE() + INTERVAL " . $weekIncrement . " WEEK + INTERVAL (6 - WEEKDAY(CURDATE() + INTERVAL " . $weekIncrement . " WEEK)) DAY) + INTERVAL MealDayId DAY
-         ELSE (CURDATE() + INTERVAL " . $weekIncrement . " WEEK + INTERVAL (0 - WEEKDAY(CURDATE() + INTERVAL " . $weekIncrement . " WEEK)) DAY) + INTERVAL (MealDayId-1) DAY
-    END";
-
-    $query = "SELECT 'Food expenses' AS title, SUM(MealPrice) AS amount, (SELECT
-    YEAR(" . $caseQuery . ")) AS beginYear, (SELECT
-    MONTH(" . $caseQuery . ")) AS beginMonth, (SELECT
-    DAY(" . $caseQuery . ")) AS beginDay, 1 AS frequency, 1 AS type FROM MealPlan GROUP BY MealDayId";
-
-    return $query;
-  }
-
-  function commuteExpensesQuery($weekIncrement): string
-  {
-    $caseQuery = "CASE WHEN WEEKDAY(CURDATE() + INTERVAL " . $weekIncrement . " WEEK) + 1 >= CommuteDayId
-         THEN (CURDATE() + INTERVAL " . $weekIncrement . " WEEK + INTERVAL (6 - WEEKDAY(CURDATE() + INTERVAL " . $weekIncrement . " WEEK)) DAY) + INTERVAL CommuteDayId DAY
-         ELSE (CURDATE() + INTERVAL " . $weekIncrement . " WEEK + INTERVAL (0 - WEEKDAY(CURDATE() + INTERVAL " . $weekIncrement . " WEEK)) DAY) + INTERVAL (CommuteDayId-1) DAY
-    END";
-
-    $query = "SELECT 'Commute expenses' AS title, SUM(Price) AS amount, (SELECT
-    YEAR(" . $caseQuery . ")) AS beginYear, (SELECT
-    MONTH(" . $caseQuery . ")) AS beginMonth, (SELECT
-    DAY(" . $caseQuery . ")) AS beginDay, 1 AS frequency, 1 AS type FROM CommutePlan GROUP BY CommuteDayId";
-
-    return $query;
-  }
-
-  function getWishlist(): string
-  {
-    $query = "SELECT WantToBuyId AS id, Item AS title, Price AS price, 3 AS frequency, 1 AS type FROM WantToBuy WHERE Finished = 0";
-
-    return $query;
   }
 
   function calculateWishlist($index, $lastIncomeIndex, $amount, $balance, $lastIncomeYear, $lastIncomeMonth, $lastIncomeDay, $currentBalance, $budget): array
@@ -199,46 +93,6 @@ class CalculateWishlistCronDates
     $index++;
 
     return array($index, $wishlist, $budget);
-  }
-
-  function loopWeeksUntilMonths($increment): string
-  {
-    $query = $this->foodExpensesQuery($increment);
-    $query .= " UNION ";
-    $query .= $this->commuteExpensesQuery($increment);
-    $query .= " ORDER BY beginYear, beginMonth, beginDay";
-
-    return $query;
-  }
-
-  function expensesTableQuery($increment): string
-  {
-    $query = $this->paycheckQuery($increment);
-    $query .= " UNION ";
-    $query .= $this->expensesQuery($increment);
-    $query .= " UNION ";
-    $query .= $this->moneyOwnedQuery($increment);
-    $query .= " ORDER BY beginYear, beginMonth, beginDay";
-
-    return $query;
-  }
-
-  function getSortArrayByDate($budget)
-  {
-    usort($budget, array($this, 'sortArrayByDate'));
-
-    return $budget;
-  }
-
-  private function sortArrayByDate($a, $b)
-  {
-    $t1DateString = $a["year"] . '-' . $a["month"] . '-' . $a["day"];
-    $t2DateString = $b["year"] . '-' . $b["month"] . '-' . $b["day"];
-
-    $t1 = strtotime($t1DateString);
-    $t2 = strtotime($t2DateString);
-
-    return $t1 - $t2;
   }
 
   function fetchBudget(): array
@@ -353,7 +207,10 @@ class CalculateWishlistCronDates
     $crontab->remove_cronjob('/id=' . $uniqueId . '/');
 
     for($i = 0; $i < count($wishlist); $i++) {
-      $command = '0 8 ' . $wishlist[$i]["day"] . ' ' . $wishlist[$i]["month"] . ' * /usr/local/bin/php /home/s8gphl6pjes9/public_html/budgeting/cron/withdrawalCronJob.php withdrawalAmount=' . $wishlist[$i]["amount"] . ' withdrawalDescription=' . $wishlist[$i]["title"] . ' id=' . $uniqueId;
+      $title = addslashes($wishlist[$i]["title"]);
+      $title = addcslashes($title, ' ');
+
+      $command = '0 8 ' . $wishlist[$i]["day"] . ' ' . $wishlist[$i]["month"] . ' * /usr/local/bin/php /home/s8gphl6pjes9/public_html/budgeting/cron/withdrawalCronJob.php withdrawalAmount=' . $wishlist[$i]["amount"] . ' withdrawalDescription=' . $title . ' id=' . $uniqueId;
 
       $crontab->append_cronjob($command);
     }
