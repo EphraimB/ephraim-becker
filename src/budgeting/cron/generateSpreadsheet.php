@@ -81,6 +81,70 @@ class GenerateSpreadsheet extends Budgeting
     $response = $service->spreadsheets_values->update($spreadsheetId, $range, $requestBody, $params);
   }
 
+  function headers()
+  {
+    $values = [
+      [
+        "Budget", ''
+      ],
+      [
+
+      ],
+      [
+        'Date', 'Event', 'Amount', 'Balance'
+      ]
+    ];
+    $data[] = new Google_Service_Sheets_ValueRange([
+        'range' => 'A1',
+        'values' => $values
+    ]);
+
+    return $data;
+  }
+
+  function currentBalanceInfo()
+  {
+    $valuesTwo = array();
+    array_push($valuesTwo, array(date("n/j/Y"), 'Now', 'N/A', '$' . $this->getCurrentBalance()));
+    $data[] = new Google_Service_Sheets_ValueRange([
+        'range' => 'A4',
+        'values' => $valuesTwo
+    ]);
+
+    return $data;
+  }
+
+  function expenses()
+  {
+    $valuesFour = array();
+    $data[] = new Google_Service_Sheets_ValueRange([
+      'range' => 'A110',
+      'values' => $valuesFour
+    ]);
+  }
+
+  function futureTransactions($budget)
+  {
+    $valuesThree = array();
+    $cell = 4;
+
+    for($j = 0; $j < count($budget); $j++) {
+      if($budget[$j]['type'] == 1) {
+        array_push($valuesThree, array($budget[$j]["month"] . '/' . $budget[$j]["day"] . '/' . $budget[$j]["year"], $budget[$j]["title"], '$' . $budget[$j]["amount"], ('=D' . strval($cell)) . '-C' . $cell+1));
+      } else {
+        array_push($valuesThree, array($budget[$j]["month"] . '/' . $budget[$j]["day"] . '/' . $budget[$j]["year"], $budget[$j]["title"], $budget[$j]["amount"], ('=D' . strval($cell)) . '+C' . $cell+1));
+      }
+
+      $cell++;
+    }
+    $data[] = new Google_Service_Sheets_ValueRange([
+      'range' => 'A5',
+      'values' => $valuesThree
+    ]);
+
+    return $data;
+  }
+
   function styleTitle()
   {
     $requests = [
@@ -170,51 +234,12 @@ class GenerateSpreadsheet extends Budgeting
 
     $budget = $this->calculateBudget($this->getCurrentBalance());
 
-    $values = [
-      [
-        "Budget", ''
-      ],
-      [
-
-      ],
-      [
-        'Date', 'Event', 'Amount', 'Balance'
-      ]
-    ];
-
-    $valuesTwo = array();
-    array_push($valuesTwo, array(date("n/j/Y"), 'Now', 'N/A', '$' . $this->getCurrentBalance()));
-
-    $valuesThree = array();
-    $cell = 4;
-
-    for($j = 0; $j < count($budget); $j++) {
-      if($budget[$j]['type'] == 1) {
-        array_push($valuesThree, array($budget[$j]["month"] . '/' . $budget[$j]["day"] . '/' . $budget[$j]["year"], $budget[$j]["title"], '$' . $budget[$j]["amount"], ('=D' . strval($cell)) . '-C' . $cell+1));
-      } else {
-        array_push($valuesThree, array($budget[$j]["month"] . '/' . $budget[$j]["day"] . '/' . $budget[$j]["year"], $budget[$j]["title"], $budget[$j]["amount"], ('=D' . strval($cell)) . '+C' . $cell+1));
-      }
-
-      $cell++;
-    }
-
     $data = [];
-    $data[] = new Google_Service_Sheets_ValueRange([
-        'range' => 'A1',
-        'values' => $values
-    ]);
+    $data = $this->headers();
+    $data = $this->currentBalanceInfo();
+    $data = $this->futureTransactions($budget);
+    // $data = $this->expenses();
 
-    $data[] = new Google_Service_Sheets_ValueRange([
-        'range' => 'A4',
-        'values' => $valuesTwo
-    ]);
-
-    $data[] = new Google_Service_Sheets_ValueRange([
-      'range' => 'A5',
-      'values' => $valuesThree
-    ]);
-
-    // Additional ranges to update ...
     $body = new Google_Service_Sheets_BatchUpdateValuesRequest([
         'valueInputOption' => 2,
         'data' => $data,
