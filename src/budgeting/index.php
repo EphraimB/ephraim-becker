@@ -323,6 +323,26 @@ class Budgeting extends Base
     return $expenses;
   }
 
+  function getFoodExpenses(): array
+  {
+    $foodExpenses = array();
+
+    $query = "SELECT MealItem AS title, MealPrice AS amount FROM MealPlan GROUP BY title";
+    $queryResult = mysqli_query($this->getLink(), $query);
+
+    while($row = mysqli_fetch_array($queryResult)) {
+      $title = $row['title'];
+      $amount = floatval($row['amount']);
+
+      array_push($foodExpenses, array(
+        "title" => $title,
+        "amount" => $amount,
+      ));
+    }
+
+    return $foodExpenses;
+  }
+
   function calculateBudget($currentBalance): array
   {
     $weeklyIndex = 0;

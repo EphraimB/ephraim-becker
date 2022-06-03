@@ -135,6 +135,17 @@ class GenerateSpreadsheet extends Budgeting
     return $values;
   }
 
+  function foodExpenses()
+  {
+    $values = array();
+
+    for($j = 0; $j < count($expenses); $j++) {
+      array_push($values, array($expenses[$j]["title"], '$' . $expenses[$j]["amount"]));
+    }
+
+    return $values;
+  }
+
   function styleTitle()
   {
     $requests = [
@@ -224,6 +235,7 @@ class GenerateSpreadsheet extends Budgeting
 
     $budget = $this->calculateBudget($this->getCurrentBalance());
     $expenses = $this->getExpenses();
+    $foodExpenses = $this->getFoodExpenses();
 
     $data = [];
 
@@ -245,6 +257,11 @@ class GenerateSpreadsheet extends Budgeting
     $data[] = new Google_Service_Sheets_ValueRange([
       'range' => 'B114',
       'values' => $this->expenses($expenses)
+    ]);
+
+    $data[] = new Google_Service_Sheets_ValueRange([
+      'range' => 'F114',
+      'values' => $this->expenses($foodExpenses)
     ]);
 
     $body = new Google_Service_Sheets_BatchUpdateValuesRequest([
