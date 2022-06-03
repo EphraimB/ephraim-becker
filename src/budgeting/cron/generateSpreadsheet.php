@@ -235,6 +235,52 @@ class GenerateSpreadsheet extends Budgeting
     return $batchUpdateRequest;
   }
 
+  function styleExpensesHeader()
+  {
+    $requests = [
+    new Google_Service_Sheets_Request([
+      "mergeCells" => [
+          "range" => [
+            "sheetId" => 0,
+            "startRowIndex" => 112,
+            "endRowIndex" => 113,
+            "startColumnIndex" => 1,
+            "endColumnIndex" => 3
+          ],
+          "mergeType" => "MERGE_ALL"
+        ]
+      ]),
+      new Google_Service_Sheets_Request([
+        'repeatCell' => [
+            'fields' => 'userEnteredFormat',
+            "range" => [
+              "sheetId" => 0,
+              'startRowIndex' => 112,
+              'endRowIndex' => 113,
+              'startColumnIndex' => 1,
+              'endColumnIndex' => 3,
+            ],
+            'cell' => [
+                'userEnteredFormat' => [
+                  "horizontalAlignment" => "CENTER",
+                  'textFormat' => [
+                    'bold' => true,
+                    'fontSize' => 12,
+                  ]
+                ]
+            ],
+          ],
+        ])
+    ];
+
+    // add request to batchUpdate
+    $batchUpdateRequest = new Google_Service_Sheets_BatchUpdateSpreadsheetRequest([
+      'requests' => $requests
+    ]);
+
+    return $batchUpdateRequest;
+  }
+
   function generateSpreadsheet(): void
   {
     $client = $this->getClient();
@@ -292,6 +338,9 @@ class GenerateSpreadsheet extends Budgeting
 
     $batchUpdateRequestTwo = $this->styleHeaders();
     $result = $service->spreadsheets->batchUpdate($spreadsheetId, $batchUpdateRequestTwo);
+
+    $batchUpdateRequestThree = $this->styleExpensesHeader();
+    $result = $service->spreadsheets->batchUpdate($spreadsheetId, $batchUpdateRequestThree);
   }
 }
 $config = new Config();
