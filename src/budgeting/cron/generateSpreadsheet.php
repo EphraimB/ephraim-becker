@@ -124,6 +124,17 @@ class GenerateSpreadsheet extends Budgeting
     return $values;
   }
 
+  function expensesHeader()
+  {
+    $values = [
+      [
+        "Expenses", ''
+      ]
+    ];
+
+    return $values;
+  }
+
   function expenses($expenses)
   {
     $values = array();
@@ -252,6 +263,11 @@ class GenerateSpreadsheet extends Budgeting
     $data[] = new Google_Service_Sheets_ValueRange([
       'range' => 'A5',
       'values' => $this->futureTransactions($budget)
+    ]);
+
+    $data[] = new Google_Service_Sheets_ValueRange([
+      'range' => 'B113',
+      'values' => $this->expensesHeader()
     ]);
 
     $data[] = new Google_Service_Sheets_ValueRange([
