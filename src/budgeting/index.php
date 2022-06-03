@@ -303,6 +303,26 @@ class Budgeting extends Base
     return $t1 - $t2;
   }
 
+  function getExpenses(): array
+  {
+    $expenses = array();
+
+    $query = $this->expensesQuery(0);
+    $queryResult = mysqli_query($this->getLink(), $query);
+
+    while($row = mysqli_fetch_array($queryResult)) {
+      $title = $row['title'];
+      $amount = floatval($row['amount']);
+
+      array_push($expenses, array(
+        "title" => $title,
+        "amount" => $amount,
+      ));
+    }
+
+    return $expenses;
+  }
+
   function calculateBudget($currentBalance): array
   {
     $weeklyIndex = 0;

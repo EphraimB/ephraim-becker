@@ -124,13 +124,15 @@ class GenerateSpreadsheet extends Budgeting
     return $values;
   }
 
-  function expenses()
+  function expenses($expenses)
   {
-    $valuesFour = array();
-    $data[] = new Google_Service_Sheets_ValueRange([
-      'range' => 'A110',
-      'values' => $valuesFour
-    ]);
+    $values = array();
+
+    for($j = 0; $j < count($expenses); $j++) {
+      array_push($values, array($expenses[$j]["title"], '$' . $expenses[$j]["amount"]));
+    }
+
+    return $values;
   }
 
   function styleTitle()
@@ -221,6 +223,7 @@ class GenerateSpreadsheet extends Budgeting
     $spreadsheetId = '1aQUD3MkEMHnwN069EZW9dwsW6OVicOQ89P40nKVQwhI';
 
     $budget = $this->calculateBudget($this->getCurrentBalance());
+    $expenses = $this->getExpenses();
 
     $data = [];
 
@@ -237,6 +240,11 @@ class GenerateSpreadsheet extends Budgeting
     $data[] = new Google_Service_Sheets_ValueRange([
       'range' => 'A5',
       'values' => $this->futureTransactions($budget)
+    ]);
+
+    $data[] = new Google_Service_Sheets_ValueRange([
+      'range' => 'B114',
+      'values' => $this->expenses($expenses)
     ]);
 
     $body = new Google_Service_Sheets_BatchUpdateValuesRequest([
