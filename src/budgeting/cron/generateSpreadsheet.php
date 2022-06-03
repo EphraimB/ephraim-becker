@@ -128,7 +128,7 @@ class GenerateSpreadsheet extends Budgeting
   {
     $values = [
       [
-        "Expenses", ''
+        "Expenses per month", ''
       ]
     ];
 
@@ -281,6 +281,57 @@ class GenerateSpreadsheet extends Budgeting
     return $batchUpdateRequest;
   }
 
+  function styleExpenses()
+  {
+    $requests = [
+    new Google_Service_Sheets_Request([
+      "updateBorders" => [
+        "range" => [
+          "sheetId" => 0,
+          "startRowIndex" => 112,
+          "endRowIndex" => 118,
+          "startColumnIndex" => 1,
+          "endColumnIndex" => 3
+        ],
+        "top" => [
+          "style" => "SOLID",
+          "width" => 3,
+          "color" => [
+            "red" => 1.0
+          ],
+        ],
+        "bottom" => [
+          "style" => "SOLID",
+          "width" => 3,
+          "color" => [
+            "red" => 1.0
+          ],
+        ],
+        "right" => [
+          "style" => "SOLID",
+          "width" => 3,
+          "color" => [
+            "red" => 1.0
+          ],
+        ],
+        "left" => [
+          "style" => "SOLID",
+          "width" => 3,
+          "color" => [
+            "red" => 1.0
+          ],
+        ],
+      ]
+    ]),
+    ];
+
+    $batchUpdateRequest = new Google_Service_Sheets_BatchUpdateSpreadsheetRequest([
+      'requests' => $requests
+    ]);
+
+    return $batchUpdateRequest;
+  }
+
   function generateSpreadsheet(): void
   {
     $client = $this->getClient();
@@ -341,6 +392,9 @@ class GenerateSpreadsheet extends Budgeting
 
     $batchUpdateRequestThree = $this->styleExpensesHeader();
     $result = $service->spreadsheets->batchUpdate($spreadsheetId, $batchUpdateRequestThree);
+
+    $batchUpdateRequestFour = $this->styleExpenses();
+    $result = $service->spreadsheets->batchUpdate($spreadsheetId, $batchUpdateRequestFour);
   }
 }
 $config = new Config();
