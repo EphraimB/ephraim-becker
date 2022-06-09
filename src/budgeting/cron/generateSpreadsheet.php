@@ -715,6 +715,24 @@ class GenerateSpreadsheet extends Budgeting
     $result = $service->spreadsheets_values->update($spreadsheetId, 'C' . $cell, $body, $params);
   }
 
+  function getWishlistTable($query)
+  {
+    $wishlist = array();
+    $queryResult = mysqli_query($this->getLink(), $query);
+
+    while($row = mysqli_fetch_array($queryResult)) {
+      $title = $row['title'];
+      $amount = floatval($row['price']);
+
+      array_push($wishlist, array(
+        "title" => $title,
+        "amount" => $amount,
+      ));
+    }
+
+    return $wishlist;
+  }
+
   function variabalizeExpensesAmount($service, $spreadsheetId, $endCell, $expenses)
   {
     $cellValuePair = array();
@@ -738,24 +756,6 @@ class GenerateSpreadsheet extends Budgeting
 
       $cell++;
     }
-  }
-
-  function getWishlistTable($query)
-  {
-    $wishlist = array();
-    $queryResult = mysqli_query($this->getLink(), $query);
-
-    while($row = mysqli_fetch_array($queryResult)) {
-      $title = $row['title'];
-      $amount = floatval($row['price']);
-
-      array_push($wishlist, array(
-        "title" => $title,
-        "amount" => $amount,
-      ));
-    }
-
-    return $wishlist;
   }
 
   function generateSpreadsheet(): void
