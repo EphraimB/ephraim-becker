@@ -321,7 +321,7 @@ class GenerateSpreadsheet extends Budgeting
           ],
         ]),
         new Google_Service_Sheets_Request([
-        "updateBorders" => [
+          "updateBorders" => [
           "range" => [
             "sheetId" => 0,
             "startRowIndex" => 112,
@@ -355,6 +355,26 @@ class GenerateSpreadsheet extends Budgeting
             "width" => 3,
             "color" => [
               "red" => 1.0
+            ],
+          ],
+        ]
+      ]),
+      new Google_Service_Sheets_Request([
+        "updateBorders" => [
+          "range" => [
+            "sheetId" => 0,
+            "startRowIndex" => 117,
+            "endRowIndex" => 118,
+            "startColumnIndex" => 1,
+            "endColumnIndex" => 3
+          ],
+          "bottom" => [
+            "style" => "SOLID",
+            "width" => 1,
+            "color" => [
+              "red" => 0.0,
+              "green" => 0.0,
+              "blue" => 0.0
             ],
           ],
         ]
