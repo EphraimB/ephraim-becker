@@ -442,65 +442,85 @@ class GenerateSpreadsheet extends Budgeting
   function styleFoodExpenses($numRows)
   {
     $requests = [
-    new Google_Service_Sheets_Request([
-      "updateBorders" => [
-        "range" => [
-          "sheetId" => 0,
-          "startRowIndex" => 112,
-          "endRowIndex" => 113 + $numRows,
-          "startColumnIndex" => 5,
-          "endColumnIndex" => 7
-        ],
-        "top" => [
-          "style" => "SOLID",
-          "width" => 2,
-          "color" => [
-            "red" => 1.0
+      new Google_Service_Sheets_Request([
+        'repeatCell' => [
+            'fields' => 'userEnteredFormat',
+            "range" => [
+              "sheetId" => 0,
+              'startRowIndex' => 113,
+              'endRowIndex' => 113 + $numRows,
+              'startColumnIndex' => 5,
+              'endColumnIndex' => 6,
+            ],
+            'cell' => [
+                'userEnteredFormat' => [
+                  'textFormat' => [
+                    'bold' => true,
+                    'fontSize' => 10,
+                  ]
+                ]
+            ],
           ],
-        ],
-        "bottom" => [
-          "style" => "SOLID",
-          "width" => 2,
-          "color" => [
-            "red" => 1.0
-          ],
-        ],
-        "right" => [
-          "style" => "SOLID",
-          "width" => 2,
-          "color" => [
-            "red" => 1.0
-          ],
-        ],
-        "left" => [
-          "style" => "SOLID",
-          "width" => 2,
-          "color" => [
-            "red" => 1.0
-          ],
-        ],
-      ]
-    ]),
-    new Google_Service_Sheets_Request([
-      "updateBorders" => [
-        "range" => [
-          "sheetId" => 0,
-          "startRowIndex" => 113 + $numRows - 2,
-          "endRowIndex" => 113 + $numRows - 1,
-          "startColumnIndex" => 5,
-          "endColumnIndex" => 7
-        ],
-        "bottom" => [
-          "style" => "SOLID",
-          "width" => 1,
-          "color" => [
-            "red" => 0.0,
-            "green" => 0.0,
-            "blue" => 0.0
-          ],
-        ],
-      ]
-    ])
+        ]),
+        new Google_Service_Sheets_Request([
+          "updateBorders" => [
+            "range" => [
+              "sheetId" => 0,
+              "startRowIndex" => 112,
+              "endRowIndex" => 113 + $numRows,
+              "startColumnIndex" => 5,
+              "endColumnIndex" => 7
+            ],
+            "top" => [
+              "style" => "SOLID",
+              "width" => 2,
+              "color" => [
+                "red" => 1.0
+              ],
+            ],
+            "bottom" => [
+              "style" => "SOLID",
+              "width" => 2,
+              "color" => [
+                "red" => 1.0
+              ],
+            ],
+            "right" => [
+              "style" => "SOLID",
+              "width" => 2,
+              "color" => [
+                "red" => 1.0
+              ],
+            ],
+            "left" => [
+              "style" => "SOLID",
+              "width" => 2,
+              "color" => [
+                "red" => 1.0
+              ],
+            ],
+          ]
+        ]),
+        new Google_Service_Sheets_Request([
+          "updateBorders" => [
+            "range" => [
+              "sheetId" => 0,
+              "startRowIndex" => 113 + $numRows - 2,
+              "endRowIndex" => 113 + $numRows - 1,
+              "startColumnIndex" => 5,
+              "endColumnIndex" => 7
+            ],
+            "bottom" => [
+              "style" => "SOLID",
+              "width" => 1,
+              "color" => [
+                "red" => 0.0,
+                "green" => 0.0,
+                "blue" => 0.0
+              ],
+            ],
+          ]
+        ])
     ];
 
     $batchUpdateRequest = new Google_Service_Sheets_BatchUpdateSpreadsheetRequest([
