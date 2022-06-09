@@ -300,45 +300,65 @@ class GenerateSpreadsheet extends Budgeting
   function styleExpenses($numRows)
   {
     $requests = [
-    new Google_Service_Sheets_Request([
-      "updateBorders" => [
-        "range" => [
-          "sheetId" => 0,
-          "startRowIndex" => 112,
-          "endRowIndex" => 113 + $numRows,
-          "startColumnIndex" => 1,
-          "endColumnIndex" => 3
-        ],
-        "top" => [
-          "style" => "SOLID",
-          "width" => 3,
-          "color" => [
-            "red" => 1.0
+      new Google_Service_Sheets_Request([
+        'repeatCell' => [
+            'fields' => 'userEnteredFormat',
+            "range" => [
+              "sheetId" => 0,
+              'startRowIndex' => 113,
+              'endRowIndex' => 113 + $numRows,
+              'startColumnIndex' => 1,
+              'endColumnIndex' => 2,
+            ],
+            'cell' => [
+                'userEnteredFormat' => [
+                  'textFormat' => [
+                    'bold' => true,
+                    'fontSize' => 10,
+                  ]
+                ]
+            ],
           ],
-        ],
-        "bottom" => [
-          "style" => "SOLID",
-          "width" => 3,
-          "color" => [
-            "red" => 1.0
+        ]),
+        new Google_Service_Sheets_Request([
+        "updateBorders" => [
+          "range" => [
+            "sheetId" => 0,
+            "startRowIndex" => 112,
+            "endRowIndex" => 113 + $numRows,
+            "startColumnIndex" => 1,
+            "endColumnIndex" => 3
           ],
-        ],
-        "right" => [
-          "style" => "SOLID",
-          "width" => 3,
-          "color" => [
-            "red" => 1.0
+          "top" => [
+            "style" => "SOLID",
+            "width" => 3,
+            "color" => [
+              "red" => 1.0
+            ],
           ],
-        ],
-        "left" => [
-          "style" => "SOLID",
-          "width" => 3,
-          "color" => [
-            "red" => 1.0
+          "bottom" => [
+            "style" => "SOLID",
+            "width" => 3,
+            "color" => [
+              "red" => 1.0
+            ],
           ],
-        ],
-      ]
-    ]),
+          "right" => [
+            "style" => "SOLID",
+            "width" => 3,
+            "color" => [
+              "red" => 1.0
+            ],
+          ],
+          "left" => [
+            "style" => "SOLID",
+            "width" => 3,
+            "color" => [
+              "red" => 1.0
+            ],
+          ],
+        ]
+      ])
     ];
 
     $batchUpdateRequest = new Google_Service_Sheets_BatchUpdateSpreadsheetRequest([
