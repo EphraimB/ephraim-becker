@@ -694,6 +694,24 @@ class GenerateSpreadsheet extends Budgeting
     return $batchUpdateRequest;
   }
 
+  function getWishlistTable($query)
+  {
+    $wishlist = array();
+    $queryResult = mysqli_query($this->getLink(), $query);
+
+    while($row = mysqli_fetch_array($queryResult)) {
+      $title = $row['title'];
+      $amount = floatval($row['price']);
+
+      array_push($wishlist, array(
+        "title" => $title,
+        "amount" => $amount,
+      ));
+    }
+
+    return $wishlist;
+  }
+
   function overwriteExpensesAmountWithVariable($service, $spreadsheetId, $cell, $expensesCell)
   {
     $values = [
@@ -715,24 +733,6 @@ class GenerateSpreadsheet extends Budgeting
     $result = $service->spreadsheets_values->update($spreadsheetId, 'C' . $cell, $body, $params);
   }
 
-  function getWishlistTable($query)
-  {
-    $wishlist = array();
-    $queryResult = mysqli_query($this->getLink(), $query);
-
-    while($row = mysqli_fetch_array($queryResult)) {
-      $title = $row['title'];
-      $amount = floatval($row['price']);
-
-      array_push($wishlist, array(
-        "title" => $title,
-        "amount" => $amount,
-      ));
-    }
-
-    return $wishlist;
-  }
-
   function variabalizeExpensesAmount($service, $spreadsheetId, $endCell, $expenses)
   {
     $cellValuePair = array();
@@ -751,6 +751,52 @@ class GenerateSpreadsheet extends Budgeting
       for($j = 0; $j < $numRowsTwo; $j++) {
         if($result->getValues()[$i][0] == $resultTwo->getValues()[$j][0]) {
           $this->overwriteExpensesAmountWithVariable($service, $spreadsheetId, $cell, $expensesStartCell + $j);
+        }
+      }
+
+      $cell++;
+    }
+  }
+
+  function overwriteWishlistAmountWithVariable($service, $spreadsheetId, $cell, $expensesCell)
+  {
+    $values = [
+    [
+        // Cell values ...
+        '=$C$' . $expensesCell
+    ],
+    // Additional rows ...
+    ];
+
+    $body = new Google_Service_Sheets_ValueRange([
+        'values' => $values
+    ]);
+
+    $params = [
+        'valueInputOption' => 2
+    ];
+
+    $result = $service->spreadsheets_values->update($spreadsheetId, 'C' . $cell, $body, $params);
+  }
+
+  function variabalizeWishlistAmount($service, $spreadsheetId, $endCell, $wishlist)
+  {
+    $cellValuePair = array();
+    $cell = 5;
+    $expensesStartCell = 123;
+    $expensesEndCell = $expensesStartCell + $this->wishlist($wishlist)[1] - 1;
+    $j = 0;
+
+    $result = $service->spreadsheets_values->get($spreadsheetId, 'B' . $cell . ':B' . $endCell);
+    $numRows = $result->getValues() != null ? count($result->getValues()) : 0;
+
+    $resultTwo = $service->spreadsheets_values->get($spreadsheetId, 'B' . $expensesStartCell . ':B' . $expensesEndCell);
+    $numRowsTwo = $resultTwo->getValues() != null ? count($resultTwo->getValues()) : 0;
+
+    for($i = 0; $i < $numRows; $i++) {
+      for($j = 0; $j < $numRowsTwo; $j++) {
+        if($result->getValues()[$i][0] == $resultTwo->getValues()[$j][0]) {
+          $this->overwriteWishlistAmountWithVariable($service, $spreadsheetId, $cell, $expensesStartCell + $j);
         }
       }
 
@@ -852,6 +898,7 @@ class GenerateSpreadsheet extends Budgeting
     $result = $service->spreadsheets->batchUpdate($spreadsheetId, $batchUpdateRequestEight);
 
     $this->variabalizeExpensesAmount($service, $spreadsheetId, $this->futureTransactions($budget)[1], $expenses);
+    $this->variabalizeWishlistAmount($service, $spreadsheetId, $this->futureTransactions($budget)[1], $wishlist);
   }
 }
 $config = new Config();
