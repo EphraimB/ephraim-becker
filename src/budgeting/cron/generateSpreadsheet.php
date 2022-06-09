@@ -121,7 +121,7 @@ class GenerateSpreadsheet extends Budgeting
       $cell++;
     }
 
-    return $values;
+    return array($values, $cell);
   }
 
   function expensesHeader()
@@ -530,6 +530,52 @@ class GenerateSpreadsheet extends Budgeting
     return $batchUpdateRequest;
   }
 
+  function overwriteExpensesAmountWithVariable($service, $spreadsheetId, $cell, $expensesCell)
+  {
+    $values = [
+    [
+        // Cell values ...
+        '=$C$' . $expensesCell
+    ],
+    // Additional rows ...
+    ];
+
+    $body = new Google_Service_Sheets_ValueRange([
+        'values' => $values
+    ]);
+
+    $params = [
+        'valueInputOption' => 2
+    ];
+
+    $result = $service->spreadsheets_values->update($spreadsheetId, 'C' . $cell, $body, $params);
+  }
+
+  function variabalizeExpensesAmount($service, $spreadsheetId, $endCell, $expenses)
+  {
+    $cellValuePair = array();
+    $cell = 5;
+    $expensesStartCell = 114;
+    $expensesEndCell = $expensesStartCell + $this->expenses($expenses)[1] - 1;
+    $j = 0;
+
+    $result = $service->spreadsheets_values->get($spreadsheetId, 'B' . $cell . ':B' . $endCell);
+    $numRows = $result->getValues() != null ? count($result->getValues()) : 0;
+
+    $resultTwo = $service->spreadsheets_values->get($spreadsheetId, 'B' . $expensesStartCell . ':B' . $expensesEndCell);
+    $numRowsTwo = $resultTwo->getValues() != null ? count($resultTwo->getValues()) : 0;
+
+    for($i = 0; $i < $numRows; $i++) {
+      for($j = 0; $j < $numRowsTwo; $j++) {
+        if($result->getValues()[$i][0] == $resultTwo->getValues()[$j][0]) {
+          $this->overwriteExpensesAmountWithVariable($service, $spreadsheetId, $cell, $expensesStartCell + $j);
+        }
+      }
+
+      $cell++;
+    }
+  }
+
   function generateSpreadsheet(): void
   {
     $client = $this->getClient();
@@ -557,7 +603,7 @@ class GenerateSpreadsheet extends Budgeting
 
     $data[] = new Google_Service_Sheets_ValueRange([
       'range' => 'A5',
-      'values' => $this->futureTransactions($budget)
+      'values' => $this->futureTransactions($budget)[0]
     ]);
 
     $data[] = new Google_Service_Sheets_ValueRange([
@@ -604,6 +650,8 @@ class GenerateSpreadsheet extends Budgeting
 
     $batchUpdateRequestSix = $this->styleFoodExpenses($this->foodExpenses($foodExpenses)[1]);
     $result = $service->spreadsheets->batchUpdate($spreadsheetId, $batchUpdateRequestSix);
+
+    $this->variabalizeExpensesAmount($service, $spreadsheetId, $this->futureTransactions($budget)[1], $expenses);
   }
 }
 $config = new Config();
