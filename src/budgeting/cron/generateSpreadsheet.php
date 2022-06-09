@@ -173,7 +173,7 @@ class GenerateSpreadsheet extends Budgeting
       $column++;
     }
 
-    array_push($values, array('Total', '=sum(G114:G' . $column - 1 . ')'));
+    array_push($values, array('Total', '=sum(F114:F' . $column - 1 . ')'));
 
     return array($values, $j+1);
   }
@@ -402,8 +402,8 @@ class GenerateSpreadsheet extends Budgeting
             "sheetId" => 0,
             "startRowIndex" => 112,
             "endRowIndex" => 113,
-            "startColumnIndex" => 5,
-            "endColumnIndex" => 7
+            "startColumnIndex" => 4,
+            "endColumnIndex" => 6
           ],
           "mergeType" => "MERGE_ALL"
         ]
@@ -415,8 +415,8 @@ class GenerateSpreadsheet extends Budgeting
               "sheetId" => 0,
               'startRowIndex' => 112,
               'endRowIndex' => 113,
-              'startColumnIndex' => 5,
-              'endColumnIndex' => 7,
+              'startColumnIndex' => 4,
+              'endColumnIndex' => 6,
             ],
             'cell' => [
                 'userEnteredFormat' => [
@@ -449,8 +449,8 @@ class GenerateSpreadsheet extends Budgeting
               "sheetId" => 0,
               'startRowIndex' => 113,
               'endRowIndex' => 113 + $numRows,
-              'startColumnIndex' => 5,
-              'endColumnIndex' => 6,
+              'startColumnIndex' => 4,
+              'endColumnIndex' => 5,
             ],
             'cell' => [
                 'userEnteredFormat' => [
@@ -468,8 +468,8 @@ class GenerateSpreadsheet extends Budgeting
               "sheetId" => 0,
               "startRowIndex" => 112,
               "endRowIndex" => 113 + $numRows,
-              "startColumnIndex" => 5,
-              "endColumnIndex" => 7
+              "startColumnIndex" => 4,
+              "endColumnIndex" => 6
             ],
             "top" => [
               "style" => "SOLID",
@@ -507,8 +507,8 @@ class GenerateSpreadsheet extends Budgeting
               "sheetId" => 0,
               "startRowIndex" => 113 + $numRows - 2,
               "endRowIndex" => 113 + $numRows - 1,
-              "startColumnIndex" => 5,
-              "endColumnIndex" => 7
+              "startColumnIndex" => 4,
+              "endColumnIndex" => 6
             ],
             "bottom" => [
               "style" => "SOLID",
@@ -617,12 +617,12 @@ class GenerateSpreadsheet extends Budgeting
     ]);
 
     $data[] = new Google_Service_Sheets_ValueRange([
-      'range' => 'F113',
+      'range' => 'E113',
       'values' => $this->foodExpensesHeader()
     ]);
 
     $data[] = new Google_Service_Sheets_ValueRange([
-      'range' => 'F114',
+      'range' => 'E114',
       'values' => $this->foodExpenses($foodExpenses)[0]
     ]);
 
