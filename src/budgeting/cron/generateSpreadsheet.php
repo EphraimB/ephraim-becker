@@ -138,20 +138,36 @@ class GenerateSpreadsheet extends Budgeting
   function expenses($expenses)
   {
     $values = array();
+    $column = 114;
 
     for($j = 0; $j < count($expenses); $j++) {
       array_push($values, array($expenses[$j]["title"], '$' . $expenses[$j]["amount"]));
+
+      $column++;
     }
+
+    array_push($values, array('Total', '=sum(C114:C' . $column - 1 . ')'));
+
+    return array($values, $j+1);
+  }
+
+  function foodExpensesHeader()
+  {
+    $values = [
+      [
+        "Food Expenses", ''
+      ]
+    ];
 
     return $values;
   }
 
-  function foodExpenses()
+  function foodExpenses($foodExpenses)
   {
     $values = array();
 
-    for($j = 0; $j < count($expenses); $j++) {
-      array_push($values, array($expenses[$j]["title"], '$' . $expenses[$j]["amount"]));
+    for($j = 0; $j < count($foodExpenses); $j++) {
+      array_push($values, array($foodExpenses[$j]["title"], '$' . $foodExpenses[$j]["amount"]));
     }
 
     return $values;
@@ -281,7 +297,7 @@ class GenerateSpreadsheet extends Budgeting
     return $batchUpdateRequest;
   }
 
-  function styleExpenses()
+  function styleExpenses($numRows)
   {
     $requests = [
     new Google_Service_Sheets_Request([
@@ -289,7 +305,7 @@ class GenerateSpreadsheet extends Budgeting
         "range" => [
           "sheetId" => 0,
           "startRowIndex" => 112,
-          "endRowIndex" => 118,
+          "endRowIndex" => 113 + $numRows,
           "startColumnIndex" => 1,
           "endColumnIndex" => 3
         ],
@@ -317,6 +333,103 @@ class GenerateSpreadsheet extends Budgeting
         "left" => [
           "style" => "SOLID",
           "width" => 3,
+          "color" => [
+            "red" => 1.0
+          ],
+        ],
+      ]
+    ]),
+    ];
+
+    $batchUpdateRequest = new Google_Service_Sheets_BatchUpdateSpreadsheetRequest([
+      'requests' => $requests
+    ]);
+
+    return $batchUpdateRequest;
+  }
+
+  function styleFoodExpensesHeader()
+  {
+    $requests = [
+    new Google_Service_Sheets_Request([
+      "mergeCells" => [
+          "range" => [
+            "sheetId" => 0,
+            "startRowIndex" => 112,
+            "endRowIndex" => 113,
+            "startColumnIndex" => 5,
+            "endColumnIndex" => 7
+          ],
+          "mergeType" => "MERGE_ALL"
+        ]
+      ]),
+      new Google_Service_Sheets_Request([
+        'repeatCell' => [
+            'fields' => 'userEnteredFormat',
+            "range" => [
+              "sheetId" => 0,
+              'startRowIndex' => 112,
+              'endRowIndex' => 113,
+              'startColumnIndex' => 5,
+              'endColumnIndex' => 7,
+            ],
+            'cell' => [
+                'userEnteredFormat' => [
+                  "horizontalAlignment" => "CENTER",
+                  'textFormat' => [
+                    'bold' => true,
+                    'fontSize' => 12,
+                  ]
+                ]
+            ],
+          ],
+        ])
+    ];
+
+    // add request to batchUpdate
+    $batchUpdateRequest = new Google_Service_Sheets_BatchUpdateSpreadsheetRequest([
+      'requests' => $requests
+    ]);
+
+    return $batchUpdateRequest;
+  }
+
+  function styleFoodExpenses()
+  {
+    $requests = [
+    new Google_Service_Sheets_Request([
+      "updateBorders" => [
+        "range" => [
+          "sheetId" => 0,
+          "startRowIndex" => 112,
+          "endRowIndex" => 118,
+          "startColumnIndex" => 5,
+          "endColumnIndex" => 7
+        ],
+        "top" => [
+          "style" => "SOLID",
+          "width" => 2,
+          "color" => [
+            "red" => 1.0
+          ],
+        ],
+        "bottom" => [
+          "style" => "SOLID",
+          "width" => 2,
+          "color" => [
+            "red" => 1.0
+          ],
+        ],
+        "right" => [
+          "style" => "SOLID",
+          "width" => 2,
+          "color" => [
+            "red" => 1.0
+          ],
+        ],
+        "left" => [
+          "style" => "SOLID",
+          "width" => 2,
           "color" => [
             "red" => 1.0
           ],
@@ -369,12 +482,17 @@ class GenerateSpreadsheet extends Budgeting
 
     $data[] = new Google_Service_Sheets_ValueRange([
       'range' => 'B114',
-      'values' => $this->expenses($expenses)
+      'values' => $this->expenses($expenses)[0]
+    ]);
+
+    $data[] = new Google_Service_Sheets_ValueRange([
+      'range' => 'F113',
+      'values' => $this->foodExpensesHeader()
     ]);
 
     $data[] = new Google_Service_Sheets_ValueRange([
       'range' => 'F114',
-      'values' => $this->expenses($foodExpenses)
+      'values' => $this->foodExpenses($foodExpenses)
     ]);
 
     $body = new Google_Service_Sheets_BatchUpdateValuesRequest([
@@ -393,8 +511,14 @@ class GenerateSpreadsheet extends Budgeting
     $batchUpdateRequestThree = $this->styleExpensesHeader();
     $result = $service->spreadsheets->batchUpdate($spreadsheetId, $batchUpdateRequestThree);
 
-    $batchUpdateRequestFour = $this->styleExpenses();
+    $batchUpdateRequestFour = $this->styleExpenses($this->expenses($expenses)[1]);
     $result = $service->spreadsheets->batchUpdate($spreadsheetId, $batchUpdateRequestFour);
+
+    $batchUpdateRequestFive = $this->styleFoodExpensesHeader();
+    $result = $service->spreadsheets->batchUpdate($spreadsheetId, $batchUpdateRequestFive);
+
+    $batchUpdateRequestSix = $this->styleFoodExpenses();
+    $result = $service->spreadsheets->batchUpdate($spreadsheetId, $batchUpdateRequestSix);
   }
 }
 $config = new Config();
