@@ -804,6 +804,60 @@ class GenerateSpreadsheet extends Budgeting
     }
   }
 
+  function conditionalFormatting($budget)
+  {
+    $myRange = [
+      'sheetId' => 0,
+      'startRowIndex' => 4,
+      'endRowIndex' => $this->futureTransactions($budget)[1],
+      'startColumnIndex' => 3,
+      'endColumnIndex' => 4,
+    ];
+
+    $requests = [
+      new Google_Service_Sheets_Request([
+        'addConditionalFormatRule' => [
+          'rule' => [
+            'ranges' => [$myRange],
+              'booleanRule' => [
+                'condition' => [
+                  'type' => 'CUSTOM_FORMULA',
+                    'values' => [['userEnteredValue' => '=GT(D4, D3)']]
+                  ],
+                  'format' => [
+                  'backgroundColor' => ['red' => 0.0, 'green' => 1.0, 'blue' => 0.0]
+                ]
+              ]
+          ],
+          'index' => 0
+        ]
+      ]),
+      new Google_Service_Sheets_Request([
+        'addConditionalFormatRule' => [
+          'rule' => [
+            'ranges' => [$myRange],
+              'booleanRule' => [
+                'condition' => [
+                  'type' => 'CUSTOM_FORMULA',
+                    'values' => [['userEnteredValue' => '=LT(D4, D3)']]
+                  ],
+                  'format' => [
+                  'backgroundColor' => ['red' => 1.0, 'green' => 0.0, 'blue' => 0.0]
+                ]
+              ]
+          ],
+          'index' => 0
+        ]
+      ])
+    ];
+
+    $batchUpdateRequest = new Google_Service_Sheets_BatchUpdateSpreadsheetRequest([
+      'requests' => $requests
+    ]);
+
+    return $batchUpdateRequest;
+  }
+
   function generateSpreadsheet(): void
   {
     $client = $this->getClient();
@@ -896,6 +950,9 @@ class GenerateSpreadsheet extends Budgeting
 
     $batchUpdateRequestEight = $this->styleWishlist($this->wishlist($wishlist)[1]);
     $result = $service->spreadsheets->batchUpdate($spreadsheetId, $batchUpdateRequestEight);
+
+    $batchUpdateRequestNine = $this->conditionalFormatting($budget);
+    $result = $service->spreadsheets->batchUpdate($spreadsheetId, $batchUpdateRequestNine);
 
     $this->variabalizeExpensesAmount($service, $spreadsheetId, $this->futureTransactions($budget)[1], $expenses);
     $this->variabalizeWishlistAmount($service, $spreadsheetId, $this->futureTransactions($budget)[1], $wishlist);
