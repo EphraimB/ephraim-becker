@@ -205,6 +205,33 @@ class GenerateSpreadsheet extends Budgeting
     return array($values, $j+1);
   }
 
+  function moneyOwedHeader()
+  {
+    $values = [
+      [
+        "Money owed to", "Plan per month", "Money owed"
+      ]
+    ];
+
+    return $values;
+  }
+
+  function moneyOwed($moneyOwed)
+  {
+    $values = array();
+    $column = 123;
+
+    for($j = 0; $j < count($moneyOwed); $j++) {
+      array_push($values, array($moneyOwed[$j]["title"], '$' . $moneyOwed[$j]["planAmount"], '$' . $moneyOwed[$j]["moneyOwedAmount"]));
+
+      $column++;
+    }
+
+    array_push($values, array('Total', '=sum(F123:F' . $column - 1 . ')', '=sum(G123:G' . $column - 1 . ')'));
+
+    return array($values, $j+1);
+  }
+
   function styleTitle()
   {
     $requests = [
@@ -694,6 +721,131 @@ class GenerateSpreadsheet extends Budgeting
     return $batchUpdateRequest;
   }
 
+  function styleMoneyOwedHeader()
+  {
+    $requests = [
+    new Google_Service_Sheets_Request([
+        'repeatCell' => [
+            'fields' => 'userEnteredFormat',
+            "range" => [
+              "sheetId" => 0,
+              'startRowIndex' => 121,
+              'endRowIndex' => 122,
+              'startColumnIndex' => 4,
+              'endColumnIndex' => 7,
+            ],
+            'cell' => [
+                'userEnteredFormat' => [
+                  "horizontalAlignment" => "CENTER",
+                  'textFormat' => [
+                    'bold' => true,
+                    'fontSize' => 10,
+                  ]
+                ]
+            ],
+          ],
+        ])
+    ];
+
+    // add request to batchUpdate
+    $batchUpdateRequest = new Google_Service_Sheets_BatchUpdateSpreadsheetRequest([
+      'requests' => $requests
+    ]);
+
+    return $batchUpdateRequest;
+  }
+
+  function styleMoneyOwed($numRows)
+  {
+    $requests = [
+      new Google_Service_Sheets_Request([
+        'repeatCell' => [
+            'fields' => 'userEnteredFormat',
+            "range" => [
+              "sheetId" => 0,
+              'startRowIndex' => 122,
+              'endRowIndex' => 122 + $numRows,
+              'startColumnIndex' => 4,
+              'endColumnIndex' => 5,
+            ],
+            'cell' => [
+                'userEnteredFormat' => [
+                  'textFormat' => [
+                    'bold' => true,
+                    'fontSize' => 10,
+                  ]
+                ]
+            ],
+          ],
+        ]),
+        new Google_Service_Sheets_Request([
+          "updateBorders" => [
+            "range" => [
+              "sheetId" => 0,
+              "startRowIndex" => 121,
+              "endRowIndex" => 122 + $numRows,
+              "startColumnIndex" => 4,
+              "endColumnIndex" => 7
+            ],
+            "top" => [
+              "style" => "SOLID",
+              "width" => 1,
+              "color" => [
+                "red" => 1.0
+              ],
+            ],
+            "bottom" => [
+              "style" => "SOLID",
+              "width" => 1,
+              "color" => [
+                "red" => 1.0
+              ],
+            ],
+            "right" => [
+              "style" => "SOLID",
+              "width" => 1,
+              "color" => [
+                "red" => 1.0
+              ],
+            ],
+            "left" => [
+              "style" => "SOLID",
+              "width" => 1,
+              "color" => [
+                "red" => 1.0
+              ],
+            ],
+          ]
+        ]),
+        new Google_Service_Sheets_Request([
+          "updateBorders" => [
+            "range" => [
+              "sheetId" => 0,
+              "startRowIndex" => 122 + $numRows - 2,
+              "endRowIndex" => 122 + $numRows - 1,
+              "startColumnIndex" => 4,
+              "endColumnIndex" => 7
+            ],
+            "bottom" => [
+              "style" => "SOLID",
+              "width" => 1,
+              "color" => [
+                "red" => 0.0,
+                "green" => 0.0,
+                "blue" => 0.0
+              ],
+            ],
+          ]
+        ])
+    ];
+
+    $batchUpdateRequest = new Google_Service_Sheets_BatchUpdateSpreadsheetRequest([
+      'requests' => $requests
+    ]);
+
+    return $batchUpdateRequest;
+  }
+
   function getWishlistTable($query)
   {
     $wishlist = array();
@@ -710,6 +862,26 @@ class GenerateSpreadsheet extends Budgeting
     }
 
     return $wishlist;
+  }
+
+  function getMoneyOwedTable($query)
+  {
+    $moneyOwed = array();
+    $queryResult = mysqli_query($this->getLink(), $query);
+
+    while($row = mysqli_fetch_array($queryResult)) {
+      $title = $row['title'];
+      $planAmount = floatval($row['planAmount']);
+      $moneyOwedAmount = floatval($row['amountOwed']);
+
+      array_push($moneyOwed, array(
+        "title" => $title,
+        "planAmount" => $planAmount,
+        "moneyOwedAmount" => $moneyOwedAmount
+      ));
+    }
+
+    return $moneyOwed;
   }
 
   function overwriteExpensesAmountWithVariable($service, $spreadsheetId, $cell, $expensesCell)
@@ -870,8 +1042,8 @@ class GenerateSpreadsheet extends Budgeting
     $budget = $this->calculateBudget($this->getCurrentBalance());
     $expenses = $this->getExpenses();
     $foodExpenses = $this->getFoodExpenses();
-
     $wishlist = $this->getWishlistTable($this->getWishlist());
+    $moneyOwed = $this->getMoneyOwedTable($this->getMoneyOwed());
 
     $data = [];
 
@@ -920,6 +1092,16 @@ class GenerateSpreadsheet extends Budgeting
       'values' => $this->wishlist($wishlist)[0]
     ]);
 
+    $data[] = new Google_Service_Sheets_ValueRange([
+      'range' => 'E122',
+      'values' => $this->moneyOwedHeader()
+    ]);
+
+    $data[] = new Google_Service_Sheets_ValueRange([
+      'range' => 'E123',
+      'values' => $this->moneyOwed($moneyOwed)[0]
+    ]);
+
     $body = new Google_Service_Sheets_BatchUpdateValuesRequest([
         'valueInputOption' => 2,
         'data' => $data,
@@ -951,8 +1133,14 @@ class GenerateSpreadsheet extends Budgeting
     $batchUpdateRequestEight = $this->styleWishlist($this->wishlist($wishlist)[1]);
     $result = $service->spreadsheets->batchUpdate($spreadsheetId, $batchUpdateRequestEight);
 
-    $batchUpdateRequestNine = $this->conditionalFormatting($budget);
+    $batchUpdateRequestNine = $this->styleMoneyOwedHeader();
     $result = $service->spreadsheets->batchUpdate($spreadsheetId, $batchUpdateRequestNine);
+
+    $batchUpdateRequestTen = $this->styleMoneyOwed($this->moneyOwed($moneyOwed)[1]);
+    $result = $service->spreadsheets->batchUpdate($spreadsheetId, $batchUpdateRequestTen);
+
+    $batchUpdateRequestEleven = $this->conditionalFormatting($budget);
+    $result = $service->spreadsheets->batchUpdate($spreadsheetId, $batchUpdateRequestEleven);
 
     $this->variabalizeExpensesAmount($service, $spreadsheetId, $this->futureTransactions($budget)[1], $expenses);
     $this->variabalizeWishlistAmount($service, $spreadsheetId, $this->futureTransactions($budget)[1], $wishlist);

@@ -223,6 +223,13 @@ class Budgeting extends Base
     return $query;
   }
 
+  function getMoneyOwed(): string
+  {
+    $query = "SELECT concat(MoneyOwedFor, ' payback to ', MoneyOwedRecipient) AS title, planAmount AS planAmount, MoneyOwedAmount AS amountOwed, frequency AS frequency, 1 AS type FROM moneyOwed";
+
+    return $query;
+  }
+
   function calculateWishlist($index, $lastIncomeIndex, $amount, $balance, $lastIncomeYear, $lastIncomeMonth, $lastIncomeDay, $currentBalance, $budget): array
   {
     $query = $this->getWishlist();
