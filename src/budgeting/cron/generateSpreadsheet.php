@@ -911,7 +911,6 @@ class GenerateSpreadsheet extends Budgeting
     $cell = 5;
     $expensesStartCell = 114;
     $expensesEndCell = $expensesStartCell + $this->expenses($expenses)[1] - 1;
-    $j = 0;
 
     $result = $service->spreadsheets_values->get($spreadsheetId, 'B' . $cell . ':B' . $endCell);
     $numRows = $result->getValues() != null ? count($result->getValues()) : 0;
@@ -957,7 +956,6 @@ class GenerateSpreadsheet extends Budgeting
     $cell = 5;
     $expensesStartCell = 123;
     $expensesEndCell = $expensesStartCell + $this->wishlist($wishlist)[1] - 1;
-    $j = 0;
 
     $result = $service->spreadsheets_values->get($spreadsheetId, 'B' . $cell . ':B' . $endCell);
     $numRows = $result->getValues() != null ? count($result->getValues()) : 0;
@@ -969,6 +967,51 @@ class GenerateSpreadsheet extends Budgeting
       for($j = 0; $j < $numRowsTwo; $j++) {
         if($result->getValues()[$i][0] == $resultTwo->getValues()[$j][0]) {
           $this->overwriteWishlistAmountWithVariable($service, $spreadsheetId, $cell, $expensesStartCell + $j);
+        }
+      }
+
+      $cell++;
+    }
+  }
+
+  function overwriteMoneyOwedAmountWithVariable($service, $spreadsheetId, $cell, $expensesCell)
+  {
+    $values = [
+    [
+        // Cell values ...
+        '=$F$' . $expensesCell
+    ],
+    // Additional rows ...
+    ];
+
+    $body = new Google_Service_Sheets_ValueRange([
+        'values' => $values
+    ]);
+
+    $params = [
+        'valueInputOption' => 2
+    ];
+
+    $result = $service->spreadsheets_values->update($spreadsheetId, 'C' . $cell, $body, $params);
+  }
+
+  function variabalizeMoneyOwedAmount($service, $spreadsheetId, $endCell, $wishlist)
+  {
+    $cellValuePair = array();
+    $cell = 5;
+    $expensesStartCell = 123;
+    $expensesEndCell = $expensesStartCell + $this->wishlist($wishlist)[1] - 1;
+
+    $result = $service->spreadsheets_values->get($spreadsheetId, 'B' . $cell . ':B' . $endCell);
+    $numRows = $result->getValues() != null ? count($result->getValues()) : 0;
+
+    $resultTwo = $service->spreadsheets_values->get($spreadsheetId, 'E' . $expensesStartCell . ':E' . $expensesEndCell);
+    $numRowsTwo = $resultTwo->getValues() != null ? count($resultTwo->getValues()) : 0;
+
+    for($i = 0; $i < $numRows; $i++) {
+      for($j = 0; $j < $numRowsTwo; $j++) {
+        if($result->getValues()[$i][0] == $resultTwo->getValues()[$j][0]) {
+          $this->overwriteMoneyOwedAmountWithVariable($service, $spreadsheetId, $cell, $expensesStartCell + $j);
         }
       }
 
@@ -1144,6 +1187,7 @@ class GenerateSpreadsheet extends Budgeting
 
     $this->variabalizeExpensesAmount($service, $spreadsheetId, $this->futureTransactions($budget)[1], $expenses);
     $this->variabalizeWishlistAmount($service, $spreadsheetId, $this->futureTransactions($budget)[1], $wishlist);
+    $this->variabalizeMoneyOwedAmount($service, $spreadsheetId, $this->futureTransactions($budget)[1], $wishlist);
   }
 }
 $config = new Config();
