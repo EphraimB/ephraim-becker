@@ -789,28 +789,28 @@ class GenerateSpreadsheet extends Budgeting
             ],
             "top" => [
               "style" => "SOLID",
-              "width" => 1,
+              "width" => 3,
               "color" => [
                 "red" => 1.0
               ],
             ],
             "bottom" => [
               "style" => "SOLID",
-              "width" => 1,
+              "width" => 3,
               "color" => [
                 "red" => 1.0
               ],
             ],
             "right" => [
               "style" => "SOLID",
-              "width" => 1,
+              "width" => 3,
               "color" => [
                 "red" => 1.0
               ],
             ],
             "left" => [
               "style" => "SOLID",
-              "width" => 1,
+              "width" => 3,
               "color" => [
                 "red" => 1.0
               ],
