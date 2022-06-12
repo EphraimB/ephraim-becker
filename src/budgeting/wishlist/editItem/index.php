@@ -130,7 +130,7 @@ class EditItemForm extends Base
       </div>
       <br />
       <div class="row">
-        <label for="price">Enter cost of item (xxx.xx): </label>
+        <label for="price">Priority (lower number is higher): </label>
         &nbsp;
         <input type="number" min="0" max="' . $this->getNumOfWishlistItems()-1 . '" step="any" id="priority" name="priority" value="' . $priority . '" required />
       </div>

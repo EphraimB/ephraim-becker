@@ -244,6 +244,7 @@ class Budgeting extends Base
 
   function calculateWishlist($index, $lastIncomeIndex, $amount, $balance, $lastIncomeYear, $lastIncomeMonth, $lastIncomeDay, $currentBalance, $budget, $priorityStart): array
   {
+    $wishlist = array();
     $query = $this->getWishlist();
     $queryResult = mysqli_query($this->getLink(), $query);
 
@@ -267,6 +268,16 @@ class Budgeting extends Base
           "type" => $type
         )));
 
+        array_push($wishlist, array(
+          "year" => $lastIncomeYear,
+          "month" => $lastIncomeMonth,
+          "day" => $lastIncomeDay,
+          "title" => $title,
+          "amount" => number_format(round($wishlistAmount, 2), 2),
+          "balance" => $balance,
+          "type" => $type
+        ));
+
         $sql = $this->getLink()->prepare("UPDATE WantToBuy SET Finished=? WHERE WantToBuyId=?");
         $sql->bind_param('ii', $flag, $id);
 
@@ -280,7 +291,7 @@ class Budgeting extends Base
 
     $index++;
 
-    return array($index, $budget);
+    return array($index, $budget, $wishlist);
   }
 
   function loopWeeksUntilMonths($increment): string
