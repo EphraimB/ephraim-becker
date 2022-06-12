@@ -1039,7 +1039,7 @@ class GenerateSpreadsheet extends Budgeting
               'booleanRule' => [
                 'condition' => [
                   'type' => 'CUSTOM_FORMULA',
-                    'values' => [['userEnteredValue' => '=GT(D4, D3)']]
+                    'values' => [['userEnteredValue' => '=GT(D5, D4)']]
                   ],
                   'format' => [
                   'backgroundColor' => ['red' => 0.0, 'green' => 1.0, 'blue' => 0.0]
@@ -1056,7 +1056,7 @@ class GenerateSpreadsheet extends Budgeting
               'booleanRule' => [
                 'condition' => [
                   'type' => 'CUSTOM_FORMULA',
-                    'values' => [['userEnteredValue' => '=LT(D4, D3)']]
+                    'values' => [['userEnteredValue' => '=LT(D5, D4)']]
                   ],
                   'format' => [
                   'backgroundColor' => ['red' => 1.0, 'green' => 0.0, 'blue' => 0.0]
