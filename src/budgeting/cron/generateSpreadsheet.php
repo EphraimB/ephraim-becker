@@ -1075,6 +1075,43 @@ class GenerateSpreadsheet extends Budgeting
     return $batchUpdateRequest;
   }
 
+  function getConditionalFormats()
+  {
+
+  }
+
+  function clearFormatting()
+  {
+    $requests = [
+      new Google_Service_Sheets_Request([
+        "updateCells" => [
+          "range" => [
+            "sheetId" => 0
+          ],
+          "fields" => "userEnteredValue, userEnteredFormat"
+        ]
+      ]),
+      new Google_Service_Sheets_Request([
+        "deleteConditionalFormatRule" => [
+          "sheetId" => 0,
+          "index" => 0
+        ]
+      ]),
+      new Google_Service_Sheets_Request([
+        "deleteConditionalFormatRule" => [
+          "sheetId" => 0,
+          "index" => 0
+        ]
+      ])
+    ];
+
+    $batchUpdateRequest = new Google_Service_Sheets_BatchUpdateSpreadsheetRequest([
+      'requests' => $requests
+    ]);
+
+    return $batchUpdateRequest;
+  }
+
   function generateSpreadsheet(): void
   {
     $client = $this->getClient();
@@ -1083,6 +1120,8 @@ class GenerateSpreadsheet extends Budgeting
 
     // The ID of the spreadsheet to update.
     $spreadsheetId = '1aQUD3MkEMHnwN069EZW9dwsW6OVicOQ89P40nKVQwhI';
+
+    $result = $service->spreadsheets->batchUpdate($spreadsheetId, $this->clearFormatting());
 
     $budget = $this->calculateBudget($this->getCurrentBalance());
     $expenses = $this->getExpenses();
