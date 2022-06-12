@@ -13,6 +13,7 @@ class EditItem
   private $url;
   private $price;
   private $id;
+  private $priority;
 
   function __construct()
   {
@@ -87,16 +88,27 @@ class EditItem
     return $this->id;
   }
 
+  function setPriority($priority): void
+  {
+    $this->priority = $priority;
+  }
+
+  function getPriority(): int
+  {
+    return $this->priority;
+  }
+
   function editItem(): void
   {
-    $sql = $this->getLink()->prepare("UPDATE WantToBuy SET Item=?, Link=?, Price=?, DateModified=? WHERE WantToBuyId=?");
-    $sql->bind_param('ssdsi', $item, $url, $price, $now, $id);
+    $sql = $this->getLink()->prepare("UPDATE WantToBuy SET Item=?, Link=?, Price=?, DateModified=?, Priority=? WHERE WantToBuyId=?");
+    $sql->bind_param('ssdsii', $item, $url, $price, $now, $priority, $id);
 
     $now = date("Y-m-d H:i:s");
     $item = $this->getItem();
     $url = $this->getUrl();
     $price = $this->getPrice();
     $id = $this->getId();
+    $priority = $this->getPriority();
 
     $sql->execute();
 
@@ -114,5 +126,6 @@ $editItem->setItem($_POST['item']);
 $editItem->setUrl($_POST['link']);
 $editItem->setPrice(floatval($_POST['price']));
 $editItem->setId(intval($_POST['id']));
+$editItem->setPriority(intval($_POST['priority']));
 
 $editItem->editItem();

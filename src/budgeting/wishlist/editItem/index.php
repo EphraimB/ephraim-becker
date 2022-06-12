@@ -80,6 +80,18 @@ class EditItemForm extends Base
     return $html;
   }
 
+  function getNumOfWishlistItems(): int
+  {
+    $sql = "SELECT COUNT(WantToBuyId) AS wishlistAmount FROM WantToBuy";
+    $sqlResult = mysqli_query($this->getLink(), $sql);
+
+    while($row = mysqli_fetch_array($sqlResult)){
+      $wishlistAmount = intval($row['wishlistAmount']);
+    }
+
+    return $wishlistAmount;
+  }
+
   function editItemForm(): string
   {
     $sqlTwo = $this->getLink()->prepare("SELECT * FROM WantToBuy WHERE WantToBuyId=?");
@@ -95,6 +107,7 @@ class EditItemForm extends Base
       $item = $row['Item'];
       $link = $row['Link'];
       $price = $row['Price'];
+      $priority = $row['Priority'];
     }
 
     $sqlTwo->close();
@@ -114,6 +127,12 @@ class EditItemForm extends Base
         <label for="price">Enter cost of item (xxx.xx): </label>
         &nbsp;
         $<input type="number" min="0" step="any" id="price" name="price" value="' . $price . '" required />
+      </div>
+      <br />
+      <div class="row">
+        <label for="price">Enter cost of item (xxx.xx): </label>
+        &nbsp;
+        <input type="number" min="0" max="' . $this->getNumOfWishlistItems()-1 . '" step="any" id="priority" name="priority" value="' . $priority . '" required />
       </div>
       <br />
       <input type="hidden" name="id" value="' . $this->getId() . '" />
