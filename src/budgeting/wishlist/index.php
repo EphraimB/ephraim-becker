@@ -86,7 +86,7 @@ class Wishlist extends Base
     $html = '';
 
     if($transactions > 0) {
-      $sqlTwo = "SELECT * FROM WantToBuy";
+      $sqlTwo = "SELECT * FROM WantToBuy ORDER BY Priority";
       $sqlTwoResult = mysqli_query($this->getLink(), $sqlTwo);
 
         while($row = mysqli_fetch_array($sqlTwoResult)) {

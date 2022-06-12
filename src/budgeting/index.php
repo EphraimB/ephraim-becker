@@ -218,9 +218,21 @@ class Budgeting extends Base
 
   function getWishlist(): string
   {
-    $query = "SELECT WantToBuyId AS id, Item AS title, Price AS price, 3 AS frequency, 1 AS type FROM WantToBuy WHERE Finished = 0";
+    $query = "SELECT WantToBuyId AS id, Item AS title, Price AS price, 3 AS frequency, 1 AS type, Priority FROM WantToBuy WHERE Finished = 0 ORDER BY Priority";
 
     return $query;
+  }
+
+  function countWishList(): int
+  {
+    $sql = "SELECT COUNT(WantToBuyId) AS wishlistAmount FROM WantToBuy";
+    $sqlResult = mysqli_query($this->getLink(), $sql);
+
+    while($row = mysqli_fetch_array($sqlResult)){
+      $wishlistAmount = intval($row['wishlistAmount']);
+    }
+
+    return $wishlistAmount;
   }
 
   function getMoneyOwed(): string
@@ -230,7 +242,7 @@ class Budgeting extends Base
     return $query;
   }
 
-  function calculateWishlist($index, $lastIncomeIndex, $amount, $balance, $lastIncomeYear, $lastIncomeMonth, $lastIncomeDay, $currentBalance, $budget): array
+  function calculateWishlist($index, $lastIncomeIndex, $amount, $balance, $lastIncomeYear, $lastIncomeMonth, $lastIncomeDay, $currentBalance, $budget, $priorityStart): array
   {
     $query = $this->getWishlist();
     $queryResult = mysqli_query($this->getLink(), $query);
@@ -241,8 +253,9 @@ class Budgeting extends Base
       $wishlistAmount = floatval($row['price']);
       $frequency = $row['frequency'];
       $type = intval($row['type']);
+      $priority = intval($row['Priority']);
 
-      if($wishlistAmount < $balance) {
+      if($wishlistAmount < $balance && $priority == $priorityStart) {
         $balance = $this->calculateAmount($wishlistAmount, $type, $lastIncomeIndex+1, $currentBalance, $budget);
         array_splice($budget, $lastIncomeIndex+1, 0, array(array(
           "year" => $lastIncomeYear,
@@ -419,19 +432,24 @@ class Budgeting extends Base
     $lastIncomeMonth = date('n');
     $lastIncomeDay = date('j');
     $lastIncomeIndex = 0;
+    $priorityStart = 0;
 
-    for($k = 0; $k < count($budget); $k++) {
-      if($budget[$k]["type"] == 0) {
-        $wishlistInBudget = $this->calculateWishlist($k-1, $lastIncomeIndex, $budget[$k-1]["amount"], $budget[$k-1]["balance"], $lastIncomeYear, $lastIncomeMonth, $lastIncomeDay, $currentBalance, $budget);
-        $budget = $wishlistInBudget[1];
+    for($z = 0; $z < $this->countWishList(); $z++) {
+      for($k = 0; $k < count($budget); $k++) {
+        if($budget[$k]["type"] == 0) {
+          $wishlistInBudget = $this->calculateWishlist($k-1, $lastIncomeIndex, $budget[$k-1]["amount"], $budget[$k-1]["balance"], $lastIncomeYear, $lastIncomeMonth, $lastIncomeDay, $currentBalance, $budget, $priorityStart);
+          $budget = $wishlistInBudget[1];
 
-        $lastIncomeYear = $budget[$k]["year"];
-        $lastIncomeMonth = $budget[$k]["month"];
-        $lastIncomeDay = $budget[$k]["day"];
-        $lastIncomeIndex = $k;
+          $lastIncomeYear = $budget[$k]["year"];
+          $lastIncomeMonth = $budget[$k]["month"];
+          $lastIncomeDay = $budget[$k]["day"];
+          $lastIncomeIndex = $k;
 
-        $k = $wishlistInBudget[0];
+          $k = $wishlistInBudget[0];
+        }
       }
+
+      $priorityStart++;
     }
 
     $budget = $this->getSortArrayByDate($budget);
