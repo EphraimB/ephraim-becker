@@ -76,16 +76,29 @@ class AddToWishlist
     return $this->price;
   }
 
+  function getNumOfWishlistItems(): int
+  {
+    $sql = "SELECT COUNT(WantToBuyId) AS wishlistAmount FROM WantToBuy";
+    $sqlResult = mysqli_query($this->getLink(), $sql);
+
+    while($row = mysqli_fetch_array($sqlResult)){
+      $wishlistAmount = intval($row['wishlistAmount']);
+    }
+
+    return $wishlistAmount;
+  }
+
   function addToWishlist(): void
   {
-    $sql = $this->getLink()->prepare("INSERT INTO WantToBuy (Item, Link, Price, DateCreated, DateModified)
-    VALUES (?, ?, ?, ?, ?)");
-    $sql->bind_param('ssdss', $item, $url, $price, $now, $now);
+    $sql = $this->getLink()->prepare("INSERT INTO WantToBuy (Item, Link, Price, DateCreated, DateModified, Priority)
+    VALUES (?, ?, ?, ?, ?, ?)");
+    $sql->bind_param('ssdssi', $item, $url, $price, $now, $now, $priority);
 
     $now = date("Y-m-d H:i:s");
     $item = $this->getItem();
     $url = $this->getUrl();
     $price = $this->getPrice();
+    $priority = $this->getNumOfWishlistItems();
 
     $sql->execute();
 
