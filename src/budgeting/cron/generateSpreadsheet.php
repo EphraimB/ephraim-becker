@@ -1123,7 +1123,8 @@ class GenerateSpreadsheet extends Budgeting
 
     $result = $service->spreadsheets->batchUpdate($spreadsheetId, $this->clearFormatting());
 
-    $budget = $this->calculateBudget($this->getCurrentBalance());
+    $budget = $this->calculateBudget();
+    $budget = $this->calculateWishlistPreparation($budget);
     $expenses = $this->getExpenses();
     $foodExpenses = $this->getFoodExpenses();
     $wishlist = $this->getWishlistTable($this->getWishlist());
