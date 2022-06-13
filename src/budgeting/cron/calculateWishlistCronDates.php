@@ -43,168 +43,46 @@ class CalculateWishlistCronDates extends Budgeting
     return $this->cronTabManager;
   }
 
-  function calculateWishlist($index, $lastIncomeIndex, $amount, $balance, $lastIncomeYear, $lastIncomeMonth, $lastIncomeDay, $currentBalance, $budget): array
+  function getItemsInWishlist($budget): array
   {
     $wishlist = array();
-    $query = $this->getWishlist();
-    $queryResult = mysqli_query($this->getLink(), $query);
-
-    while($row = mysqli_fetch_array($queryResult)) {
-      $id = $row['id'];
-      $title = $row['title'];
-      $wishlistAmount = floatval($row['price']);
-      $frequency = $row['frequency'];
-      $type = intval($row['type']);
-
-      if($wishlistAmount < $balance) {
-        $balance = $this->calculateAmount($wishlistAmount, $type, $lastIncomeIndex+1, $currentBalance, $budget);
-
-        array_splice($budget, $lastIncomeIndex+1, 0, array(array(
-          "year" => $lastIncomeYear,
-          "month" => $lastIncomeMonth,
-          "day" => $lastIncomeDay,
-          "title" => $title,
-          "amount" => number_format(round($wishlistAmount, 2), 2),
-          "balance" => $balance,
-          "type" => $type
-        )));
-
-        array_push($wishlist, array(
-          "year" => $lastIncomeYear,
-          "month" => $lastIncomeMonth,
-          "day" => $lastIncomeDay,
-          "title" => $title,
-          "amount" => number_format(round($wishlistAmount, 2), 2),
-          "balance" => $balance,
-          "type" => $type
-        ));
-
-        $sql = $this->getLink()->prepare("UPDATE WantToBuy SET Finished=? WHERE WantToBuyId=?");
-        $sql->bind_param('ii', $flag, $id);
-
-        $flag = 1;
-
-        $sql->execute();
-
-        $index++;
-      }
-    }
-
-    $index++;
-
-    return array($index, $wishlist, $budget);
-  }
-
-  function fetchBudget(): array
-  {
-    $weeklyIndex = 0;
-    $budget = array();
-    $wishlist = array();
-    for($l = 0; $l < 3; $l++) {
-      $query = $this->expensesTableQuery($l);
-      $queryResult = mysqli_query($this->getLink(), $query);
-
-      while($row = mysqli_fetch_array($queryResult)) {
-        $title = $row['title'];
-        $amount = floatval($row['amount']);
-        $beginYear = $row['beginYear'];
-        $beginMonth = $row['beginMonth'];
-        $beginDay = $row['beginDay'];
-        $frequency = $row['frequency'];
-        $type = intval($row['type']);
-
-        array_push($budget, array(
-          "year" => $beginYear,
-          "month" => $beginMonth,
-          "day" => $beginDay,
-          "title" => $title,
-          "amount" => number_format(round($amount, 2), 2),
-          "balance" => 0,
-          "type" => $type
-        ));
-      }
-
-      for($j = 0; $j < 4; $j++) {
-        $queryTwo = $this->loopWeeksUntilMonths($weeklyIndex);
-        $queryTwoResult = mysqli_query($this->getLink(), $queryTwo);
-
-        while($rowTwo = mysqli_fetch_array($queryTwoResult)) {
-          $title = $rowTwo['title'];
-          $amount = floatval($rowTwo['amount']);
-          $beginYear = $rowTwo['beginYear'];
-          $beginMonth = $rowTwo['beginMonth'];
-          $beginDay = $rowTwo['beginDay'];
-          $frequency = $rowTwo['frequency'];
-          $type = intval($rowTwo['type']);
-
-          array_push($budget, array(
-            "year" => $beginYear,
-            "month" => $beginMonth,
-            "day" => $beginDay,
-            "title" => $title,
-            "amount" => number_format(round($amount, 2), 2),
-            "balance" => 0,
-            "type" => $type
-          ));
-        }
-
-        $weeklyIndex++;
-      }
-    }
-
-    $budget = $this->getSortArrayByDate($budget);
-
-    for($m = 0; $m < count($budget); $m++) {
-      $balance = $this->calculateAmount($budget[$m]["amount"], $budget[$m]["type"], $m, $this->getCurrentBalance(), $budget);
-
-      $budget[$m]["balance"] = $balance;
-    }
-
     $lastIncomeYear = date('Y');
     $lastIncomeMonth = date('n');
     $lastIncomeDay = date('j');
     $lastIncomeIndex = 0;
+    $priorityStart = 0;
 
-    for($k = 0; $k < count($budget); $k++) {
-      if($budget[$k]["type"] == 0 && $k > 0) {
-        $wishlistInBudget = $this->calculateWishlist($k-1, $lastIncomeIndex, $budget[$k-1]["amount"], $budget[$k-1]["balance"], $lastIncomeYear, $lastIncomeMonth, $lastIncomeDay, $this->getCurrentBalance(), $budget);
-        $wishlist = $wishlistInBudget[1];
-        $budget = $wishlistInBudget[2];
+    for($z = 0; $z < $this->countWishList(); $z++) {
+      for($k = 0; $k < count($budget); $k++) {
+        if($budget[$k]["type"] == 0) {
+          $wishlistInBudget = $this->calculateWishlist($k-1, $lastIncomeIndex, $budget[$k-1]["amount"], $budget[$k-1]["balance"], $lastIncomeYear, $lastIncomeMonth, $lastIncomeDay, $this->getCurrentBalance(), $budget, $wishlist, $priorityStart);
+          $wishlist = $wishlistInBudget[2];
 
-        $lastIncomeYear = $budget[$k]["year"];
-        $lastIncomeMonth = $budget[$k]["month"];
-        $lastIncomeDay = $budget[$k]["day"];
-        $lastIncomeIndex = $k;
+          $lastIncomeYear = $budget[$k]["year"];
+          $lastIncomeMonth = $budget[$k]["month"];
+          $lastIncomeDay = $budget[$k]["day"];
+          $lastIncomeIndex = $k;
 
-        $k = $wishlistInBudget[0];
+          $k = $wishlistInBudget[0];
+        }
       }
+
+      $priorityStart++;
     }
-
-    $budget = $this->getSortArrayByDate($budget);
-
-    for($m = 0; $m < count($budget); $m++) {
-      $balance = $this->calculateAmount($budget[$m]["amount"], $budget[$m]["type"], $m, $this->getCurrentBalance(), $budget);
-
-      $budget[$m]["balance"] = $balance;
-    }
-
-    $sql = $this->getLink()->prepare("UPDATE WantToBuy SET Finished=?");
-    $sql->bind_param('i', $flag);
-
-    $flag = 0;
-
-    $sql->execute();
 
     return $wishlist;
   }
 
   function setWithdrawalCronJob()
   {
-    $wishlist = $this->fetchBudget();
+    $budget = $this->calculateBudget($this->getCurrentBalance());
+
     $uniqueId = 'wishlist';
 
     $crontab = $this->getCronTabManager();
     $crontab->remove_cronjob('/id=' . $uniqueId . '/');
+
+    $wishlist = $this->getItemsInWishlist($budget);
 
     for($i = 0; $i < count($wishlist); $i++) {
       $title = addslashes($wishlist[$i]["title"]);

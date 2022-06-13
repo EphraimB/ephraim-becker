@@ -136,17 +136,17 @@ class Budgeting extends Base
     return $html;
   }
 
-  function calculateAmount($amount, $type, $index, $currentBalance, $budget): float
+  function calculateAmount($amount, $type, $index, $budget): float
   {
     if($type == 0) {
       if($index == 0) {
-        $result = $currentBalance + $amount;
+        $result = $this->getCurrentBalance() + $amount;
       } else {
         $result = $budget[$index - 1]["balance"] + $amount;
       }
     } else if($type == 1) {
       if($index == 0) {
-        $result = $currentBalance - $amount;
+        $result = $this->getCurrentBalance() - $amount;
       } else {
         $result = $budget[$index - 1]["balance"] - $amount;
       }
@@ -242,9 +242,8 @@ class Budgeting extends Base
     return $query;
   }
 
-  function calculateWishlist($index, $lastIncomeIndex, $amount, $balance, $lastIncomeYear, $lastIncomeMonth, $lastIncomeDay, $currentBalance, $budget, $priorityStart): array
+  function calculateWishlist($index, $lastIncomeIndex, $amount, $balance, $lastIncomeYear, $lastIncomeMonth, $lastIncomeDay, $currentBalance, $budget, $wishlist, $priorityStart): array
   {
-    $wishlist = array();
     $query = $this->getWishlist();
     $queryResult = mysqli_query($this->getLink(), $query);
 
@@ -257,7 +256,7 @@ class Budgeting extends Base
       $priority = intval($row['Priority']);
 
       if($wishlistAmount < $balance && $priority == $priorityStart) {
-        $balance = $this->calculateAmount($wishlistAmount, $type, $lastIncomeIndex+1, $currentBalance, $budget);
+        $balance = $this->calculateAmount($wishlistAmount, $type, $lastIncomeIndex+1, $budget);
         array_splice($budget, $lastIncomeIndex+1, 0, array(array(
           "year" => $lastIncomeYear,
           "month" => $lastIncomeMonth,
@@ -374,7 +373,7 @@ class Budgeting extends Base
     return $foodExpenses;
   }
 
-  function calculateBudget($currentBalance): array
+  function calculateBudget(): array
   {
     $weeklyIndex = 0;
     $budget = array();
@@ -434,11 +433,17 @@ class Budgeting extends Base
     $budget = $this->getSortArrayByDate($budget);
 
     for($m = 0; $m < count($budget); $m++) {
-      $balance = $this->calculateAmount($budget[$m]["amount"], $budget[$m]["type"], $m, $currentBalance, $budget);
+      $balance = $this->calculateAmount($budget[$m]["amount"], $budget[$m]["type"], $m, $budget);
 
       $budget[$m]["balance"] = $balance;
     }
 
+    return $budget;
+  }
+
+  function calculateWishlistPreparation($budget): array
+  {
+    $wishlist = array();
     $lastIncomeYear = date('Y');
     $lastIncomeMonth = date('n');
     $lastIncomeDay = date('j');
@@ -448,7 +453,7 @@ class Budgeting extends Base
     for($z = 0; $z < $this->countWishList(); $z++) {
       for($k = 0; $k < count($budget); $k++) {
         if($budget[$k]["type"] == 0) {
-          $wishlistInBudget = $this->calculateWishlist($k-1, $lastIncomeIndex, $budget[$k-1]["amount"], $budget[$k-1]["balance"], $lastIncomeYear, $lastIncomeMonth, $lastIncomeDay, $currentBalance, $budget, $priorityStart);
+          $wishlistInBudget = $this->calculateWishlist($k-1, $lastIncomeIndex, $budget[$k-1]["amount"], $budget[$k-1]["balance"], $lastIncomeYear, $lastIncomeMonth, $lastIncomeDay, $this->getCurrentBalance(), $budget, $wishlist, $priorityStart);
           $budget = $wishlistInBudget[1];
 
           $lastIncomeYear = $budget[$k]["year"];
@@ -466,7 +471,7 @@ class Budgeting extends Base
     $budget = $this->getSortArrayByDate($budget);
 
     for($m = 0; $m < count($budget); $m++) {
-      $balance = $this->calculateAmount($budget[$m]["amount"], $budget[$m]["type"], $m, $currentBalance, $budget);
+      $balance = $this->calculateAmount($budget[$m]["amount"], $budget[$m]["type"], $m, $budget);
 
       $budget[$m]["balance"] = $balance;
     }
@@ -481,7 +486,7 @@ class Budgeting extends Base
     return $budget;
   }
 
-  function displayExpensesTable($currentBalance): string
+  function displayExpensesTable(): string
   {
     $html = '
     <table>
@@ -492,7 +497,8 @@ class Budgeting extends Base
           <th>Balance</th>
         </tr>';
 
-    $budget = $this->calculateBudget($currentBalance);
+    $budget = $this->calculateBudget();
+    $budget = $this->calculateWishlistPreparation($budget);
 
     for($j = 0; $j < count($budget); $j++) {
       $html .= '<tr style="color: white;';
@@ -526,7 +532,7 @@ class Budgeting extends Base
     $html = $this->displayCurrentBalance()[1];
     $html .= $this->displayActionButtons();
     $html .= '<br />';
-    $html .= $this->displayExpensesTable($currentBalance);
+    $html .= $this->displayExpensesTable();
 
     return $html;
   }
