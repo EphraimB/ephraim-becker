@@ -16,6 +16,7 @@ class GenerateSpreadsheet extends Budgeting
   private $expenses;
   private $foodExpenses;
   private $wishlist;
+  private $moneyOwed;
 
   function __construct()
   {
@@ -223,14 +224,14 @@ class GenerateSpreadsheet extends Budgeting
     return $values;
   }
 
-  function moneyOwed($moneyOwed)
+  function moneyOwed()
   {
     $values = array();
     $columnStart = $this->foodExpenses()[2]+4;
     $columnEnd = $this->foodExpenses()[2]+4;
 
-    for($j = 0; $j < count($moneyOwed); $j++) {
-      array_push($values, array($moneyOwed[$j]["title"], '$' . $moneyOwed[$j]["planAmount"], '$' . $moneyOwed[$j]["moneyOwedAmount"]));
+    for($j = 0; $j < count($this->moneyOwed); $j++) {
+      array_push($values, array($this->moneyOwed[$j]["title"], '$' . $this->moneyOwed[$j]["planAmount"], '$' . $this->moneyOwed[$j]["moneyOwedAmount"]));
 
       $columnEnd++;
     }
@@ -251,7 +252,7 @@ class GenerateSpreadsheet extends Budgeting
     return $values;
   }
 
-  function commuteExpenses($commuteExpenses, $moneyOwed)
+  function commuteExpenses($commuteExpenses)
   {
     $values = array();
     $transportationMethod = '';
@@ -260,8 +261,8 @@ class GenerateSpreadsheet extends Budgeting
     $day = 0;
     $timeOfDays = ["Morning", "Afternoon", "Evening"];
     $timeOfDay = '';
-    $columnStart = $this->moneyOwed($moneyOwed)[2]+4;
-    $columnEnd = $this->moneyOwed($moneyOwed)[2]+4;
+    $columnStart = $this->moneyOwed($this->moneyOwed)[2]+4;
+    $columnEnd = $this->moneyOwed($this->moneyOwed)[2]+4;
 
     for($j = 0; $j < count($commuteExpenses); $j++) {
       if($commuteExpenses[$j]["zoneOfTransportation"] == 0) {
@@ -919,7 +920,7 @@ class GenerateSpreadsheet extends Budgeting
     return $batchUpdateRequest;
   }
 
-  function styleCommuteExpensesHeader($moneyOwed)
+  function styleCommuteExpensesHeader()
   {
     $requests = [
     new Google_Service_Sheets_Request([
@@ -927,8 +928,8 @@ class GenerateSpreadsheet extends Budgeting
             'fields' => 'userEnteredFormat',
             "range" => [
               "sheetId" => 0,
-              'startRowIndex' => $this->moneyOwed($moneyOwed)[2]+2,
-              'endRowIndex' => $this->moneyOwed($moneyOwed)[2]+3,
+              'startRowIndex' => $this->moneyOwed()[2]+2,
+              'endRowIndex' => $this->moneyOwed()[2]+3,
               'startColumnIndex' => 4,
               'endColumnIndex' => 9,
             ],
@@ -953,7 +954,7 @@ class GenerateSpreadsheet extends Budgeting
     return $batchUpdateRequest;
   }
 
-  function styleCommuteExpenses($numRows, $moneyOwed)
+  function styleCommuteExpenses($numRows)
   {
     $requests = [
       new Google_Service_Sheets_Request([
@@ -961,8 +962,8 @@ class GenerateSpreadsheet extends Budgeting
             'fields' => 'userEnteredFormat',
             "range" => [
               "sheetId" => 0,
-              'startRowIndex' => $this->moneyOwed($moneyOwed)[2]+3,
-              'endRowIndex' => $this->moneyOwed($moneyOwed)[2]+3 + $numRows,
+              'startRowIndex' => $this->moneyOwed()[2]+3,
+              'endRowIndex' => $this->moneyOwed()[2]+3 + $numRows,
               'startColumnIndex' => 4,
               'endColumnIndex' => 5,
             ],
@@ -980,8 +981,8 @@ class GenerateSpreadsheet extends Budgeting
           "updateBorders" => [
             "range" => [
               "sheetId" => 0,
-              "startRowIndex" => $this->moneyOwed($moneyOwed)[2]+2,
-              "endRowIndex" => $this->moneyOwed($moneyOwed)[2]+3 + $numRows,
+              "startRowIndex" => $this->moneyOwed()[2]+2,
+              "endRowIndex" => $this->moneyOwed()[2]+3 + $numRows,
               "startColumnIndex" => 4,
               "endColumnIndex" => 9
             ],
@@ -1019,8 +1020,8 @@ class GenerateSpreadsheet extends Budgeting
           "updateBorders" => [
             "range" => [
               "sheetId" => 0,
-              "startRowIndex" => $this->moneyOwed($moneyOwed)[2]+3 + $numRows - 2,
-              "endRowIndex" => $this->moneyOwed($moneyOwed)[2]+3 + $numRows - 1,
+              "startRowIndex" => $this->moneyOwed()[2]+3 + $numRows - 2,
+              "endRowIndex" => $this->moneyOwed()[2]+3 + $numRows - 1,
               "startColumnIndex" => 4,
               "endColumnIndex" => 9
             ],
@@ -1193,12 +1194,12 @@ class GenerateSpreadsheet extends Budgeting
     $result = $service->spreadsheets_values->update($spreadsheetId, 'C' . $cell, $body, $params);
   }
 
-  function variabalizeMoneyOwedAmount($service, $spreadsheetId, $endCell, $moneyOwed)
+  function variabalizeMoneyOwedAmount($service, $spreadsheetId, $endCell)
   {
     $cellValuePair = array();
     $cell = 5;
     $expensesStartCell = $this->foodExpenses()[2]+4;
-    $expensesEndCell = $expensesStartCell + $this->moneyOwed($moneyOwed)[1] - 1;
+    $expensesEndCell = $expensesStartCell + $this->moneyOwed()[1] - 1;
 
     $result = $service->spreadsheets_values->get($spreadsheetId, 'B' . $cell . ':B' . $endCell);
     $numRows = $result->getValues() != null ? count($result->getValues()) : 0;
@@ -1325,7 +1326,7 @@ class GenerateSpreadsheet extends Budgeting
     $this->expenses = $this->getExpenses();
     $this->foodExpenses = $this->getFoodExpenses();
     $this->wishlist = $this->getWishlistTable($this->getWishlist());
-    $moneyOwed = $this->getMoneyOwedTable($this->getMoneyOwed());
+    $this->moneyOwed = $this->getMoneyOwedTable($this->getMoneyOwed());
     $commuteExpenses = $this->getCommuteExpenses();
 
     $data = [];
@@ -1382,17 +1383,17 @@ class GenerateSpreadsheet extends Budgeting
 
     $data[] = new Google_Service_Sheets_ValueRange([
       'range' => 'E' . $this->foodExpenses()[2]+4,
-      'values' => $this->moneyOwed($moneyOwed)[0]
+      'values' => $this->moneyOwed()[0]
     ]);
 
     $data[] = new Google_Service_Sheets_ValueRange([
-      'range' => 'E' . $this->moneyOwed($moneyOwed)[2]+3,
+      'range' => 'E' . $this->moneyOwed()[2]+3,
       'values' => $this->commuteExpensesHeader()
     ]);
 
     $data[] = new Google_Service_Sheets_ValueRange([
-      'range' => 'E' . $this->moneyOwed($moneyOwed)[2]+4,
-      'values' => $this->commuteExpenses($commuteExpenses, $moneyOwed)[0]
+      'range' => 'E' . $this->moneyOwed()[2]+4,
+      'values' => $this->commuteExpenses($commuteExpenses)[0]
     ]);
 
     $body = new Google_Service_Sheets_BatchUpdateValuesRequest([
@@ -1429,13 +1430,13 @@ class GenerateSpreadsheet extends Budgeting
     $batchUpdateRequestNine = $this->styleMoneyOwedHeader();
     $result = $service->spreadsheets->batchUpdate($spreadsheetId, $batchUpdateRequestNine);
 
-    $batchUpdateRequestTen = $this->styleMoneyOwed($this->moneyOwed($moneyOwed)[1]);
+    $batchUpdateRequestTen = $this->styleMoneyOwed($this->moneyOwed()[1]);
     $result = $service->spreadsheets->batchUpdate($spreadsheetId, $batchUpdateRequestTen);
 
-    $batchUpdateRequestEleven = $this->styleCommuteExpensesHeader($moneyOwed);
+    $batchUpdateRequestEleven = $this->styleCommuteExpensesHeader();
     $result = $service->spreadsheets->batchUpdate($spreadsheetId, $batchUpdateRequestEleven);
 
-    $batchUpdateRequestTwelve = $this->styleCommuteExpenses($this->commuteExpenses($commuteExpenses, $moneyOwed)[1], $moneyOwed);
+    $batchUpdateRequestTwelve = $this->styleCommuteExpenses($this->commuteExpenses($commuteExpenses)[1]);
     $result = $service->spreadsheets->batchUpdate($spreadsheetId, $batchUpdateRequestTwelve);
 
     $batchUpdateRequestThirteen = $this->conditionalFormatting();
@@ -1443,7 +1444,7 @@ class GenerateSpreadsheet extends Budgeting
 
     $this->variabalizeExpensesAmount($service, $spreadsheetId, $this->futureTransactions()[1]);
     $this->variabalizeWishlistAmount($service, $spreadsheetId, $this->futureTransactions()[1]);
-    $this->variabalizeMoneyOwedAmount($service, $spreadsheetId, $this->futureTransactions()[1], $moneyOwed);
+    $this->variabalizeMoneyOwedAmount($service, $spreadsheetId, $this->futureTransactions()[1]);
   }
 }
 $config = new Config();
