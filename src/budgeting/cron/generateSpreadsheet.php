@@ -15,6 +15,7 @@ class GenerateSpreadsheet extends Budgeting
   private $budget;
   private $expenses;
   private $foodExpenses;
+  private $wishlist;
 
   function __construct()
   {
@@ -194,14 +195,14 @@ class GenerateSpreadsheet extends Budgeting
     return $values;
   }
 
-  function wishlist($wishlist)
+  function wishlist()
   {
     $values = array();
     $columnStart = $this->expenses()[2]+4;
     $columnEnd = $this->expenses()[2]+4;
 
-    for($j = 0; $j < count($wishlist); $j++) {
-      array_push($values, array($wishlist[$j]["title"], '$' . $wishlist[$j]["amount"]));
+    for($j = 0; $j < count($this->wishlist); $j++) {
+      array_push($values, array($this->wishlist[$j]["title"], '$' . $this->wishlist[$j]["amount"]));
 
       $columnEnd++;
     }
@@ -1147,12 +1148,12 @@ class GenerateSpreadsheet extends Budgeting
     $result = $service->spreadsheets_values->update($spreadsheetId, 'C' . $cell, $body, $params);
   }
 
-  function variabalizeWishlistAmount($service, $spreadsheetId, $endCell, $wishlist)
+  function variabalizeWishlistAmount($service, $spreadsheetId, $endCell)
   {
     $cellValuePair = array();
     $cell = 5;
     $expensesStartCell = $this->expenses()[2]+4;
-    $expensesEndCell = $expensesStartCell + $this->wishlist($wishlist)[1] - 1;
+    $expensesEndCell = $expensesStartCell + $this->wishlist()[1] - 1;
 
     $result = $service->spreadsheets_values->get($spreadsheetId, 'B' . $cell . ':B' . $endCell);
     $numRows = $result->getValues() != null ? count($result->getValues()) : 0;
@@ -1192,12 +1193,12 @@ class GenerateSpreadsheet extends Budgeting
     $result = $service->spreadsheets_values->update($spreadsheetId, 'C' . $cell, $body, $params);
   }
 
-  function variabalizeMoneyOwedAmount($service, $spreadsheetId, $endCell, $wishlist)
+  function variabalizeMoneyOwedAmount($service, $spreadsheetId, $endCell, $moneyOwed)
   {
     $cellValuePair = array();
     $cell = 5;
     $expensesStartCell = $this->foodExpenses()[2]+4;
-    $expensesEndCell = $expensesStartCell + $this->moneyOwed($wishlist)[1] - 1;
+    $expensesEndCell = $expensesStartCell + $this->moneyOwed($moneyOwed)[1] - 1;
 
     $result = $service->spreadsheets_values->get($spreadsheetId, 'B' . $cell . ':B' . $endCell);
     $numRows = $result->getValues() != null ? count($result->getValues()) : 0;
@@ -1323,7 +1324,7 @@ class GenerateSpreadsheet extends Budgeting
 
     $this->expenses = $this->getExpenses();
     $this->foodExpenses = $this->getFoodExpenses();
-    $wishlist = $this->getWishlistTable($this->getWishlist());
+    $this->wishlist = $this->getWishlistTable($this->getWishlist());
     $moneyOwed = $this->getMoneyOwedTable($this->getMoneyOwed());
     $commuteExpenses = $this->getCommuteExpenses();
 
@@ -1371,7 +1372,7 @@ class GenerateSpreadsheet extends Budgeting
 
     $data[] = new Google_Service_Sheets_ValueRange([
       'range' => 'B' . $this->expenses()[2]+4,
-      'values' => $this->wishlist($wishlist)[0]
+      'values' => $this->wishlist()[0]
     ]);
 
     $data[] = new Google_Service_Sheets_ValueRange([
@@ -1422,7 +1423,7 @@ class GenerateSpreadsheet extends Budgeting
     $batchUpdateRequestSeven = $this->styleWishlistHeader();
     $result = $service->spreadsheets->batchUpdate($spreadsheetId, $batchUpdateRequestSeven);
 
-    $batchUpdateRequestEight = $this->styleWishlist($this->wishlist($wishlist)[1]);
+    $batchUpdateRequestEight = $this->styleWishlist($this->wishlist()[1]);
     $result = $service->spreadsheets->batchUpdate($spreadsheetId, $batchUpdateRequestEight);
 
     $batchUpdateRequestNine = $this->styleMoneyOwedHeader();
@@ -1441,8 +1442,8 @@ class GenerateSpreadsheet extends Budgeting
     $result = $service->spreadsheets->batchUpdate($spreadsheetId, $batchUpdateRequestThirteen);
 
     $this->variabalizeExpensesAmount($service, $spreadsheetId, $this->futureTransactions()[1]);
-    $this->variabalizeWishlistAmount($service, $spreadsheetId, $this->futureTransactions()[1], $wishlist);
-    $this->variabalizeMoneyOwedAmount($service, $spreadsheetId, $this->futureTransactions()[1], $wishlist);
+    $this->variabalizeWishlistAmount($service, $spreadsheetId, $this->futureTransactions()[1]);
+    $this->variabalizeMoneyOwedAmount($service, $spreadsheetId, $this->futureTransactions()[1], $moneyOwed);
   }
 }
 $config = new Config();
