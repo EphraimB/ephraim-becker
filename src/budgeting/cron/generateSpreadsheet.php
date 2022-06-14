@@ -17,6 +17,7 @@ class GenerateSpreadsheet extends Budgeting
   private $foodExpenses;
   private $wishlist;
   private $moneyOwed;
+  private $commuteExpenses;
 
   function __construct()
   {
@@ -252,7 +253,7 @@ class GenerateSpreadsheet extends Budgeting
     return $values;
   }
 
-  function commuteExpenses($commuteExpenses)
+  function commuteExpenses()
   {
     $values = array();
     $transportationMethod = '';
@@ -264,39 +265,39 @@ class GenerateSpreadsheet extends Budgeting
     $columnStart = $this->moneyOwed($this->moneyOwed)[2]+4;
     $columnEnd = $this->moneyOwed($this->moneyOwed)[2]+4;
 
-    for($j = 0; $j < count($commuteExpenses); $j++) {
-      if($commuteExpenses[$j]["zoneOfTransportation"] == 0) {
+    for($j = 0; $j < count($this->commuteExpenses); $j++) {
+      if($this->commuteExpenses[$j]["zoneOfTransportation"] == 0) {
         $transportationMethod = "NYC Subway";
         $zone = "N/A";
-      } else if($commuteExpenses[$j]["zoneOfTransportation"] == 1) {
+      } else if($this->commuteExpenses[$j]["zoneOfTransportation"] == 1) {
         $transportationMethod = "Long Island Rail Road";
         $zone = "1";
-      } else if($commuteExpenses[$j]["zoneOfTransportation"] == 2) {
+      } else if($this->commuteExpenses[$j]["zoneOfTransportation"] == 2) {
         $transportationMethod = "Metro North";
         $zone = "Riverdale Area";
-      } else if($commuteExpenses[$j]["zoneOfTransportation"] == 3) {
+      } else if($this->commuteExpenses[$j]["zoneOfTransportation"] == 3) {
         $transportationMethod = "Long Island Rail Road";
         $zone = "3";
-      } else if($commuteExpenses[$j]["zoneOfTransportation"] == 4) {
+      } else if($this->commuteExpenses[$j]["zoneOfTransportation"] == 4) {
         $transportationMethod = "Long Island Rail Road";
         $zone = "4";
-      } else if($commuteExpenses[$j]["zoneOfTransportation"] == 5) {
+      } else if($this->commuteExpenses[$j]["zoneOfTransportation"] == 5) {
         $transportationMethod = "Metro North";
         $zone = "White Plains Area";
-      } else if($commuteExpenses[$j]["zoneOfTransportation"] == 7) {
+      } else if($this->commuteExpenses[$j]["zoneOfTransportation"] == 7) {
         $transportationMethod = "Long Island Rail Road";
         $zone = "7";
       }
 
       for($k = 0; $k < count($days); $k++) {
-        $day = $days[$commuteExpenses[$j]["day"]];
+        $day = $days[$this->commuteExpenses[$j]["day"]];
       }
 
       for($l = 0; $l < count($days); $l++) {
-        $timeOfDay = $timeOfDays[$commuteExpenses[$j]["timeOfDay"]];
+        $timeOfDay = $timeOfDays[$this->commuteExpenses[$j]["timeOfDay"]];
       }
 
-      array_push($values, array($transportationMethod, $zone, $day, $timeOfDay, '$' . $commuteExpenses[$j]["amount"]));
+      array_push($values, array($transportationMethod, $zone, $day, $timeOfDay, '$' . $this->commuteExpenses[$j]["amount"]));
 
       $columnEnd++;
     }
@@ -1327,7 +1328,7 @@ class GenerateSpreadsheet extends Budgeting
     $this->foodExpenses = $this->getFoodExpenses();
     $this->wishlist = $this->getWishlistTable($this->getWishlist());
     $this->moneyOwed = $this->getMoneyOwedTable($this->getMoneyOwed());
-    $commuteExpenses = $this->getCommuteExpenses();
+    $this->commuteExpenses = $this->getCommuteExpenses();
 
     $data = [];
 
@@ -1393,7 +1394,7 @@ class GenerateSpreadsheet extends Budgeting
 
     $data[] = new Google_Service_Sheets_ValueRange([
       'range' => 'E' . $this->moneyOwed()[2]+4,
-      'values' => $this->commuteExpenses($commuteExpenses)[0]
+      'values' => $this->commuteExpenses()[0]
     ]);
 
     $body = new Google_Service_Sheets_BatchUpdateValuesRequest([
@@ -1436,7 +1437,7 @@ class GenerateSpreadsheet extends Budgeting
     $batchUpdateRequestEleven = $this->styleCommuteExpensesHeader();
     $result = $service->spreadsheets->batchUpdate($spreadsheetId, $batchUpdateRequestEleven);
 
-    $batchUpdateRequestTwelve = $this->styleCommuteExpenses($this->commuteExpenses($commuteExpenses)[1]);
+    $batchUpdateRequestTwelve = $this->styleCommuteExpenses($this->commuteExpenses()[1]);
     $result = $service->spreadsheets->batchUpdate($spreadsheetId, $batchUpdateRequestTwelve);
 
     $batchUpdateRequestThirteen = $this->conditionalFormatting();
