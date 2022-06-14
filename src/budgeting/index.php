@@ -373,6 +373,32 @@ class Budgeting extends Base
     return $foodExpenses;
   }
 
+  function getCommuteExpenses(): array
+  {
+    $commuteExpenses = array();
+
+    $query = "SELECT ZoneOfTransportation, CommuteDayId AS day, CommutePeriodId AS timeOfDay, PeakId AS isPeak, Price AS amount FROM CommutePlan ORDER BY day, timeOfDay";
+    $queryResult = mysqli_query($this->getLink(), $query);
+
+    while($row = mysqli_fetch_array($queryResult)) {
+      $zoneOfTransportation = $row['ZoneOfTransportation'];
+      $day = $row['day'];
+      $timeOfDay = $row['timeOfDay'];
+      $isPeak = $row['isPeak'];
+      $amount = floatval($row['amount']);
+
+      array_push($commuteExpenses, array(
+        "zoneOfTransportation" => $zoneOfTransportation,
+        "day" => $day,
+        "timeOfDay" => $timeOfDay,
+        "isPeak" => $isPeak,
+        "amount" => $amount,
+      ));
+    }
+
+    return $commuteExpenses;
+  }
+
   function calculateBudget(): array
   {
     $weeklyIndex = 0;

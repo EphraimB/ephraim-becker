@@ -234,6 +234,71 @@ class GenerateSpreadsheet extends Budgeting
     return array($values, $j+1, $columnEnd);
   }
 
+  function commuteExpensesHeader()
+  {
+    $values = [
+      [
+        "Transportation Method", "Zone", "Day", "Time of day", "Amount"
+      ]
+    ];
+
+    return $values;
+  }
+
+  function commuteExpenses($commuteExpenses, $moneyOwed, $foodExpenses)
+  {
+    $values = array();
+    $transportationMethod = '';
+    $zone = '';
+    $days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Shabbat'];
+    $day = 0;
+    $timeOfDays = ["Morning", "Afternoon", "Evening"];
+    $timeOfDay = '';
+    $columnStart = $this->moneyOwed($moneyOwed, $foodExpenses)[2]+4;
+    $columnEnd = $this->moneyOwed($moneyOwed, $foodExpenses)[2]+4;
+
+    for($j = 0; $j < count($commuteExpenses); $j++) {
+      if($commuteExpenses[$j]["zoneOfTransportation"] == 0) {
+        $transportationMethod = "NYC Subway";
+        $zone = "N/A";
+      } else if($commuteExpenses[$j]["zoneOfTransportation"] == 1) {
+        $transportationMethod = "Long Island Rail Road";
+        $zone = "1";
+      } else if($commuteExpenses[$j]["zoneOfTransportation"] == 2) {
+        $transportationMethod = "Metro North";
+        $zone = "Riverdale Area";
+      } else if($commuteExpenses[$j]["zoneOfTransportation"] == 3) {
+        $transportationMethod = "Long Island Rail Road";
+        $zone = "3";
+      } else if($commuteExpenses[$j]["zoneOfTransportation"] == 4) {
+        $transportationMethod = "Long Island Rail Road";
+        $zone = "4";
+      } else if($commuteExpenses[$j]["zoneOfTransportation"] == 5) {
+        $transportationMethod = "Metro North";
+        $zone = "White Plains Area";
+      } else if($commuteExpenses[$j]["zoneOfTransportation"] == 7) {
+        $transportationMethod = "Long Island Rail Road";
+        $zone = "7";
+      }
+
+      for($k = 0; $k < count($days); $k++) {
+        $day = $days[$commuteExpenses[$j]["day"]];
+      }
+
+      for($l = 0; $l < count($days); $l++) {
+        $timeOfDay = $timeOfDays[$commuteExpenses[$j]["timeOfDay"]];
+      }
+
+      array_push($values, array($transportationMethod, $zone, $day, $timeOfDay, '$' . $commuteExpenses[$j]["amount"]));
+
+      $columnEnd++;
+    }
+
+    array_push($values, array('Total', '', '', '', '=sum(I' . $columnStart . ':I' . $columnEnd - 1 . ')'));
+
+    return array($values, $j+1, $columnEnd);
+  }
+
   function styleTitle()
   {
     $requests = [
@@ -848,6 +913,131 @@ class GenerateSpreadsheet extends Budgeting
     return $batchUpdateRequest;
   }
 
+  function styleCommuteExpensesHeader($moneyOwed, $foodExpenses)
+  {
+    $requests = [
+    new Google_Service_Sheets_Request([
+        'repeatCell' => [
+            'fields' => 'userEnteredFormat',
+            "range" => [
+              "sheetId" => 0,
+              'startRowIndex' => $this->moneyOwed($moneyOwed, $foodExpenses)[2]+2,
+              'endRowIndex' => $this->moneyOwed($moneyOwed, $foodExpenses)[2]+3,
+              'startColumnIndex' => 4,
+              'endColumnIndex' => 9,
+            ],
+            'cell' => [
+                'userEnteredFormat' => [
+                  "horizontalAlignment" => "CENTER",
+                  'textFormat' => [
+                    'bold' => true,
+                    'fontSize' => 10,
+                  ]
+                ]
+            ],
+          ],
+        ])
+    ];
+
+    // add request to batchUpdate
+    $batchUpdateRequest = new Google_Service_Sheets_BatchUpdateSpreadsheetRequest([
+      'requests' => $requests
+    ]);
+
+    return $batchUpdateRequest;
+  }
+
+  function styleCommuteExpenses($numRows, $moneyOwed, $foodExpenses)
+  {
+    $requests = [
+      new Google_Service_Sheets_Request([
+        'repeatCell' => [
+            'fields' => 'userEnteredFormat',
+            "range" => [
+              "sheetId" => 0,
+              'startRowIndex' => $this->moneyOwed($moneyOwed, $foodExpenses)[2]+3,
+              'endRowIndex' => $this->moneyOwed($moneyOwed, $foodExpenses)[2]+3 + $numRows,
+              'startColumnIndex' => 4,
+              'endColumnIndex' => 5,
+            ],
+            'cell' => [
+                'userEnteredFormat' => [
+                  'textFormat' => [
+                    'bold' => true,
+                    'fontSize' => 10,
+                  ]
+                ]
+            ],
+          ],
+        ]),
+        new Google_Service_Sheets_Request([
+          "updateBorders" => [
+            "range" => [
+              "sheetId" => 0,
+              "startRowIndex" => $this->moneyOwed($moneyOwed, $foodExpenses)[2]+2,
+              "endRowIndex" => $this->moneyOwed($moneyOwed, $foodExpenses)[2]+3 + $numRows,
+              "startColumnIndex" => 4,
+              "endColumnIndex" => 9
+            ],
+            "top" => [
+              "style" => "SOLID",
+              "width" => 2,
+              "color" => [
+                "red" => 1.0
+              ],
+            ],
+            "bottom" => [
+              "style" => "SOLID",
+              "width" => 2,
+              "color" => [
+                "red" => 1.0
+              ],
+            ],
+            "right" => [
+              "style" => "SOLID",
+              "width" => 2,
+              "color" => [
+                "red" => 1.0
+              ],
+            ],
+            "left" => [
+              "style" => "SOLID",
+              "width" => 2,
+              "color" => [
+                "red" => 1.0
+              ],
+            ],
+          ]
+        ]),
+        new Google_Service_Sheets_Request([
+          "updateBorders" => [
+            "range" => [
+              "sheetId" => 0,
+              "startRowIndex" => $this->moneyOwed($moneyOwed, $foodExpenses)[2]+3 + $numRows - 2,
+              "endRowIndex" => $this->moneyOwed($moneyOwed, $foodExpenses)[2]+3 + $numRows - 1,
+              "startColumnIndex" => 4,
+              "endColumnIndex" => 9
+            ],
+            "bottom" => [
+              "style" => "SOLID",
+              "width" => 1,
+              "color" => [
+                "red" => 0.0,
+                "green" => 0.0,
+                "blue" => 0.0
+              ],
+            ],
+          ]
+        ])
+    ];
+
+    $batchUpdateRequest = new Google_Service_Sheets_BatchUpdateSpreadsheetRequest([
+      'requests' => $requests
+    ]);
+
+    return $batchUpdateRequest;
+  }
+
   function getWishlistTable($query)
   {
     $wishlist = array();
@@ -1129,6 +1319,7 @@ class GenerateSpreadsheet extends Budgeting
     $foodExpenses = $this->getFoodExpenses();
     $wishlist = $this->getWishlistTable($this->getWishlist());
     $moneyOwed = $this->getMoneyOwedTable($this->getMoneyOwed());
+    $commuteExpenses = $this->getCommuteExpenses();
 
     $data = [];
 
@@ -1187,6 +1378,16 @@ class GenerateSpreadsheet extends Budgeting
       'values' => $this->moneyOwed($moneyOwed, $foodExpenses)[0]
     ]);
 
+    $data[] = new Google_Service_Sheets_ValueRange([
+      'range' => 'E' . $this->moneyOwed($moneyOwed, $foodExpenses)[2]+3,
+      'values' => $this->commuteExpensesHeader()
+    ]);
+
+    $data[] = new Google_Service_Sheets_ValueRange([
+      'range' => 'E' . $this->moneyOwed($moneyOwed, $foodExpenses)[2]+4,
+      'values' => $this->commuteExpenses($commuteExpenses, $moneyOwed, $foodExpenses)[0]
+    ]);
+
     $body = new Google_Service_Sheets_BatchUpdateValuesRequest([
         'valueInputOption' => 2,
         'data' => $data,
@@ -1224,8 +1425,14 @@ class GenerateSpreadsheet extends Budgeting
     $batchUpdateRequestTen = $this->styleMoneyOwed($this->moneyOwed($moneyOwed, $foodExpenses)[1], $foodExpenses);
     $result = $service->spreadsheets->batchUpdate($spreadsheetId, $batchUpdateRequestTen);
 
-    $batchUpdateRequestEleven = $this->conditionalFormatting($budget);
+    $batchUpdateRequestEleven = $this->styleCommuteExpensesHeader($moneyOwed, $foodExpenses);
     $result = $service->spreadsheets->batchUpdate($spreadsheetId, $batchUpdateRequestEleven);
+
+    $batchUpdateRequestTwelve = $this->styleCommuteExpenses($this->commuteExpenses($commuteExpenses, $moneyOwed, $foodExpenses)[1], $moneyOwed, $foodExpenses);
+    $result = $service->spreadsheets->batchUpdate($spreadsheetId, $batchUpdateRequestTwelve);
+
+    $batchUpdateRequestThirteen = $this->conditionalFormatting($budget);
+    $result = $service->spreadsheets->batchUpdate($spreadsheetId, $batchUpdateRequestThirteen);
 
     $this->variabalizeExpensesAmount($service, $spreadsheetId, $this->futureTransactions($budget)[1], $expenses);
     $this->variabalizeWishlistAmount($service, $spreadsheetId, $this->futureTransactions($budget)[1], $wishlist, $expenses);
