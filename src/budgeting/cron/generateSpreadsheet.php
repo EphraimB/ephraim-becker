@@ -144,8 +144,8 @@ class GenerateSpreadsheet extends Budgeting
   function expenses()
   {
     $values = array();
-    $columnStart = $this->futureTransactions($this->budget)[1]+5;
-    $columnEnd = $this->futureTransactions($this->budget)[1]+5;
+    $columnStart = $this->futureTransactions($this->budget)[1]+6;
+    $columnEnd = $this->futureTransactions($this->budget)[1]+6;
 
     for($j = 0; $j < count($this->expenses); $j++) {
       array_push($values, array($this->expenses[$j]["title"], '$' . $this->expenses[$j]["amount"]));
