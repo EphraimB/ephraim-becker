@@ -463,6 +463,9 @@ class Budgeting extends Base
 
           $k = $wishlistInBudget[0];
         }
+        $balance = $this->calculateAmount($budget[$k]["amount"], $budget[$k]["type"], $k, $budget);
+
+        $budget[$k]["balance"] = $balance;
       }
 
       $priorityStart++;
