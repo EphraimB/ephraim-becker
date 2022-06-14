@@ -172,8 +172,8 @@ class GenerateSpreadsheet extends Budgeting
   function foodExpenses()
   {
     $values = array();
-    $columnStart = $this->futureTransactions()[1]+5;
-    $columnEnd = $this->futureTransactions()[1]+5;
+    $columnStart = $this->futureTransactions()[1]+6;
+    $columnEnd = $this->futureTransactions()[1]+6;
 
     for($j = 0; $j < count($this->foodExpenses); $j++) {
       array_push($values, array($this->foodExpenses[$j]["title"], '$' . $this->foodExpenses[$j]["amount"]));
