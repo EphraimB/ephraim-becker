@@ -399,6 +399,28 @@ class Budgeting extends Base
     return $commuteExpenses;
   }
 
+  function getPayrollInfo(): array
+  {
+    $payrollInfo = array();
+
+    $query = "SELECT SUM(hoursWorked) AS hoursWorked, SUM(daysPerWeek) AS daysPerWeek, SUM(payPerHour) AS payPerHour FROM payroll";
+    $queryResult = mysqli_query($this->getLink(), $query);
+
+    while($row = mysqli_fetch_array($queryResult)) {
+      $hoursWorked = intval($row['hoursWorked']);
+      $daysPerWeek = intval($row['daysPerWeek']);
+      $payPerHour = intval($row['payPerHour']);
+
+      array_push($payrollInfo, array(
+        "hoursWorked" => $hoursWorked,
+        "daysPerWeek" => $daysPerWeek,
+        "payPerHour" => $payPerHour,
+      ));
+    }
+
+    return $payrollInfo;
+  }
+
   function calculateBudget(): array
   {
     $weeklyIndex = 0;
