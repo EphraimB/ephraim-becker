@@ -65,15 +65,38 @@ class AddGoalLog
     return $this->log;
   }
 
+  function setTimezone($timezone): void
+  {
+    $this->timezone = $timezone;
+  }
+
+  function getTimezone(): string
+  {
+    return $this->timezone;
+  }
+
+  function setTimezoneOffset($timezoneOffset): void
+  {
+    $this->timezoneOffset = $timezoneOffset;
+  }
+
+  function getTimezoneOffset(): int
+  {
+    return $this->timezoneOffset;
+  }
+
   function addGoalLog(): void
   {
-    $sql = $this->getLink()->prepare("INSERT INTO GoalLog (GoalId, Log, DateCreated, DateModified) VALUES (?, ?, ?, ?)");
-    $sql->bind_param('isss', $goalId, $log, $dateNow, $dateNow);
+    $sql = $this->getLink()->prepare("INSERT INTO GoalLog (GoalId, Log, DateCreated, DateModified, timezone, timezoneOffset) VALUES (?, ?, ?, ?, ?, ?)");
+    $sql->bind_param('issssi', $goalId, $log, $dateNow, $dateNow, $timezone, $timezoneOffset);
 
     $goalId = $this->getGoalId();
     $log = $this->getLog();
 
     $dateNow = date("Y-m-d H:i:s");
+
+    $timezone = $this->getTimezone();
+    $timezoneOffset = $this->getTimezoneOffset();
 
     $sql->execute();
 
@@ -88,6 +111,8 @@ $addGoalLog = new AddGoalLog();
 $addGoalLog->setLink($link);
 $addGoalLog->setGoalId(intval($_POST['goalId']));
 $addGoalLog->setLog($_POST['log']);
+$addGoalLog->setTimezone($_POST['timezone']);
+$addGoalLog->setTimezoneOffset(intval($_POST['timezoneOffset']));
 
 $addGoalLog->addGoalLog();
 ?>

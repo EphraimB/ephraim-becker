@@ -259,11 +259,11 @@ class AddEvent
       }
 
       if($this->getEventMediaPortrait() == 0) {
-        $new_width = 200;
-        $new_height = 113;
+        $new_width = 600;
+        $new_height = 339;
       } else if($this->getEventMediaPortrait() == 1) {
-        $new_width = 113;
-        $new_height = 200;
+        $new_width = 339;
+        $new_height = 600;
       }
 
       // Resample

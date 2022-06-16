@@ -1,0 +1,107 @@
+.row {
+  display: flex;
+  justify-content: center;
+}
+
+.row div {
+  padding: 10px;
+}
+
+.list {
+  background-color: lightgrey;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.subNav, .actionButtons {
+  overflow: hidden;
+  position: relative;
+  height: 25%;
+  list-style-type: none;
+}
+.subNav a {
+  text-decoration: none;
+  display: block;
+  padding: 14px 16px;
+  background-color: green;
+  color: white;
+}
+
+.actionButtons a {
+  text-decoration: none;
+  display: block;
+  padding: 14px 16px;
+}
+
+.edit {
+  background-color: yellow;
+  color: black;
+}
+
+.edit:hover {
+  background-color: lightyellow;
+}
+.hide:hover {
+  background-color: grey;
+}
+
+.delete {
+  background-color: red;
+  color: white;
+}
+
+.delete:hover {
+  background-color: Crimson;
+}
+
+.keep {
+  background-color: green;
+  color: white;
+}
+
+.keep:hover {
+  background-color: lightgreen;
+}
+
+#payrollCalendarGridContainer {
+  display: grid;
+  grid-template-columns: auto auto auto auto;
+  padding: 10px;
+}
+
+.payrollCalendarGrid {
+  background-color: white;
+  border: 1px solid black;
+  padding: 20px;
+  font-size: 30px;
+  text-align: center;
+}
+
+.payrollCalendarGrid:hover {
+  background-color: lightgrey;
+}
+
+.payrollCalendarGrid a, .payrollCalendarGridSelected a {
+  display: block;
+  width: 100%;
+  text-decoration: none;
+  color: black;
+}
+
+.payrollCalendarGridSelected {
+  background-color: green;
+  border: 1px solid black;
+  padding: 20px;
+  font-size: 30px;
+  text-align: center;
+}
+
+.payrollCalendarGridSelected:hover {
+  background-color: lightgreen;
+}
+
+@media screen and (min-width: 1024px) {
+  #payrollCalendarGridContainer {
+    grid-template-columns: auto auto auto auto auto auto auto;
+  }
+}
