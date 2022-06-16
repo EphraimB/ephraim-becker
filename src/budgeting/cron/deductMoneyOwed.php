@@ -66,7 +66,7 @@ class WithdrawalCronJob
     $sqlResult = $sql->get_result();
 
     while($row = mysqli_fetch_array($sqlResult)){
-      $amount = $row['MoneyOwedAmount'];
+      $amount = floatval($row['MoneyOwedAmount']);
     }
 
     return $amount;
@@ -78,7 +78,7 @@ class WithdrawalCronJob
      $sql->bind_param('sdi', $dateNow, $withdrawalAmount, $id);
 
      $dateNow = date("Y-m-d H:i:s");
-     $withdrawalAmount = $this->getMoneyOwedAmount - $this->getDeductAmount();
+     $withdrawalAmount = $this->getMoneyOwedAmount() - $this->getDeductAmount();
 
      $id = $this->getPrimaryId();
 
