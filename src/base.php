@@ -132,7 +132,8 @@ class Base
           <div data-wheelnav-navitemicon="imgsrc:/img/nav-icons/link_black_24dp.svg"><a href="' . $this->getDocumentRoot() . '/resources/">Resources</a></div>
           <div data-wheelnav-navitemicon="imgsrc:/img/nav-icons/info_black_24dp.svg"><a href="' . $this->getDocumentRoot() . '/about/">About</a></div>';
           if(isset($_SESSION['username'])) {
-            $html .= '<div data-wheelnav-navitemicon="imgsrc:/img/nav-icons/logout_black_24dp.svg"><a href="' . $this->getDocumentRoot() . '/adminLogout.php?fromUrl=' . $this->getUrl() . '">Logout</a></div>';
+            $html .= '<div data-wheelnav-navitemicon="imgsrc:/img/nav-icons/ephraim-becker-round.png"><a href="javascript:;"></a></div>
+            <div data-wheelnav-navitemicon="imgsrc:/img/nav-icons/logout_black_24dp.svg"><a href="' . $this->getDocumentRoot() . '/adminLogout.php?fromUrl=' . $this->getUrl() . '">Logout</a></div>';
           } else {
             $html .= '<div data-wheelnav-navitemicon="imgsrc:/img/nav-icons/login_black_24dp.svg"><a href="' . $this->getDocumentRoot() . '/adminLogin/index.php?fromUrl=' . $this->getUrl() . '">Login</a></div>';
           }
@@ -147,7 +148,27 @@ class Base
         <div data-wheelnav-navitemicon="imgsrc:/img/nav-icons/sentiment_dissatisfied_black_24dp.svg"><a href="' . $this->getDocumentRoot() . '/everydayLife/">Everyday Life</a></div>
         <div data-wheelnav-navitemicon="imgsrc:/img/nav-icons/school_black_24dp.svg"><a href="' . $this->getDocumentRoot() . '/college/">College Life</a></div>
       </div>
-    </nav>';
+
+      <div id="pieadminmenu" data-wheelnav
+      data-wheelnav-colors="#013f28"
+       data-wheelnav-slicepath="DonutSlice"
+       data-wheelnav-navangle="270"
+       data-wheelnav-titleheight="45"
+       data-wheelnav-init>
+        <div data-wheelnav-navitemicon="imgsrc:/img/nav-icons/paid_white_24dp.svg"><a href="' . $this->getDocumentRoot() . '/budgeting/">Budgeting</a></div>
+      </div>';
+
+    if(isset($_SESSION['username'])) {
+      $html .= '<script>
+        var isAdmin = true;
+      </script>';
+    } else {
+      $html .= '<script>
+        var isAdmin = false;
+      </script>';
+    }
+
+    $html .= '</nav>';
 
       return $html;
     }

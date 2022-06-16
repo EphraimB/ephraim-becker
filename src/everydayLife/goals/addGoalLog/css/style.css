@@ -10,3 +10,8 @@ input[type=submit] {
 input[type=submit]:hover {
   background-color: lightblue;
 }
+
+input[disabled=disabled] {
+  background-color: lightblue;
+  cursor: not-allowed;
+}

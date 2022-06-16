@@ -60,7 +60,7 @@ class Goals extends Base
     $sql = "SELECT * FROM goals";
     $sqlResult = mysqli_query($this->getLink(), $sql);
 
-    $body = '
+    $body = '<h2>Goals</h2>
     <table>
       <tr>
         <th>Goal</th>
@@ -114,7 +114,7 @@ class Goals extends Base
 
   function goalLog(): string
   {
-    $sql = "SELECT * FROM GoalLog JOIN goals ON GoalLog.GoalId = goals.GoalId";
+    $sql = "SELECT GoalLog.GoalLogId, GoalLog.GoalId, Log, GoalLog.DateCreated, GoalLog.DateModified, Goal, timezone, timezoneOffset FROM GoalLog LEFT JOIN goals ON GoalLog.GoalId = goals.GoalId";
     $sqlResult = mysqli_query($this->getLink(), $sql);
 
     $body = '<h2>Goal log</h2>
@@ -135,10 +135,12 @@ class Goals extends Base
         $goal = $row['Goal'];
         $log = $row['Log'];
         $dateCreated = $row['DateCreated'];
+        $timezone = $row['timezone'];
+        $timezoneOffset = $row['timezoneOffset'];
 
         $body .= '
         <tr>
-          <td>' . $dateCreated . '</td>
+          <td><time datetime="' . date('Y-m-d H:i:s', strtotime($dateCreated) - intval($timezoneOffset)) . '">' . date('m/d/Y h:i A', strtotime($dateCreated) - intval($timezoneOffset)) . ' ' . $timezone . '</time></td>
           <td>' . $goal . '</td>
           <td>' . $log . '</td>';
 

@@ -55,12 +55,12 @@ class LoginForm extends Base
   {
     $body = '<form action="login.php" method="post">
                 <div class="row">
-                  <label for="username">User Name: </label>
+                  <label style="font-weight: bold;" for="username">User Name: </label>
                   <input type="text" id="username" name="username" />
                 </div>
                 <br />
                 <div class="row">
-                  <label for="password">Password: </label>
+                  <label style="font-weight: bold;" for="password">Password: </label>
                   <input type="password" id="password" name="password" />
                 </div>
                 <input type="hidden" name="url" id="url" value="' . $this->getUrl() . '" />

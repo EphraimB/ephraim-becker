@@ -3,6 +3,16 @@ html {
   text-align: center;
 }
 
+body {
+  background-image: linear-gradient(to right, rgba(255,255,255, 0.75) 0 100%), url("../img/floor_background.jpg");
+  height: 100%;
+}
+
+.privacyPolicyWrapper {
+  padding: 18px;
+  background-color: lightgrey;
+}
+
 .edit-background-image {
   display: inline-block;
   margin-left: 85%;
