@@ -1524,6 +1524,46 @@ class GenerateSpreadsheet extends Budgeting
     }
   }
 
+  function overwritePaycheckAmountWithVariable($service, $spreadsheetId, $cell, $expensesCell)
+  {
+    $values = [
+    [
+        // Cell values ...
+        '=$L$' . $expensesCell
+    ],
+    // Additional rows ...
+    ];
+
+    $body = new Google_Service_Sheets_ValueRange([
+        'values' => $values
+    ]);
+
+    $params = [
+        'valueInputOption' => 2
+    ];
+
+    $result = $service->spreadsheets_values->update($spreadsheetId, 'C' . $cell, $body, $params);
+  }
+
+  function variabalizePaycheckAmount($service, $spreadsheetId, $endCell)
+  {
+    $cellValuePair = array();
+    $cell = 5;
+    $expensesStartCell = $this->payrollInfo(0)[1] - 1;
+    $expensesEndCell = $this->payrollInfo(0)[1] - 1;
+
+    $result = $service->spreadsheets_values->get($spreadsheetId, 'B' . $cell . ':B' . $endCell);
+    $numRows = $result->getValues() != null ? count($result->getValues()) : 0;
+
+    for($i = 0; $i < $numRows; $i++) {
+      if($result->getValues()[$i][0] == "Paycheck") {
+        $this->overwritePaycheckAmountWithVariable($service, $spreadsheetId, $cell, $expensesStartCell);
+      }
+
+      $cell++;
+    }
+  }
+
   function conditionalFormatting()
   {
     $myRange = [
@@ -1782,6 +1822,7 @@ class GenerateSpreadsheet extends Budgeting
     $this->variabalizeExpensesAmount($service, $spreadsheetId, $this->futureTransactions()[1]);
     $this->variabalizeWishlistAmount($service, $spreadsheetId, $this->futureTransactions()[1]);
     $this->variabalizeMoneyOwedAmount($service, $spreadsheetId, $this->futureTransactions()[1]);
+    $this->variabalizePaycheckAmount($service, $spreadsheetId, $this->futureTransactions()[1]);
   }
 }
 $config = new Config();
