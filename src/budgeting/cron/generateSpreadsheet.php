@@ -18,6 +18,7 @@ class GenerateSpreadsheet extends Budgeting
   private $wishlist;
   private $moneyOwed;
   private $commuteExpenses;
+  private $payrollInfo;
 
   function __construct()
   {
@@ -305,6 +306,33 @@ class GenerateSpreadsheet extends Budgeting
     array_push($values, array('Total', '', '', '', '=sum(I' . $columnStart . ':I' . $columnEnd - 1 . ')'));
 
     return array($values, $j+1, $columnEnd);
+  }
+
+  function payrollInfoHeader()
+  {
+    $values = [
+      [
+        "Income", ""
+      ]
+    ];
+
+    return $values;
+  }
+
+  function payrollInfo()
+  {
+    $values = array();
+    $columnStart = $this->futureTransactions($this->budget)[1]+5;
+
+    array_push($values, array("Hours worked per day", $this->payrollInfo[0]["hoursWorked"]));
+    array_push($values, array("Days worked per week", $this->payrollInfo[0]["daysPerWeek"]));
+    array_push($values, array("Pay per hour", "$" . $this->payrollInfo[0]["payPerHour"]));
+    
+    array_push($values, array("Pay per day", "=\$L$" . $columnStart+1 . "*\$L$" . $columnStart+3));
+    array_push($values, array("Pay per week", "=\$L$" . $columnStart+2 . "*\$L$" . $columnStart+4));
+    array_push($values, array("Paycheck gross (bi-monthly)", "=\$L$" . $columnStart+5 . "*2.167"));
+
+    return array($values, $columnStart+3);
   }
 
   function styleTitle()
@@ -1046,6 +1074,123 @@ class GenerateSpreadsheet extends Budgeting
     return $batchUpdateRequest;
   }
 
+  function stylePayrollInfoHeader()
+  {
+    $requests = [
+    new Google_Service_Sheets_Request([
+      "mergeCells" => [
+          "range" => [
+            "sheetId" => 0,
+            "startRowIndex" => $this->futureTransactions()[1]+4,
+            "endRowIndex" => $this->futureTransactions()[1]+5,
+            "startColumnIndex" => 10,
+            "endColumnIndex" => 12
+          ],
+          "mergeType" => "MERGE_ALL"
+        ]
+      ]),
+      new Google_Service_Sheets_Request([
+        'repeatCell' => [
+            'fields' => 'userEnteredFormat',
+            "range" => [
+              "sheetId" => 0,
+              'startRowIndex' => $this->futureTransactions()[1]+4,
+              'endRowIndex' => $this->futureTransactions()[1]+5,
+              'startColumnIndex' => 10,
+              'endColumnIndex' => 12,
+            ],
+            'cell' => [
+                'userEnteredFormat' => [
+                  "horizontalAlignment" => "CENTER",
+                  'textFormat' => [
+                    'bold' => true,
+                    'fontSize' => 12,
+                  ]
+                ]
+            ],
+          ],
+        ])
+    ];
+
+    // add request to batchUpdate
+    $batchUpdateRequest = new Google_Service_Sheets_BatchUpdateSpreadsheetRequest([
+      'requests' => $requests
+    ]);
+
+    return $batchUpdateRequest;
+  }
+
+  function stylePayrollInfo($numRows)
+  {
+    $requests = [
+      new Google_Service_Sheets_Request([
+        'repeatCell' => [
+            'fields' => 'userEnteredFormat',
+            "range" => [
+              "sheetId" => 0,
+              'startRowIndex' => $this->futureTransactions()[1]+5,
+              'endRowIndex' => $this->futureTransactions()[1]+5 + $numRows,
+              'startColumnIndex' => 10,
+              'endColumnIndex' => 11,
+            ],
+            'cell' => [
+                'userEnteredFormat' => [
+                  'textFormat' => [
+                    'bold' => true,
+                    'fontSize' => 10,
+                  ]
+                ]
+            ],
+          ],
+        ]),
+        new Google_Service_Sheets_Request([
+          "updateBorders" => [
+          "range" => [
+            "sheetId" => 0,
+            "startRowIndex" => $this->futureTransactions()[1]+4,
+            "endRowIndex" => $this->futureTransactions()[1]+5 + $numRows,
+            "startColumnIndex" => 10,
+            "endColumnIndex" => 12
+          ],
+          "top" => [
+            "style" => "SOLID",
+            "width" => 3,
+            "color" => [
+              "green" => 1.0
+            ],
+          ],
+          "bottom" => [
+            "style" => "SOLID",
+            "width" => 3,
+            "color" => [
+              "green" => 1.0
+            ],
+          ],
+          "right" => [
+            "style" => "SOLID",
+            "width" => 3,
+            "color" => [
+              "green" => 1.0
+            ],
+          ],
+          "left" => [
+            "style" => "SOLID",
+            "width" => 3,
+            "color" => [
+              "green" => 1.0
+            ],
+          ],
+        ]
+      ])
+    ];
+
+    $batchUpdateRequest = new Google_Service_Sheets_BatchUpdateSpreadsheetRequest([
+      'requests' => $requests
+    ]);
+
+    return $batchUpdateRequest;
+  }
+
   function getWishlistTable($query)
   {
     $wishlist = array();
@@ -1273,11 +1418,6 @@ class GenerateSpreadsheet extends Budgeting
     return $batchUpdateRequest;
   }
 
-  function getConditionalFormats()
-  {
-
-  }
-
   function clearFormatting()
   {
     $requests = [
@@ -1329,6 +1469,7 @@ class GenerateSpreadsheet extends Budgeting
     $this->wishlist = $this->getWishlistTable($this->getWishlist());
     $this->moneyOwed = $this->getMoneyOwedTable($this->getMoneyOwed());
     $this->commuteExpenses = $this->getCommuteExpenses();
+    $this->payrollInfo = $this->getPayrollInfo();
 
     $data = [];
 
@@ -1397,6 +1538,16 @@ class GenerateSpreadsheet extends Budgeting
       'values' => $this->commuteExpenses()[0]
     ]);
 
+    $data[] = new Google_Service_Sheets_ValueRange([
+      'range' => 'K' . $this->futureTransactions()[1]+5,
+      'values' => $this->payrollInfoHeader()
+    ]);
+
+    $data[] = new Google_Service_Sheets_ValueRange([
+      'range' => 'K' . $this->futureTransactions()[1]+6,
+      'values' => $this->payrollInfo()[0]
+    ]);
+
     $body = new Google_Service_Sheets_BatchUpdateValuesRequest([
         'valueInputOption' => 2,
         'data' => $data,
@@ -1440,8 +1591,14 @@ class GenerateSpreadsheet extends Budgeting
     $batchUpdateRequestTwelve = $this->styleCommuteExpenses($this->commuteExpenses()[1]);
     $result = $service->spreadsheets->batchUpdate($spreadsheetId, $batchUpdateRequestTwelve);
 
-    $batchUpdateRequestThirteen = $this->conditionalFormatting();
+    $batchUpdateRequestThirteen = $this->stylePayrollInfoHeader();
     $result = $service->spreadsheets->batchUpdate($spreadsheetId, $batchUpdateRequestThirteen);
+
+    $batchUpdateRequestFourteen = $this->stylePayrollInfo(6);
+    $result = $service->spreadsheets->batchUpdate($spreadsheetId, $batchUpdateRequestFourteen);
+
+    $batchUpdateRequestFifteen = $this->conditionalFormatting();
+    $result = $service->spreadsheets->batchUpdate($spreadsheetId, $batchUpdateRequestFifteen);
 
     $this->variabalizeExpensesAmount($service, $spreadsheetId, $this->futureTransactions()[1]);
     $this->variabalizeWishlistAmount($service, $spreadsheetId, $this->futureTransactions()[1]);
