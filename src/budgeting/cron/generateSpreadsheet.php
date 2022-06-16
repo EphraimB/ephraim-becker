@@ -350,8 +350,8 @@ class GenerateSpreadsheet extends Budgeting
   function payrollTaxes()
   {
     $values = array();
-    $columnStart = $this->payrollInfo()[1]+4;
-    $columnEnd = $this->payrollInfo()[1]+4;
+    $columnStart = $this->futureTransactions()[1]+5;
+    $columnEnd = $this->futureTransactions()[1]+5;
 
     for($j = 0; $j < count($this->payrollTaxes); $j++) {
       if($this->payrollTaxes[$j]["fixed"] == 0) {
@@ -363,7 +363,7 @@ class GenerateSpreadsheet extends Budgeting
       $columnEnd++;
     }
 
-    return array($values, $j+1, $columnEnd);
+    return array($values, $j, $columnEnd);
   }
 
   function styleTitle()
@@ -1222,6 +1222,123 @@ class GenerateSpreadsheet extends Budgeting
     return $batchUpdateRequest;
   }
 
+  function stylePayrollTaxesHeader()
+  {
+    $requests = [
+    new Google_Service_Sheets_Request([
+      "mergeCells" => [
+          "range" => [
+            "sheetId" => 0,
+            "startRowIndex" => $this->futureTransactions()[1]+4,
+            "endRowIndex" => $this->futureTransactions()[1]+5,
+            "startColumnIndex" => 13,
+            "endColumnIndex" => 15
+          ],
+          "mergeType" => "MERGE_ALL"
+        ]
+      ]),
+      new Google_Service_Sheets_Request([
+        'repeatCell' => [
+            'fields' => 'userEnteredFormat',
+            "range" => [
+              "sheetId" => 0,
+              'startRowIndex' => $this->futureTransactions()[1]+4,
+              'endRowIndex' => $this->futureTransactions()[1]+5,
+              'startColumnIndex' => 13,
+              'endColumnIndex' => 15,
+            ],
+            'cell' => [
+                'userEnteredFormat' => [
+                  "horizontalAlignment" => "CENTER",
+                  'textFormat' => [
+                    'bold' => true,
+                    'fontSize' => 12,
+                  ]
+                ]
+            ],
+          ],
+        ])
+    ];
+
+    // add request to batchUpdate
+    $batchUpdateRequest = new Google_Service_Sheets_BatchUpdateSpreadsheetRequest([
+      'requests' => $requests
+    ]);
+
+    return $batchUpdateRequest;
+  }
+
+  function stylePayrollTaxes($numRows)
+  {
+    $requests = [
+      new Google_Service_Sheets_Request([
+        'repeatCell' => [
+            'fields' => 'userEnteredFormat',
+            "range" => [
+              "sheetId" => 0,
+              'startRowIndex' => $this->futureTransactions()[1]+5,
+              'endRowIndex' => $this->futureTransactions()[1]+5 + $numRows,
+              'startColumnIndex' => 13,
+              'endColumnIndex' => 14,
+            ],
+            'cell' => [
+                'userEnteredFormat' => [
+                  'textFormat' => [
+                    'bold' => true,
+                    'fontSize' => 10,
+                  ]
+                ]
+            ],
+          ],
+        ]),
+        new Google_Service_Sheets_Request([
+          "updateBorders" => [
+          "range" => [
+            "sheetId" => 0,
+            "startRowIndex" => $this->futureTransactions()[1]+4,
+            "endRowIndex" => $this->futureTransactions()[1]+5 + $numRows,
+            "startColumnIndex" => 13,
+            "endColumnIndex" => 15
+          ],
+          "top" => [
+            "style" => "SOLID",
+            "width" => 1,
+            "color" => [
+              "red" => 1.0
+            ],
+          ],
+          "bottom" => [
+            "style" => "SOLID",
+            "width" => 1,
+            "color" => [
+              "red" => 1.0
+            ],
+          ],
+          "right" => [
+            "style" => "SOLID",
+            "width" => 1,
+            "color" => [
+              "red" => 1.0
+            ],
+          ],
+          "left" => [
+            "style" => "SOLID",
+            "width" => 1,
+            "color" => [
+              "red" => 1.0
+            ],
+          ],
+        ]
+      ])
+    ];
+
+    $batchUpdateRequest = new Google_Service_Sheets_BatchUpdateSpreadsheetRequest([
+      'requests' => $requests
+    ]);
+
+    return $batchUpdateRequest;
+  }
+
   function getWishlistTable($query)
   {
     $wishlist = array();
@@ -1581,12 +1698,12 @@ class GenerateSpreadsheet extends Budgeting
     ]);
 
     $data[] = new Google_Service_Sheets_ValueRange([
-      'range' => 'K' . $this->payrollInfo()[1]+3,
+      'range' => 'N' . $this->futureTransactions()[1]+5,
       'values' => $this->payrollTaxesHeader()
     ]);
 
     $data[] = new Google_Service_Sheets_ValueRange([
-      'range' => 'K' . $this->payrollInfo()[1]+4,
+      'range' => 'N' . $this->futureTransactions()[1]+6,
       'values' => $this->payrollTaxes()[0]
     ]);
 
@@ -1639,8 +1756,14 @@ class GenerateSpreadsheet extends Budgeting
     $batchUpdateRequestFourteen = $this->stylePayrollInfo(6);
     $result = $service->spreadsheets->batchUpdate($spreadsheetId, $batchUpdateRequestFourteen);
 
-    $batchUpdateRequestFifteen = $this->conditionalFormatting();
+    $batchUpdateRequestFifteen = $this->stylePayrollTaxesHeader();
     $result = $service->spreadsheets->batchUpdate($spreadsheetId, $batchUpdateRequestFifteen);
+
+    $batchUpdateRequestSixteen = $this->stylePayrollTaxes($this->payrollTaxes()[1]);
+    $result = $service->spreadsheets->batchUpdate($spreadsheetId, $batchUpdateRequestSixteen);
+
+    $batchUpdateRequestSeventeen = $this->conditionalFormatting();
+    $result = $service->spreadsheets->batchUpdate($spreadsheetId, $batchUpdateRequestSeventeen);
 
     $this->variabalizeExpensesAmount($service, $spreadsheetId, $this->futureTransactions()[1]);
     $this->variabalizeWishlistAmount($service, $spreadsheetId, $this->futureTransactions()[1]);
