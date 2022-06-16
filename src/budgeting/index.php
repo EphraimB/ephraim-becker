@@ -361,8 +361,8 @@ class Budgeting extends Base
     $queryResult = mysqli_query($this->getLink(), $query);
 
     while($row = mysqli_fetch_array($queryResult)) {
-      $day = $row['day'];
-      $meal = $row['meal'];
+      $day = intval($row['day']);
+      $meal = intval($row['meal']);
       $title = $row['title'];
       $amount = floatval($row['amount']);
 
