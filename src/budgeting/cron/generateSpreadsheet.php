@@ -353,8 +353,9 @@ class GenerateSpreadsheet extends Budgeting
     }
 
     array_push($values, array("Paycheck net (bi-monthly)", "=\$L$" . $columnStart+6 . $calculateNetPay));
+    array_push($values, array("Net Net income per month", "=\$L$" . $columnStart+7 . "*2-\$C$" . $this->expenses()[2]));
 
-    return array($values, $columnStart+7, 7);
+    return array($values, $columnStart+8, 8);
   }
 
   function payrollTaxesHeader()
@@ -377,7 +378,7 @@ class GenerateSpreadsheet extends Budgeting
 
     for($j = 0; $j < count($this->payrollTaxes); $j++) {
       if($this->payrollTaxes[$j]["fixed"] == 0) {
-        array_push($values, array($this->payrollTaxes[$j]["title"], '=$L$' . $this->payrollInfo(0)[1]-1 . '*' . $this->payrollTaxes[$j]["amount"]));
+        array_push($values, array($this->payrollTaxes[$j]["title"], '=$L$' . $this->payrollInfo(0)[1]-2 . '*' . $this->payrollTaxes[$j]["amount"]));
       } else if($this->payrollTaxes[$j]["fixed"] == 1) {
         array_push($values, array($this->payrollTaxes[$j]["title"], '$' . $this->payrollTaxes[$j]["amount"]));
       }
