@@ -146,8 +146,8 @@ class GenerateSpreadsheet extends Budgeting
   function expenses()
   {
     $values = array();
-    $columnStart = $this->futureTransactions($this->budget)[1]+6;
-    $columnEnd = $this->futureTransactions($this->budget)[1]+6;
+    $columnStart = $this->futureTransactions()[1]+6;
+    $columnEnd = $this->futureTransactions()[1]+6;
 
     for($j = 0; $j < count($this->expenses); $j++) {
       array_push($values, array($this->expenses[$j]["title"], '$' . $this->expenses[$j]["amount"]));
@@ -320,10 +320,11 @@ class GenerateSpreadsheet extends Budgeting
     return $values;
   }
 
-  function payrollInfo()
+  function payrollInfo($lastTax)
   {
     $values = array();
-    $columnStart = $this->futureTransactions($this->budget)[1]+5;
+    $calculateNetPay = '';
+    $columnStart = $this->futureTransactions()[1]+5;
 
     array_push($values, array("Hours worked per day", $this->payrollInfo[0]["hoursWorked"]));
     array_push($values, array("Days worked per week", $this->payrollInfo[0]["daysPerWeek"]));
@@ -333,7 +334,13 @@ class GenerateSpreadsheet extends Budgeting
     array_push($values, array("Pay per week", "=\$L$" . $columnStart+2 . "*\$L$" . $columnStart+4));
     array_push($values, array("Paycheck gross (bi-monthly)", "=\$L$" . $columnStart+5 . "*2.167"));
 
-    return array($values, $columnStart+6);
+    for($j = $columnStart+1; $j < $lastTax+1; $j++) {
+      $calculateNetPay .= "-\$O$" . $j;
+    }
+
+    array_push($values, array("Paycheck net (bi-monthly)", "=\$L$" . $columnStart+6 . $calculateNetPay));
+
+    return array($values, $columnStart+7, 7);
   }
 
   function payrollTaxesHeader()
@@ -350,12 +357,13 @@ class GenerateSpreadsheet extends Budgeting
   function payrollTaxes()
   {
     $values = array();
+    
     $columnStart = $this->futureTransactions()[1]+5;
     $columnEnd = $this->futureTransactions()[1]+5;
 
     for($j = 0; $j < count($this->payrollTaxes); $j++) {
       if($this->payrollTaxes[$j]["fixed"] == 0) {
-        array_push($values, array($this->payrollTaxes[$j]["title"], '=$L$' . $this->payrollInfo()[1] . '*' . $this->payrollTaxes[$j]["amount"]));
+        array_push($values, array($this->payrollTaxes[$j]["title"], '=$L$' . $this->payrollInfo(0)[1]-1 . '*' . $this->payrollTaxes[$j]["amount"]));
       } else if($this->payrollTaxes[$j]["fixed"] == 1) {
         array_push($values, array($this->payrollTaxes[$j]["title"], '$' . $this->payrollTaxes[$j]["amount"]));
       }
@@ -1620,6 +1628,8 @@ class GenerateSpreadsheet extends Budgeting
     $this->payrollInfo = $this->getPayrollInfo();
     $this->payrollTaxes = $this->getPayrollTaxes();
 
+    $lastTax = $this->payrollTaxes()[2];
+
     $data = [];
 
     $data[] = new Google_Service_Sheets_ValueRange([
@@ -1694,7 +1704,7 @@ class GenerateSpreadsheet extends Budgeting
 
     $data[] = new Google_Service_Sheets_ValueRange([
       'range' => 'K' . $this->futureTransactions()[1]+6,
-      'values' => $this->payrollInfo()[0]
+      'values' => $this->payrollInfo($lastTax)[0]
     ]);
 
     $data[] = new Google_Service_Sheets_ValueRange([
@@ -1753,7 +1763,7 @@ class GenerateSpreadsheet extends Budgeting
     $batchUpdateRequestThirteen = $this->stylePayrollInfoHeader();
     $result = $service->spreadsheets->batchUpdate($spreadsheetId, $batchUpdateRequestThirteen);
 
-    $batchUpdateRequestFourteen = $this->stylePayrollInfo(6);
+    $batchUpdateRequestFourteen = $this->stylePayrollInfo($this->payrollInfo(0)[2]);
     $result = $service->spreadsheets->batchUpdate($spreadsheetId, $batchUpdateRequestFourteen);
 
     $batchUpdateRequestFifteen = $this->stylePayrollTaxesHeader();
