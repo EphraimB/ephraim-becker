@@ -154,6 +154,9 @@ class WithdrawalCronJobStart
 
     $crontab = $this->getCronTabManager();
     $crontab->append_cronjob($command);
+    
+    $commandTwo = intval(date("i", strtotime($date))) . ' ' . intval(date("H", strtotime($date))) . ' ' . date("j", strtotime($date)) . ' * * /usr/local/bin/php /home/s8gphl6pjes9/public_html/budgeting/cron/deductMoneyOwed.php deductAmount=' . $this->getItemId() . ' primaryId=' . $primaryId . ' id=' . $uniqueId;
+    $crontab->append_cronjob($commandTwo);
   }
 }
 $config = new Config();

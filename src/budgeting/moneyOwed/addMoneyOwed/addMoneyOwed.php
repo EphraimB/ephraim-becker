@@ -200,8 +200,10 @@ class AddMoneyOwed
      $sql->close();
      $this->getLink()->close();
 
-     $commandTwo = intval(date("i", strtotime($date))) . ' ' . intval(date("H", strtotime($date))) . ' ' . date("j", strtotime($date)) . ' * * /usr/local/bin/php /home/s8gphl6pjes9/public_html/budgeting/cron/deductMoneyOwed.php deductAmount=' . $planAmount . ' primaryId=' . $primaryId . ' id=' . $uniqueId;
-     $crontab->append_cronjob($commandTwo);
+     if(date("n", strtotime($date)) == date("n")) {
+      $commandTwo = intval(date("i", strtotime($date))) . ' ' . intval(date("H", strtotime($date))) . ' ' . date("j", strtotime($date)) . ' * * /usr/local/bin/php /home/s8gphl6pjes9/public_html/budgeting/cron/deductMoneyOwed.php deductAmount=' . $planAmount . ' primaryId=' . $primaryId . ' id=' . $uniqueId;
+      $crontab->append_cronjob($commandTwo);
+     }
 
      header("location: ../");
   }
