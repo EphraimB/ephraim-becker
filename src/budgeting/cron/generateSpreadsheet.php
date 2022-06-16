@@ -178,9 +178,21 @@ class GenerateSpreadsheet extends Budgeting
     $values = array();
     $columnStart = $this->futureTransactions()[1]+6;
     $columnEnd = $this->futureTransactions()[1]+6;
+    $days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Shabbat'];
+    $day = '';
+    $meals = ["Breakfast", "Lunch", "Supper"];
+    $meal = '';
 
     for($j = 0; $j < count($this->foodExpenses); $j++) {
-      array_push($values, array($this->foodExpenses[$j]["day"], $this->foodExpenses[$j]["meal"], $this->foodExpenses[$j]["title"], '$' . $this->foodExpenses[$j]["amount"]));
+      for($k = 0; $k < count($days); $k++) {
+        $day = $days[$this->foodExpenses[$j]["day"]];
+      }
+
+      for($l = 0; $l < count($meals); $l++) {
+        $meal = $meals[$this->foodExpenses[$j]["meal"]];
+      }
+
+      array_push($values, array($day, $meal, $this->foodExpenses[$j]["title"], '$' . $this->foodExpenses[$j]["amount"]));
 
       $columnEnd++;
     }
