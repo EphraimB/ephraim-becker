@@ -166,7 +166,7 @@ class GenerateSpreadsheet extends Budgeting
   {
     $values = [
       [
-        "Food Expenses", ''
+        "Day", 'Meal', 'Food', 'Amount'
       ]
     ];
 
@@ -180,12 +180,12 @@ class GenerateSpreadsheet extends Budgeting
     $columnEnd = $this->futureTransactions()[1]+6;
 
     for($j = 0; $j < count($this->foodExpenses); $j++) {
-      array_push($values, array($this->foodExpenses[$j]["title"], '$' . $this->foodExpenses[$j]["amount"]));
+      array_push($values, array($this->foodExpenses[$j]["day"], $this->foodExpenses[$j]["meal"], $this->foodExpenses[$j]["title"], '$' . $this->foodExpenses[$j]["amount"]));
 
       $columnEnd++;
     }
 
-    array_push($values, array('Total', '=sum(F' . $columnStart . ':F' . $columnEnd - 1 . ')'));
+    array_push($values, array('Total', '', '', '=sum(H' . $columnStart . ':H' . $columnEnd - 1 . ')'));
 
     return array($values, $j+1, $columnEnd);
   }
@@ -594,18 +594,6 @@ class GenerateSpreadsheet extends Budgeting
   function styleFoodExpensesHeader()
   {
     $requests = [
-    new Google_Service_Sheets_Request([
-      "mergeCells" => [
-          "range" => [
-            "sheetId" => 0,
-            "startRowIndex" => $this->futureTransactions()[1]+4,
-            "endRowIndex" => $this->futureTransactions()[1]+5,
-            "startColumnIndex" => 4,
-            "endColumnIndex" => 6
-          ],
-          "mergeType" => "MERGE_ALL"
-        ]
-      ]),
       new Google_Service_Sheets_Request([
         'repeatCell' => [
             'fields' => 'userEnteredFormat',
@@ -614,19 +602,19 @@ class GenerateSpreadsheet extends Budgeting
               'startRowIndex' => $this->futureTransactions()[1]+4,
               'endRowIndex' => $this->futureTransactions()[1]+5,
               'startColumnIndex' => 4,
-              'endColumnIndex' => 6,
+              'endColumnIndex' => 8,
             ],
             'cell' => [
                 'userEnteredFormat' => [
                   "horizontalAlignment" => "CENTER",
                   'textFormat' => [
                     'bold' => true,
-                    'fontSize' => 12,
+                    'fontSize' => 10,
                   ]
                 ]
             ],
           ],
-        ])
+        ]),
     ];
 
     // add request to batchUpdate
@@ -667,7 +655,7 @@ class GenerateSpreadsheet extends Budgeting
               "startRowIndex" => $this->futureTransactions()[1]+4,
               "endRowIndex" => $this->futureTransactions()[1]+5 + $numRows,
               "startColumnIndex" => 4,
-              "endColumnIndex" => 6
+              "endColumnIndex" => 8
             ],
             "top" => [
               "style" => "SOLID",
@@ -706,7 +694,7 @@ class GenerateSpreadsheet extends Budgeting
               "startRowIndex" => $this->futureTransactions()[1]+5 + $numRows - 2,
               "endRowIndex" => $this->futureTransactions()[1]+5 + $numRows - 1,
               "startColumnIndex" => 4,
-              "endColumnIndex" => 6
+              "endColumnIndex" => 8
             ],
             "bottom" => [
               "style" => "SOLID",

@@ -357,14 +357,18 @@ class Budgeting extends Base
   {
     $foodExpenses = array();
 
-    $query = "SELECT MealItem AS title, MealPrice AS amount FROM MealPlan GROUP BY title";
+    $query = "SELECT MealDayId AS day, MealId AS meal, MealItem AS title, MealPrice AS amount FROM MealPlan ORDER BY day, meal";
     $queryResult = mysqli_query($this->getLink(), $query);
 
     while($row = mysqli_fetch_array($queryResult)) {
+      $day = $row['day'];
+      $meal = $row['meal'];
       $title = $row['title'];
       $amount = floatval($row['amount']);
 
       array_push($foodExpenses, array(
+        "day" => $day,
+        "meal" => $meal,
         "title" => $title,
         "amount" => $amount,
       ));
