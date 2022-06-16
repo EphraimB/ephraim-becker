@@ -20,6 +20,8 @@ class GenerateSpreadsheet extends Budgeting
   private $commuteExpenses;
   private $payrollInfo;
   private $payrollTaxes;
+  private $spreadsheetId;
+  private $service;
 
   function __construct()
   {
@@ -1389,7 +1391,7 @@ class GenerateSpreadsheet extends Budgeting
     return $moneyOwed;
   }
 
-  function overwriteExpensesAmountWithVariable($service, $spreadsheetId, $cell, $expensesCell)
+  function overwriteExpensesAmountWithVariable($cell, $expensesCell)
   {
     $values = [
     [
@@ -1407,26 +1409,26 @@ class GenerateSpreadsheet extends Budgeting
         'valueInputOption' => 2
     ];
 
-    $result = $service->spreadsheets_values->update($spreadsheetId, 'C' . $cell, $body, $params);
+    $result = $this->service->spreadsheets_values->update($this->spreadsheetId, 'C' . $cell, $body, $params);
   }
 
-  function variabalizeExpensesAmount($service, $spreadsheetId, $endCell)
+  function variabalizeExpensesAmount($endCell)
   {
     $cellValuePair = array();
     $cell = 5;
     $expensesStartCell = $this->futureTransactions()[1]+5;
     $expensesEndCell = $expensesStartCell + $this->expenses()[1] - 1;
 
-    $result = $service->spreadsheets_values->get($spreadsheetId, 'B' . $cell . ':B' . $endCell);
+    $result = $this->service->spreadsheets_values->get($this->spreadsheetId, 'B' . $cell . ':B' . $endCell);
     $numRows = $result->getValues() != null ? count($result->getValues()) : 0;
 
-    $resultTwo = $service->spreadsheets_values->get($spreadsheetId, 'B' . $expensesStartCell . ':B' . $expensesEndCell);
+    $resultTwo = $this->service->spreadsheets_values->get($this->spreadsheetId, 'B' . $expensesStartCell . ':B' . $expensesEndCell);
     $numRowsTwo = $resultTwo->getValues() != null ? count($resultTwo->getValues()) : 0;
 
     for($i = 0; $i < $numRows; $i++) {
       for($j = 0; $j < $numRowsTwo; $j++) {
         if($result->getValues()[$i][0] == $resultTwo->getValues()[$j][0] && $result->getValues()[$i][0] != "Commute expenses" && $result->getValues()[$i][0] != "Food expenses") {
-          $this->overwriteExpensesAmountWithVariable($service, $spreadsheetId, $cell, $expensesStartCell + $j);
+          $this->overwriteExpensesAmountWithVariable($cell, $expensesStartCell + $j);
         }
       }
 
@@ -1434,7 +1436,7 @@ class GenerateSpreadsheet extends Budgeting
     }
   }
 
-  function overwriteWishlistAmountWithVariable($service, $spreadsheetId, $cell, $expensesCell)
+  function overwriteWishlistAmountWithVariable($cell, $expensesCell)
   {
     $values = [
     [
@@ -1452,26 +1454,26 @@ class GenerateSpreadsheet extends Budgeting
         'valueInputOption' => 2
     ];
 
-    $result = $service->spreadsheets_values->update($spreadsheetId, 'C' . $cell, $body, $params);
+    $result = $this->service->spreadsheets_values->update($this->spreadsheetId, 'C' . $cell, $body, $params);
   }
 
-  function variabalizeWishlistAmount($service, $spreadsheetId, $endCell)
+  function variabalizeWishlistAmount($endCell)
   {
     $cellValuePair = array();
     $cell = 5;
     $expensesStartCell = $this->expenses()[2]+4;
     $expensesEndCell = $expensesStartCell + $this->wishlist()[1] - 1;
 
-    $result = $service->spreadsheets_values->get($spreadsheetId, 'B' . $cell . ':B' . $endCell);
+    $result = $this->service->spreadsheets_values->get($this->spreadsheetId, 'B' . $cell . ':B' . $endCell);
     $numRows = $result->getValues() != null ? count($result->getValues()) : 0;
 
-    $resultTwo = $service->spreadsheets_values->get($spreadsheetId, 'B' . $expensesStartCell . ':B' . $expensesEndCell);
+    $resultTwo = $this->service->spreadsheets_values->get($this->spreadsheetId, 'B' . $expensesStartCell . ':B' . $expensesEndCell);
     $numRowsTwo = $resultTwo->getValues() != null ? count($resultTwo->getValues()) : 0;
 
     for($i = 0; $i < $numRows; $i++) {
       for($j = 0; $j < $numRowsTwo; $j++) {
         if($result->getValues()[$i][0] == $resultTwo->getValues()[$j][0]) {
-          $this->overwriteWishlistAmountWithVariable($service, $spreadsheetId, $cell, $expensesStartCell + $j);
+          $this->overwriteWishlistAmountWithVariable($cell, $expensesStartCell + $j);
         }
       }
 
@@ -1479,7 +1481,7 @@ class GenerateSpreadsheet extends Budgeting
     }
   }
 
-  function overwriteMoneyOwedAmountWithVariable($service, $spreadsheetId, $cell, $expensesCell)
+  function overwriteMoneyOwedAmountWithVariable($cell, $expensesCell)
   {
     $values = [
     [
@@ -1497,26 +1499,26 @@ class GenerateSpreadsheet extends Budgeting
         'valueInputOption' => 2
     ];
 
-    $result = $service->spreadsheets_values->update($spreadsheetId, 'C' . $cell, $body, $params);
+    $result = $this->service->spreadsheets_values->update($this->spreadsheetId, 'C' . $cell, $body, $params);
   }
 
-  function variabalizeMoneyOwedAmount($service, $spreadsheetId, $endCell)
+  function variabalizeMoneyOwedAmount($endCell)
   {
     $cellValuePair = array();
     $cell = 5;
     $expensesStartCell = $this->foodExpenses()[2]+4;
     $expensesEndCell = $expensesStartCell + $this->moneyOwed()[1] - 1;
 
-    $result = $service->spreadsheets_values->get($spreadsheetId, 'B' . $cell . ':B' . $endCell);
+    $result = $this->service->spreadsheets_values->get($this->spreadsheetId, 'B' . $cell . ':B' . $endCell);
     $numRows = $result->getValues() != null ? count($result->getValues()) : 0;
 
-    $resultTwo = $service->spreadsheets_values->get($spreadsheetId, 'E' . $expensesStartCell . ':E' . $expensesEndCell);
+    $resultTwo = $this->service->spreadsheets_values->get($this->spreadsheetId, 'E' . $expensesStartCell . ':E' . $expensesEndCell);
     $numRowsTwo = $resultTwo->getValues() != null ? count($resultTwo->getValues()) : 0;
 
     for($i = 0; $i < $numRows; $i++) {
       for($j = 0; $j < $numRowsTwo; $j++) {
         if($result->getValues()[$i][0] == $resultTwo->getValues()[$j][0]) {
-          $this->overwriteMoneyOwedAmountWithVariable($service, $spreadsheetId, $cell, $expensesStartCell + $j);
+          $this->overwriteMoneyOwedAmountWithVariable($cell, $expensesStartCell + $j);
         }
       }
 
@@ -1524,7 +1526,7 @@ class GenerateSpreadsheet extends Budgeting
     }
   }
 
-  function overwritePaycheckAmountWithVariable($service, $spreadsheetId, $cell, $expensesCell)
+  function overwritePaycheckAmountWithVariable($cell, $expensesCell)
   {
     $values = [
     [
@@ -1542,22 +1544,22 @@ class GenerateSpreadsheet extends Budgeting
         'valueInputOption' => 2
     ];
 
-    $result = $service->spreadsheets_values->update($spreadsheetId, 'C' . $cell, $body, $params);
+    $result = $this->service->spreadsheets_values->update($this->spreadsheetId, 'C' . $cell, $body, $params);
   }
 
-  function variabalizePaycheckAmount($service, $spreadsheetId, $endCell)
+  function variabalizePaycheckAmount($endCell)
   {
     $cellValuePair = array();
     $cell = 5;
     $expensesStartCell = $this->payrollInfo(0)[1] - 1;
     $expensesEndCell = $this->payrollInfo(0)[1] - 1;
 
-    $result = $service->spreadsheets_values->get($spreadsheetId, 'B' . $cell . ':B' . $endCell);
+    $result = $this->service->spreadsheets_values->get($this->spreadsheetId, 'B' . $cell . ':B' . $endCell);
     $numRows = $result->getValues() != null ? count($result->getValues()) : 0;
 
     for($i = 0; $i < $numRows; $i++) {
       if($result->getValues()[$i][0] == "Paycheck") {
-        $this->overwritePaycheckAmountWithVariable($service, $spreadsheetId, $cell, $expensesStartCell);
+        $this->overwritePaycheckAmountWithVariable($cell, $expensesStartCell);
       }
 
       $cell++;
@@ -1654,12 +1656,12 @@ class GenerateSpreadsheet extends Budgeting
   {
     $client = $this->getClient();
 
-    $service = new Google_Service_Sheets($client);
+    $this->service = new Google_Service_Sheets($client);
 
     // The ID of the spreadsheet to update.
-    $spreadsheetId = '1aQUD3MkEMHnwN069EZW9dwsW6OVicOQ89P40nKVQwhI';
+    $this->spreadsheetId = '1aQUD3MkEMHnwN069EZW9dwsW6OVicOQ89P40nKVQwhI';
 
-    $result = $service->spreadsheets->batchUpdate($spreadsheetId, $this->clearFormatting());
+    $result = $this->service->spreadsheets->batchUpdate($this->spreadsheetId, $this->clearFormatting());
 
     $this->budget = $this->calculateBudget();
     $this->budget = $this->calculateWishlistPreparation($this->budget);
@@ -1766,63 +1768,63 @@ class GenerateSpreadsheet extends Budgeting
         'data' => $data,
     ]);
 
-    $response = $service->spreadsheets_values->batchUpdate($spreadsheetId, $body);
+    $response = $this->service->spreadsheets_values->batchUpdate($this->spreadsheetId, $body);
 
     $batchUpdateRequest = $this->styleTitle();
-    $result = $service->spreadsheets->batchUpdate($spreadsheetId, $batchUpdateRequest);
+    $result = $this->service->spreadsheets->batchUpdate($this->spreadsheetId, $batchUpdateRequest);
 
     $batchUpdateRequestTwo = $this->styleHeaders();
-    $result = $service->spreadsheets->batchUpdate($spreadsheetId, $batchUpdateRequestTwo);
+    $result = $this->service->spreadsheets->batchUpdate($this->spreadsheetId, $batchUpdateRequestTwo);
 
     $batchUpdateRequestThree = $this->styleExpensesHeader();
-    $result = $service->spreadsheets->batchUpdate($spreadsheetId, $batchUpdateRequestThree);
+    $result = $this->service->spreadsheets->batchUpdate($this->spreadsheetId, $batchUpdateRequestThree);
 
     $batchUpdateRequestFour = $this->styleExpenses($this->expenses()[1]);
-    $result = $service->spreadsheets->batchUpdate($spreadsheetId, $batchUpdateRequestFour);
+    $result = $this->service->spreadsheets->batchUpdate($this->spreadsheetId, $batchUpdateRequestFour);
 
     $batchUpdateRequestFive = $this->styleFoodExpensesHeader();
-    $result = $service->spreadsheets->batchUpdate($spreadsheetId, $batchUpdateRequestFive);
+    $result = $this->service->spreadsheets->batchUpdate($this->spreadsheetId, $batchUpdateRequestFive);
 
     $batchUpdateRequestSix = $this->styleFoodExpenses($this->foodExpenses()[1]);
-    $result = $service->spreadsheets->batchUpdate($spreadsheetId, $batchUpdateRequestSix);
+    $result = $this->service->spreadsheets->batchUpdate($this->spreadsheetId, $batchUpdateRequestSix);
 
     $batchUpdateRequestSeven = $this->styleWishlistHeader();
-    $result = $service->spreadsheets->batchUpdate($spreadsheetId, $batchUpdateRequestSeven);
+    $result = $this->service->spreadsheets->batchUpdate($this->spreadsheetId, $batchUpdateRequestSeven);
 
     $batchUpdateRequestEight = $this->styleWishlist($this->wishlist()[1]);
-    $result = $service->spreadsheets->batchUpdate($spreadsheetId, $batchUpdateRequestEight);
+    $result = $this->service->spreadsheets->batchUpdate($this->spreadsheetId, $batchUpdateRequestEight);
 
     $batchUpdateRequestNine = $this->styleMoneyOwedHeader();
-    $result = $service->spreadsheets->batchUpdate($spreadsheetId, $batchUpdateRequestNine);
+    $result = $this->service->spreadsheets->batchUpdate($this->spreadsheetId, $batchUpdateRequestNine);
 
     $batchUpdateRequestTen = $this->styleMoneyOwed($this->moneyOwed()[1]);
-    $result = $service->spreadsheets->batchUpdate($spreadsheetId, $batchUpdateRequestTen);
+    $result = $this->service->spreadsheets->batchUpdate($this->spreadsheetId, $batchUpdateRequestTen);
 
     $batchUpdateRequestEleven = $this->styleCommuteExpensesHeader();
-    $result = $service->spreadsheets->batchUpdate($spreadsheetId, $batchUpdateRequestEleven);
+    $result = $this->service->spreadsheets->batchUpdate($this->spreadsheetId, $batchUpdateRequestEleven);
 
     $batchUpdateRequestTwelve = $this->styleCommuteExpenses($this->commuteExpenses()[1]);
-    $result = $service->spreadsheets->batchUpdate($spreadsheetId, $batchUpdateRequestTwelve);
+    $result = $this->service->spreadsheets->batchUpdate($this->spreadsheetId, $batchUpdateRequestTwelve);
 
     $batchUpdateRequestThirteen = $this->stylePayrollInfoHeader();
-    $result = $service->spreadsheets->batchUpdate($spreadsheetId, $batchUpdateRequestThirteen);
+    $result = $this->service->spreadsheets->batchUpdate($this->spreadsheetId, $batchUpdateRequestThirteen);
 
     $batchUpdateRequestFourteen = $this->stylePayrollInfo($this->payrollInfo(0)[2]);
-    $result = $service->spreadsheets->batchUpdate($spreadsheetId, $batchUpdateRequestFourteen);
+    $result = $this->service->spreadsheets->batchUpdate($this->spreadsheetId, $batchUpdateRequestFourteen);
 
     $batchUpdateRequestFifteen = $this->stylePayrollTaxesHeader();
-    $result = $service->spreadsheets->batchUpdate($spreadsheetId, $batchUpdateRequestFifteen);
+    $result = $this->service->spreadsheets->batchUpdate($this->spreadsheetId, $batchUpdateRequestFifteen);
 
     $batchUpdateRequestSixteen = $this->stylePayrollTaxes($this->payrollTaxes()[1]);
-    $result = $service->spreadsheets->batchUpdate($spreadsheetId, $batchUpdateRequestSixteen);
+    $result = $this->service->spreadsheets->batchUpdate($this->spreadsheetId, $batchUpdateRequestSixteen);
 
     $batchUpdateRequestSeventeen = $this->conditionalFormatting();
-    $result = $service->spreadsheets->batchUpdate($spreadsheetId, $batchUpdateRequestSeventeen);
+    $result = $this->service->spreadsheets->batchUpdate($this->spreadsheetId, $batchUpdateRequestSeventeen);
 
-    $this->variabalizeExpensesAmount($service, $spreadsheetId, $this->futureTransactions()[1]);
-    $this->variabalizeWishlistAmount($service, $spreadsheetId, $this->futureTransactions()[1]);
-    $this->variabalizeMoneyOwedAmount($service, $spreadsheetId, $this->futureTransactions()[1]);
-    $this->variabalizePaycheckAmount($service, $spreadsheetId, $this->futureTransactions()[1]);
+    $this->variabalizeExpensesAmount($this->futureTransactions()[1]);
+    $this->variabalizeWishlistAmount($this->futureTransactions()[1]);
+    $this->variabalizeMoneyOwedAmount($this->futureTransactions()[1]);
+    $this->variabalizePaycheckAmount($this->futureTransactions()[1]);
   }
 }
 $config = new Config();
