@@ -409,7 +409,7 @@ class Budgeting extends Base
     while($row = mysqli_fetch_array($queryResult)) {
       $hoursWorked = intval($row['hoursWorked']);
       $daysPerWeek = intval($row['daysPerWeek']);
-      $payPerHour = intval($row['payPerHour']);
+      $payPerHour = floatval($row['payPerHour']);
 
       array_push($payrollInfo, array(
         "hoursWorked" => $hoursWorked,
@@ -419,6 +419,28 @@ class Budgeting extends Base
     }
 
     return $payrollInfo;
+  }
+
+  function getPayrollTaxes(): array
+  {
+    $payrollTaxes = array();
+
+    $query = "SELECT taxTitle AS title, taxAmount AS amount, fixed FROM payrollTaxes";
+    $queryResult = mysqli_query($this->getLink(), $query);
+
+    while($row = mysqli_fetch_array($queryResult)) {
+      $title = $row['title'];
+      $amount = floatval($row['amount']);
+      $fixed = intval($row["fixed"]);
+
+      array_push($payrollTaxes, array(
+        "title" => $title,
+        "amount" => $amount,
+        "fixed" => $fixed,
+      ));
+    }
+
+    return $payrollTaxes;
   }
 
   function calculateBudget(): array

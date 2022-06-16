@@ -19,6 +19,7 @@ class GenerateSpreadsheet extends Budgeting
   private $moneyOwed;
   private $commuteExpenses;
   private $payrollInfo;
+  private $payrollTaxes;
 
   function __construct()
   {
@@ -332,7 +333,37 @@ class GenerateSpreadsheet extends Budgeting
     array_push($values, array("Pay per week", "=\$L$" . $columnStart+2 . "*\$L$" . $columnStart+4));
     array_push($values, array("Paycheck gross (bi-monthly)", "=\$L$" . $columnStart+5 . "*2.167"));
 
-    return array($values, $columnStart+3);
+    return array($values, $columnStart+6);
+  }
+
+  function payrollTaxesHeader()
+  {
+    $values = [
+      [
+        "Payroll taxes", ""
+      ]
+    ];
+
+    return $values;
+  }
+
+  function payrollTaxes()
+  {
+    $values = array();
+    $columnStart = $this->payrollInfo()[1]+4;
+    $columnEnd = $this->payrollInfo()[1]+4;
+
+    for($j = 0; $j < count($this->payrollTaxes); $j++) {
+      if($this->payrollTaxes[$j]["fixed"] == 0) {
+        array_push($values, array($this->payrollTaxes[$j]["title"], '=$L$' . $this->payrollInfo()[1] . '*' . $this->payrollTaxes[$j]["amount"]));
+      } else if($this->payrollTaxes[$j]["fixed"] == 1) {
+        array_push($values, array($this->payrollTaxes[$j]["title"], '$' . $this->payrollTaxes[$j]["amount"]));
+      }
+
+      $columnEnd++;
+    }
+
+    return array($values, $j+1, $columnEnd);
   }
 
   function styleTitle()
@@ -1470,6 +1501,7 @@ class GenerateSpreadsheet extends Budgeting
     $this->moneyOwed = $this->getMoneyOwedTable($this->getMoneyOwed());
     $this->commuteExpenses = $this->getCommuteExpenses();
     $this->payrollInfo = $this->getPayrollInfo();
+    $this->payrollTaxes = $this->getPayrollTaxes();
 
     $data = [];
 
@@ -1546,6 +1578,16 @@ class GenerateSpreadsheet extends Budgeting
     $data[] = new Google_Service_Sheets_ValueRange([
       'range' => 'K' . $this->futureTransactions()[1]+6,
       'values' => $this->payrollInfo()[0]
+    ]);
+
+    $data[] = new Google_Service_Sheets_ValueRange([
+      'range' => 'K' . $this->payrollInfo()[1]+3,
+      'values' => $this->payrollTaxesHeader()
+    ]);
+
+    $data[] = new Google_Service_Sheets_ValueRange([
+      'range' => 'K' . $this->payrollInfo()[1]+4,
+      'values' => $this->payrollTaxes()[0]
     ]);
 
     $body = new Google_Service_Sheets_BatchUpdateValuesRequest([
