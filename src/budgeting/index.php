@@ -179,7 +179,7 @@ class Budgeting extends Base
   function moneyOwnedQuery($monthIncrement): string
   {
     $monthIncrementQuery = "+ INTERVAL " . $monthIncrement . " MONTH";
-    $beginMonth = "IF(MONTH(CURDATE() " . $monthIncrementQuery . ") >= MONTH(date), IF(DAY(CURDATE() " . $monthIncrementQuery . ") > DAY(date" . $monthIncrementQuery . "), MONTH(DATE_ADD(CURDATE(), INTERVAL " . $monthIncrement . "+1 MONTH)), MONTH(CURDATE() " . $monthIncrementQuery . ")), MONTH(date" . $monthIncrementQuery . "))";
+    $beginMonth = "IF(MONTH(CURDATE() " . $monthIncrementQuery . ") >= MONTH(date), IF(DAY(CURDATE() " . $monthIncrementQuery . ") >= DAY(date" . $monthIncrementQuery . "), MONTH(DATE_ADD(CURDATE(), INTERVAL " . $monthIncrement . "+1 MONTH)), MONTH(CURDATE() " . $monthIncrementQuery . ")), MONTH(date" . $monthIncrementQuery . "))";
 
     $query = "SELECT concat(MoneyOwedFor, ' payback to ', MoneyOwedRecipient) AS title, planAmount AS amount, YEAR(date) AS beginYear, " . $beginMonth . " AS beginMonth, DAY(date) AS beginDay, frequency AS frequency, 1 AS type FROM moneyOwed";
 
