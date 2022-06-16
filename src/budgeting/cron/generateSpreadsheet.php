@@ -156,10 +156,11 @@ class GenerateSpreadsheet extends Budgeting
     }
 
     array_push($values, array('Commute expenses', "=\$I$" . $this->commuteExpenses()[2] . "*4"));
+    array_push($values, array('Food expenses', "=\$H$" . $this->foodExpenses()[2] . "*4"));
 
-    array_push($values, array('Total', '=sum(C' . $columnStart . ':C' . $columnEnd - 1 . ')'));
+    array_push($values, array('Total', '=sum(C' . $columnStart . ':C' . $columnEnd + 2 - 1 . ')'));
 
-    return array($values, $j+2, $columnEnd+1);
+    return array($values, $j+3, $columnEnd+2);
   }
 
   function foodExpensesHeader()
@@ -1424,7 +1425,7 @@ class GenerateSpreadsheet extends Budgeting
 
     for($i = 0; $i < $numRows; $i++) {
       for($j = 0; $j < $numRowsTwo; $j++) {
-        if($result->getValues()[$i][0] == $resultTwo->getValues()[$j][0] && $result->getValues()[$i][0] != "Commute expenses") {
+        if($result->getValues()[$i][0] == $resultTwo->getValues()[$j][0] && $result->getValues()[$i][0] != "Commute expenses" && $result->getValues()[$i][0] != "Food expenses") {
           $this->overwriteExpensesAmountWithVariable($service, $spreadsheetId, $cell, $expensesStartCell + $j);
         }
       }
