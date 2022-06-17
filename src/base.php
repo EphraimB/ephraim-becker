@@ -115,6 +115,38 @@ class Base
     return $html;
   }
 
+  function loginNotification(): string
+  {
+    $html = '';
+
+    if(isset($_GET['loggedIn'])) {
+      if($_GET['loggedIn'] == true) {
+        $html .= '<div id="loginNotification" style="background-color: green; color: white; width: 100%; height: 2%; padding: 2%;">
+          <p>Login sucessful</p>
+        </div>';
+      } else if($_GET['loggedIn'] == false) {
+        $html .= '<div id="loginNotification" style="background-color: red; color: white; width: 100%; height: 2%; padding: 2%;">
+          <p>Login failed</p>
+        </div>';
+      }
+    }
+
+    return $html;
+  }
+
+  function loginNotificationDisappear(): string
+  {
+    $html = '<script>
+      const myTimeout = setTimeout(clearNotification, 2000);
+
+      function clearNotification() {
+        document.getElementById("loginNotification").style.display = "none";
+      }
+    </script>';
+
+    return $html;
+  }
+
   function nav(): string
   {
     $html = '
@@ -213,6 +245,8 @@ class Base
       <html lang="en" dir="ltr">';
       $html .= $this->head();
       $html .= '<body>';
+      $html .= $this->loginNotification();
+      $html .= $this->loginNotificationDisappear();
       $html .= $this->nav();
       $html .= $this->header();
       $html .= $this->main();
