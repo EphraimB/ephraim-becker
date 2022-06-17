@@ -69,10 +69,12 @@ class Login
       $password = $row['password'];
     }
 
-    if(password_verify($_POST['password'], $password)) {
-      $_SESSION['username'] = $_POST['username'];
+    if(isset($password)) {
+      if(password_verify($_POST['password'], $password)) {
+        $_SESSION['username'] = $_POST['username'];
 
-      $loggedIn = true;
+        $loggedIn = true;
+      }
     }
 
     header("location: " . $this->getUrl() . '?loggedIn=' . $loggedIn);
