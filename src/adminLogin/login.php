@@ -63,6 +63,7 @@ class Login
   function login(): void
   {
     $sqlResult = $this->fetchFromDatabase();
+    $loggedIn = false;
 
     while($row = mysqli_fetch_array($sqlResult)) {
       $password = $row['password'];
@@ -70,9 +71,11 @@ class Login
 
     if(password_verify($_POST['password'], $password)) {
       $_SESSION['username'] = $_POST['username'];
+
+      $loggedIn = true;
     }
 
-    header("location: " . $this->getUrl());
+    header("location: " . $this->getUrl() . '?loggedIn=' . $loggedIn);
   }
 }
 
