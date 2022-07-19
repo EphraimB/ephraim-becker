@@ -18,7 +18,7 @@ class Index extends Base
 
   function setAge($birthDate): void
   {
-    $age = date_diff(date_create($birthDate), date_create(date("Y-m-d")));
+    $age = date_diff(date_create($birthDate), date_create(date("Y-m-d H:i:s")));
 
     $this->age = intval($age->format("%y"));
   }
