@@ -1,2 +1,4 @@
 config.php
 credentials.json
+timeline.sql
+.DS_Store
