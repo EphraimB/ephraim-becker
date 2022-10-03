@@ -169,15 +169,9 @@ class Budgeting extends Base
 
   function expensesQuery($monthIncrement): string
   {
-    if(intval(date("m")) + $monthIncrement >= 12) {
-      $beginYear = "Year(ExpenseBeginDate) + 1";
-    } else {
-      $beginYear = "Year(ExpenseBeginDate)";
-    }
+    $beginDate = "IF(MONTH(CURDATE() + INTERVAL " . $monthIncrement . " MONTH) >= MONTH(ExpenseBeginDate + INTERVAL " . $monthIncrement . " MONTH), IF(DAY(CURDATE()) >= DAY(ExpenseBeginDate), DATE_ADD(CURDATE(), INTERVAL " . $monthIncrement . "+1 MONTH), CURDATE() + INTERVAL " . $monthIncrement . " MONTH), ExpenseBeginDate + INTERVAL " . $monthIncrement . " MONTH)";
 
-    $beginMonth = "IF(MONTH(CURDATE() + INTERVAL " . $monthIncrement . " MONTH) >= MONTH(ExpenseBeginDate + INTERVAL " . $monthIncrement . " MONTH), IF(DAY(CURDATE()) >= DAY(ExpenseBeginDate), MONTH(DATE_ADD(CURDATE(), INTERVAL " . $monthIncrement . "+1 MONTH)), MONTH(CURDATE() + INTERVAL " . $monthIncrement . " MONTH)), MONTH(ExpenseBeginDate + INTERVAL " . $monthIncrement . " MONTH))";
-
-    $query = "SELECT ExpenseTitle AS title, ExpensePrice AS amount, " . $beginYear . " AS beginYear, " . $beginMonth . " AS beginMonth, Day(ExpenseBeginDate) AS beginDay, FrequencyOfExpense AS frequency, 1 AS type FROM expenses WHERE ExpenseEndDate > CURRENT_DATE() OR ISNULL(ExpenseEndDate)";
+    $query = "SELECT ExpenseTitle AS title, ExpensePrice AS amount, YEAR(" . $beginDate . ") AS beginYear, MONTH(" . $beginDate . ") AS beginMonth, Day(ExpenseBeginDate) AS beginDay, FrequencyOfExpense AS frequency, 1 AS type FROM expenses WHERE ExpenseEndDate > CURRENT_DATE() OR ISNULL(ExpenseEndDate)";
 
     return $query;
   }
