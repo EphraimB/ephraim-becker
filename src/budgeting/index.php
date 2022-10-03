@@ -158,11 +158,10 @@ class Budgeting extends Base
   function paycheckQuery($monthIncrement): string
   {
     $grossPay = "SELECT SUM(payPerHour) * SUM(hoursWorked) * SUM(daysPerWeek) * 2.167";
-    $beginYear = "YEAR(CURDATE())";
-    $beginMonth = "IF(PayrollDay > DAY(CURDATE()), MONTH(CURDATE() + INTERVAL " . $monthIncrement . " MONTH), MONTH(DATE_ADD(CURDATE(), INTERVAL " . $monthIncrement . "+1 MONTH)))";
-    $caseQuery = "CASE WEEKDAY(concat(" . $beginYear . ", '-', " . $beginMonth . ", '-', payrollDay)) WHEN 5 THEN 1 WHEN 6 THEN 2 ELSE 0 END DAY))";
+    $beginDate = "IF(PayrollDay > DAY(CURDATE()), CURDATE() + INTERVAL " . $monthIncrement . " MONTH, DATE_ADD(CURDATE(), INTERVAL " . $monthIncrement . "+1 MONTH))";
+    $caseQuery = "CASE WEEKDAY(concat(YEAR(" . $beginDate . "), '-', MONTH(" . $beginDate . "), '-', payrollDay)) WHEN 5 THEN 1 WHEN 6 THEN 2 ELSE 0 END DAY))";
 
-    $query = "SELECT 'Paycheck' AS title, (" . $grossPay . " - (SELECT SUM(taxAmount) FROM payrollTaxes WHERE fixed = 1) - (SELECT SUM(taxAmount) * (" . $grossPay . " FROM payroll) FROM payrollTaxes WHERE fixed = 0) FROM payroll) AS amount, " . $beginYear . " AS beginYear, " . $beginMonth . " AS beginMonth, IF(PayrollDay = 31, DAY(date_sub(LAST_DAY(concat(" . $beginYear . ", '-', " . $beginMonth . ", '-', 1)), INTERVAL " . $caseQuery . ", DAY(date_sub(concat(" . $beginYear . ", '-', " . $beginMonth . ", '-', payrollDay), INTERVAL " . $caseQuery . ") AS beginDay, 0 AS frequency, 0 AS type FROM payrollDates";
+    $query = "SELECT 'Paycheck' AS title, (" . $grossPay . " - (SELECT SUM(taxAmount) FROM payrollTaxes WHERE fixed = 1) - (SELECT SUM(taxAmount) * (" . $grossPay . " FROM payroll) FROM payrollTaxes WHERE fixed = 0) FROM payroll) AS amount, YEAR(" . $beginDate . ") AS beginYear, MONTH(" . $beginDate . ") AS beginMonth, IF(PayrollDay = 31, DAY(date_sub(LAST_DAY(concat(YEAR(" . $beginDate . "), '-', MONTH(" . $beginDate . "), '-', 1)), INTERVAL " . $caseQuery . ", DAY(date_sub(concat(YEAR(" . $beginDate . "), '-', MONTH(" . $beginDate . "), '-', payrollDay), INTERVAL " . $caseQuery . ") AS beginDay, 0 AS frequency, 0 AS type FROM payrollDates";
 
     return $query;
   }
