@@ -168,10 +168,10 @@ class Budgeting extends Base
 
   function expensesQuery($monthIncrement): string
   {
-    $beginDate = "IF(MONTH(CURDATE() + INTERVAL " . $monthIncrement . " MONTH) >= MONTH(ExpenseBeginDate + INTERVAL " . $monthIncrement . " MONTH), IF(DAY(CURDATE()) >= DAY(ExpenseBeginDate), DATE_ADD(CURDATE(), INTERVAL " . $monthIncrement . "+1 MONTH), CURDATE() + INTERVAL " . $monthIncrement . " MONTH), ExpenseBeginDate + INTERVAL " . $monthIncrement . " MONTH)";
+    $beginDate = "IF(MONTH(CURDATE()) >= MONTH(ExpenseBeginDate + INTERVAL " . $monthIncrement . " MONTH), IF(DAY(CURDATE()) >= DAY(ExpenseBeginDate), DATE_ADD(CURDATE(), INTERVAL " . $monthIncrement . "+1 MONTH), CURDATE() + INTERVAL " . $monthIncrement . " MONTH), ExpenseBeginDate + INTERVAL " . $monthIncrement . " MONTH)";
 
     $query = "SELECT ExpenseTitle AS title, ExpensePrice AS amount, YEAR(" . $beginDate . ") AS beginYear, MONTH(" . $beginDate . ") AS beginMonth, Day(ExpenseBeginDate) AS beginDay, FrequencyOfExpense AS frequency, 1 AS type FROM expenses WHERE ExpenseEndDate > CURRENT_DATE() OR ISNULL(ExpenseEndDate)";
-
+    
     return $query;
   }
 
