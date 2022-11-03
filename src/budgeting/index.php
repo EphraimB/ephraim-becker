@@ -261,7 +261,7 @@ class Budgeting extends Base
           "month" => $lastIncomeMonth,
           "day" => $lastIncomeDay,
           "title" => $title,
-          "amount" => number_format(round($wishlistAmount, 2), 2),
+          "amount" => round($wishlistAmount, 2),
           "balance" => $balance,
           "type" => $type
         )));
@@ -271,7 +271,7 @@ class Budgeting extends Base
           "month" => $lastIncomeMonth,
           "day" => $lastIncomeDay,
           "title" => $title,
-          "amount" => number_format(round($wishlistAmount, 2), 2),
+          "amount" => round($wishlistAmount, 2),
           "balance" => $balance,
           "type" => $type
         ));
@@ -469,7 +469,7 @@ class Budgeting extends Base
           "month" => $beginMonth,
           "day" => $beginDay,
           "title" => $title,
-          "amount" => number_format(round($amount, 2), 2),
+          "amount" => round($amount, 2),
           "balance" => 0,
           "type" => $type
         ));
@@ -493,7 +493,7 @@ class Budgeting extends Base
             "month" => $beginMonth,
             "day" => $beginDay,
             "title" => $title,
-            "amount" => number_format(round($amount, 2), 2),
+            "amount" => round($amount, 2),
             "balance" => 0,
             "type" => $type
           ));
@@ -592,7 +592,7 @@ class Budgeting extends Base
       $html .= '">
           <td>' . $budget[$j]["month"] . '/' . $budget[$j]["day"] . '/' . $budget[$j]["year"] . '</td>
           <td>' . $budget[$j]["title"] . '</td>
-          <td>$' . $budget[$j]["amount"] . '</td>
+          <td>$' . number_format($budget[$j]["amount"], 2) . '</td>
           <td>$' . number_format(round($budget[$j]["balance"], 2), 2) . '</td>
       </tr>';
     }
