@@ -162,23 +162,25 @@ class Budgeting extends Base
     $caseQuery = "CASE WEEKDAY(concat(YEAR(" . $beginDate . "), '-', MONTH(" . $beginDate . "), '-', payrollDay)) WHEN 5 THEN 1 WHEN 6 THEN 2 ELSE 0 END DAY))";
 
     $query = "SELECT 'Paycheck' AS title, (" . $grossPay . " - (SELECT SUM(taxAmount) FROM payrollTaxes WHERE fixed = 1) - (SELECT SUM(taxAmount) * (" . $grossPay . " FROM payroll) FROM payrollTaxes WHERE fixed = 0) FROM payroll) AS amount, YEAR(" . $beginDate . ") AS beginYear, MONTH(" . $beginDate . ") AS beginMonth, IF(PayrollDay = 31, DAY(date_sub(LAST_DAY(concat(YEAR(" . $beginDate . "), '-', MONTH(" . $beginDate . "), '-', 1)), INTERVAL " . $caseQuery . ", DAY(date_sub(concat(YEAR(" . $beginDate . "), '-', MONTH(" . $beginDate . "), '-', payrollDay), INTERVAL " . $caseQuery . ") AS beginDay, 0 AS frequency, 0 AS type FROM payrollDates";
-
+    
     return $query;
   }
 
   function expensesQuery($monthIncrement): string
   {
-    $beginDate = "IF(MONTH(CURDATE()) >= MONTH(ExpenseBeginDate + INTERVAL " . $monthIncrement . " MONTH), IF(DAY(CURDATE()) >= DAY(ExpenseBeginDate), DATE_ADD(CURDATE(), INTERVAL " . $monthIncrement . "+1 MONTH), CURDATE() + INTERVAL " . $monthIncrement . " MONTH), ExpenseBeginDate + INTERVAL " . $monthIncrement . " MONTH)";
+    $beginDate = "IF(CURDATE() >= ExpenseBeginDate + INTERVAL " . $monthIncrement . " MONTH, IF(DAY(CURDATE()) >= DAY(ExpenseBeginDate), DATE_ADD(CURDATE(), INTERVAL " . $monthIncrement . "+1 MONTH), CURDATE() + INTERVAL " . $monthIncrement . " MONTH), ExpenseBeginDate + INTERVAL " . $monthIncrement . " MONTH)";
 
     $query = "SELECT ExpenseTitle AS title, ExpensePrice AS amount, YEAR(" . $beginDate . ") AS beginYear, MONTH(" . $beginDate . ") AS beginMonth, Day(ExpenseBeginDate) AS beginDay, FrequencyOfExpense AS frequency, 1 AS type FROM expenses WHERE ExpenseEndDate > CURRENT_DATE() OR ISNULL(ExpenseEndDate)";
     
+    echo $query;
+
     return $query;
   }
 
   function moneyOwnedQuery($monthIncrement): string
   {
     $monthIncrementQuery = "+ INTERVAL " . $monthIncrement . " MONTH";
-    $beginDate = "IF(MONTH(CURDATE()) >= MONTH(date), IF(DAY(CURDATE() " . $monthIncrementQuery . ") >= DAY(date" . $monthIncrementQuery . "), DATE_ADD(CURDATE(), INTERVAL " . $monthIncrement . "+1 MONTH), CURDATE() " . $monthIncrementQuery . "), date" . $monthIncrementQuery . ")";
+    $beginDate = "IF(CURDATE() >= date, IF(DAY(CURDATE() " . $monthIncrementQuery . ") >= DAY(date" . $monthIncrementQuery . "), DATE_ADD(CURDATE(), INTERVAL " . $monthIncrement . "+1 MONTH), CURDATE() " . $monthIncrementQuery . "), date" . $monthIncrementQuery . ")";
 
     $query = "SELECT concat(MoneyOwedFor, ' payback to ', MoneyOwedRecipient) AS title, planAmount AS amount, YEAR(" . $beginDate . ") AS beginYear, MONTH(" . $beginDate . ") AS beginMonth, DAY(date) AS beginDay, frequency AS frequency, 1 AS type FROM moneyOwed";
 
