@@ -120,21 +120,7 @@ class Expenses extends Base
                 $html .= '<p>-' . $end . '&nbsp;</p>';
               }
 
-              switch ($frequency) {
-                case 0:
-                  $html .= '<p>Monthly</p>';
-                  break;
-                case 1:
-                  $html .= '<p>Weekly</p>';
-                  break;
-                case 2:
-                  $html .= '<p>Daily</p>';
-                  break;
-                case 3:
-                  $html .= '<p>One-time</p>';
-                default:
-                  $html .= '<p></p>';
-                }
+              $html .= '<p>Monthly</p>';
 
           $html .= '</div>
             <ul class="row actionButtons">
